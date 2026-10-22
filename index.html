@@ -204,6 +204,9 @@ html[lang="ar"] .pubs .pa.tr { direction: rtl; text-align: right; display: block
   padding: 0 0.45rem; border: 1px solid var(--rule); border-radius: 3px; color: var(--muted);
   vertical-align: 0.15em;
 }
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.4rem; }
+.tags .tag { margin-inline-start: 0; }
+.tag-free { color: var(--accent); border-color: var(--accent); }
 .more { margin-top: 1.5rem; }
 
 .path { list-style: none; margin: 0; padding: 0; padding-inline-start: 1.25rem; border-inline-start: 1px solid var(--rule); display: grid; gap: 1.25rem; }
@@ -325,8 +328,9 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
         <li>
           <span class="yr">2021</span>
           <div>
-            <span class="pt">Heavy Tails and Coherent Risk Measures in Islamic Finance<span class="tag" data-i18n="book">Book</span></span>
-            <span class="pa"><span class="me">M. Bekri</span>. Islamic Development Bank Institute, Jeddah.</span>
+            <a class="pt" href="https://isdbinstitute.org/product/heavy-tails-and-coherent-risk-measures-in-islamic-finance/">Heavy Tails and Coherent Risk Measures in Islamic Finance</a>
+            <span class="pa"><span class="me">M. Bekri</span>. Islamic Development Bank Institute, Jeddah. 170 pp. ISBN 978-603-8306-06-2.</span>
+            <span class="tags"><span class="tag" data-i18n="book">Book</span><span class="tag tag-free" data-i18n="freeBook">Free eBook</span></span>
           </div>
         </li>
         <li>
@@ -446,7 +450,7 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
       t3h: "التمويل الإسلامي",
       t3p: "الفرز الشرعي ومخاطر الأطراف، والتحوّط المتوافق مع الشريعة، والتقييم المقاصدي للأسواق الجديدة.",
       hPubs: "منشورات مختارة",
-      book: "كتاب",
+      book: "كتاب", freeBook: "كتاب إلكتروني مجاني",
       hBlog: "مدوّنة المعهد",
       blog1: "بالاشتراك مع م. حجار. أين يغيّر انخفاض كلفة الذكاء الاصطناعي اقتصاديات الشمول، وأين لا يغيّرها.",
       blog2: "<span class=\"me\">م. بكري</span> وم. حجار. 1 فبراير 2026.",
@@ -488,7 +492,7 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
       t3h: "Finance islamique",
       t3p: "Filtrage charia et risque de queue, couverture conforme à la charia, et évaluation des nouveaux marchés à l'aune des maqāṣid.",
       hPubs: "Publications choisies",
-      book: "Livre",
+      book: "Livre", freeBook: "E-book gratuit",
       hBlog: "Blog de l'IsDBI",
       blog1: "Avec M. Hajjar. Là où une IA moins chère change l'économie de l'inclusion, et là où elle ne la change pas.",
       blog2: "<span class=\"me\">M. Bekri</span> et M. Hajjar. 1er février 2026.",
@@ -530,7 +534,7 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
       t3h: "Islamische Finanzwirtschaft",
       t3p: "Scharia-Screening und Extremrisiken, schariakonforme Absicherung und maqāṣid-basierte Bewertung neuer Märkte.",
       hPubs: "Ausgewählte Publikationen",
-      book: "Buch",
+      book: "Buch", freeBook: "Kostenloses E-Book",
       hBlog: "IsDBI-Blog",
       blog1: "Mit M. Hajjar. Wo günstigere KI die Ökonomie der Inklusion verändert und wo nicht.",
       blog2: "<span class=\"me\">M. Bekri</span> und M. Hajjar. 1. Februar 2026.",
