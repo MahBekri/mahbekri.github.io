@@ -256,6 +256,13 @@ section > h2::before { content: ""; display: block; width: 1.5rem; height: 2px; 
 .content { min-width: 0; max-width: 44rem; }
 .content > p { margin: 0 0 1rem; }
 .content > p:last-child { margin-bottom: 0; }
+.bio {
+  margin-top: 1.75rem; padding: 1rem 1.2rem 1.15rem;
+  background: var(--card); border: 1px solid var(--rule); border-inline-start: 3px solid var(--accent); border-radius: var(--radius);
+}
+.bio-head { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
+.bio-head h3 { margin: 0; font-weight: 500; }
+.bio p { margin: 0; color: var(--muted); font-size: 0.98rem; }
 
 .themes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; max-width: none; }
 .theme {
@@ -428,6 +435,13 @@ footer .to-top:hover { color: var(--accent); }
     <div class="content">
       <p data-i18n="about1">I trained as a physicist at the Karlsruhe Institute of Technology (KIT) before moving into financial econometrics. My doctorate in Economics and Finance, supervised by Svetlozar Rachev, Wolf-Dieter Heller and Frank Fabozzi, applied stable and tempered stable distributions to portfolio risk. I then held a postdoctoral position at KIT's Institute of Economic Theory and Statistics.</p>
       <p data-i18n="about2">I joined the Islamic Development Bank Group through its Young Professionals Program and now work as a Research Economist at the IsDB Institute. My research brings heavy-tailed modelling and coherent risk measures to Islamic finance, from Sharia-screened equity portfolios to hedging and asset-liability management. With jurist co-authors I also write on the ethics of new commercial practices in Islamic law.</p>
+      <div class="bio">
+        <div class="bio-head">
+          <h3 class="label" data-i18n="bioH">Short bio</h3>
+          <button class="copy" type="button" data-target="bio-text" id="copy3">Copy</button>
+        </div>
+        <p id="bio-text" data-i18n="bio">Mahmoud Bekri is a Research Economist at the Islamic Development Bank Institute (IsDBI) in Jeddah. Trained as a physicist at the Karlsruhe Institute of Technology (KIT), Bekri completed a PhD in Economics and Finance there under Svetlozar Rachev, Wolf-Dieter Heller and Frank Fabozzi, followed by postdoctoral research. Bekri’s work applies heavy-tailed models and coherent risk measures to Islamic finance, from Sharia-screened portfolios to hedging, and is set out in the book <i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i> (IsDBI, 2021).</p>
+      </div>
     </div>
   </section>
 
@@ -669,6 +683,8 @@ footer .to-top:hover { color: var(--accent); }
       kCaption: "كثافات متماثلة، مقياس لوغاريتمي",
       ann: "أعلى بـ{n} مرة من الكثافة الغاوسية",
       hAbout: "نبذة",
+      bioH: "نبذة مختصرة",
+      bio: "محمود بكري باحث اقتصادي في معهد البنك الإسلامي للتنمية بجدة. درس الفيزياء في معهد كارلسروه للتكنولوجيا (KIT)، ونال منه الدكتوراه في الاقتصاد والمالية بإشراف سفيتلوزار راتشيف وفولف-ديتر هيلر وفرانك فابوزي، ثم عمل فيه باحثًا في مرحلة ما بعد الدكتوراه. تنقل أبحاثه نمذجة الأطراف الثقيلة ومقاييس المخاطر المتّسقة إلى التمويل الإسلامي، من محافظ الأسهم الخاضعة للفرز الشرعي إلى التحوّط، وقد جمعها في كتاب <bdi lang=\"en\"><i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i></bdi> (معهد البنك الإسلامي للتنمية، 2021).",
       about1: "درستُ الفيزياء في معهد كارلسروه للتكنولوجيا (KIT) قبل أن أتّجه إلى الاقتصاد القياسي المالي. وتناولت أطروحتي للدكتوراه في الاقتصاد والمالية، بإشراف سفيتلوزار راتشيف وفولف-ديتر هيلر وفرانك فابوزي، تطبيق التوزيعات المستقرة والمستقرة المُلطَّفة على مخاطر المحافظ الاستثمارية. ثم عملت باحثًا في مرحلة ما بعد الدكتوراه في معهد النظرية الاقتصادية والإحصاء التابع لمعهد كارلسروه للتكنولوجيا.",
       about2: "التحقت بمجموعة البنك الإسلامي للتنمية عبر برنامج المهنيين الشباب، وأعمل اليوم باحثًا اقتصاديًا في معهد البنك الإسلامي للتنمية. وتنقل أبحاثي نمذجة الأطراف الثقيلة ومقاييس المخاطر المتّسقة إلى ميدان التمويل الإسلامي، من محافظ الأسهم الخاضعة للفرز الشرعي إلى التحوّط وإدارة الأصول والخصوم. كما أكتب، مع زملاء من أهل الفقه والقانون، في أخلاقيات الممارسات التجارية المستحدثة من منظور الشريعة.",
       hResearch: "مجالات البحث",
@@ -740,6 +756,8 @@ footer .to-top:hover { color: var(--accent); }
       kCaption: "Densités symétriques, échelle logarithmique",
       ann: "{n} fois la densité gaussienne",
       hAbout: "À propos",
+      bioH: "Biographie courte",
+      bio: "Mahmoud Bekri est économiste-chercheur à l'Institut de la Banque islamique de développement (IsDBI), à Djeddah. Physicien de formation, diplômé de l'Institut de technologie de Karlsruhe (KIT), Mahmoud Bekri y a obtenu un doctorat en économie et finance sous la direction de Svetlozar Rachev, Wolf-Dieter Heller et Frank Fabozzi, puis y a mené des recherches postdoctorales. Ses travaux appliquent la modélisation des queues épaisses et les mesures de risque cohérentes à la finance islamique, des portefeuilles conformes à la charia à la couverture, et sont réunis dans l'ouvrage <i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i> (IsDBI, 2021).",
       about1: "J'ai suivi une formation de physicien à l'Institut de technologie de Karlsruhe (KIT) avant de me tourner vers l'économétrie financière. Ma thèse de doctorat en économie et finance, dirigée par Svetlozar Rachev, Wolf-Dieter Heller et Frank Fabozzi, appliquait les lois stables et stables tempérées au risque de portefeuille. J'ai ensuite occupé un poste postdoctoral à l'Institut de théorie économique et de statistique du KIT.",
       about2: "J'ai rejoint le Groupe de la Banque islamique de développement par son Programme des jeunes professionnels et je suis aujourd'hui économiste-chercheur à l'Institut de la BID (IsDBI). Mes travaux appliquent la modélisation des queues épaisses et les mesures de risque cohérentes à la finance islamique, des portefeuilles d'actions conformes à la charia à la couverture et à la gestion actif-passif. J'écris aussi, avec des coauteurs juristes, sur l'éthique des nouvelles pratiques commerciales en droit musulman.",
       hResearch: "Recherche",
@@ -811,6 +829,8 @@ footer .to-top:hover { color: var(--accent); }
       kCaption: "Symmetrische Dichten, logarithmische Skala",
       ann: "{n}-fach so hoch wie die Gauß-Dichte",
       hAbout: "Über mich",
+      bioH: "Kurzbiografie",
+      bio: "Mahmoud Bekri ist Research Economist am Institut der Islamischen Entwicklungsbank (IsDBI) in Dschidda. Auf das Physikstudium am Karlsruher Institut für Technologie (KIT) folgten dort die Promotion in Volkswirtschaftslehre und Finanzwirtschaft, betreut von Svetlozar Rachev, Wolf-Dieter Heller und Frank Fabozzi, und eine Postdoc-Phase. Bekris Forschung überträgt die Modellierung schwerer Ränder und kohärente Risikomaße auf die islamische Finanzwirtschaft, von schariakonformen Aktienportfolios bis zur Absicherung; zusammengefasst ist sie im Buch <i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i> (IsDBI, 2021).",
       about1: "Ich habe Physik am Karlsruher Institut für Technologie (KIT) studiert, bevor ich in die Finanzökonometrie wechselte. In meiner wirtschaftswissenschaftlichen Promotion, betreut von Svetlozar Rachev, Wolf-Dieter Heller und Frank Fabozzi, habe ich stabile und temperierte stabile Verteilungen auf Portfoliorisiken angewandt. Anschließend war ich Postdoc am Institut für Wirtschaftstheorie und Statistik (ETS) des KIT.",
       about2: "Über das Young Professionals Program kam ich zur Gruppe der Islamischen Entwicklungsbank und arbeite heute als Research Economist am IsDB-Institut. Meine Forschung überträgt die Modellierung schwerer Ränder und kohärente Risikomaße auf die islamische Finanzwirtschaft, von schariakonformen Aktienportfolios bis zu Absicherung und Aktiv-Passiv-Management. Gemeinsam mit Koautoren aus der islamischen Rechtswissenschaft schreibe ich außerdem über die Ethik neuer Handelspraktiken im islamischen Recht.",
       hResearch: "Forschung",
