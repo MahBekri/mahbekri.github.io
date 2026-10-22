@@ -1,27 +1,65 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mahmoud Bekri</title>
 <meta name="description" content="Mahmoud Bekri, Research Economist at the Islamic Development Bank Institute: heavy-tailed risk, coherent risk measures and Islamic finance.">
+<meta name="author" content="Mahmoud Bekri">
+<link rel="canonical" href="https://mahbekri.github.io/">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Mahmoud Bekri">
+<meta property="og:description" content="Research Economist, Islamic Development Bank Institute. Heavy tails, coherent risk measures and Islamic finance.">
+<meta property="og:url" content="https://mahbekri.github.io/">
+<meta property="og:image" content="https://mahbekri.github.io/photo.jpg">
+<meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="ar_AR">
+<meta property="og:locale:alternate" content="fr_FR">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#1d5c57">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231d5c57'/%3E%3Cpath d='M6 50 C20 50 24 12 32 12 S44 50 58 50' fill='none' stroke='%23f2f4f3' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Mahmoud Bekri",
+  "alternateName": "محمود بكري",
+  "jobTitle": "Research Economist",
+  "worksFor": { "@type": "Organization", "name": "Islamic Development Bank Institute", "url": "https://isdbinstitute.org/" },
+  "alumniOf": { "@type": "CollegeOrUniversity", "name": "Karlsruhe Institute of Technology" },
+  "knowsAbout": ["Heavy-tailed distributions", "Stable distributions", "Coherent risk measures", "Expected shortfall", "Islamic finance"],
+  "knowsLanguage": ["ar", "fr", "en"],
+  "image": "https://mahbekri.github.io/photo.jpg",
+  "url": "https://mahbekri.github.io/",
+  "sameAs": ["https://github.com/MahBekri"]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
 <style>
-/* Layout: one reading column with a two-part hero (statement + a live plot of the tails the work is about), then plain sections keyed by a left label rail on wide screens. */
+/* Layout: one reading column with a two-part hero (statement + a live plot of the tails the work is about), then plain sections keyed by a left label rail on wide screens. Trilingual: EN / AR (RTL) / FR. */
 :root {
   --paper: #f2f4f3;
   --surface: #e7ebe9;
   --ink: #16201f;
   --muted: #56625f;
   --rule: #c9d1ce;
-  --accent: #1d5c57;     /* stable curve, links */
-  --gauss: #8a8f8d;      /* Gaussian reference curve */
-  --mark: #a8661a;       /* tail highlight */
+  --accent: #1d5c57;
+  --gauss: #8a8f8d;
+  --mark: #a8661a;
   --display: "Spectral", Georgia, "Times New Roman", serif;
   --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --label-case: uppercase;
+  --label-track: 0.07em;
+}
+html[lang="ar"] {
+  --display: "Noto Naskh Arabic", "Amiri", "Times New Roman", serif;
+  --body: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --mono: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --label-case: none;
+  --label-track: 0;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -37,35 +75,53 @@
 }
 
 * { box-sizing: border-box; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
 body {
+  margin: 0;
   background: var(--paper);
   color: var(--ink);
   font: 400 1.0625rem/1.65 var(--body);
   -webkit-font-smoothing: antialiased;
 }
+html[lang="ar"] body { line-height: 1.85; }
 .wrap {
   max-width: 68rem;
   margin: 0 auto;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 0 4rem;
+  padding-block: env(safe-area-inset-top, 0px) calc(4rem + env(safe-area-inset-bottom, 0px));
 }
 a { color: var(--accent); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
 a:hover { text-decoration-thickness: 2px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+.label {
+  font: 500 0.8125rem/1.5 var(--mono);
+  letter-spacing: var(--label-track);
+  text-transform: var(--label-case);
+  color: var(--muted);
+}
 
 /* top bar */
 .top {
-  display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem;
-  justify-content: space-between; align-items: baseline;
+  display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem;
+  justify-content: space-between; align-items: center;
   padding-block: 1.25rem;
   border-bottom: 1px solid var(--rule);
   font: 500 0.8125rem/1.4 var(--mono);
-  letter-spacing: 0.02em;
 }
 .top nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
-.top a { color: var(--muted); text-decoration: none; }
-.top a:hover { color: var(--ink); }
+.top nav a { color: var(--muted); text-decoration: none; }
+.top nav a:hover { color: var(--ink); }
+.langs-switch { display: inline-flex; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+.langs-switch button {
+  font: 500 0.8125rem/1 var(--mono); color: var(--muted);
+  background: transparent; border: 0; padding: 0.45rem 0.7rem; cursor: pointer;
+}
+.langs-switch button + button { border-inline-start: 1px solid var(--rule); }
+.langs-switch button[aria-pressed="true"] { background: var(--accent); color: var(--paper); }
+.langs-switch .ar { font-family: "IBM Plex Sans Arabic", Tahoma, sans-serif; }
+.right { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; }
 
 /* hero */
 .hero {
@@ -83,25 +139,22 @@ a:hover { text-decoration-thickness: 2px; }
   background: var(--surface);
 }
 .hero h1 {
-  font: 500 clamp(2.6rem, 6vw, 4.25rem)/1.02 var(--display);
+  font: 500 clamp(2.6rem, 6vw, 4.25rem)/1.1 var(--display);
   letter-spacing: -0.015em;
   margin: 0 0 1rem;
   text-wrap: balance;
 }
-.role {
-  font: 500 0.8125rem/1.5 var(--mono);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin: 0 0 1.5rem;
-}
+html[lang="ar"] .hero h1 { letter-spacing: 0; line-height: 1.3; }
+.role { margin: 0 0 1.5rem; }
 .lede {
-  font: 400 1.3rem/1.5 var(--display);
+  font: 400 1.3rem/1.55 var(--display);
   max-width: 34ch;
   margin: 0;
   text-wrap: pretty;
 }
+html[lang="ar"] .lede { font-size: 1.25rem; line-height: 1.9; max-width: 38ch; }
 .lede em { color: var(--mark); font-style: italic; }
+html[lang="ar"] .lede em { font-style: normal; font-weight: 600; }
 
 figure.plot { margin: 0; min-width: 0; }
 .plot-frame { position: relative; width: 100%; aspect-ratio: 5 / 4; max-width: 100%; }
@@ -125,72 +178,59 @@ section {
   padding-block: 2.75rem;
   border-top: 1px solid var(--rule);
 }
-section > h2 {
-  font: 500 0.8125rem/1.6 var(--mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin: 0.35rem 0 0;
-}
+section > h2 { margin: 0.35rem 0 0; font-weight: 500; }
 .content { min-width: 0; max-width: 44rem; }
 .content > p { margin: 0 0 1rem; }
 .content > p:last-child { margin-bottom: 0; }
 
-/* research themes */
 .themes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; max-width: none; }
-.theme h3 { font: 500 1.25rem/1.25 var(--display); margin: 0 0 0.5rem; text-wrap: balance; }
+.theme h3 { font: 500 1.25rem/1.3 var(--display); margin: 0 0 0.5rem; text-wrap: balance; }
 .theme p { margin: 0; color: var(--muted); font-size: 0.98rem; }
 .theme .sym { font: 400 0.875rem/1 var(--mono); color: var(--mark); display: block; margin-bottom: 0.75rem; }
 
-/* publications */
 .pubs { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.6rem; }
 .pubs li { display: grid; grid-template-columns: 4rem minmax(0, 1fr); gap: 1rem; }
-.yr { font: 500 0.9rem/1.7 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
-.pt { font: 500 1.15rem/1.35 var(--display); display: block; margin-bottom: 0.2rem; }
+.yr { font: 500 0.9rem/1.7 "JetBrains Mono", ui-monospace, monospace; color: var(--muted); font-variant-numeric: tabular-nums; }
+.pt { font: 500 1.15rem/1.35 "Spectral", Georgia, serif; display: block; margin-bottom: 0.2rem; }
 .pa { color: var(--muted); font-size: 0.95rem; }
 .pa .me { color: var(--ink); font-weight: 600; }
+.cite-en { direction: ltr; text-align: left; unicode-bidi: isolate; }
+html[lang="ar"] .pubs > li > div { direction: ltr; text-align: left; }
+html[lang="ar"] .pubs .pa.tr { direction: rtl; text-align: right; display: block; }
 .tag {
-  display: inline-block; margin-left: 0.4rem;
-  font: 500 0.6875rem/1.6 var(--mono); letter-spacing: 0.06em; text-transform: uppercase;
+  display: inline-block; margin-inline-start: 0.4rem;
+  font: 500 0.6875rem/1.6 var(--mono); letter-spacing: var(--label-track); text-transform: var(--label-case);
   padding: 0 0.45rem; border: 1px solid var(--rule); border-radius: 3px; color: var(--muted);
   vertical-align: 0.15em;
 }
+.more { margin-top: 1.5rem; }
 
-/* path */
-.path { list-style: none; margin: 0; padding: 0 0 0 1.25rem; border-left: 1px solid var(--rule); display: grid; gap: 1.25rem; }
+.path { list-style: none; margin: 0; padding: 0; padding-inline-start: 1.25rem; border-inline-start: 1px solid var(--rule); display: grid; gap: 1.25rem; }
 .path li { position: relative; }
 .path li::before {
-  content: ""; position: absolute; left: calc(-1.25rem - 4px); top: 0.6rem;
+  content: ""; position: absolute; inset-inline-start: calc(-1.25rem - 4px); top: 0.6rem;
   width: 7px; height: 7px; border-radius: 50%; background: var(--paper); border: 1px solid var(--accent);
 }
 .path li:last-child::before { background: var(--accent); }
 .path strong { font-weight: 600; display: block; }
 .path span { color: var(--muted); font-size: 0.95rem; }
 
-/* talk */
 .talk { background: var(--surface); padding: 1.25rem 1.4rem; border-radius: 4px; }
-.talk .when { font: 500 0.8125rem/1.5 var(--mono); color: var(--mark); letter-spacing: 0.04em; margin: 0 0 0.4rem; }
-.talk .pt { margin-bottom: 0.35rem; }
+.talk .when { font: 500 0.8125rem/1.5 var(--mono); color: var(--mark); margin: 0 0 0.4rem; }
 
-/* contact */
 .contact { display: grid; gap: 0.75rem; }
 .row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; }
-.row .lab { font: 500 0.75rem/1.5 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); width: 7.5rem; }
-.addr { font: 400 1rem/1.5 var(--mono); user-select: all; overflow-wrap: anywhere; min-width: 0; }
+.row .label { width: 9rem; }
+.addr { font: 400 1rem/1.5 "JetBrains Mono", ui-monospace, monospace; user-select: all; overflow-wrap: anywhere; min-width: 0; direction: ltr; unicode-bidi: isolate; }
 .copy {
-  font: 500 0.75rem/1 var(--mono); letter-spacing: 0.04em;
+  font: 500 0.75rem/1 var(--mono);
   background: transparent; color: var(--accent);
-  border: 1px solid var(--rule); border-radius: 3px; padding: 0.4rem 0.6rem; cursor: pointer;
+  border: 1px solid var(--rule); border-radius: 3px; padding: 0.45rem 0.65rem; cursor: pointer;
 }
 .copy:hover { border-color: var(--accent); }
-.langs { margin-top: 1.5rem; color: var(--muted); font-size: 0.95rem; }
+.spoken { margin-top: 1.5rem; color: var(--muted); font-size: 0.95rem; }
 
-footer {
-  border-top: 1px solid var(--rule);
-  padding-top: 1.5rem;
-  font: 400 0.8125rem/1.5 var(--mono);
-  color: var(--muted);
-}
+footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.875rem; color: var(--muted); }
 
 @media (max-width: 860px) {
   .hero { grid-template-columns: minmax(0, 1fr); gap: 2rem; padding-block: 2.25rem 2rem; }
@@ -199,73 +239,78 @@ footer {
 }
 @media (max-width: 480px) {
   .pubs li { grid-template-columns: minmax(0, 1fr); gap: 0.15rem; }
-  .row .lab { width: 100%; }
+  .row .label { width: 100%; }
 }
 </style>
-<style>img{max-width:100%}[hidden]{display:none!important}body{margin:0}</style>
 </head>
 <body>
-
 <div class="wrap">
   <header class="top">
-    <span>M. Bekri</span>
-    <nav aria-label="Sections">
-      <a href="#research">Research</a>
-      <a href="#publications">Publications</a>
-      <a href="#blog">Blog</a>
-      <a href="#path">Path</a>
-      <a href="#contact">Contact</a>
-    </nav>
+    <span data-i18n="brand">M. Bekri</span>
+    <div class="right">
+      <nav aria-label="Sections">
+        <a href="#research" data-i18n="navResearch">Research</a>
+        <a href="#publications" data-i18n="navPubs">Publications</a>
+        <a href="#blog" data-i18n="navBlog">Blog</a>
+        <a href="#path" data-i18n="navPath">Path</a>
+        <a href="#contact" data-i18n="navContact">Contact</a>
+      </nav>
+      <div class="langs-switch" role="group" aria-label="Language">
+        <button type="button" id="lang-en" data-lang="en" lang="en" aria-pressed="true">EN</button>
+        <button type="button" id="lang-ar" data-lang="ar" lang="ar" class="ar" aria-pressed="false">عربي</button>
+        <button type="button" id="lang-fr" data-lang="fr" lang="fr" aria-pressed="false">FR</button>
+      </div>
+    </div>
   </header>
 
   <div class="hero">
     <div>
-      <img class="portrait" src="photo.jpg" width="400" height="400" alt="Portrait of Mahmoud Bekri">
-      <h1>Mahmoud Bekri</h1>
-      <p class="role">Research Economist · Islamic Development Bank Institute, Jeddah</p>
-      <p class="lede">I study what happens in the tails of financial returns, where the Gaussian model says losses should almost never occur and markets say <em>otherwise</em>, and what that means for Islamic finance.</p>
+      <img class="portrait" src="photo.jpg" width="400" height="400" alt="Portrait of Mahmoud Bekri" data-i18n-alt="alt">
+      <h1 data-i18n="name">Mahmoud Bekri</h1>
+      <p class="role label" data-i18n="role">Research Economist · Islamic Development Bank Institute, Jeddah</p>
+      <p class="lede" data-i18n="lede">I study what happens in the tails of financial returns, where the Gaussian model says large losses should almost never occur and markets say <em>otherwise</em>, and what that means for Islamic finance.</p>
     </div>
     <figure class="plot">
-      <div class="plot-frame"><canvas id="tails" role="img" aria-label="Log-scale plot of two symmetric alpha-stable densities. The alpha equals 1.5 curve keeps substantial probability far from the centre, while the Gaussian alpha equals 2 curve falls below one in a million beyond about six units."></canvas></div>
+      <div class="plot-frame" dir="ltr"><canvas id="tails" role="img" aria-label="Log-scale plot of two symmetric alpha-stable densities. The alpha equals 1.5 curve keeps substantial probability far from the centre, while the Gaussian alpha equals 2 curve falls below one in a million beyond about six units."></canvas></div>
       <figcaption>
-        <span class="key"><i class="k-stable"></i>α-stable, α = 1.5</span>
-        <span class="key"><i class="k-gauss"></i>Gaussian, α = 2</span>
-        <span>Symmetric densities, log scale</span>
+        <span class="key"><i class="k-stable"></i><span dir="ltr">α-stable, α = 1.5</span></span>
+        <span class="key"><i class="k-gauss"></i><span data-i18n="kGauss">Gaussian, α = 2</span></span>
+        <span data-i18n="kCaption">Symmetric densities, log scale</span>
       </figcaption>
     </figure>
   </div>
 
   <section id="about">
-    <h2>About</h2>
+    <h2 class="label" data-i18n="hAbout">About</h2>
     <div class="content">
-      <p>I trained as a physicist at the Karlsruhe Institute of Technology (KIT) before moving into financial econometrics. My doctorate in Economics and Finance, supervised by Svetlozar Rachev and Frank Fabozzi, applied stable and tempered stable distributions to portfolio risk. I then held a postdoctoral position at KIT's Institute of Economic Theory and Statistics.</p>
-      <p>I joined the Islamic Development Bank Group through its Young Professionals Program and now work as a Research Economist at the IsDB Institute. My research brings heavy-tailed modelling and coherent risk measures to Islamic finance, from Sharia-screened equity portfolios to hedging and asset-liability management. With jurist co-authors I also write on the ethics of new commercial practices in Islamic law.</p>
+      <p data-i18n="about1">I trained as a physicist at the Karlsruhe Institute of Technology (KIT) before moving into financial econometrics. My doctorate in Economics and Finance, supervised by Svetlozar Rachev and Frank Fabozzi, applied stable and tempered stable distributions to portfolio risk. I then held a postdoctoral position at KIT's Institute of Economic Theory and Statistics.</p>
+      <p data-i18n="about2">I joined the Islamic Development Bank Group through its Young Professionals Program and now work as a Research Economist at the IsDB Institute. My research brings heavy-tailed modelling and coherent risk measures to Islamic finance, from Sharia-screened equity portfolios to hedging and asset-liability management. With jurist co-authors I also write on the ethics of new commercial practices in Islamic law.</p>
     </div>
   </section>
 
   <section id="research">
-    <h2>Research</h2>
+    <h2 class="label" data-i18n="hResearch">Research</h2>
     <div class="content themes">
       <div class="theme">
-        <span class="sym">S<sub>α</sub>(σ, β, μ)</span>
-        <h3>Heavy tails and stable laws</h3>
-        <p>α-stable and tempered stable models for returns that the normal distribution cannot describe.</p>
+        <span class="sym" dir="ltr">S<sub>α</sub>(σ, β, μ)</span>
+        <h3 data-i18n="t1h">Heavy tails and stable laws</h3>
+        <p data-i18n="t1p">α-stable and tempered stable models for returns that the normal distribution cannot describe.</p>
       </div>
       <div class="theme">
-        <span class="sym">ES<sub>0.99</sub> ≥ VaR<sub>0.99</sub></span>
-        <h3>Coherent risk measures</h3>
-        <p>Expected shortfall (CVaR, AVaR) under heavy tails, and how it changes capital and pricing decisions.</p>
+        <span class="sym" dir="ltr">ES<sub>0.99</sub> ≥ VaR<sub>0.99</sub></span>
+        <h3 data-i18n="t2h">Coherent risk measures</h3>
+        <p data-i18n="t2p">Expected shortfall (CVaR, AVaR) under heavy tails, and how it changes capital and pricing decisions.</p>
       </div>
       <div class="theme">
-        <span class="sym">ḥifẓ al-māl</span>
-        <h3>Islamic finance</h3>
-        <p>Sharia screening and tail risk, Sharia-compliant hedging, and maqāṣid-based assessment of new markets.</p>
+        <span class="sym" data-i18n="t3s">ḥifẓ al-māl</span>
+        <h3 data-i18n="t3h">Islamic finance</h3>
+        <p data-i18n="t3p">Sharia screening and tail risk, Sharia-compliant hedging, and maqāṣid-based assessment of new markets.</p>
       </div>
     </div>
   </section>
 
   <section id="publications">
-    <h2>Selected publications</h2>
+    <h2 class="label" data-i18n="hPubs">Selected publications</h2>
     <div class="content">
       <ol class="pubs" reversed>
         <li>
@@ -278,7 +323,7 @@ footer {
         <li>
           <span class="yr">2021</span>
           <div>
-            <span class="pt">Heavy Tails and Coherent Risk Measures in Islamic Finance<span class="tag">Book</span></span>
+            <span class="pt">Heavy Tails and Coherent Risk Measures in Islamic Finance<span class="tag" data-i18n="book">Book</span></span>
             <span class="pa"><span class="me">M. Bekri</span>. Islamic Development Bank Institute, Jeddah.</span>
           </div>
         </li>
@@ -301,83 +346,193 @@ footer {
   </section>
 
   <section id="blog">
-    <h2>IsDBI Blog</h2>
+    <h2 class="label" data-i18n="hBlog">IsDBI Blog</h2>
     <div class="content">
       <ol class="pubs" reversed>
         <li>
           <span class="yr">2026</span>
           <div>
             <a class="pt" href="https://blogs.isdbinstitute.org/isdb-affordable-ai-member-countries/">Towards Affordable AI in IsDB Member Countries</a>
-            <span class="pa">With M. Hajjar. Where cheaper AI changes the economics of inclusion, and where it does not.</span>
+            <span class="pa tr" data-i18n="blog1">With M. Hajjar. Where cheaper AI changes the economics of inclusion, and where it does not.</span>
           </div>
         </li>
         <li>
           <span class="yr">2026</span>
           <div>
             <a class="pt" href="https://blogs.isdbinstitute.org/takaful-ai-blockchain/">Reimagining Takaful through AI and Blockchain</a>
-            <span class="pa"><span class="me">M. Bekri</span> and M. Hajjar. 1 February 2026.</span>
+            <span class="pa tr" data-i18n="blog2"><span class="me">M. Bekri</span> and M. Hajjar. 1 February 2026.</span>
           </div>
         </li>
       </ol>
-      <p style="margin-top:1.5rem"><a href="https://blogs.isdbinstitute.org/">More on the IsDB Institute Blog</a></p>
+      <p class="more"><a href="https://blogs.isdbinstitute.org/" data-i18n="blogMore">More on the IsDB Institute Blog</a></p>
     </div>
   </section>
 
   <section id="talks">
-    <h2>Upcoming talk</h2>
+    <h2 class="label" data-i18n="hTalks">Upcoming talk</h2>
     <div class="content">
       <div class="talk">
-        <p class="when">7–8 December 2026 · KAPSARC, Riyadh</p>
-        <span class="pt">Pricing Catastrophe-Tailed Energy Assets: A Stable-Law Expected-Shortfall Correction to the Cost of Capital for Nuclear Power</span>
-        <span class="pa">4th IAEE MENA Conference, energy investment and finance track.</span>
+        <p class="when" data-i18n="talkWhen">7–8 December 2026 · KAPSARC, Riyadh</p>
+        <span class="pt cite-en" lang="en">Pricing Catastrophe-Tailed Energy Assets: A Stable-Law Expected-Shortfall Correction to the Cost of Capital for Nuclear Power</span>
+        <span class="pa" data-i18n="talkMeta">4th IAEE MENA Conference, energy investment and finance track.</span>
       </div>
     </div>
   </section>
 
   <section id="path">
-    <h2>Path</h2>
+    <h2 class="label" data-i18n="hPath">Path</h2>
     <div class="content">
       <ul class="path">
-        <li><strong>Diploma in Physics</strong><span>Karlsruhe Institute of Technology</span></li>
-        <li><strong>PhD in Economics and Finance</strong><span>Karlsruhe Institute of Technology, under S. Rachev and F. Fabozzi</span></li>
-        <li><strong>Postdoctoral researcher</strong><span>Institute of Economic Theory and Statistics, KIT</span></li>
-        <li><strong>Young Professionals Program</strong><span>Islamic Development Bank Group</span></li>
-        <li><strong>Research Economist</strong><span>Islamic Development Bank Institute (IsDBI), Jeddah</span></li>
+        <li><strong data-i18n="p1h">Diploma in Physics</strong><span data-i18n="p1s">Karlsruhe Institute of Technology</span></li>
+        <li><strong data-i18n="p2h">PhD in Economics and Finance</strong><span data-i18n="p2s">Karlsruhe Institute of Technology, under S. Rachev and F. Fabozzi</span></li>
+        <li><strong data-i18n="p3h">Postdoctoral researcher</strong><span data-i18n="p3s">Institute of Economic Theory and Statistics, KIT</span></li>
+        <li><strong data-i18n="p4h">Young Professionals Program</strong><span data-i18n="p4s">Islamic Development Bank Group</span></li>
+        <li><strong data-i18n="p5h">Research Economist</strong><span data-i18n="p5s">Islamic Development Bank Institute (IsDBI), Jeddah</span></li>
       </ul>
     </div>
   </section>
 
   <section id="contact">
-    <h2>Contact</h2>
+    <h2 class="label" data-i18n="hContact">Contact</h2>
     <div class="content">
       <div class="contact">
         <div class="row">
-          <span class="lab">Email</span>
+          <span class="label" data-i18n="lEmail">Email</span>
           <span class="addr" id="mail1">Mahmoud.bekri@gmail.com</span>
           <button class="copy" type="button" data-target="mail1" id="copy1">Copy</button>
         </div>
         <div class="row">
-          <span class="lab">Institutional</span>
+          <span class="label" data-i18n="lInst">Institutional</span>
           <span class="addr" id="mail2">MBekri@isdb.org</span>
           <button class="copy" type="button" data-target="mail2" id="copy2">Copy</button>
         </div>
         <div class="row">
-          <span class="lab">GitHub</span>
+          <span class="label">GitHub</span>
           <a class="addr" href="https://github.com/MahBekri">github.com/MahBekri</a>
         </div>
       </div>
-      <p class="langs">Works in Arabic, French and English.</p>
+      <p class="spoken" data-i18n="spoken">Works in Arabic, French and English.</p>
     </div>
   </section>
 
-  <footer>Views expressed in research are the author's own and do not necessarily reflect those of the IsDB Group.</footer>
+  <footer data-i18n="footer">Views expressed in research are the author's own and do not necessarily reflect those of the IsDB Group.</footer>
 </div>
 
 <script>
 (function () {
-  // Symmetric alpha-stable density by Fourier inversion: f(x) = (1/pi) * integral_0^inf exp(-t^a) cos(x t) dt
+  /* ---------- translations ---------- */
+  var T = {
+    ar: {
+      brand: "م. بكري",
+      navResearch: "البحوث", navPubs: "المنشورات", navBlog: "المدوّنة", navPath: "المسار", navContact: "التواصل",
+      alt: "صورة محمود بكري",
+      name: "محمود بكري",
+      role: "باحث اقتصادي · معهد البنك الإسلامي للتنمية، جدة",
+      lede: "أدرس ما يحدث في أطراف توزيعات العوائد المالية، حيث يفترض النموذج الغاوسي أن الخسائر الكبيرة لا تكاد تقع، بينما تقول الأسواق <em>غير ذلك</em>، وما يعنيه ذلك للتمويل الإسلامي.",
+      kGauss: "غاوسي، α = 2",
+      kCaption: "كثافات متماثلة، مقياس لوغاريتمي",
+      ann: "ضعف الكثافة الغاوسية",
+      hAbout: "نبذة",
+      about1: "درستُ الفيزياء في معهد كارلسروه للتكنولوجيا (KIT) قبل أن أتّجه إلى الاقتصاد القياسي المالي. وتناولت أطروحتي للدكتوراه في الاقتصاد والمالية، بإشراف سفيتلوزار راتشيف وفرانك فابوزي، تطبيق التوزيعات المستقرة والمستقرة المُلطَّفة على مخاطر المحافظ الاستثمارية. ثم عملت باحثًا في مرحلة ما بعد الدكتوراه في معهد النظرية الاقتصادية والإحصاء بالمعهد نفسه.",
+      about2: "التحقت بمجموعة البنك الإسلامي للتنمية عبر برنامج المهنيين الشباب، وأعمل اليوم باحثًا اقتصاديًا في معهد البنك الإسلامي للتنمية. وتنقل أبحاثي نمذجة الأطراف الثقيلة ومقاييس المخاطر المتّسقة إلى ميدان التمويل الإسلامي، من محافظ الأسهم المتوافقة مع الشريعة إلى التحوّط وإدارة الأصول والخصوم. كما أكتب، مع زملاء من أهل الفقه والقانون، في أخلاقيات الممارسات التجارية المستحدثة في الفقه الإسلامي.",
+      hResearch: "مجالات البحث",
+      t1h: "الأطراف الثقيلة والتوزيعات المستقرة",
+      t1p: "نماذج α-المستقرة والمستقرة المُلطَّفة لعوائد لا يستطيع التوزيع الطبيعي وصفها.",
+      t2h: "مقاييس المخاطر المتّسقة",
+      t2p: "العجز المتوقع (CVaR وAVaR) في ظل الأطراف الثقيلة، وأثره في قرارات رأس المال والتسعير.",
+      t3s: "حفظ المال",
+      t3h: "التمويل الإسلامي",
+      t3p: "الفرز الشرعي ومخاطر الأطراف، والتحوّط المتوافق مع الشريعة، والتقييم المقاصدي للأسواق الجديدة.",
+      hPubs: "منشورات مختارة",
+      book: "كتاب",
+      hBlog: "مدوّنة المعهد",
+      blog1: "بالاشتراك مع م. حجار. أين يغيّر انخفاض كلفة الذكاء الاصطناعي اقتصاديات الشمول، وأين لا يغيّرها.",
+      blog2: "<span class=\"me\">م. بكري</span> وم. حجار. 1 فبراير 2026.",
+      blogMore: "المزيد على مدوّنة معهد البنك الإسلامي للتنمية",
+      hTalks: "محاضرة قادمة",
+      talkWhen: "7–8 ديسمبر 2026 · كابسارك، الرياض",
+      talkMeta: "المؤتمر الرابع للرابطة الدولية لاقتصاديات الطاقة لمنطقة الشرق الأوسط وشمال أفريقيا (IAEE MENA)، مسار الاستثمار والتمويل في قطاع الطاقة.",
+      hPath: "المسار",
+      p1h: "دبلوم في الفيزياء", p1s: "معهد كارلسروه للتكنولوجيا",
+      p2h: "دكتوراه في الاقتصاد والمالية", p2s: "معهد كارلسروه للتكنولوجيا، بإشراف س. راتشيف وف. فابوزي",
+      p3h: "باحث ما بعد الدكتوراه", p3s: "معهد النظرية الاقتصادية والإحصاء، KIT",
+      p4h: "برنامج المهنيين الشباب", p4s: "مجموعة البنك الإسلامي للتنمية",
+      p5h: "باحث اقتصادي", p5s: "معهد البنك الإسلامي للتنمية، جدة",
+      hContact: "التواصل",
+      lEmail: "البريد الإلكتروني", lInst: "البريد المؤسسي",
+      spoken: "يعمل بالعربية والفرنسية والإنجليزية.",
+      footer: "الآراء الواردة في الأبحاث تعبّر عن رأي الكاتب، ولا تعكس بالضرورة آراء مجموعة البنك الإسلامي للتنمية.",
+      copy: "نسخ", copied: "تم النسخ", selected: "تم التحديد"
+    },
+    fr: {
+      brand: "M. Bekri",
+      navResearch: "Recherche", navPubs: "Publications", navBlog: "Blog", navPath: "Parcours", navContact: "Contact",
+      alt: "Portrait de Mahmoud Bekri",
+      name: "Mahmoud Bekri",
+      role: "Économiste-chercheur · Institut de la Banque islamique de développement, Djeddah",
+      lede: "J'étudie ce qui se passe dans les queues des rendements financiers, là où le modèle gaussien juge les fortes pertes presque impossibles et où les marchés montrent <em>le contraire</em>, et ce que cela implique pour la finance islamique.",
+      kGauss: "Gaussienne, α = 2",
+      kCaption: "Densités symétriques, échelle logarithmique",
+      ann: "× la densité gaussienne",
+      hAbout: "À propos",
+      about1: "J'ai suivi une formation de physicien au Karlsruher Institut für Technologie (KIT) avant de me tourner vers l'économétrie financière. Ma thèse de doctorat en économie et finance, dirigée par Svetlozar Rachev et Frank Fabozzi, appliquait les lois stables et stables tempérées au risque de portefeuille. J'ai ensuite occupé un poste postdoctoral à l'Institut de théorie économique et de statistique du KIT.",
+      about2: "J'ai rejoint le Groupe de la Banque islamique de développement par son Programme des jeunes professionnels et je suis aujourd'hui économiste-chercheur à l'Institut de la BID. Mes travaux appliquent la modélisation des queues épaisses et les mesures de risque cohérentes à la finance islamique, des portefeuilles d'actions conformes à la charia à la couverture et à la gestion actif-passif. J'écris aussi, avec des co-auteurs juristes, sur l'éthique des nouvelles pratiques commerciales en droit musulman.",
+      hResearch: "Recherche",
+      t1h: "Queues épaisses et lois stables",
+      t1p: "Modèles α-stables et stables tempérés pour des rendements que la loi normale ne sait pas décrire.",
+      t2h: "Mesures de risque cohérentes",
+      t2p: "L'expected shortfall (CVaR, AVaR) sous queues épaisses, et ses effets sur les décisions de capital et de tarification.",
+      t3s: "ḥifẓ al-māl",
+      t3h: "Finance islamique",
+      t3p: "Filtrage charia et risque de queue, couverture conforme à la charia, et évaluation des nouveaux marchés à l'aune des maqāṣid.",
+      hPubs: "Publications choisies",
+      book: "Livre",
+      hBlog: "Blog de l'IsDBI",
+      blog1: "Avec M. Hajjar. Là où une IA moins chère change l'économie de l'inclusion, et là où elle ne la change pas.",
+      blog2: "<span class=\"me\">M. Bekri</span> et M. Hajjar. 1er février 2026.",
+      blogMore: "Plus d'articles sur le blog de l'Institut",
+      hTalks: "Prochaine intervention",
+      talkWhen: "7–8 décembre 2026 · KAPSARC, Riyad",
+      talkMeta: "4e conférence IAEE MENA, axe investissement et financement de l'énergie.",
+      hPath: "Parcours",
+      p1h: "Diplôme de physique", p1s: "Karlsruher Institut für Technologie (KIT)",
+      p2h: "Doctorat en économie et finance", p2s: "KIT, sous la direction de S. Rachev et F. Fabozzi",
+      p3h: "Chercheur postdoctoral", p3s: "Institut de théorie économique et de statistique, KIT",
+      p4h: "Programme des jeunes professionnels", p4s: "Groupe de la Banque islamique de développement",
+      p5h: "Économiste-chercheur", p5s: "Institut de la Banque islamique de développement (IsDBI), Djeddah",
+      hContact: "Contact",
+      lEmail: "E-mail", lInst: "Institutionnel",
+      spoken: "Travaille en arabe, en français et en anglais.",
+      footer: "Les opinions exprimées dans les travaux de recherche n'engagent que l'auteur et ne reflètent pas nécessairement celles du Groupe de la BID.",
+      copy: "Copier", copied: "Copié", selected: "Sélectionné"
+    },
+    en: { ann: "× the Gaussian density", copy: "Copy", copied: "Copied", selected: "Selected" }
+  };
+  // English strings are read from the page itself
+  document.querySelectorAll('[data-i18n]').forEach(function (el) { T.en[el.dataset.i18n] = el.innerHTML; });
+  document.querySelectorAll('[data-i18n-alt]').forEach(function (el) { T.en[el.dataset.i18nAlt] = el.alt; });
+
+  var lang = 'en';
+  function t(k) { return (T[lang] && T[lang][k] != null) ? T[lang][k] : T.en[k]; }
+
+  function setLang(l, save) {
+    if (!T[l]) l = 'en';
+    lang = l;
+    var root = document.documentElement;
+    root.lang = l;
+    root.dir = l === 'ar' ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-i18n]').forEach(function (el) { el.innerHTML = t(el.dataset.i18n); });
+    document.querySelectorAll('[data-i18n-alt]').forEach(function (el) { el.alt = t(el.dataset.i18nAlt); });
+    document.querySelectorAll('.copy').forEach(function (b) { b.textContent = t('copy'); });
+    document.querySelectorAll('.langs-switch button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.lang === l)); });
+    document.title = l === 'ar' ? 'محمود بكري' : 'Mahmoud Bekri';
+    if (save) { try { localStorage.setItem('lang', l); } catch (e) {} }
+    draw();
+  }
+
+  /* ---------- tail plot ---------- */
   function density(alpha, xs) {
-    var T = 25, dt = 0.004, n = Math.round(T / dt);
+    var Tm = 25, dt = 0.004, n = Math.round(Tm / dt);
     var w = new Float64Array(n + 1);
     for (var i = 0; i <= n; i++) w[i] = Math.exp(-Math.pow(i * dt, alpha)) * (i === 0 || i === n ? 0.5 : 1);
     return xs.map(function (x) {
@@ -390,10 +545,12 @@ footer {
   for (var i = 0; i < N; i++) xs.push(-XMAX + 2 * XMAX * i / (N - 1));
   var stable = density(1.5, xs);
   var gauss = xs.map(function (x) { return Math.exp(-x * x / 4) / (2 * Math.sqrt(Math.PI)); });
-
   var canvas = document.getElementById('tails');
-  var YMIN = -6, YMAX = 0; // log10 bounds
-
+  var YMIN = -6, YMAX = 0;
+  function sup(n) {
+    var m = { '-': '⁻', '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' };
+    return String(n).split('').map(function (c) { return m[c]; }).join('');
+  }
   function draw() {
     var cs = getComputedStyle(document.documentElement);
     var col = function (n) { return cs.getPropertyValue(n).trim(); };
@@ -404,6 +561,7 @@ footer {
     canvas.height = Math.round(rect.height * dpr);
     var ctx = canvas.getContext('2d');
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.direction = 'ltr';
     var W = rect.width, H = rect.height;
     var pad = { l: 46, r: 10, t: 10, b: 30 };
     var pw = W - pad.l - pad.r, ph = H - pad.t - pad.b;
@@ -414,9 +572,8 @@ footer {
       return pad.t + (YMAX - l) / (YMAX - YMIN) * ph;
     };
     ctx.clearRect(0, 0, W, H);
-
-    // grid and labels
-    ctx.font = '11px ' + col('--mono');
+    var mono = '11px "JetBrains Mono", ui-monospace, monospace';
+    ctx.font = mono;
     ctx.fillStyle = col('--muted');
     ctx.strokeStyle = col('--rule');
     ctx.lineWidth = 1;
@@ -427,9 +584,8 @@ footer {
       ctx.fillText(e === 0 ? '1' : '10' + sup(e), pad.l - 8, y);
     }
     ctx.textAlign = 'center'; ctx.textBaseline = 'top';
-    [-8, -4, 0, 4, 8].forEach(function (t) { ctx.fillText(String(t).replace('-', '−'), X(t), pad.t + ph + 9); });
+    [-8, -4, 0, 4, 8].forEach(function (tk) { ctx.fillText(String(tk).replace('-', '−'), X(tk), pad.t + ph + 9); });
 
-    // tail shading beyond |x| > 4 under the stable curve
     ctx.save();
     ctx.beginPath(); ctx.rect(pad.l, pad.t, pw, ph); ctx.clip();
     ctx.fillStyle = col('--mark');
@@ -442,7 +598,6 @@ footer {
       ctx.closePath(); ctx.fill();
     });
     ctx.globalAlpha = 1;
-
     function line(vals, color, dash, width) {
       ctx.strokeStyle = color; ctx.lineWidth = width; ctx.setLineDash(dash);
       ctx.beginPath();
@@ -453,20 +608,41 @@ footer {
     line(stable, col('--accent'), [], 2.25);
     ctx.restore();
 
-    // annotation at x = 6
     var i6 = xs.findIndex(function (x) { return x >= 6; });
     ctx.fillStyle = col('--mark');
     ctx.beginPath(); ctx.arc(X(6), Y(stable[i6]), 3, 0, 2 * Math.PI); ctx.fill();
-    ctx.font = '11px ' + col('--mono');
-    ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
     var ratio = Math.round(stable[i6] / gauss[i6]);
-    ctx.fillText('x = 6: ' + ratio.toLocaleString('en-GB') + '× the Gaussian density', X(6) + 4, Y(stable[i6]) - 8);
+    ctx.font = lang === 'ar' ? '12px "IBM Plex Sans Arabic", Tahoma, sans-serif' : mono;
+    ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
+    var label = lang === 'ar' ? 'x = 6: ' + ratio + ' ' + t('ann') : 'x = 6: ' + ratio + t('ann');
+    ctx.fillText(label, X(6) + 4, Y(stable[i6]) - 8);
   }
-  function sup(n) {
-    var m = { '-': '⁻', '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' };
-    return String(n).split('').map(function (c) { return m[c]; }).join('');
-  }
-  draw();
+
+  /* ---------- wiring ---------- */
+  document.querySelectorAll('.langs-switch button').forEach(function (b) {
+    b.addEventListener('click', function () { setLang(b.dataset.lang, true); });
+  });
+  document.querySelectorAll('.copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var el = document.getElementById(btn.dataset.target);
+      var text = el.textContent.trim();
+      var reset = function () { setTimeout(function () { btn.textContent = t('copy'); }, 1600); };
+      var done = function () { btn.textContent = t('copied'); reset(); };
+      var fallback = function () {
+        var r = document.createRange(); r.selectNodeContents(el);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        btn.textContent = t('selected'); reset();
+      };
+      try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
+    });
+  });
+
+  var initial = 'en';
+  var h = (location.hash || '').slice(1);
+  if (h === 'ar' || h === 'fr' || h === 'en') initial = h;
+  else { try { initial = localStorage.getItem('lang') || 'en'; } catch (e) {} }
+  setLang(initial, false);
+
   if (window.ResizeObserver) new ResizeObserver(draw).observe(canvas);
   if (window.matchMedia) {
     var mq = window.matchMedia('(prefers-color-scheme: dark)');
@@ -474,24 +650,6 @@ footer {
   }
   new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
-
-  // copy buttons
-  document.querySelectorAll('.copy').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var el = document.getElementById(btn.dataset.target);
-      var text = el.textContent.trim();
-      var done = function () { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy'; }, 1600); };
-      var fallback = function () {
-        var r = document.createRange(); r.selectNodeContents(el);
-        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
-        btn.textContent = 'Selected';
-        setTimeout(function () { btn.textContent = 'Copy'; }, 1600);
-      };
-      try {
-        navigator.clipboard.writeText(text).then(done, fallback);
-      } catch (e) { fallback(); }
-    });
-  });
 })();
 </script>
 </body>
