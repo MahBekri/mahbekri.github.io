@@ -75,6 +75,13 @@ a:hover { text-decoration-thickness: 2px; }
   align-items: center;
   padding-block: 3.5rem 3rem;
 }
+.portrait {
+  display: block; width: 6.5rem; height: 6.5rem; max-width: 100%;
+  border-radius: 50%; object-fit: cover;
+  margin: 0 0 1.5rem;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+}
 .hero h1 {
   font: 500 clamp(2.6rem, 6vw, 4.25rem)/1.02 var(--display);
   letter-spacing: -0.015em;
@@ -213,6 +220,7 @@ footer {
 
   <div class="hero">
     <div>
+      <img class="portrait" src="photo.jpg" width="400" height="400" alt="Portrait of Mahmoud Bekri">
       <h1>Mahmoud Bekri</h1>
       <p class="role">Research Economist · Islamic Development Bank Institute, Jeddah</p>
       <p class="lede">I study what happens in the tails of financial returns, where the Gaussian model says losses should almost never occur and markets say <em>otherwise</em>, and what that means for Islamic finance.</p>
