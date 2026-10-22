@@ -214,6 +214,15 @@ html[lang="ar"] .pubs .pa.tr { direction: rtl; text-align: right; display: block
 html[lang="ar"] .bt { font-size: 1.15rem; line-height: 1.7; }
 .bm { display: block; color: var(--muted); font-size: 0.9rem; margin-top: 0.15rem; font-variant-numeric: tabular-nums; }
 .lang-note { color: var(--muted); font-size: 0.85rem; margin-inline-start: 0.35rem; }
+.sub { margin: 2.25rem 0 1rem; font-weight: 500; }
+.sub:first-child { margin-top: 0; }
+.plain { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; gap: 0.9rem; }
+.plain li { padding-inline-start: 1rem; position: relative; }
+.plain li::before { content: ""; position: absolute; inset-inline-start: 0; top: 0.75em; width: 5px; height: 1px; background: var(--accent); }
+#teaching .plain, #credentials ol + .plain { margin-top: 0; }
+#credentials ol + .plain { margin-top: 1.5rem; }
+.path .when { display: block; unicode-bidi: isolate; text-align: start; font: 500 0.8125rem/1.5 "JetBrains Mono", ui-monospace, monospace; color: var(--mark); font-variant-numeric: tabular-nums; }
+html[dir="rtl"] .path .when { text-align: right; }
 .more { margin-top: 1.5rem; }
 
 .path { list-style: none; margin: 0; padding: 0; padding-inline-start: 1.25rem; border-inline-start: 1px solid var(--rule); display: grid; gap: 1.25rem; }
@@ -323,9 +332,29 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
   </section>
 
   <section id="publications">
-    <h2 class="label" data-i18n="hPubs">Selected publications</h2>
+    <h2 class="label" data-i18n="hPubs">Publications</h2>
     <div class="content">
-      <ol class="pubs" reversed>
+      <h3 class="sub label" data-i18n="pubBooks">Books and thesis</h3>
+      <ol class="pubs">
+        <li>
+          <span class="yr">2021</span>
+          <div>
+            <a class="pt" href="https://isdbinstitute.org/product/heavy-tails-and-coherent-risk-measures-in-islamic-finance/">Heavy Tails and Coherent Risk Measures in Islamic Finance</a>
+            <span class="pa"><span class="me">M. Bekri</span>. Islamic Development Bank Institute, Jeddah. 170 pp. ISBN 978-603-8306-06-2.</span>
+            <span class="tags"><span class="tag" data-i18n="book">Book</span><span class="tag tag-free" data-i18n="freeBook">Free eBook</span></span>
+          </div>
+        </li>
+        <li>
+          <span class="yr">2014</span>
+          <div>
+            <a class="pt" href="https://katalog.bibliothek.kit.edu/bib/978165">Portfolio Optimization and Risk Management under Non-normal Stable and Tempered Stable Distributions in Islamic Finance</a>
+            <span class="pa"><span class="me">M. Bekri</span>. Doctoral thesis, Karlsruhe Institute of Technology. 156 pp.</span>
+            <span class="tags"><span class="tag" data-i18n="thesisTag">PhD thesis</span></span>
+          </div>
+        </li>
+      </ol>
+      <h3 class="sub label" data-i18n="pubJournals">Journal articles</h3>
+      <ol class="pubs">
         <li>
           <span class="yr">2026</span>
           <div>
@@ -334,11 +363,18 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
           </div>
         </li>
         <li>
-          <span class="yr">2021</span>
+          <span class="yr">2017</span>
           <div>
-            <a class="pt" href="https://isdbinstitute.org/product/heavy-tails-and-coherent-risk-measures-in-islamic-finance/">Heavy Tails and Coherent Risk Measures in Islamic Finance</a>
-            <span class="pa"><span class="me">M. Bekri</span>. Islamic Development Bank Institute, Jeddah. 170 pp. ISBN 978-603-8306-06-2.</span>
-            <span class="tags"><span class="tag" data-i18n="book">Book</span><span class="tag tag-free" data-i18n="freeBook">Free eBook</span></span>
+            <a class="pt" href="https://shdl.mmu.edu.my/6943/">Energy Consumption and CO<sub>2</sub> Emissions in Iran, 2025</a>
+            <span class="pa">M. Mirzaei and <span class="me">M. Bekri</span>. <i>Environmental Research</i> 154, 345–351.</span>
+          </div>
+        </li>
+        <li>
+          <span class="yr">2016</span>
+          <div>
+            <a class="pt" href="https://doi.org/10.5445/IR/1000055982">Corporate Default Prediction with Industry Effects: Evidence from Emerging Markets</a>
+            <span class="pa">M. Mirzaei, S. Ramakrishnan and <span class="me">M. Bekri</span>. <i>International Journal of Economics and Financial Issues</i> 6(S3), 161–169.</span>
+            <span class="tags"><span class="tag tag-free" data-i18n="openAccess">Open access</span></span>
           </div>
         </li>
         <li>
@@ -349,10 +385,48 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
           </div>
         </li>
         <li>
+          <span class="yr">2015</span>
+          <div>
+            <span class="pt">Corporate Default Prediction with AdaBoost and Bagging Classifiers</span>
+            <span class="pa">S. Ramakrishnan, M. Mirzaei and <span class="me">M. Bekri</span>. <i>Jurnal Teknologi</i> 73(3), 45–50.</span>
+          </div>
+        </li>
+        <li>
+          <span class="yr">2015</span>
+          <div>
+            <span class="pt">A Multi-Industry Default Prediction Model Using Logistic Regression and Decision Tree</span>
+            <span class="pa">S. Ramakrishnan, M. Mirzaei and <span class="me">M. Bekri</span>. <i>Research Journal of Applied Sciences, Engineering and Technology</i> 9(10).</span>
+          </div>
+        </li>
+        <li>
+          <span class="yr">2015</span>
+          <div>
+            <span class="pt">AdaBoost Ensemble Classifier for Corporate Default Prediction</span>
+            <span class="pa">S. Ramakrishnan, M. Mirzaei and <span class="me">M. Bekri</span>. <i>Research Journal of Applied Sciences, Engineering and Technology</i> 9(3), 224–230.</span>
+          </div>
+        </li>
+        <li>
           <span class="yr">2014</span>
           <div>
             <a class="pt" href="https://doi.org/10.1108/IMEFM-10-2012-0096">Tempered Stable Models for Islamic Finance Asset Management</a>
             <span class="pa"><span class="me">M. Bekri</span>, Y. S. Kim and S. T. Rachev. <i>International Journal of Islamic and Middle Eastern Finance and Management</i> 7(1), 37–60.</span>
+          </div>
+        </li>
+        <li>
+          <span class="yr">2014</span>
+          <div>
+            <span class="pt">Portfolio Management with Heavy-Tailed Distributions in Islamic Finance</span>
+            <span class="pa"><span class="me">M. Bekri</span>, Y. S. Kim and S. T. Rachev. <i>Journal of Islamic Economics, Banking and Finance</i> 10(2).</span>
+          </div>
+        </li>
+      </ol>
+      <h3 class="sub label" data-i18n="pubChapters">Book chapter</h3>
+      <ol class="pubs">
+        <li>
+          <span class="yr">2017</span>
+          <div>
+            <a class="pt" href="https://www.e-elgar.com/shop/gbp/handbook-of-empirical-research-on-islam-and-economic-life-9781784710729.html">On the Dependency Structure of Islamic Assets</a>
+            <span class="pa"><span class="me">M. Bekri</span>, M. K. Hassan and N. Alam. In M. K. Hassan (ed.), <i>Handbook of Empirical Research on Islam and Economic Life</i>, Edward Elgar, 602–623.</span>
           </div>
         </li>
       </ol>
@@ -368,13 +442,48 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
   </section>
 
   <section id="talks">
-    <h2 class="label" data-i18n="hTalks">Upcoming talk</h2>
+    <h2 class="label" data-i18n="hTalks">Talks and workshops</h2>
     <div class="content">
       <div class="talk">
         <p class="when" data-i18n="talkWhen">7–8 December 2026 · KAPSARC, Riyadh</p>
         <span class="pt cite-en" lang="en">Pricing Catastrophe-Tailed Energy Assets: A Stable-Law Expected-Shortfall Correction to the Cost of Capital for Nuclear Power</span>
         <span class="pa" data-i18n="talkMeta">4th IAEE MENA Conference, energy investment and finance track.</span>
       </div>
+      <ul class="plain">
+        <li data-i18n="tk1">Panellist, ADFIMI and Qatar Development Bank workshop on Sharia compliance issues of crypto assets, Qatar.</li>
+        <li data-i18n="tk2">“On the role of cryptocurrencies in Islamic finance, real economy and sustainability”, paper presented in Istanbul.</li>
+        <li data-i18n="tk3">“The Determination of Alpha in the Capital Adequacy Ratio for Islamic Financial Institutions”, paper accepted at TICIEF 2019, Tunisia.</li>
+        <li data-i18n="tk4">International workshop on the challenges of capital regulation for Islamic financial institutions, Sultanate of Oman.</li>
+        <li data-i18n="tk5">Organising team, Economists’ Forum “The Rise of Central Bank Digital Currency: Motives, Approaches, and Techniques”.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="teaching">
+    <h2 class="label" data-i18n="hTeach">Teaching and capacity building</h2>
+    <div class="content">
+      <ul class="plain">
+        <li data-i18n="tc1">Courses in financial engineering and advanced financial methods, and seminars on hedging and financial products, at KIT. Supervised bachelor’s and master’s theses and co-supervised a PhD thesis.</li>
+        <li data-i18n="tc2">Capacity-building programmes for central banks and financial regulators in Libya, Morocco, Uganda and Mauritania, including the Central Bank of Libya.</li>
+        <li data-i18n="tc3">“Introduction to Islamic Finance”, Interuniversity Postgraduate Programme in Economics (PTCI), Dakar.</li>
+        <li data-i18n="tc4">Former chair of the jury, Master of Islamic Financial Management, Effat College of Business, Jeddah.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="credentials">
+    <h2 class="label" data-i18n="hCred">Credentials and service</h2>
+    <div class="content">
+      <ol class="pubs">
+        <li><span class="yr">2024</span><div><span data-i18n="cr1">Certificate in Advanced Project Management (Meirc)</span></div></li>
+        <li><span class="yr">2018</span><div><span data-i18n="cr2">Cambridge Islamic Finance Leadership Programme</span></div></li>
+        <li><span class="yr">2016</span><div><span data-i18n="cr3">Certified Islamic Banker (CIB), CIBAFI</span></div></li>
+      </ol>
+      <ul class="plain">
+        <li data-i18n="cr4">Contributor to IsDBI’s patented Smart Voucher System (US Patent 12,282,916).</li>
+        <li data-i18n="cr5">Referee for the <i>International Journal of Islamic and Middle Eastern Finance and Management</i> and <i>Frontiers in Mathematical Finance</i>.</li>
+        <li data-i18n="cr6">Member of the Wednesday Talk meeting of economic scholars, King Abdulaziz University, Jeddah.</li>
+      </ul>
     </div>
   </section>
 
@@ -382,11 +491,13 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
     <h2 class="label" data-i18n="hPath">Career</h2>
     <div class="content">
       <ul class="path">
-        <li><strong data-i18n="p1h">Diploma in Physics</strong><span data-i18n="p1s">Karlsruhe Institute of Technology</span></li>
-        <li><strong data-i18n="p2h">PhD in Economics and Finance</strong><span data-i18n="p2s">Karlsruhe Institute of Technology, under S. Rachev and F. Fabozzi</span></li>
-        <li><strong data-i18n="p3h">Postdoctoral researcher</strong><span data-i18n="p3s">Institute of Economic Theory and Statistics, KIT</span></li>
-        <li><strong data-i18n="p4h">Young Professionals Program</strong><span data-i18n="p4s">Islamic Development Bank Group</span></li>
-        <li><strong data-i18n="p5h">Research Economist</strong><span data-i18n="p5s">Islamic Development Bank Institute (IsDBI), Jeddah</span></li>
+        <li><span class="when" dir="ltr">2011</span><strong data-i18n="c1h">Diploma in Physics, with very high honours</strong><span data-i18n="c1s">Karlsruhe Institute of Technology</span></li>
+        <li><span class="when" dir="ltr">2011–2013</span><strong data-i18n="c2h">Industry roles</strong><span data-i18n="c2s">Project management (TISFO, Sousse), non-performing loan portfolio pricing (Hoist Finance), technical sales (Edmund Optics) and network analytics (SONEAN), in Tunisia and Germany</span></li>
+        <li><span class="when" dir="ltr">2013–2015</span><strong data-i18n="p3h">Postdoctoral researcher</strong><span data-i18n="p3s">Institute of Economic Theory and Statistics, KIT</span></li>
+        <li><span class="when" dir="ltr">2013–2014</span><strong data-i18n="c3h">Senior Consultant, Islamic finance projects</strong><span data-i18n="c3s">FinAnalytica and Bravo Risk Management, New York: tail-risk portfolio analytics and risk software</span></li>
+        <li><span class="when" dir="ltr">2014</span><strong data-i18n="c4h">PhD, with very high honours</strong><span data-i18n="c4s">KIT, Chair of Econometrics and Statistics. Supervised by S. Rachev, Prof. Heller and F. Fabozzi</span></li>
+        <li><span class="when" dir="ltr">2015–2018</span><strong data-i18n="p4h">Young Professionals Program</strong><span data-i18n="c6s">IsDB Group: rotations in the Islamic Financial Services Department and the Financial Product Development Center</span></li>
+        <li><span class="when" data-i18n="c7y">Since 2015</span><strong data-i18n="p5h">Research Economist</strong><span data-i18n="p5s">Islamic Development Bank Institute (IsDBI), Jeddah</span></li>
       </ul>
     </div>
   </section>
@@ -451,8 +562,6 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
       talkWhen: "7–8 ديسمبر 2026 · كابسارك، الرياض",
       talkMeta: "المؤتمر الرابع للرابطة الدولية لاقتصاديات الطاقة لمنطقة الشرق الأوسط وشمال أفريقيا (IAEE MENA)، مسار الاستثمار والتمويل في قطاع الطاقة.",
       hPath: "المسار",
-      p1h: "دبلوم في الفيزياء", p1s: "معهد كارلسروه للتكنولوجيا",
-      p2h: "دكتوراه في الاقتصاد والمالية", p2s: "معهد كارلسروه للتكنولوجيا، بإشراف س. راتشيف وف. فابوزي",
       p3h: "باحث ما بعد الدكتوراه", p3s: "معهد النظرية الاقتصادية والإحصاء، KIT",
       p4h: "برنامج المهنيين الشباب", p4s: "مجموعة البنك الإسلامي للتنمية",
       p5h: "باحث اقتصادي", p5s: "معهد البنك الإسلامي للتنمية، جدة",
@@ -460,6 +569,40 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
       lEmail: "البريد الإلكتروني", lInst: "البريد المؤسسي",
       spoken: "يعمل بالعربية والفرنسية والإنجليزية والألمانية.",
       footer: "الآراء الواردة في الأبحاث تعبّر عن رأي الكاتب، ولا تعكس بالضرورة آراء مجموعة البنك الإسلامي للتنمية.",
+      hPubs: "المنشورات",
+      pubBooks: "الكتب والأطروحة",
+      pubJournals: "مقالات في مجلات علمية محكّمة",
+      pubChapters: "فصل في كتاب",
+      thesisTag: "أطروحة دكتوراه",
+      openAccess: "وصول مفتوح",
+      hTalks: "مشاركات وورش عمل",
+      tk1: "متحدث في ورشة عمل ADFIMI وبنك قطر للتنمية حول قضايا الامتثال الشرعي للأصول المشفّرة، قطر.",
+      tk2: "«دور العملات المشفّرة في التمويل الإسلامي والاقتصاد الحقيقي والاستدامة»، ورقة قُدّمت في إسطنبول.",
+      tk3: "«تحديد معامل ألفا في نسبة كفاية رأس المال للمؤسسات المالية الإسلامية»، ورقة مقبولة في مؤتمر TICIEF 2019، تونس.",
+      tk4: "ورشة عمل دولية حول تحديات تنظيم رأس المال في المؤسسات المالية الإسلامية، سلطنة عُمان.",
+      tk5: "عضو فريق تنظيم منتدى الاقتصاديين «صعود العملات الرقمية للبنوك المركزية: الدوافع والمقاربات والتقنيات».",
+      hTeach: "التدريس وبناء القدرات",
+      tc1: "تدريس مقررات في الهندسة المالية والأساليب المالية المتقدمة، وحلقات دراسية حول التحوّط والمنتجات المالية، في معهد كارلسروه للتكنولوجيا؛ والإشراف على رسائل البكالوريوس والماجستير والمشاركة في الإشراف على أطروحة دكتوراه.",
+      tc2: "برامج لبناء القدرات لفائدة البنوك المركزية والجهات الرقابية المالية في ليبيا والمغرب وأوغندا وموريتانيا، منها مصرف ليبيا المركزي.",
+      tc3: "«مدخل إلى التمويل الإسلامي»، البرنامج الجامعي المشترك للدراسات العليا في الاقتصاد (PTCI)، داكار.",
+      tc4: "رئيس سابق للجنة تحكيم ماجستير الإدارة المالية الإسلامية، كلية الأعمال بجامعة عفت، جدة.",
+      hCred: "الشهادات المهنية والخدمة العلمية",
+      cr1: "شهادة في إدارة المشاريع المتقدمة (Meirc)",
+      cr2: "برنامج كامبريدج للقيادة في التمويل الإسلامي",
+      cr3: "مصرفي إسلامي معتمد (CIB)، المجلس العام للبنوك والمؤسسات المالية الإسلامية",
+      cr4: "مساهم في «نظام القسائم الذكية» الحاصل على براءة اختراع لمعهد البنك الإسلامي للتنمية (براءة أمريكية رقم 12282916).",
+      cr5: "محكّم لدى مجلتَي <i>International Journal of Islamic and Middle Eastern Finance and Management</i> و<i>Frontiers in Mathematical Finance</i>.",
+      cr6: "عضو لقاء الأربعاء للاقتصاديين، جامعة الملك عبدالعزيز، جدة.",
+      c1h: "دبلوم في الفيزياء بدرجة امتياز",
+      c1s: "معهد كارلسروه للتكنولوجيا",
+      c2h: "مناصب في القطاع الخاص",
+      c2s: "إدارة المشاريع (TISFO، سوسة)، وتسعير محافظ القروض المتعثرة (Hoist Finance)، والمبيعات التقنية (Edmund Optics)، وتحليل الشبكات (SONEAN)، في تونس وألمانيا",
+      c3h: "مستشار أول لمشاريع التمويل الإسلامي",
+      c3s: "FinAnalytica وBravo Risk Management، نيويورك: تحليلات مخاطر الأطراف للمحافظ وبرمجيات إدارة المخاطر",
+      c4h: "دكتوراه بدرجة امتياز",
+      c4s: "معهد كارلسروه للتكنولوجيا، كرسي الاقتصاد القياسي والإحصاء، بإشراف س. راتشيف والبروفيسور هيلر وف. فابوزي",
+      c6s: "مجموعة البنك الإسلامي للتنمية: تنقّل بين إدارة الخدمات المالية الإسلامية ومركز تطوير المنتجات المالية",
+      c7y: "منذ 2015",
       copy: "نسخ", copied: "تم النسخ", selected: "تم التحديد"
     },
     fr: {
@@ -492,8 +635,6 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
       talkWhen: "7–8 décembre 2026 · KAPSARC, Riyad",
       talkMeta: "4e conférence IAEE MENA, axe investissement et financement de l'énergie.",
       hPath: "Parcours",
-      p1h: "Diplôme de physique", p1s: "Institut de technologie de Karlsruhe (KIT)",
-      p2h: "Doctorat en économie et finance", p2s: "KIT, sous la direction de S. Rachev et F. Fabozzi",
       p3h: "Chercheur postdoctoral", p3s: "Institut de théorie économique et de statistique, KIT",
       p4h: "Programme des jeunes professionnels", p4s: "Groupe de la Banque islamique de développement",
       p5h: "Économiste-chercheur", p5s: "Institut de la Banque islamique de développement (IsDBI), Djeddah",
@@ -501,6 +642,40 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
       lEmail: "E-mail", lInst: "Institutionnel",
       spoken: "Travaille en arabe, en français, en anglais et en allemand.",
       footer: "Les opinions exprimées dans les travaux de recherche n'engagent que l'auteur et ne reflètent pas nécessairement celles du Groupe de la BID.",
+      hPubs: "Publications",
+      pubBooks: "Ouvrages et thèse",
+      pubJournals: "Articles de revues",
+      pubChapters: "Chapitre d'ouvrage",
+      thesisTag: "Thèse de doctorat",
+      openAccess: "Libre accès",
+      hTalks: "Interventions et ateliers",
+      tk1: "Panéliste, atelier de l'ADFIMI et de la Qatar Development Bank sur la conformité à la charia des crypto-actifs, Qatar.",
+      tk2: "« On the role of cryptocurrencies in Islamic finance, real economy and sustainability », communication présentée à Istanbul.",
+      tk3: "« The Determination of Alpha in the Capital Adequacy Ratio for Islamic Financial Institutions », communication retenue à la TICIEF 2019, Tunisie.",
+      tk4: "Atelier international sur les défis de la réglementation du capital des institutions financières islamiques, Sultanat d'Oman.",
+      tk5: "Équipe d'organisation du Forum des économistes « The Rise of Central Bank Digital Currency: Motives, Approaches, and Techniques ».",
+      hTeach: "Enseignement et renforcement des capacités",
+      tc1: "Cours d'ingénierie financière et de méthodes financières avancées, et séminaires sur la couverture et les produits financiers, au KIT. Encadrement de mémoires de licence et de master, et co-encadrement d'une thèse de doctorat.",
+      tc2: "Programmes de renforcement des capacités pour des banques centrales et des régulateurs financiers en Libye, au Maroc, en Ouganda et en Mauritanie, dont la Banque centrale de Libye.",
+      tc3: "« Introduction à la finance islamique », Programme de troisième cycle interuniversitaire en économie (PTCI), Dakar.",
+      tc4: "Ancien président du jury du Master of Islamic Financial Management, Effat College of Business, Djeddah.",
+      hCred: "Certifications et activités",
+      cr1: "Certificat en gestion de projet avancée (Meirc)",
+      cr2: "Cambridge Islamic Finance Leadership Programme",
+      cr3: "Banquier islamique certifié (CIB), CIBAFI",
+      cr4: "Contributeur au Smart Voucher System breveté de l'IsDBI (brevet américain n° 12 282 916).",
+      cr5: "Évaluateur pour l'<i>International Journal of Islamic and Middle Eastern Finance and Management</i> et <i>Frontiers in Mathematical Finance</i>.",
+      cr6: "Membre du « Wednesday Talk », rencontre des économistes de l'université du Roi Abdulaziz, Djeddah.",
+      c1h: "Diplôme de physique, avec très haute mention",
+      c1s: "Institut de technologie de Karlsruhe (KIT)",
+      c2h: "Expérience en entreprise",
+      c2s: "Gestion de projet (TISFO, Sousse), tarification de portefeuilles de créances douteuses (Hoist Finance), vente technique (Edmund Optics) et analyse de réseaux (SONEAN), en Tunisie et en Allemagne",
+      c3h: "Consultant senior, projets de finance islamique",
+      c3s: "FinAnalytica et Bravo Risk Management, New York : analyse du risque de queue des portefeuilles et logiciels de gestion des risques",
+      c4h: "Doctorat, avec très haute mention",
+      c4s: "KIT, chaire d'économétrie et de statistique, sous la direction de S. Rachev, du Pr Heller et de F. Fabozzi",
+      c6s: "Groupe de la BID : rotations au Département des services financiers islamiques et au Centre de développement des produits financiers",
+      c7y: "Depuis 2015",
       copy: "Copier", copied: "Copié", selected: "Sélectionné"
     },
     de: {
@@ -533,8 +708,6 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
       talkWhen: "7.–8. Dezember 2026 · KAPSARC, Riad",
       talkMeta: "4. IAEE-MENA-Konferenz, Themenbereich Energieinvestitionen und -finanzierung.",
       hPath: "Werdegang",
-      p1h: "Diplom in Physik", p1s: "Karlsruher Institut für Technologie (KIT)",
-      p2h: "Promotion in Wirtschaftswissenschaften (Economics and Finance)", p2s: "KIT, betreut von S. Rachev und F. Fabozzi",
       p3h: "Postdoc", p3s: "Institut für Wirtschaftstheorie und Statistik (ETS), KIT",
       p4h: "Young Professionals Program", p4s: "Gruppe der Islamischen Entwicklungsbank",
       p5h: "Research Economist", p5s: "Institut der Islamischen Entwicklungsbank (IsDBI), Dschidda",
@@ -542,6 +715,40 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
       lEmail: "E-Mail", lInst: "Dienstlich",
       spoken: "Arbeitet auf Arabisch, Französisch, Englisch und Deutsch.",
       footer: "Die in den Forschungsarbeiten geäußerten Ansichten sind die des Autors und geben nicht notwendigerweise die der IsDB-Gruppe wieder.",
+      hPubs: "Publikationen",
+      pubBooks: "Bücher und Dissertation",
+      pubJournals: "Zeitschriftenartikel",
+      pubChapters: "Buchkapitel",
+      thesisTag: "Dissertation",
+      openAccess: "Open Access",
+      hTalks: "Vorträge und Workshops",
+      tk1: "Podiumsteilnehmer beim Workshop von ADFIMI und Qatar Development Bank zur Schariakonformität von Krypto-Assets, Katar.",
+      tk2: "„On the role of cryptocurrencies in Islamic finance, real economy and sustainability“, Vortrag in Istanbul.",
+      tk3: "„The Determination of Alpha in the Capital Adequacy Ratio for Islamic Financial Institutions“, angenommener Beitrag zur TICIEF 2019, Tunesien.",
+      tk4: "Internationaler Workshop zu den Herausforderungen der Kapitalregulierung islamischer Finanzinstitute, Sultanat Oman.",
+      tk5: "Organisationsteam des Economists’ Forum „The Rise of Central Bank Digital Currency: Motives, Approaches, and Techniques“.",
+      hTeach: "Lehre und Kapazitätsaufbau",
+      tc1: "Lehrveranstaltungen zu Financial Engineering und fortgeschrittenen Finanzmethoden sowie Seminare zu Absicherung und Finanzprodukten am KIT. Betreuung von Bachelor- und Masterarbeiten und Mitbetreuung einer Dissertation.",
+      tc2: "Programme zum Kapazitätsaufbau für Zentralbanken und Finanzaufsichtsbehörden in Libyen, Marokko, Uganda und Mauretanien, darunter die Zentralbank Libyens.",
+      tc3: "„Einführung in die islamische Finanzwirtschaft“, interuniversitäres Postgraduiertenprogramm Wirtschaft (PTCI), Dakar.",
+      tc4: "Ehemaliger Vorsitzender der Prüfungskommission des Master of Islamic Financial Management, Effat College of Business, Dschidda.",
+      hCred: "Qualifikationen und Engagement",
+      cr1: "Zertifikat in fortgeschrittenem Projektmanagement (Meirc)",
+      cr2: "Cambridge Islamic Finance Leadership Programme",
+      cr3: "Certified Islamic Banker (CIB), CIBAFI",
+      cr4: "Mitwirkung am patentierten Smart Voucher System des IsDBI (US-Patent Nr. 12.282.916).",
+      cr5: "Gutachter für das <i>International Journal of Islamic and Middle Eastern Finance and Management</i> und <i>Frontiers in Mathematical Finance</i>.",
+      cr6: "Mitglied des „Wednesday Talk“, Treffen von Wirtschaftswissenschaftlern an der König-Abdulaziz-Universität, Dschidda.",
+      c1h: "Diplom in Physik, mit Auszeichnung",
+      c1s: "Karlsruher Institut für Technologie (KIT)",
+      c2h: "Tätigkeiten in der Wirtschaft",
+      c2s: "Projektmanagement (TISFO, Sousse), Bewertung notleidender Kreditportfolios (Hoist Finance), technischer Vertrieb (Edmund Optics) und Netzwerkanalyse (SONEAN), in Tunesien und Deutschland",
+      c3h: "Senior Consultant, Projekte der islamischen Finanzwirtschaft",
+      c3s: "FinAnalytica und Bravo Risk Management, New York: Randrisikoanalysen für Portfolios und Risikosoftware",
+      c4h: "Promotion, mit Auszeichnung",
+      c4s: "KIT, Lehrstuhl für Ökonometrie und Statistik, betreut von S. Rachev, Prof. Heller und F. Fabozzi",
+      c6s: "IsDB-Gruppe: Rotationen in der Abteilung für islamische Finanzdienstleistungen und im Zentrum für Finanzproduktentwicklung",
+      c7y: "Seit 2015",
       copy: "Kopieren", copied: "Kopiert", selected: "Markiert"
     },
     en: { ann: "× the Gaussian density", copy: "Copy", copied: "Copied", selected: "Selected" }
