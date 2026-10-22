@@ -15,6 +15,7 @@
 <meta property="og:locale" content="en_GB">
 <meta property="og:locale:alternate" content="ar_AR">
 <meta property="og:locale:alternate" content="fr_FR">
+<meta property="og:locale:alternate" content="de_DE">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#1d5c57">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231d5c57'/%3E%3Cpath d='M6 50 C20 50 24 12 32 12 S44 50 58 50' fill='none' stroke='%23f2f4f3' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
@@ -38,7 +39,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
 <style>
-/* Layout: one reading column with a two-part hero (statement + a live plot of the tails the work is about), then plain sections keyed by a left label rail on wide screens. Trilingual: EN / AR (RTL) / FR. */
+/* Layout: one reading column with a two-part hero (statement + a live plot of the tails the work is about), then plain sections keyed by a left label rail on wide screens. Multilingual: EN / AR (RTL) / FR / DE. */
 :root {
   --paper: #f2f4f3;
   --surface: #e7ebe9;
@@ -259,6 +260,7 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
         <button type="button" id="lang-en" data-lang="en" lang="en" aria-pressed="true">EN</button>
         <button type="button" id="lang-ar" data-lang="ar" lang="ar" class="ar" aria-pressed="false">عربي</button>
         <button type="button" id="lang-fr" data-lang="fr" lang="fr" aria-pressed="false">FR</button>
+        <button type="button" id="lang-de" data-lang="de" lang="de" aria-pressed="false">DE</button>
       </div>
     </div>
   </header>
@@ -506,6 +508,48 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
       footer: "Les opinions exprimées dans les travaux de recherche n'engagent que l'auteur et ne reflètent pas nécessairement celles du Groupe de la BID.",
       copy: "Copier", copied: "Copié", selected: "Sélectionné"
     },
+    de: {
+      brand: "M. Bekri",
+      navResearch: "Forschung", navPubs: "Publikationen", navBlog: "Blog", navPath: "Werdegang", navContact: "Kontakt",
+      alt: "Porträt von Mahmoud Bekri",
+      name: "Mahmoud Bekri",
+      role: "Research Economist · Institut der Islamischen Entwicklungsbank, Dschidda",
+      lede: "Ich untersuche, was in den Rändern von Finanzrenditen geschieht, wo das Gaußsche Modell große Verluste für nahezu ausgeschlossen hält und die Märkte <em>anderes</em> zeigen, und was das für die islamische Finanzwirtschaft bedeutet.",
+      kGauss: "Gauß, α = 2",
+      kCaption: "Symmetrische Dichten, logarithmische Skala",
+      ann: "× die Gaußsche Dichte",
+      hAbout: "Über mich",
+      about1: "Ich habe Physik am Karlsruher Institut für Technologie (KIT) studiert, bevor ich in die Finanzökonometrie wechselte. In meiner Promotion in Wirtschafts- und Finanzwissenschaften, betreut von Svetlozar Rachev und Frank Fabozzi, habe ich stabile und temperierte stabile Verteilungen auf Portfoliorisiken angewandt. Anschließend war ich Postdoc am Institut für Volkswirtschaftslehre und Statistik des KIT.",
+      about2: "Über das Young Professionals Program kam ich zur Gruppe der Islamischen Entwicklungsbank und arbeite heute als Research Economist am IsDB-Institut. Meine Forschung überträgt die Modellierung schwerer Ränder und kohärente Risikomaße auf die islamische Finanzwirtschaft, von schariakonformen Aktienportfolios bis zu Absicherung und Aktiv-Passiv-Management. Gemeinsam mit juristischen Koautoren schreibe ich außerdem über die Ethik neuer Handelspraktiken im islamischen Recht.",
+      hResearch: "Forschung",
+      t1h: "Schwere Ränder und stabile Verteilungen",
+      t1p: "α-stabile und temperierte stabile Modelle für Renditen, die die Normalverteilung nicht beschreiben kann.",
+      t2h: "Kohärente Risikomaße",
+      t2p: "Expected Shortfall (CVaR, AVaR) bei schweren Rändern und seine Folgen für Kapital- und Preisentscheidungen.",
+      t3s: "ḥifẓ al-māl",
+      t3h: "Islamische Finanzwirtschaft",
+      t3p: "Scharia-Screening und Extremrisiken, schariakonforme Absicherung und maqāṣid-basierte Bewertung neuer Märkte.",
+      hPubs: "Ausgewählte Publikationen",
+      book: "Buch",
+      hBlog: "IsDBI-Blog",
+      blog1: "Mit M. Hajjar. Wo günstigere KI die Ökonomie der Inklusion verändert und wo nicht.",
+      blog2: "<span class=\"me\">M. Bekri</span> und M. Hajjar. 1. Februar 2026.",
+      blogMore: "Weitere Beiträge im Blog des Instituts",
+      hTalks: "Nächster Vortrag",
+      talkWhen: "7.–8. Dezember 2026 · KAPSARC, Riad",
+      talkMeta: "4. IAEE-MENA-Konferenz, Themenbereich Energieinvestitionen und -finanzierung.",
+      hPath: "Werdegang",
+      p1h: "Diplom in Physik", p1s: "Karlsruher Institut für Technologie (KIT)",
+      p2h: "Promotion in Wirtschafts- und Finanzwissenschaften", p2s: "KIT, betreut von S. Rachev und F. Fabozzi",
+      p3h: "Postdoc", p3s: "Institut für Volkswirtschaftslehre und Statistik, KIT",
+      p4h: "Young Professionals Program", p4s: "Gruppe der Islamischen Entwicklungsbank",
+      p5h: "Research Economist", p5s: "Institut der Islamischen Entwicklungsbank (IsDBI), Dschidda",
+      hContact: "Kontakt",
+      lEmail: "E-Mail", lInst: "Dienstlich",
+      spoken: "Arbeitet auf Arabisch, Französisch und Englisch.",
+      footer: "Die in den Forschungsarbeiten geäußerten Ansichten sind die des Autors und geben nicht notwendigerweise die der IsDB-Gruppe wieder.",
+      copy: "Kopieren", copied: "Kopiert", selected: "Markiert"
+    },
     en: { ann: "× the Gaussian density", copy: "Copy", copied: "Copied", selected: "Selected" }
   };
   // English strings are read from the page itself
@@ -639,7 +683,7 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
 
   var initial = 'en';
   var h = (location.hash || '').slice(1);
-  if (h === 'ar' || h === 'fr' || h === 'en') initial = h;
+  if (T[h]) initial = h;
   else { try { initial = localStorage.getItem('lang') || 'en'; } catch (e) {} }
   setLang(initial, false);
 
