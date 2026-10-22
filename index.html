@@ -12,6 +12,9 @@
 <meta property="og:description" content="Research Economist, Islamic Development Bank Institute. Heavy tails, coherent risk measures and Islamic finance.">
 <meta property="og:url" content="https://mahbekri.github.io/">
 <meta property="og:image" content="https://mahbekri.github.io/photo.jpg">
+<meta property="og:image:width" content="400">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Portrait of Mahmoud Bekri">
 <meta property="og:locale" content="en_GB">
 <meta property="og:locale:alternate" content="ar_AR">
 <meta property="og:locale:alternate" content="fr_FR">
@@ -38,9 +41,14 @@
 <script>try{var th=localStorage.getItem('theme');if(th==='light'||th==='dark')document.documentElement.dataset.theme=th;}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<!-- fonts load without blocking first paint; the system fallbacks in the font stacks cover the gap -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap"></noscript>
 <style>
 /* Layout: one reading column with a two-part hero (statement + a live plot of the tails the work is about), then plain sections keyed by a left label rail on wide screens. Multilingual: EN / AR (RTL) / FR / DE. */
+/* Size-matched stand-ins shown until the web fonts arrive, so the swap barely reflows the text (ratios measured against Spectral and Source Sans 3). */
+@font-face { font-family: "Spectral Fallback"; src: local("Times New Roman"), local("Liberation Serif"), local("Times"); size-adjust: 110%; ascent-override: 96%; descent-override: 42%; line-gap-override: 0%; }
+@font-face { font-family: "Source Sans Fallback"; src: local("Arial"), local("Liberation Sans"), local("Helvetica"); size-adjust: 93.4%; ascent-override: 109%; descent-override: 43%; line-gap-override: 0%; }
 :root {
   --paper: #f2f4f3;
   --surface: #e7ebe9;
@@ -54,8 +62,8 @@
   --wash: rgba(29, 92, 87, 0.09);
   --shadow: 0 1px 2px rgba(22, 32, 31, 0.05), 0 8px 24px -12px rgba(22, 32, 31, 0.18);
   --radius: 10px;
-  --display: "Spectral", Georgia, "Times New Roman", serif;
-  --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --display: "Spectral", "Spectral Fallback", Georgia, "Times New Roman", serif;
+  --body: "Source Sans 3", "Source Sans Fallback", "Segoe UI", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
   --label-case: uppercase;
   --label-track: 0.07em;
@@ -115,6 +123,14 @@ a:hover { text-decoration-thickness: 2px; }
   color: var(--muted);
 }
 
+.skip {
+  position: absolute; inset-inline-start: 1rem; top: -3rem; z-index: 20;
+  background: var(--accent); color: var(--paper); padding: 0.6rem 1rem; border-radius: 6px; text-decoration: none;
+  font: 500 0.875rem/1 var(--body);
+}
+.skip:focus { top: 1rem; }
+main:focus { outline: none; }
+
 /* top bar */
 .top {
   position: sticky; top: 0; z-index: 10;
@@ -166,7 +182,7 @@ a:hover { text-decoration-thickness: 2px; }
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
   gap: 3rem;
-  align-items: center;
+  align-items: start;
   padding-block: 4rem 3.5rem;
 }
 .portrait {
@@ -187,11 +203,11 @@ html[lang="ar"] .hero h1 { letter-spacing: 0; line-height: 1.3; }
 .role { margin: 0 0 1.5rem; color: var(--accent); }
 .lede {
   font: 400 1.3rem/1.55 var(--display);
-  max-width: 34ch;
+  max-width: 17em;
   margin: 0;
   text-wrap: pretty;
 }
-html[lang="ar"] .lede { font-size: 1.25rem; line-height: 1.9; max-width: 38ch; }
+html[lang="ar"] .lede { font-size: 1.25rem; line-height: 1.9; max-width: 19em; }
 .lede em { color: var(--mark); font-style: italic; }
 html[lang="ar"] .lede em { font-style: normal; font-weight: 600; }
 
@@ -212,6 +228,7 @@ figure.plot {
   margin: 0; min-width: 0;
   background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius);
   padding: 1.1rem 1.1rem 0.9rem; box-shadow: var(--shadow);
+  margin-top: 3rem;
 }
 .plot-frame { position: relative; width: 100%; aspect-ratio: 5 / 4; max-width: 100%; }
 .plot canvas { display: block; width: 100%; height: 100%; }
@@ -255,7 +272,7 @@ section > h2::before { content: ""; display: block; width: 1.5rem; height: 2px; 
 .pubs li { display: grid; grid-template-columns: 4rem minmax(0, 1fr); gap: 1rem; padding: 0.75rem 0.85rem; border-radius: 8px; transition: background-color 0.15s; }
 .pubs li:hover { background: var(--surface); }
 .yr { font: 500 0.9rem/1.7 "JetBrains Mono", ui-monospace, monospace; color: var(--muted); font-variant-numeric: tabular-nums; }
-.pt { font: 500 1.15rem/1.35 "Spectral", Georgia, serif; display: block; margin-bottom: 0.2rem; }
+.pt { font: 500 1.15rem/1.35 "Spectral", "Spectral Fallback", Georgia, serif; display: block; margin-bottom: 0.2rem; }
 a.pt, a.bt { text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent); transition: text-decoration-color 0.15s; }
 a.pt:hover, a.bt:hover { text-decoration-color: currentColor; }
 .pa { color: var(--muted); font-size: 0.95rem; }
@@ -321,6 +338,7 @@ html[dir="rtl"] .path .when { text-align: right; }
 .spoken { margin-top: 1.5rem; color: var(--muted); font-size: 0.95rem; }
 
 footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.875rem; color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 2rem; }
+footer .foot-end { display: inline-flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
 footer .to-top { font: 500 0.8125rem/1.4 var(--mono); color: var(--muted); text-decoration: none; white-space: nowrap; }
 footer .to-top:hover { color: var(--accent); }
 
@@ -332,6 +350,7 @@ footer .to-top:hover { color: var(--accent); }
 
 @media (max-width: 860px) {
   .hero { grid-template-columns: minmax(0, 1fr); gap: 2rem; padding-block: 2.25rem 2rem; }
+  figure.plot { margin-top: 0; }
   section { grid-template-columns: minmax(0, 1fr); padding-block: 2rem; gap: 1rem; }
   section > h2 { position: static; }
   .top { position: static; }
@@ -354,6 +373,7 @@ footer .to-top:hover { color: var(--accent); }
 </style>
 </head>
 <body>
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
 <div class="wrap">
   <header class="top">
     <a class="brand" href="#main"><svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="var(--accent)"/><path d="M6 50 C20 50 24 12 32 12 S44 50 58 50" fill="none" stroke="var(--paper)" stroke-width="5" stroke-linecap="round"/></svg><span data-i18n="brand">M. Bekri</span></a>
@@ -380,10 +400,10 @@ footer .to-top:hover { color: var(--accent); }
     </div>
   </header>
 
-  <main id="main">
+  <main id="main" tabindex="-1">
   <div class="hero">
     <div>
-      <img class="portrait" src="photo.jpg" width="400" height="400" alt="Portrait of Mahmoud Bekri" data-i18n-alt="alt">
+      <picture><source srcset="photo-240.webp" type="image/webp"><img class="portrait" src="photo-240.jpg" width="240" height="240" fetchpriority="high" alt="Portrait of Mahmoud Bekri" data-i18n-alt="alt"></picture>
       <h1 data-i18n="name">Mahmoud Bekri</h1>
       <p class="role label" data-i18n="role">Research Economist · Islamic Development Bank Institute, Jeddah</p>
       <p class="lede" data-i18n="lede">I study what happens in the tails of financial returns, where the Gaussian model says large losses should almost never occur and markets say <em>otherwise</em>, and what that means for Islamic finance.</p>
@@ -630,7 +650,7 @@ footer .to-top:hover { color: var(--accent); }
   </section>
   </main>
 
-  <footer><span data-i18n="footer">Views expressed in research are the author's own and do not necessarily reflect those of the IsDB Group.</span><a class="to-top" href="#main" data-i18n="toTop">Back to top ↑</a></footer>
+  <footer><span data-i18n="footer">Views expressed in research are the author's own and do not necessarily reflect those of the IsDB Group.</span><span class="foot-end"><span id="updated"></span><a class="to-top" href="#main" data-i18n="toTop">Back to top ↑</a></span></footer>
 </div>
 
 <script>
@@ -706,7 +726,7 @@ footer .to-top:hover { color: var(--accent); }
       c6s: "مجموعة البنك الإسلامي للتنمية: تنقّل بين إدارة الخدمات المالية الإسلامية ومركز تطوير المنتجات المالية",
       c7y: "منذ 2018",
       copy: "نسخ", copied: "تم النسخ", selected: "تم التحديد",
-      themeLbl: "تبديل المظهر", toTop: "العودة إلى الأعلى ↑"
+      themeLbl: "تبديل المظهر", toTop: "العودة إلى الأعلى ↑", skip: "انتقل إلى المحتوى", updated: "آخر تحديث: {d}"
     },
     fr: {
       brand: "M. Bekri",
@@ -777,7 +797,7 @@ footer .to-top:hover { color: var(--accent); }
       c6s: "Groupe de la BID : rotations au Département des services financiers islamiques et au Centre de développement des produits financiers",
       c7y: "Depuis 2018",
       copy: "Copier", copied: "Copié", selected: "Sélectionné",
-      themeLbl: "Changer de thème", toTop: "Haut de page ↑"
+      themeLbl: "Changer de thème", toTop: "Haut de page ↑", skip: "Aller au contenu", updated: "Mis à jour en {d}"
     },
     de: {
       brand: "M. Bekri",
@@ -848,9 +868,9 @@ footer .to-top:hover { color: var(--accent); }
       c6s: "IsDB-Gruppe: Rotationen in der Abteilung für islamische Finanzdienstleistungen und im Zentrum für Finanzproduktentwicklung",
       c7y: "Seit 2018",
       copy: "Kopieren", copied: "Kopiert", selected: "Markiert",
-      themeLbl: "Farbschema wechseln", toTop: "Nach oben ↑"
+      themeLbl: "Farbschema wechseln", toTop: "Nach oben ↑", skip: "Zum Inhalt springen", updated: "Aktualisiert im {d}"
     },
-    en: { ann: "{n}× the Gaussian density", copy: "Copy", copied: "Copied", selected: "Selected" }
+    en: { ann: "{n}× the Gaussian density", copy: "Copy", copied: "Copied", selected: "Selected", updated: "Updated {d}" }
   };
   // English strings are read from the page itself
   document.querySelectorAll('[data-i18n]').forEach(function (el) { T.en[el.dataset.i18n] = el.innerHTML; });
@@ -875,6 +895,7 @@ footer .to-top:hover { color: var(--accent); }
     if (save) { try { localStorage.setItem('lang', l); } catch (e) {} }
     draw();
     renderBlogs();
+    renderUpdated();
   }
 
   /* ---------- tail plot ---------- */
@@ -1012,6 +1033,15 @@ footer .to-top:hover { color: var(--accent); }
     }).join('');
   }
 
+  /* ---------- last updated ---------- */
+  function renderUpdated() {
+    var el = document.getElementById('updated'), d = new Date(document.lastModified);
+    if (!el || isNaN(d)) return;
+    var L = BL[lang] || BL.en, txt;
+    try { txt = new Intl.DateTimeFormat(L.loc, { month: 'long', year: 'numeric' }).format(d); } catch (e) { txt = d.toISOString().slice(0, 7); }
+    el.textContent = t('updated').replace('{d}', txt);
+  }
+
   /* ---------- wiring ---------- */
   document.querySelectorAll('.langs-switch button').forEach(function (b) {
     b.addEventListener('click', function () { setLang(b.dataset.lang, true); });
@@ -1061,13 +1091,20 @@ footer .to-top:hover { color: var(--accent); }
   if ('IntersectionObserver' in window) {
     var links = {};
     document.querySelectorAll('.top nav a').forEach(function (a) { links[a.getAttribute('href').slice(1)] = a; });
-    var navObs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (!en.isIntersecting || !links[en.target.id]) return;
-        Object.keys(links).forEach(function (k) { links[k].classList.toggle('active', k === en.target.id); });
+    var mark = function (id) {
+      Object.keys(links).forEach(function (k) {
+        var on = k === id;
+        links[k].classList.toggle('active', on);
+        if (on) links[k].setAttribute('aria-current', 'location'); else links[k].removeAttribute('aria-current');
       });
+    };
+    var atBottom = function () { return window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2; };
+    var navObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting && links[en.target.id] && !atBottom()) mark(en.target.id); });
     }, { rootMargin: '-35% 0px -60% 0px' });
     document.querySelectorAll('main section[id]').forEach(function (s) { navObs.observe(s); });
+    // the last section is too short to reach the band above, so claim it once the page bottoms out
+    window.addEventListener('scroll', function () { if (atBottom()) mark('contact'); }, { passive: true });
 
     root.classList.add('js');
     var revObs = new IntersectionObserver(function (entries) {
