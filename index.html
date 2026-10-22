@@ -12,6 +12,9 @@
 <meta property="og:description" content="Research Economist, Islamic Development Bank Institute. Heavy tails, coherent risk measures and Islamic finance.">
 <meta property="og:url" content="https://mahbekri.github.io/">
 <meta property="og:image" content="https://mahbekri.github.io/photo.jpg">
+<meta property="og:image:width" content="400">
+<meta property="og:image:height" content="400">
+<meta property="og:image:alt" content="Portrait of Mahmoud Bekri">
 <meta property="og:locale" content="en_GB">
 <meta property="og:locale:alternate" content="ar_AR">
 <meta property="og:locale:alternate" content="fr_FR">
@@ -35,11 +38,17 @@
   "sameAs": ["https://www.linkedin.com/in/mahmoud-bekri-21320652/", "https://github.com/MahBekri"]
 }
 </script>
+<script>try{var th=localStorage.getItem('theme');if(th==='light'||th==='dark')document.documentElement.dataset.theme=th;}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<!-- fonts load without blocking first paint; the system fallbacks in the font stacks cover the gap -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap"></noscript>
 <style>
 /* Layout: one reading column with a two-part hero (statement + a live plot of the tails the work is about), then plain sections keyed by a left label rail on wide screens. Multilingual: EN / AR (RTL) / FR / DE. */
+/* Size-matched stand-ins shown until the web fonts arrive, so the swap barely reflows the text (ratios measured against Spectral and Source Sans 3). */
+@font-face { font-family: "Spectral Fallback"; src: local("Times New Roman"), local("Liberation Serif"), local("Times"); size-adjust: 110%; ascent-override: 96%; descent-override: 42%; line-gap-override: 0%; }
+@font-face { font-family: "Source Sans Fallback"; src: local("Arial"), local("Liberation Sans"), local("Helvetica"); size-adjust: 93.4%; ascent-override: 109%; descent-override: 43%; line-gap-override: 0%; }
 :root {
   --paper: #f2f4f3;
   --surface: #e7ebe9;
@@ -49,8 +58,12 @@
   --accent: #1d5c57;
   --gauss: #8a8f8d;
   --mark: #8f5714;
-  --display: "Spectral", Georgia, "Times New Roman", serif;
-  --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --card: #fbfcfc;
+  --wash: rgba(29, 92, 87, 0.09);
+  --shadow: 0 1px 2px rgba(22, 32, 31, 0.05), 0 8px 24px -12px rgba(22, 32, 31, 0.18);
+  --radius: 10px;
+  --display: "Spectral", "Spectral Fallback", Georgia, "Times New Roman", serif;
+  --body: "Source Sans 3", "Source Sans Fallback", "Segoe UI", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
   --label-case: uppercase;
   --label-track: 0.07em;
@@ -66,21 +79,28 @@ html[lang="ar"] {
   :root:not([data-theme="light"]) {
     --paper: #111817; --surface: #18211f; --ink: #e3e9e7; --muted: #9aa7a3;
     --rule: #2c3836; --accent: #6fbdb4; --gauss: #7d8784; --mark: #e0a457;
+    --card: #151d1c; --wash: rgba(111, 189, 180, 0.08); --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 28px -14px rgba(0, 0, 0, 0.6);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --paper: #111817; --surface: #18211f; --ink: #e3e9e7; --muted: #9aa7a3;
   --rule: #2c3836; --accent: #6fbdb4; --gauss: #7d8784; --mark: #e0a457;
+    --card: #151d1c; --wash: rgba(111, 189, 180, 0.08); --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 28px -14px rgba(0, 0, 0, 0.6);
   color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+::selection { background: var(--accent); color: var(--paper); }
 img { max-width: 100%; }
 [hidden] { display: none !important; }
 body {
   margin: 0;
   background: var(--paper);
+  background-image: radial-gradient(60rem 32rem at 85% -6rem, var(--wash), transparent 70%);
+  background-repeat: no-repeat;
   color: var(--ink);
   font: 400 1.0625rem/1.65 var(--body);
   -webkit-font-smoothing: antialiased;
@@ -103,40 +123,74 @@ a:hover { text-decoration-thickness: 2px; }
   color: var(--muted);
 }
 
+.skip {
+  position: absolute; inset-inline-start: 1rem; top: -3rem; z-index: 20;
+  background: var(--accent); color: var(--paper); padding: 0.6rem 1rem; border-radius: 6px; text-decoration: none;
+  font: 500 0.875rem/1 var(--body);
+}
+.skip:focus { top: 1rem; }
+main:focus { outline: none; }
+
 /* top bar */
 .top {
+  position: sticky; top: 0; z-index: 10;
   display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem;
   justify-content: space-between; align-items: center;
-  padding-block: 1.25rem;
+  padding-block: 0.9rem;
   border-bottom: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  -webkit-backdrop-filter: saturate(1.4) blur(12px);
+  backdrop-filter: saturate(1.4) blur(12px);
   font: 500 0.8125rem/1.4 var(--mono);
+  transition: box-shadow 0.2s ease;
 }
-.top nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
-.top nav a { color: var(--muted); text-decoration: none; }
-.top nav a:hover { color: var(--ink); }
-.langs-switch { display: inline-flex; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+.top.scrolled { box-shadow: 0 6px 20px -16px rgba(0, 0, 0, 0.45); }
+.brand { display: inline-flex; align-items: center; gap: 0.55rem; color: var(--ink); text-decoration: none; font-weight: 600; }
+.brand svg { flex: none; }
+.top nav { display: flex; flex-wrap: wrap; gap: 0.25rem 0.35rem; }
+.top nav a { color: var(--muted); text-decoration: none; padding: 0.3rem 0.55rem; border-radius: 6px; transition: color 0.15s, background-color 0.15s; }
+.top nav a:hover { color: var(--ink); background: var(--surface); }
+.top nav a.active { color: var(--accent); background: var(--wash); }
+.theme-toggle {
+  display: inline-grid; place-items: center; width: 2.1rem; height: 2.1rem;
+  border: 1px solid var(--rule); border-radius: 6px; background: transparent; color: var(--muted); cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+.theme-toggle .moon { display: none; }
+:root[data-theme="dark"] .theme-toggle .sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .moon { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .sun { display: none; }
+  :root:not([data-theme="light"]) .theme-toggle .moon { display: block; }
+}
+.langs-switch { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
 .langs-switch button {
   font: 500 0.8125rem/1 var(--mono); color: var(--muted);
   background: transparent; border: 0; padding: 0.45rem 0.7rem; cursor: pointer;
+  transition: color 0.15s, background-color 0.15s;
 }
+.langs-switch button:hover { color: var(--ink); background: var(--surface); }
 .langs-switch button + button { border-inline-start: 1px solid var(--rule); }
 .langs-switch button[aria-pressed="true"] { background: var(--accent); color: var(--paper); }
 .langs-switch .ar { font-family: "IBM Plex Sans Arabic", Tahoma, sans-serif; }
-.right { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; }
+.right { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; }
+.tools { display: inline-flex; align-items: center; gap: 0.5rem; }
 
 /* hero */
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
   gap: 3rem;
-  align-items: center;
-  padding-block: 3.5rem 3rem;
+  align-items: start;
+  padding-block: 4rem 3.5rem;
 }
 .portrait {
   display: block; width: 6.5rem; height: 6.5rem; max-width: 100%;
   border-radius: 50%; object-fit: cover;
   margin: 0 0 1.5rem;
-  border: 1px solid var(--rule);
+  border: 3px solid var(--paper);
+  box-shadow: 0 0 0 1px var(--accent), var(--shadow);
   background: var(--surface);
 }
 .hero h1 {
@@ -146,18 +200,36 @@ a:hover { text-decoration-thickness: 2px; }
   text-wrap: balance;
 }
 html[lang="ar"] .hero h1 { letter-spacing: 0; line-height: 1.3; }
-.role { margin: 0 0 1.5rem; }
+.role { margin: 0 0 1.5rem; color: var(--accent); }
 .lede {
   font: 400 1.3rem/1.55 var(--display);
-  max-width: 34ch;
+  max-width: 17em;
   margin: 0;
   text-wrap: pretty;
 }
-html[lang="ar"] .lede { font-size: 1.25rem; line-height: 1.9; max-width: 38ch; }
+html[lang="ar"] .lede { font-size: 1.25rem; line-height: 1.9; max-width: 19em; }
 .lede em { color: var(--mark); font-style: italic; }
 html[lang="ar"] .lede em { font-style: normal; font-weight: 600; }
 
-figure.plot { margin: 0; min-width: 0; }
+.actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2rem; }
+.btn {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  font: 500 0.875rem/1 var(--body); text-decoration: none;
+  padding: 0.7rem 1rem; border-radius: 999px;
+  border: 1px solid var(--rule); color: var(--ink); background: var(--card);
+  transition: border-color 0.15s, color 0.15s, transform 0.15s, box-shadow 0.15s;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); box-shadow: var(--shadow); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+.btn.primary:hover { color: var(--paper); filter: brightness(1.08); }
+.btn svg { flex: none; }
+
+figure.plot {
+  margin: 0; min-width: 0;
+  background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: 1.1rem 1.1rem 0.9rem; box-shadow: var(--shadow);
+  margin-top: 3rem;
+}
 .plot-frame { position: relative; width: 100%; aspect-ratio: 5 / 4; max-width: 100%; }
 .plot canvas { display: block; width: 100%; height: 100%; }
 .plot figcaption {
@@ -179,20 +251,37 @@ section {
   padding-block: 2.75rem;
   border-top: 1px solid var(--rule);
 }
-section > h2 { margin: 0.35rem 0 0; font-weight: 500; }
+section > h2 { margin: 0.35rem 0 0; font-weight: 500; align-self: start; position: sticky; top: 5rem; }
+section > h2::before { content: ""; display: block; width: 1.5rem; height: 2px; background: var(--accent); margin-bottom: 0.7rem; border-radius: 2px; }
 .content { min-width: 0; max-width: 44rem; }
 .content > p { margin: 0 0 1rem; }
 .content > p:last-child { margin-bottom: 0; }
+.bio {
+  margin-top: 1.75rem; padding: 1rem 1.2rem 1.15rem;
+  background: var(--card); border: 1px solid var(--rule); border-inline-start: 3px solid var(--accent); border-radius: var(--radius);
+}
+.bio-head { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
+.bio-head h3 { margin: 0; font-weight: 500; }
+.bio p { margin: 0; color: var(--muted); font-size: 0.98rem; }
 
-.themes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; max-width: none; }
+.themes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; max-width: none; }
+.theme {
+  background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: 1.35rem 1.35rem 1.5rem;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.theme:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--rule)); transform: translateY(-2px); box-shadow: var(--shadow); }
 .theme h3 { font: 500 1.25rem/1.3 var(--display); margin: 0 0 0.5rem; text-wrap: balance; }
 .theme p { margin: 0; color: var(--muted); font-size: 0.98rem; }
 .theme .sym { font: 400 0.875rem/1 var(--mono); color: var(--mark); display: block; margin-bottom: 0.75rem; }
 
-.pubs { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.6rem; }
-.pubs li { display: grid; grid-template-columns: 4rem minmax(0, 1fr); gap: 1rem; }
+.pubs { list-style: none; margin: 0 -0.85rem; padding: 0; display: grid; gap: 0.35rem; }
+.pubs li { display: grid; grid-template-columns: 4rem minmax(0, 1fr); gap: 1rem; padding: 0.75rem 0.85rem; border-radius: 8px; transition: background-color 0.15s; }
+.pubs li:hover { background: var(--surface); }
 .yr { font: 500 0.9rem/1.7 "JetBrains Mono", ui-monospace, monospace; color: var(--muted); font-variant-numeric: tabular-nums; }
-.pt { font: 500 1.15rem/1.35 "Spectral", Georgia, serif; display: block; margin-bottom: 0.2rem; }
+.pt { font: 500 1.15rem/1.35 "Spectral", "Spectral Fallback", Georgia, serif; display: block; margin-bottom: 0.2rem; }
+a.pt, a.bt { text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent); transition: text-decoration-color 0.15s; }
+a.pt:hover, a.bt:hover { text-decoration-color: currentColor; }
 .pa { color: var(--muted); font-size: 0.95rem; }
 .pa .me { color: var(--ink); font-weight: 600; }
 .cite-en { direction: ltr; text-align: left; unicode-bidi: isolate; }
@@ -201,12 +290,12 @@ html[lang="ar"] .pubs .pa.tr { direction: rtl; text-align: right; display: block
 .tag {
   display: inline-block; margin-inline-start: 0.4rem;
   font: 500 0.6875rem/1.6 var(--mono); letter-spacing: var(--label-track); text-transform: var(--label-case);
-  padding: 0 0.45rem; border: 1px solid var(--rule); border-radius: 3px; color: var(--muted);
+  padding: 0.05rem 0.5rem; border: 1px solid var(--rule); border-radius: 999px; color: var(--muted);
   vertical-align: 0.15em;
 }
 .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.4rem; }
 .tags .tag { margin-inline-start: 0; }
-.tag-free { color: var(--accent); border-color: var(--accent); }
+.tag-free { color: var(--accent); border-color: var(--accent); background: var(--wash); }
 .blogs { display: grid; gap: 2rem; }
 .by { display: grid; grid-template-columns: 4rem minmax(0, 1fr); gap: 1rem; }
 .by ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.1rem; }
@@ -214,7 +303,8 @@ html[lang="ar"] .pubs .pa.tr { direction: rtl; text-align: right; display: block
 html[lang="ar"] .bt { font-size: 1.15rem; line-height: 1.7; }
 .bm { display: block; color: var(--muted); font-size: 0.9rem; margin-top: 0.15rem; font-variant-numeric: tabular-nums; }
 .lang-note { color: var(--muted); font-size: 0.85rem; margin-inline-start: 0.35rem; }
-.sub { margin: 2.25rem 0 1rem; font-weight: 500; }
+.sub { margin: 2.5rem 0 0.75rem; font-weight: 500; display: flex; align-items: center; gap: 0.75rem; }
+.sub::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
 .sub:first-child { margin-top: 0; }
 .plain { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; gap: 0.9rem; }
 .plain li { padding-inline-start: 1rem; position: relative; }
@@ -229,45 +319,71 @@ html[dir="rtl"] .path .when { text-align: right; }
 .path li { position: relative; }
 .path li::before {
   content: ""; position: absolute; inset-inline-start: calc(-1.25rem - 4px); top: 0.6rem;
-  width: 7px; height: 7px; border-radius: 50%; background: var(--paper); border: 1px solid var(--accent);
+  width: 9px; height: 9px; border-radius: 50%; background: var(--paper); border: 2px solid var(--accent);
+  inset-inline-start: calc(-1.25rem - 5px);
 }
-.path li:last-child::before { background: var(--accent); }
+.path li:last-child::before { background: var(--accent); box-shadow: 0 0 0 4px var(--wash); }
 .path strong { font-weight: 600; display: block; }
 .path span { color: var(--muted); font-size: 0.95rem; }
 
-.talk { background: var(--surface); padding: 1.25rem 1.4rem; border-radius: 4px; }
+.talk { background: var(--card); border: 1px solid var(--rule); border-inline-start: 3px solid var(--mark); padding: 1.25rem 1.4rem; border-radius: var(--radius); box-shadow: var(--shadow); }
 .talk .when { font: 500 0.8125rem/1.5 var(--mono); color: var(--mark); margin: 0 0 0.4rem; }
 
-.contact { display: grid; gap: 0.75rem; }
+.contact { display: grid; gap: 0; background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
+.contact .row { padding: 0.85rem 1.1rem; }
+.contact .row + .row { border-top: 1px solid var(--rule); }
 .row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; }
 .row .label { width: 9rem; }
 .addr { font: 400 1rem/1.5 "JetBrains Mono", ui-monospace, monospace; user-select: all; overflow-wrap: anywhere; min-width: 0; direction: ltr; unicode-bidi: isolate; }
 .copy {
   font: 500 0.75rem/1 var(--mono);
   background: transparent; color: var(--accent);
-  border: 1px solid var(--rule); border-radius: 3px; padding: 0.45rem 0.65rem; cursor: pointer;
+  border: 1px solid var(--rule); border-radius: 6px; padding: 0.45rem 0.65rem; cursor: pointer;
+  margin-inline-start: auto; transition: border-color 0.15s, background-color 0.15s;
 }
-.copy:hover { border-color: var(--accent); }
+.copy:hover { border-color: var(--accent); background: var(--wash); }
 .spoken { margin-top: 1.5rem; color: var(--muted); font-size: 0.95rem; }
 
-footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.875rem; color: var(--muted); }
+footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.875rem; color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 2rem; }
+footer .foot-end { display: inline-flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
+footer .to-top { font: 500 0.8125rem/1.4 var(--mono); color: var(--muted); text-decoration: none; white-space: nowrap; }
+footer .to-top:hover { color: var(--accent); }
+
+/* scroll reveal, only when motion is welcome and JS is running */
+@media (prefers-reduced-motion: no-preference) {
+  .js .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .js .reveal.in { opacity: 1; transform: none; }
+}
 
 @media (max-width: 860px) {
   .hero { grid-template-columns: minmax(0, 1fr); gap: 2rem; padding-block: 2.25rem 2rem; }
+  figure.plot { margin-top: 0; }
   section { grid-template-columns: minmax(0, 1fr); padding-block: 2rem; gap: 1rem; }
+  section > h2 { position: static; }
+  .top { position: static; }
   .themes { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
 }
 @media (max-width: 480px) {
   .by { grid-template-columns: minmax(0, 1fr); gap: 0.4rem; }
   .pubs li { grid-template-columns: minmax(0, 1fr); gap: 0.15rem; }
   .row .label { width: 100%; }
+  .copy { margin-inline-start: 0; }
+}
+@media print {
+  .top nav, .tools, .actions, .copy, footer .to-top { display: none !important; }
+  body { background: #fff; color: #000; }
+  .top { position: static; backdrop-filter: none; background: none; }
+  .theme, figure.plot, .talk, .contact { box-shadow: none; }
+  .js .reveal { opacity: 1 !important; transform: none !important; }
+  section { break-inside: avoid-page; }
 }
 </style>
 </head>
 <body>
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
 <div class="wrap">
   <header class="top">
-    <span data-i18n="brand">M. Bekri</span>
+    <a class="brand" href="#main"><svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="var(--accent)"/><path d="M6 50 C20 50 24 12 32 12 S44 50 58 50" fill="none" stroke="var(--paper)" stroke-width="5" stroke-linecap="round"/></svg><span data-i18n="brand">M. Bekri</span></a>
     <div class="right">
       <nav aria-label="Sections">
         <a href="#research" data-i18n="navResearch">Research</a>
@@ -276,22 +392,33 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
         <a href="#path" data-i18n="navPath">Career</a>
         <a href="#contact" data-i18n="navContact">Contact</a>
       </nav>
+      <div class="tools">
+      <button type="button" class="theme-toggle" id="theme-toggle" data-i18n-aria="themeLbl" aria-label="Switch colour theme">
+        <svg class="sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
       <div class="langs-switch" role="group" aria-label="Language">
         <button type="button" id="lang-en" data-lang="en" lang="en" aria-pressed="true">EN</button>
         <button type="button" id="lang-ar" data-lang="ar" lang="ar" class="ar" aria-pressed="false">عربي</button>
         <button type="button" id="lang-fr" data-lang="fr" lang="fr" aria-pressed="false">FR</button>
         <button type="button" id="lang-de" data-lang="de" lang="de" aria-pressed="false">DE</button>
       </div>
+      </div>
     </div>
   </header>
 
-  <main id="main">
+  <main id="main" tabindex="-1">
   <div class="hero">
     <div>
-      <img class="portrait" src="photo.jpg" width="400" height="400" alt="Portrait of Mahmoud Bekri" data-i18n-alt="alt">
+      <picture><source srcset="photo-240.webp" type="image/webp"><img class="portrait" src="photo-240.jpg" width="240" height="240" fetchpriority="high" alt="Portrait of Mahmoud Bekri" data-i18n-alt="alt"></picture>
       <h1 data-i18n="name">Mahmoud Bekri</h1>
       <p class="role label" data-i18n="role">Research Economist · Islamic Development Bank Institute, Jeddah</p>
       <p class="lede" data-i18n="lede">I study what happens in the tails of financial returns, where the Gaussian model says large losses should almost never occur and markets say <em>otherwise</em>, and what that means for Islamic finance.</p>
+      <div class="actions">
+        <a class="btn primary" href="#publications"><span data-i18n="navPubs">Publications</span></a>
+        <a class="btn" href="mailto:Mahmoud.bekri@gmail.com"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span data-i18n="lEmail">Email</span></a>
+        <a class="btn" href="https://www.linkedin.com/in/mahmoud-bekri-21320652/"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.1c.5-1 1.8-2 3.8-2 4 0 4.8 2.6 4.8 6V21h-4v-5.2c0-1.3 0-2.9-1.8-2.9s-2.1 1.4-2.1 2.8V21h-4z"/></svg>LinkedIn</a>
+      </div>
     </div>
     <figure class="plot">
       <div class="plot-frame" dir="ltr"><canvas id="tails" role="img" data-i18n-aria="ariaChart" aria-label="Log-scale plot of two symmetric alpha-stable densities. The alpha equals 1.5 curve keeps substantial probability far from the centre, while the Gaussian alpha equals 2 curve falls below one in a million beyond about seven units."></canvas></div>
@@ -308,6 +435,13 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
     <div class="content">
       <p data-i18n="about1">I trained as a physicist at the Karlsruhe Institute of Technology (KIT) before moving into financial econometrics. My doctorate in Economics and Finance, supervised by Svetlozar Rachev, Wolf-Dieter Heller and Frank Fabozzi, applied stable and tempered stable distributions to portfolio risk. I then held a postdoctoral position at KIT's Institute of Economic Theory and Statistics.</p>
       <p data-i18n="about2">I joined the Islamic Development Bank Group through its Young Professionals Program and now work as a Research Economist at the IsDB Institute. My research brings heavy-tailed modelling and coherent risk measures to Islamic finance, from Sharia-screened equity portfolios to hedging and asset-liability management. With jurist co-authors I also write on the ethics of new commercial practices in Islamic law.</p>
+      <div class="bio">
+        <div class="bio-head">
+          <h3 class="label" data-i18n="bioH">Short bio</h3>
+          <button class="copy" type="button" data-target="bio-text" id="copy3">Copy</button>
+        </div>
+        <p id="bio-text" data-i18n="bio">Mahmoud Bekri is a Research Economist at the Islamic Development Bank Institute (IsDBI) in Jeddah. Trained as a physicist at the Karlsruhe Institute of Technology (KIT), Bekri completed a PhD in Economics and Finance there under Svetlozar Rachev, Wolf-Dieter Heller and Frank Fabozzi, followed by postdoctoral research. Bekri’s work applies heavy-tailed models and coherent risk measures to Islamic finance, from Sharia-screened portfolios to hedging, and is set out in the book <i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i> (IsDBI, 2021).</p>
+      </div>
     </div>
   </section>
 
@@ -530,7 +664,7 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
   </section>
   </main>
 
-  <footer data-i18n="footer">Views expressed in research are the author's own and do not necessarily reflect those of the IsDB Group.</footer>
+  <footer><span data-i18n="footer">Views expressed in research are the author's own and do not necessarily reflect those of the IsDB Group.</span><span class="foot-end"><span id="updated"></span><a class="to-top" href="#main" data-i18n="toTop">Back to top ↑</a></span></footer>
 </div>
 
 <script>
@@ -549,6 +683,8 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
       kCaption: "كثافات متماثلة، مقياس لوغاريتمي",
       ann: "أعلى بـ{n} مرة من الكثافة الغاوسية",
       hAbout: "نبذة",
+      bioH: "نبذة مختصرة",
+      bio: "محمود بكري باحث اقتصادي في معهد البنك الإسلامي للتنمية بجدة. درس الفيزياء في معهد كارلسروه للتكنولوجيا (KIT)، ونال منه الدكتوراه في الاقتصاد والمالية بإشراف سفيتلوزار راتشيف وفولف-ديتر هيلر وفرانك فابوزي، ثم عمل فيه باحثًا في مرحلة ما بعد الدكتوراه. تنقل أبحاثه نمذجة الأطراف الثقيلة ومقاييس المخاطر المتّسقة إلى التمويل الإسلامي، من محافظ الأسهم الخاضعة للفرز الشرعي إلى التحوّط، وقد جمعها في كتاب <bdi lang=\"en\"><i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i></bdi> (معهد البنك الإسلامي للتنمية، 2021).",
       about1: "درستُ الفيزياء في معهد كارلسروه للتكنولوجيا (KIT) قبل أن أتّجه إلى الاقتصاد القياسي المالي. وتناولت أطروحتي للدكتوراه في الاقتصاد والمالية، بإشراف سفيتلوزار راتشيف وفولف-ديتر هيلر وفرانك فابوزي، تطبيق التوزيعات المستقرة والمستقرة المُلطَّفة على مخاطر المحافظ الاستثمارية. ثم عملت باحثًا في مرحلة ما بعد الدكتوراه في معهد النظرية الاقتصادية والإحصاء التابع لمعهد كارلسروه للتكنولوجيا.",
       about2: "التحقت بمجموعة البنك الإسلامي للتنمية عبر برنامج المهنيين الشباب، وأعمل اليوم باحثًا اقتصاديًا في معهد البنك الإسلامي للتنمية. وتنقل أبحاثي نمذجة الأطراف الثقيلة ومقاييس المخاطر المتّسقة إلى ميدان التمويل الإسلامي، من محافظ الأسهم الخاضعة للفرز الشرعي إلى التحوّط وإدارة الأصول والخصوم. كما أكتب، مع زملاء من أهل الفقه والقانون، في أخلاقيات الممارسات التجارية المستحدثة من منظور الشريعة.",
       hResearch: "مجالات البحث",
@@ -605,7 +741,8 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
       c4s: "معهد كارلسروه للتكنولوجيا، معهد الاقتصاد (ECON)، بإشراف س. راتشيف وف.-د. هيلر وف. فابوزي",
       c6s: "مجموعة البنك الإسلامي للتنمية: تنقّل بين إدارة الخدمات المالية الإسلامية ومركز تطوير المنتجات المالية",
       c7y: "منذ 2018",
-      copy: "نسخ", copied: "تم النسخ", selected: "تم التحديد"
+      copy: "نسخ", copied: "تم النسخ", selected: "تم التحديد",
+      themeLbl: "تبديل المظهر", toTop: "العودة إلى الأعلى ↑", skip: "انتقل إلى المحتوى", updated: "آخر تحديث: {d}"
     },
     fr: {
       brand: "M. Bekri",
@@ -619,6 +756,8 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
       kCaption: "Densités symétriques, échelle logarithmique",
       ann: "{n} fois la densité gaussienne",
       hAbout: "À propos",
+      bioH: "Biographie courte",
+      bio: "Mahmoud Bekri est économiste-chercheur à l'Institut de la Banque islamique de développement (IsDBI), à Djeddah. Physicien de formation, diplômé de l'Institut de technologie de Karlsruhe (KIT), Mahmoud Bekri y a obtenu un doctorat en économie et finance sous la direction de Svetlozar Rachev, Wolf-Dieter Heller et Frank Fabozzi, puis y a mené des recherches postdoctorales. Ses travaux appliquent la modélisation des queues épaisses et les mesures de risque cohérentes à la finance islamique, des portefeuilles conformes à la charia à la couverture, et sont réunis dans l'ouvrage <i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i> (IsDBI, 2021).",
       about1: "J'ai suivi une formation de physicien à l'Institut de technologie de Karlsruhe (KIT) avant de me tourner vers l'économétrie financière. Ma thèse de doctorat en économie et finance, dirigée par Svetlozar Rachev, Wolf-Dieter Heller et Frank Fabozzi, appliquait les lois stables et stables tempérées au risque de portefeuille. J'ai ensuite occupé un poste postdoctoral à l'Institut de théorie économique et de statistique du KIT.",
       about2: "J'ai rejoint le Groupe de la Banque islamique de développement par son Programme des jeunes professionnels et je suis aujourd'hui économiste-chercheur à l'Institut de la BID (IsDBI). Mes travaux appliquent la modélisation des queues épaisses et les mesures de risque cohérentes à la finance islamique, des portefeuilles d'actions conformes à la charia à la couverture et à la gestion actif-passif. J'écris aussi, avec des coauteurs juristes, sur l'éthique des nouvelles pratiques commerciales en droit musulman.",
       hResearch: "Recherche",
@@ -675,7 +814,8 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
       c4s: "KIT, Institut d'économie (ECON), sous la direction de S. Rachev, W.-D. Heller et F. Fabozzi",
       c6s: "Groupe de la BID : rotations au Département des services financiers islamiques et au Centre de développement des produits financiers",
       c7y: "Depuis 2018",
-      copy: "Copier", copied: "Copié", selected: "Sélectionné"
+      copy: "Copier", copied: "Copié", selected: "Sélectionné",
+      themeLbl: "Changer de thème", toTop: "Haut de page ↑", skip: "Aller au contenu", updated: "Mis à jour en {d}"
     },
     de: {
       brand: "M. Bekri",
@@ -689,6 +829,8 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
       kCaption: "Symmetrische Dichten, logarithmische Skala",
       ann: "{n}-fach so hoch wie die Gauß-Dichte",
       hAbout: "Über mich",
+      bioH: "Kurzbiografie",
+      bio: "Mahmoud Bekri ist Research Economist am Institut der Islamischen Entwicklungsbank (IsDBI) in Dschidda. Auf das Physikstudium am Karlsruher Institut für Technologie (KIT) folgten dort die Promotion in Volkswirtschaftslehre und Finanzwirtschaft, betreut von Svetlozar Rachev, Wolf-Dieter Heller und Frank Fabozzi, und eine Postdoc-Phase. Bekris Forschung überträgt die Modellierung schwerer Ränder und kohärente Risikomaße auf die islamische Finanzwirtschaft, von schariakonformen Aktienportfolios bis zur Absicherung; zusammengefasst ist sie im Buch <i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i> (IsDBI, 2021).",
       about1: "Ich habe Physik am Karlsruher Institut für Technologie (KIT) studiert, bevor ich in die Finanzökonometrie wechselte. In meiner wirtschaftswissenschaftlichen Promotion, betreut von Svetlozar Rachev, Wolf-Dieter Heller und Frank Fabozzi, habe ich stabile und temperierte stabile Verteilungen auf Portfoliorisiken angewandt. Anschließend war ich Postdoc am Institut für Wirtschaftstheorie und Statistik (ETS) des KIT.",
       about2: "Über das Young Professionals Program kam ich zur Gruppe der Islamischen Entwicklungsbank und arbeite heute als Research Economist am IsDB-Institut. Meine Forschung überträgt die Modellierung schwerer Ränder und kohärente Risikomaße auf die islamische Finanzwirtschaft, von schariakonformen Aktienportfolios bis zu Absicherung und Aktiv-Passiv-Management. Gemeinsam mit Koautoren aus der islamischen Rechtswissenschaft schreibe ich außerdem über die Ethik neuer Handelspraktiken im islamischen Recht.",
       hResearch: "Forschung",
@@ -745,9 +887,10 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
       c4s: "KIT, Institut für Volkswirtschaftslehre (ECON), betreut von S. Rachev, W.-D. Heller und F. Fabozzi",
       c6s: "IsDB-Gruppe: Rotationen in der Abteilung für islamische Finanzdienstleistungen und im Zentrum für Finanzproduktentwicklung",
       c7y: "Seit 2018",
-      copy: "Kopieren", copied: "Kopiert", selected: "Markiert"
+      copy: "Kopieren", copied: "Kopiert", selected: "Markiert",
+      themeLbl: "Farbschema wechseln", toTop: "Nach oben ↑", skip: "Zum Inhalt springen", updated: "Aktualisiert im {d}"
     },
-    en: { ann: "{n}× the Gaussian density", copy: "Copy", copied: "Copied", selected: "Selected" }
+    en: { ann: "{n}× the Gaussian density", copy: "Copy", copied: "Copied", selected: "Selected", updated: "Updated {d}" }
   };
   // English strings are read from the page itself
   document.querySelectorAll('[data-i18n]').forEach(function (el) { T.en[el.dataset.i18n] = el.innerHTML; });
@@ -772,6 +915,7 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
     if (save) { try { localStorage.setItem('lang', l); } catch (e) {} }
     draw();
     renderBlogs();
+    renderUpdated();
   }
 
   /* ---------- tail plot ---------- */
@@ -909,6 +1053,15 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
     }).join('');
   }
 
+  /* ---------- last updated ---------- */
+  function renderUpdated() {
+    var el = document.getElementById('updated'), d = new Date(document.lastModified);
+    if (!el || isNaN(d)) return;
+    var L = BL[lang] || BL.en, txt;
+    try { txt = new Intl.DateTimeFormat(L.loc, { month: 'long', year: 'numeric' }).format(d); } catch (e) { txt = d.toISOString().slice(0, 7); }
+    el.textContent = t('updated').replace('{d}', txt);
+  }
+
   /* ---------- wiring ---------- */
   document.querySelectorAll('.langs-switch button').forEach(function (b) {
     b.addEventListener('click', function () { setLang(b.dataset.lang, true); });
@@ -941,6 +1094,44 @@ footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.87
   }
   new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+
+  /* ---------- theme toggle ---------- */
+  var root = document.documentElement;
+  document.getElementById('theme-toggle').addEventListener('click', function () {
+    var dark = root.dataset.theme ? root.dataset.theme === 'dark'
+      : !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    root.dataset.theme = dark ? 'light' : 'dark';
+    try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
+  });
+
+  /* ---------- header shadow, active nav, reveal ---------- */
+  var top = document.querySelector('.top');
+  var onScroll = function () { top.classList.toggle('scrolled', window.scrollY > 8); };
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  if ('IntersectionObserver' in window) {
+    var links = {};
+    document.querySelectorAll('.top nav a').forEach(function (a) { links[a.getAttribute('href').slice(1)] = a; });
+    var mark = function (id) {
+      Object.keys(links).forEach(function (k) {
+        var on = k === id;
+        links[k].classList.toggle('active', on);
+        if (on) links[k].setAttribute('aria-current', 'location'); else links[k].removeAttribute('aria-current');
+      });
+    };
+    var atBottom = function () { return window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2; };
+    var navObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting && links[en.target.id] && !atBottom()) mark(en.target.id); });
+    }, { rootMargin: '-35% 0px -60% 0px' });
+    document.querySelectorAll('main section[id]').forEach(function (s) { navObs.observe(s); });
+    // the last section is too short to reach the band above, so claim it once the page bottoms out
+    window.addEventListener('scroll', function () { if (atBottom()) mark('contact'); }, { passive: true });
+
+    root.classList.add('js');
+    var revObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); revObs.unobserve(en.target); } });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('main section, .hero > *').forEach(function (el) { el.classList.add('reveal'); revObs.observe(el); });
+  }
 })();
 </script>
 </body>
