@@ -1,0 +1,896 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Book Exercises Live · Mahmoud Bekri</title>
+<meta name="description" content="The twelve MATLAB exercises of Heavy Tails and Coherent Risk Measures in Islamic Finance (IsDBI, 2021), translated to Python and run in the browser on real market data.">
+<meta name="author" content="Mahmoud Bekri">
+<link rel="canonical" href="https://mahbekri.github.io/book/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The book’s exercises, run live · Mahmoud Bekri">
+<meta property="og:description" content="Stable laws, GARCH, copulas, VaR, AVaR and CVaR optimisation: the exercises of Heavy Tails and Coherent Risk Measures in Islamic Finance, runnable in the browser.">
+<meta property="og:url" content="https://mahbekri.github.io/book/">
+<meta property="og:image" content="https://mahbekri.github.io/photo.jpg">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#1f3a6e">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231f3a6e'/%3E%3Cpath d='M6 50 C20 50 24 12 32 12 S44 50 58 50' fill='none' stroke='%23ffffff' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap"></noscript>
+<style>
+/* Companion page to the home page: same tokens, top bar and label rail; one section per book chapter, one card per exercise. */
+@font-face { font-family: "Spectral Fallback"; src: local("Times New Roman"), local("Liberation Serif"), local("Times"); size-adjust: 110%; ascent-override: 96%; descent-override: 42%; line-gap-override: 0%; }
+@font-face { font-family: "Source Sans Fallback"; src: local("Arial"), local("Liberation Sans"), local("Helvetica"); size-adjust: 93.4%; ascent-override: 109%; descent-override: 43%; line-gap-override: 0%; }
+:root {
+  --paper: #f6f8fb;
+  --surface: #eaeef4;
+  --ink: #16233b;
+  --muted: #586378;
+  --rule: #d9dfe8;
+  --accent: #1f3a6e;
+  --mark: #2f63a8;
+  --card: #ffffff;
+  --wash: rgba(31, 58, 110, 0.08);
+  --codebg: #f3f5f9;
+  --ok: #2f7d5b;
+  --err: #a8322a;
+  --shadow: 0 1px 2px rgba(22, 35, 59, 0.05), 0 8px 24px -12px rgba(22, 35, 59, 0.2);
+  color-scheme: light;
+  --radius: 10px;
+  --display: "Spectral", "Spectral Fallback", Georgia, "Times New Roman", serif;
+  --body: "Source Sans 3", "Source Sans Fallback", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --code: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --label-case: uppercase;
+  --label-track: 0.07em;
+}
+html[lang="ar"] {
+  --display: "Noto Naskh Arabic", "Amiri", "Times New Roman", serif;
+  --body: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --mono: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --label-case: none;
+  --label-track: 0;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+::selection { background: var(--accent); color: var(--paper); }
+[hidden] { display: none !important; }
+body {
+  margin: 0;
+  background: var(--paper);
+  background-image: radial-gradient(60rem 32rem at 85% -6rem, var(--wash), transparent 70%);
+  background-repeat: no-repeat;
+  color: var(--ink);
+  font: 400 1.0625rem/1.65 var(--body);
+  -webkit-font-smoothing: antialiased;
+}
+html[lang="ar"] body { line-height: 1.85; }
+.wrap {
+  max-width: 68rem; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: env(safe-area-inset-top, 0px) calc(4rem + env(safe-area-inset-bottom, 0px));
+}
+a { color: var(--accent); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+.label { font: 500 0.8125rem/1.5 var(--mono); letter-spacing: var(--label-track); text-transform: var(--label-case); color: var(--muted); }
+.skip { position: absolute; inset-inline-start: 1rem; top: -3rem; z-index: 20; background: var(--accent); color: var(--paper); padding: 0.6rem 1rem; border-radius: 6px; text-decoration: none; font: 500 0.875rem/1 var(--body); }
+.skip:focus { top: 1rem; }
+main:focus { outline: none; }
+
+.top {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; justify-content: space-between; align-items: center;
+  padding-block: 0.9rem; border-bottom: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  -webkit-backdrop-filter: saturate(1.4) blur(12px); backdrop-filter: saturate(1.4) blur(12px);
+  font: 500 0.8125rem/1.4 var(--mono);
+}
+.brand { display: inline-flex; align-items: center; gap: 0.55rem; color: var(--ink); text-decoration: none; font-weight: 600; }
+.top nav { display: flex; flex-wrap: wrap; gap: 0.25rem 0.35rem; }
+.top nav a { color: var(--muted); text-decoration: none; padding: 0.3rem 0.55rem; border-radius: 6px; transition: color 0.15s, background-color 0.15s; }
+.top nav a:hover { color: var(--ink); background: var(--surface); }
+.langs-switch { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+.langs-switch button { font: 500 0.8125rem/1 var(--mono); color: var(--muted); background: transparent; border: 0; padding: 0.45rem 0.7rem; cursor: pointer; }
+.langs-switch button:hover { color: var(--ink); background: var(--surface); }
+.langs-switch button + button { border-inline-start: 1px solid var(--rule); }
+.langs-switch button[aria-pressed="true"] { background: var(--accent); color: var(--paper); }
+.langs-switch .ar { font-family: "IBM Plex Sans Arabic", Tahoma, sans-serif; }
+.right { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; }
+
+.hero { padding-block: 3.5rem 3rem; max-width: 46rem; }
+.hero h1 { font: 500 clamp(2.2rem, 5.2vw, 3.6rem)/1.1 var(--display); letter-spacing: -0.015em; margin: 0.6rem 0 1.1rem; text-wrap: balance; }
+html[lang="ar"] .hero h1 { letter-spacing: 0; line-height: 1.35; }
+.lede { font: 400 1.25rem/1.55 var(--display); margin: 0 0 1rem; text-wrap: pretty; }
+html[lang="ar"] .lede { font-size: 1.2rem; line-height: 1.9; }
+.how { color: var(--muted); margin: 0; max-width: 40rem; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-top: 1.75rem; }
+.btn {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  font: 500 0.875rem/1 var(--body); text-decoration: none; cursor: pointer;
+  padding: 0.65rem 1rem; border-radius: 999px;
+  border: 1px solid var(--rule); color: var(--ink); background: var(--card);
+  transition: border-color 0.15s, color 0.15s, transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); box-shadow: var(--shadow); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+.btn.primary:hover { color: var(--paper); filter: brightness(1.08); }
+.btn.ghost { background: transparent; }
+.btn[disabled] { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn.stop { background: var(--err); border-color: var(--err); color: #fff; }
+.pystatus { display: inline-flex; align-items: center; gap: 0.5rem; font: 500 0.8125rem/1.4 var(--mono); color: var(--muted); margin-inline-start: 0.4rem; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rule); flex: none; }
+.pystatus[data-state="loading"] .dot { background: var(--mark); animation: pulse 1s ease-in-out infinite; }
+.pystatus[data-state="ready"] .dot { background: var(--ok); }
+.pystatus[data-state="fail"] .dot { background: var(--err); }
+@keyframes pulse { 50% { opacity: 0.3; } }
+@media (prefers-reduced-motion: reduce) { .pystatus .dot { animation: none !important; } }
+
+section { display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: 1rem 3rem; padding-block: 2.5rem; border-top: 1px solid var(--rule); }
+section > h2 { margin: 0.35rem 0 0; font-weight: 500; align-self: start; position: sticky; top: 5rem; }
+section > h2::before { content: ""; display: block; width: 1.5rem; height: 2px; background: var(--accent); margin-bottom: 0.7rem; border-radius: 2px; }
+.chn { display: block; color: var(--mark); }
+.cht { display: block; color: var(--ink); text-transform: none; letter-spacing: 0; font: 500 1.05rem/1.35 var(--display); margin-top: 0.2rem; }
+.content { min-width: 0; max-width: 48rem; display: grid; gap: 1.25rem; }
+.content > p { margin: 0; }
+
+.ex { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 1.2rem 1.3rem; box-shadow: var(--shadow); min-width: 0; }
+.ex-head { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); gap: 0.6rem; }
+.ex-n { font: 500 0.875rem/1.9 "JetBrains Mono", ui-monospace, monospace; color: var(--mark); font-variant-numeric: tabular-nums; }
+.ex h3 { font: 500 1.3rem/1.3 var(--display); margin: 0 0 0.3rem; text-wrap: balance; }
+.ex-txt p { margin: 0; color: var(--muted); font-size: 0.98rem; }
+.ex-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.6rem; margin-top: 1rem; padding-inline-start: 3rem; }
+.ex-status { font: 400 0.8125rem/1.4 var(--mono); color: var(--muted); }
+.ex-status.ok { color: var(--ok); }
+.ex-status.err { color: var(--err); }
+.ex-code { margin-top: 1rem; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; background: var(--codebg); }
+.tabs { display: flex; flex-wrap: wrap; align-items: stretch; border-bottom: 1px solid var(--rule); background: var(--card); }
+.tab { font: 500 0.8125rem/1 var(--mono); color: var(--muted); background: transparent; border: 0; border-bottom: 2px solid transparent; padding: 0.75rem 0.9rem 0.65rem; cursor: pointer; }
+.tab[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+.tab .edited { color: var(--mark); }
+.tab-tools { margin-inline-start: auto; display: inline-flex; align-items: center; gap: 0.9rem; padding-inline: 0.9rem; }
+.link { font: 500 0.8125rem/1 var(--mono); color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 0.2em; text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent); }
+.code-py, .code-m {
+  display: block; width: 100%; margin: 0; border: 0; resize: vertical;
+  background: var(--codebg); color: var(--ink);
+  font: 400 0.8125rem/1.6 var(--code); tab-size: 4;
+  padding: 0.9rem 1rem; min-height: 12rem; max-height: 34rem; overflow: auto; white-space: pre;
+  text-align: left; direction: ltr;
+}
+.code-py:focus { outline: none; box-shadow: inset 0 0 0 2px var(--wash); }
+.code-m { color: #2d3a52; }
+.ex-out { margin-top: 1rem; display: grid; gap: 0.9rem; }
+.stdout {
+  margin: 0; padding: 0.85rem 1rem; border-radius: 8px; background: #101a2e; color: #dfe6f1;
+  font: 400 0.78rem/1.55 var(--code); white-space: pre; overflow: auto; max-height: 30rem; text-align: left; direction: ltr;
+}
+.stdout:empty { display: none; }
+.stdout .e { color: #ffb4ab; }
+.figs { display: grid; gap: 0.9rem; }
+.figs img { display: block; width: 100%; height: auto; max-width: 100%; border: 1px solid var(--rule); border-radius: 8px; background: #fff; }
+.notes { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.8rem; }
+.notes li { padding-inline-start: 1rem; position: relative; color: var(--ink); }
+.notes li::before { content: ""; position: absolute; inset-inline-start: 0; top: 0.75em; width: 5px; height: 1px; background: var(--accent); }
+footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.875rem; color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 2rem; }
+footer .to-top { font: 500 0.8125rem/1.4 var(--mono); color: var(--muted); text-decoration: none; white-space: nowrap; }
+footer .to-top:hover { color: var(--accent); }
+
+@media (max-width: 860px) {
+  .hero { padding-block: 2.25rem 2rem; }
+  section { grid-template-columns: minmax(0, 1fr); padding-block: 2rem; gap: 1rem; }
+  section > h2 { position: static; }
+  .top { position: static; }
+}
+@media (max-width: 520px) {
+  .ex { padding: 1rem; }
+  .ex-head { grid-template-columns: minmax(0, 1fr); gap: 0.2rem; }
+  .ex-bar { padding-inline-start: 0; }
+  .tab-tools { margin-inline-start: 0; padding: 0.4rem 0.9rem 0.6rem; width: 100%; }
+}
+@media print {
+  .top nav, .langs-switch, .actions, .ex-bar, footer .to-top { display: none !important; }
+  body { background: #fff; }
+  .ex { box-shadow: none; break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="../"><svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="var(--accent)"/><path d="M6 50 C20 50 24 12 32 12 S44 50 58 50" fill="none" stroke="var(--paper)" stroke-width="5" stroke-linecap="round"/></svg><span data-i18n="brand">M. Bekri</span></a>
+    <div class="right">
+      <nav aria-label="Sections">
+        <a href="../" data-i18n="navHome">Home</a>
+        <a href="#ch3" data-i18n="navEx">Exercises</a>
+        <a href="#data" data-i18n="navData">Data</a>
+        <a href="#notes" data-i18n="navNotes">Notes</a>
+      </nav>
+      <div class="langs-switch" role="group" aria-label="Language">
+        <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="ar" lang="ar" class="ar" aria-pressed="false">عربي</button>
+        <button type="button" data-lang="fr" lang="fr" aria-pressed="false">FR</button>
+        <button type="button" data-lang="de" lang="de" aria-pressed="false">DE</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+  <div class="hero">
+    <p class="label" data-i18n="kicker">Book companion</p>
+    <h1 data-i18n="h1">The book’s exercises, run live</h1>
+    <p class="lede" data-i18n="lede">The twelve MATLAB exercises of <i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i> (IsDBI, 2021), translated to Python and run in your browser on real market data. Edit any example and run it again.</p>
+    <p class="how" data-i18n="how">Python runs inside the page (Pyodide, with numpy, scipy and matplotlib). The first run downloads about 30 MB, which your browser then keeps; nothing is installed and your edits stay on your device.</p>
+    <div class="actions">
+      <button type="button" class="btn primary" id="start"><span data-i18n="btnLoad">Start Python</span></button>
+      <a class="btn" href="https://isdbinstitute.org/product/heavy-tails-and-coherent-risk-measures-in-islamic-finance/"><span data-i18n="btnBook">Free eBook</span></a>
+      <a class="btn" href="data/prices.csv" download><span data-i18n="btnData">Data (CSV)</span></a>
+      <span class="pystatus" id="pystatus" data-state="idle" role="status" aria-live="polite"><span class="dot" aria-hidden="true"></span><span class="txt" data-i18n="stIdle">Python not started</span></span>
+    </div>
+  </div>
+
+  <section class="chap" id="ch3">
+    <h2 class="label"><span class="chn"><span data-i18n="chapter">Chapter</span> <span dir="ltr">3</span></span><span class="cht" data-i18n="ch3">Probability theory</span></h2>
+    <div class="content">
+      <article class="ex" id="ex01" data-file="ex01_lognormal_normal.py">
+        <div class="ex-head">
+          <span class="ex-n" dir="ltr">01</span>
+          <div class="ex-txt">
+            <h3 data-i18n="ex01t">Price and log-return distributions</h3>
+            <p data-i18n="ex01b">Fit a lognormal law to Intel’s daily prices and a normal law to its daily log returns, 2010–2018.</p>
+          </div>
+        </div>
+        <div class="ex-bar">
+          <button type="button" class="btn primary run" data-act="run"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg><span data-i18n="run">Run</span></button>
+          <button type="button" class="btn ghost" data-act="code" aria-expanded="false" aria-controls="ex01-code"><span data-i18n="showCode">Show code</span></button>
+          <span class="ex-status" role="status" aria-live="polite"></span>
+        </div>
+        <div class="ex-code" id="ex01-code" hidden>
+          <div class="tabs" role="tablist">
+            <button type="button" role="tab" class="tab" aria-selected="true" data-tab="py"><span data-i18n="tabPy">Python (editable)</span><span class="edited" hidden> · <span data-i18n="edited">edited</span></span></button>
+            <button type="button" role="tab" class="tab" aria-selected="false" data-tab="m"><span data-i18n="tabM">MATLAB (book)</span></button>
+            <span class="tab-tools">
+              <button type="button" class="link" data-act="reset" data-i18n="reset">Reset</button>
+              <a class="link" href="py/ex01_lognormal_normal.py" download data-i18n="download">Download .py</a>
+            </span>
+          </div>
+          <textarea class="code-py" dir="ltr" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code, Price and log-return distributions"></textarea>
+          <pre class="code-m" dir="ltr" hidden></pre>
+        </div>
+        <div class="ex-out" hidden>
+          <pre class="stdout" dir="ltr"></pre>
+          <div class="figs"></div>
+        </div>
+      </article>
+      <article class="ex" id="ex02" data-file="ex02_joint.py">
+        <div class="ex-head">
+          <span class="ex-n" dir="ltr">02</span>
+          <div class="ex-txt">
+            <h3 data-i18n="ex02t">Joint distribution</h3>
+            <p data-i18n="ex02b">Means, covariance and correlation of IBM and Intel log returns, their bivariate normal density, and the risk of a portfolio weighted 1/3 and 2/3.</p>
+          </div>
+        </div>
+        <div class="ex-bar">
+          <button type="button" class="btn primary run" data-act="run"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg><span data-i18n="run">Run</span></button>
+          <button type="button" class="btn ghost" data-act="code" aria-expanded="false" aria-controls="ex02-code"><span data-i18n="showCode">Show code</span></button>
+          <span class="ex-status" role="status" aria-live="polite"></span>
+        </div>
+        <div class="ex-code" id="ex02-code" hidden>
+          <div class="tabs" role="tablist">
+            <button type="button" role="tab" class="tab" aria-selected="true" data-tab="py"><span data-i18n="tabPy">Python (editable)</span><span class="edited" hidden> · <span data-i18n="edited">edited</span></span></button>
+            <button type="button" role="tab" class="tab" aria-selected="false" data-tab="m"><span data-i18n="tabM">MATLAB (book)</span></button>
+            <span class="tab-tools">
+              <button type="button" class="link" data-act="reset" data-i18n="reset">Reset</button>
+              <a class="link" href="py/ex02_joint.py" download data-i18n="download">Download .py</a>
+            </span>
+          </div>
+          <textarea class="code-py" dir="ltr" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code, Joint distribution"></textarea>
+          <pre class="code-m" dir="ltr" hidden></pre>
+        </div>
+        <div class="ex-out" hidden>
+          <pre class="stdout" dir="ltr"></pre>
+          <div class="figs"></div>
+        </div>
+      </article>
+    </div>
+  </section>
+  <section class="chap" id="ch4">
+    <h2 class="label"><span class="chn"><span data-i18n="chapter">Chapter</span> <span dir="ltr">4</span></span><span class="cht" data-i18n="ch4">Time series modelling</span></h2>
+    <div class="content">
+      <article class="ex" id="ex03" data-file="ex03_timeseries.py">
+        <div class="ex-head">
+          <span class="ex-n" dir="ltr">03</span>
+          <div class="ex-txt">
+            <h3 data-i18n="ex03t">Time series models</h3>
+            <p data-i18n="ex03b">AR(1), MA(1), ARMA(1,1) and GARCH(1,1) fitted by maximum likelihood to DJIA log returns, October 2008 to September 2018.</p>
+          </div>
+        </div>
+        <div class="ex-bar">
+          <button type="button" class="btn primary run" data-act="run"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg><span data-i18n="run">Run</span></button>
+          <button type="button" class="btn ghost" data-act="code" aria-expanded="false" aria-controls="ex03-code"><span data-i18n="showCode">Show code</span></button>
+          <span class="ex-status" role="status" aria-live="polite"></span>
+        </div>
+        <div class="ex-code" id="ex03-code" hidden>
+          <div class="tabs" role="tablist">
+            <button type="button" role="tab" class="tab" aria-selected="true" data-tab="py"><span data-i18n="tabPy">Python (editable)</span><span class="edited" hidden> · <span data-i18n="edited">edited</span></span></button>
+            <button type="button" role="tab" class="tab" aria-selected="false" data-tab="m"><span data-i18n="tabM">MATLAB (book)</span></button>
+            <span class="tab-tools">
+              <button type="button" class="link" data-act="reset" data-i18n="reset">Reset</button>
+              <a class="link" href="py/ex03_timeseries.py" download data-i18n="download">Download .py</a>
+            </span>
+          </div>
+          <textarea class="code-py" dir="ltr" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code, Time series models"></textarea>
+          <pre class="code-m" dir="ltr" hidden></pre>
+        </div>
+        <div class="ex-out" hidden>
+          <pre class="stdout" dir="ltr"></pre>
+          <div class="figs"></div>
+        </div>
+      </article>
+    </div>
+  </section>
+  <section class="chap" id="ch5">
+    <h2 class="label"><span class="chn"><span data-i18n="chapter">Chapter</span> <span dir="ltr">5</span></span><span class="cht" data-i18n="ch5">Heavy tails and stable laws</span></h2>
+    <div class="content">
+      <article class="ex" id="ex04" data-file="ex04_goodness_of_fit.py">
+        <div class="ex-head">
+          <span class="ex-n" dir="ltr">04</span>
+          <div class="ex-txt">
+            <h3 data-i18n="ex04t">Goodness of fit</h3>
+            <p data-i18n="ex04b">Moments, a QQ plot and the Kolmogorov–Smirnov, Anderson–Darling and Jarque–Bera tests: are DJIA log returns normal?</p>
+          </div>
+        </div>
+        <div class="ex-bar">
+          <button type="button" class="btn primary run" data-act="run"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg><span data-i18n="run">Run</span></button>
+          <button type="button" class="btn ghost" data-act="code" aria-expanded="false" aria-controls="ex04-code"><span data-i18n="showCode">Show code</span></button>
+          <span class="ex-status" role="status" aria-live="polite"></span>
+        </div>
+        <div class="ex-code" id="ex04-code" hidden>
+          <div class="tabs" role="tablist">
+            <button type="button" role="tab" class="tab" aria-selected="true" data-tab="py"><span data-i18n="tabPy">Python (editable)</span><span class="edited" hidden> · <span data-i18n="edited">edited</span></span></button>
+            <button type="button" role="tab" class="tab" aria-selected="false" data-tab="m"><span data-i18n="tabM">MATLAB (book)</span></button>
+            <span class="tab-tools">
+              <button type="button" class="link" data-act="reset" data-i18n="reset">Reset</button>
+              <a class="link" href="py/ex04_goodness_of_fit.py" download data-i18n="download">Download .py</a>
+            </span>
+          </div>
+          <textarea class="code-py" dir="ltr" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code, Goodness of fit"></textarea>
+          <pre class="code-m" dir="ltr" hidden></pre>
+        </div>
+        <div class="ex-out" hidden>
+          <pre class="stdout" dir="ltr"></pre>
+          <div class="figs"></div>
+        </div>
+      </article>
+      <article class="ex" id="ex05" data-file="ex05_stable_pdf.py">
+        <div class="ex-head">
+          <span class="ex-n" dir="ltr">05</span>
+          <div class="ex-txt">
+            <h3 data-i18n="ex05t">Stable densities</h3>
+            <p data-i18n="ex05b">How α and β shape the density and distribution function of a stable law, with the normal, Cauchy and Lévy laws as special cases.</p>
+          </div>
+        </div>
+        <div class="ex-bar">
+          <button type="button" class="btn primary run" data-act="run"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg><span data-i18n="run">Run</span></button>
+          <button type="button" class="btn ghost" data-act="code" aria-expanded="false" aria-controls="ex05-code"><span data-i18n="showCode">Show code</span></button>
+          <span class="ex-status" role="status" aria-live="polite"></span>
+        </div>
+        <div class="ex-code" id="ex05-code" hidden>
+          <div class="tabs" role="tablist">
+            <button type="button" role="tab" class="tab" aria-selected="true" data-tab="py"><span data-i18n="tabPy">Python (editable)</span><span class="edited" hidden> · <span data-i18n="edited">edited</span></span></button>
+            <button type="button" role="tab" class="tab" aria-selected="false" data-tab="m"><span data-i18n="tabM">MATLAB (book)</span></button>
+            <span class="tab-tools">
+              <button type="button" class="link" data-act="reset" data-i18n="reset">Reset</button>
+              <a class="link" href="py/ex05_stable_pdf.py" download data-i18n="download">Download .py</a>
+            </span>
+          </div>
+          <textarea class="code-py" dir="ltr" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code, Stable densities"></textarea>
+          <pre class="code-m" dir="ltr" hidden></pre>
+        </div>
+        <div class="ex-out" hidden>
+          <pre class="stdout" dir="ltr"></pre>
+          <div class="figs"></div>
+        </div>
+      </article>
+    </div>
+  </section>
+  <section class="chap" id="ch6">
+    <h2 class="label"><span class="chn"><span data-i18n="chapter">Chapter</span> <span dir="ltr">6</span></span><span class="cht" data-i18n="ch6">Dependence structures</span></h2>
+    <div class="content">
+      <article class="ex" id="ex06" data-file="ex06_copula.py">
+        <div class="ex-head">
+          <span class="ex-n" dir="ltr">06</span>
+          <div class="ex-txt">
+            <h3 data-i18n="ex06t">Copulas</h3>
+            <p data-i18n="ex06b">Gaussian, Clayton, Gumbel and Frank copulas: distribution functions, densities and simulated samples, including Gamma margins.</p>
+          </div>
+        </div>
+        <div class="ex-bar">
+          <button type="button" class="btn primary run" data-act="run"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg><span data-i18n="run">Run</span></button>
+          <button type="button" class="btn ghost" data-act="code" aria-expanded="false" aria-controls="ex06-code"><span data-i18n="showCode">Show code</span></button>
+          <span class="ex-status" role="status" aria-live="polite"></span>
+        </div>
+        <div class="ex-code" id="ex06-code" hidden>
+          <div class="tabs" role="tablist">
+            <button type="button" role="tab" class="tab" aria-selected="true" data-tab="py"><span data-i18n="tabPy">Python (editable)</span><span class="edited" hidden> · <span data-i18n="edited">edited</span></span></button>
+            <button type="button" role="tab" class="tab" aria-selected="false" data-tab="m"><span data-i18n="tabM">MATLAB (book)</span></button>
+            <span class="tab-tools">
+              <button type="button" class="link" data-act="reset" data-i18n="reset">Reset</button>
+              <a class="link" href="py/ex06_copula.py" download data-i18n="download">Download .py</a>
+            </span>
+          </div>
+          <textarea class="code-py" dir="ltr" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code, Copulas"></textarea>
+          <pre class="code-m" dir="ltr" hidden></pre>
+        </div>
+        <div class="ex-out" hidden>
+          <pre class="stdout" dir="ltr"></pre>
+          <div class="figs"></div>
+        </div>
+      </article>
+    </div>
+  </section>
+  <section class="chap" id="ch7">
+    <h2 class="label"><span class="chn"><span data-i18n="chapter">Chapter</span> <span dir="ltr">7</span></span><span class="cht" data-i18n="ch7">VaR and AVaR</span></h2>
+    <div class="content">
+      <article class="ex" id="ex07" data-file="ex07_stable_var.py">
+        <div class="ex-head">
+          <span class="ex-n" dir="ltr">07</span>
+          <div class="ex-txt">
+            <h3 data-i18n="ex07t">α-stable Value at Risk</h3>
+            <p data-i18n="ex07b">Fit a stable law to DJIA returns, 2008–2018, and compare its 95% and 99% VaR with the normal and empirical VaR.</p>
+          </div>
+        </div>
+        <div class="ex-bar">
+          <button type="button" class="btn primary run" data-act="run"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg><span data-i18n="run">Run</span></button>
+          <button type="button" class="btn ghost" data-act="code" aria-expanded="false" aria-controls="ex07-code"><span data-i18n="showCode">Show code</span></button>
+          <span class="ex-status" role="status" aria-live="polite"></span>
+        </div>
+        <div class="ex-code" id="ex07-code" hidden>
+          <div class="tabs" role="tablist">
+            <button type="button" role="tab" class="tab" aria-selected="true" data-tab="py"><span data-i18n="tabPy">Python (editable)</span><span class="edited" hidden> · <span data-i18n="edited">edited</span></span></button>
+            <button type="button" role="tab" class="tab" aria-selected="false" data-tab="m"><span data-i18n="tabM">MATLAB (book)</span></button>
+            <span class="tab-tools">
+              <button type="button" class="link" data-act="reset" data-i18n="reset">Reset</button>
+              <a class="link" href="py/ex07_stable_var.py" download data-i18n="download">Download .py</a>
+            </span>
+          </div>
+          <textarea class="code-py" dir="ltr" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code, α-stable Value at Risk"></textarea>
+          <pre class="code-m" dir="ltr" hidden></pre>
+        </div>
+        <div class="ex-out" hidden>
+          <pre class="stdout" dir="ltr"></pre>
+          <div class="figs"></div>
+        </div>
+      </article>
+      <article class="ex" id="ex08" data-file="ex08_armagarch_var.py">
+        <div class="ex-head">
+          <span class="ex-n" dir="ltr">08</span>
+          <div class="ex-txt">
+            <h3 data-i18n="ex08t">ARMA-GARCH Value at Risk</h3>
+            <p data-i18n="ex08b">ARMA(1,1)-GARCH(1,1) with normal and Student t innovations, then 10,000 Monte Carlo paths for the 10-day VaR.</p>
+          </div>
+        </div>
+        <div class="ex-bar">
+          <button type="button" class="btn primary run" data-act="run"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg><span data-i18n="run">Run</span></button>
+          <button type="button" class="btn ghost" data-act="code" aria-expanded="false" aria-controls="ex08-code"><span data-i18n="showCode">Show code</span></button>
+          <span class="ex-status" role="status" aria-live="polite"></span>
+        </div>
+        <div class="ex-code" id="ex08-code" hidden>
+          <div class="tabs" role="tablist">
+            <button type="button" role="tab" class="tab" aria-selected="true" data-tab="py"><span data-i18n="tabPy">Python (editable)</span><span class="edited" hidden> · <span data-i18n="edited">edited</span></span></button>
+            <button type="button" role="tab" class="tab" aria-selected="false" data-tab="m"><span data-i18n="tabM">MATLAB (book)</span></button>
+            <span class="tab-tools">
+              <button type="button" class="link" data-act="reset" data-i18n="reset">Reset</button>
+              <a class="link" href="py/ex08_armagarch_var.py" download data-i18n="download">Download .py</a>
+            </span>
+          </div>
+          <textarea class="code-py" dir="ltr" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code, ARMA-GARCH Value at Risk"></textarea>
+          <pre class="code-m" dir="ltr" hidden></pre>
+        </div>
+        <div class="ex-out" hidden>
+          <pre class="stdout" dir="ltr"></pre>
+          <div class="figs"></div>
+        </div>
+      </article>
+      <article class="ex" id="ex09" data-file="ex09_avar.py">
+        <div class="ex-head">
+          <span class="ex-n" dir="ltr">09</span>
+          <div class="ex-txt">
+            <h3 data-i18n="ex09t">VaR and AVaR</h3>
+            <p data-i18n="ex09b">Empirical and normal VaR and AVaR from 90% to 99% for five US stocks and their equally weighted portfolio.</p>
+          </div>
+        </div>
+        <div class="ex-bar">
+          <button type="button" class="btn primary run" data-act="run"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg><span data-i18n="run">Run</span></button>
+          <button type="button" class="btn ghost" data-act="code" aria-expanded="false" aria-controls="ex09-code"><span data-i18n="showCode">Show code</span></button>
+          <span class="ex-status" role="status" aria-live="polite"></span>
+        </div>
+        <div class="ex-code" id="ex09-code" hidden>
+          <div class="tabs" role="tablist">
+            <button type="button" role="tab" class="tab" aria-selected="true" data-tab="py"><span data-i18n="tabPy">Python (editable)</span><span class="edited" hidden> · <span data-i18n="edited">edited</span></span></button>
+            <button type="button" role="tab" class="tab" aria-selected="false" data-tab="m"><span data-i18n="tabM">MATLAB (book)</span></button>
+            <span class="tab-tools">
+              <button type="button" class="link" data-act="reset" data-i18n="reset">Reset</button>
+              <a class="link" href="py/ex09_avar.py" download data-i18n="download">Download .py</a>
+            </span>
+          </div>
+          <textarea class="code-py" dir="ltr" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code, VaR and AVaR"></textarea>
+          <pre class="code-m" dir="ltr" hidden></pre>
+        </div>
+        <div class="ex-out" hidden>
+          <pre class="stdout" dir="ltr"></pre>
+          <div class="figs"></div>
+        </div>
+      </article>
+    </div>
+  </section>
+  <section class="chap" id="ch8">
+    <h2 class="label"><span class="chn"><span data-i18n="chapter">Chapter</span> <span dir="ltr">8</span></span><span class="cht" data-i18n="ch8">Backtesting VaR</span></h2>
+    <div class="content">
+      <article class="ex" id="ex10" data-file="ex10_backtesting.py">
+        <div class="ex-head">
+          <span class="ex-n" dir="ltr">10</span>
+          <div class="ex-txt">
+            <h3 data-i18n="ex10t">Backtesting VaR</h3>
+            <p data-i18n="ex10b">Normal, historical-simulation and EWMA VaR on a rolling window, checked with traffic-light, Kupiec and Christoffersen tests.</p>
+          </div>
+        </div>
+        <div class="ex-bar">
+          <button type="button" class="btn primary run" data-act="run"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg><span data-i18n="run">Run</span></button>
+          <button type="button" class="btn ghost" data-act="code" aria-expanded="false" aria-controls="ex10-code"><span data-i18n="showCode">Show code</span></button>
+          <span class="ex-status" role="status" aria-live="polite"></span>
+        </div>
+        <div class="ex-code" id="ex10-code" hidden>
+          <div class="tabs" role="tablist">
+            <button type="button" role="tab" class="tab" aria-selected="true" data-tab="py"><span data-i18n="tabPy">Python (editable)</span><span class="edited" hidden> · <span data-i18n="edited">edited</span></span></button>
+            <button type="button" role="tab" class="tab" aria-selected="false" data-tab="m"><span data-i18n="tabM">MATLAB (book)</span></button>
+            <span class="tab-tools">
+              <button type="button" class="link" data-act="reset" data-i18n="reset">Reset</button>
+              <a class="link" href="py/ex10_backtesting.py" download data-i18n="download">Download .py</a>
+            </span>
+          </div>
+          <textarea class="code-py" dir="ltr" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code, Backtesting VaR"></textarea>
+          <pre class="code-m" dir="ltr" hidden></pre>
+        </div>
+        <div class="ex-out" hidden>
+          <pre class="stdout" dir="ltr"></pre>
+          <div class="figs"></div>
+        </div>
+      </article>
+    </div>
+  </section>
+  <section class="chap" id="ch9">
+    <h2 class="label"><span class="chn"><span data-i18n="chapter">Chapter</span> <span dir="ltr">9</span></span><span class="cht" data-i18n="ch9">Portfolio optimisation</span></h2>
+    <div class="content">
+      <article class="ex" id="ex11" data-file="ex11_cvar_optimisation.py">
+        <div class="ex-head">
+          <span class="ex-n" dir="ltr">11</span>
+          <div class="ex-txt">
+            <h3 data-i18n="ex11t">Mean-CVaR optimisation</h3>
+            <p data-i18n="ex11b">Scenarios for six stocks from a fitted t copula, the long-only CVaR efficient frontier, and a comparison with mean-variance.</p>
+          </div>
+        </div>
+        <div class="ex-bar">
+          <button type="button" class="btn primary run" data-act="run"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg><span data-i18n="run">Run</span></button>
+          <button type="button" class="btn ghost" data-act="code" aria-expanded="false" aria-controls="ex11-code"><span data-i18n="showCode">Show code</span></button>
+          <span class="ex-status" role="status" aria-live="polite"></span>
+        </div>
+        <div class="ex-code" id="ex11-code" hidden>
+          <div class="tabs" role="tablist">
+            <button type="button" role="tab" class="tab" aria-selected="true" data-tab="py"><span data-i18n="tabPy">Python (editable)</span><span class="edited" hidden> · <span data-i18n="edited">edited</span></span></button>
+            <button type="button" role="tab" class="tab" aria-selected="false" data-tab="m"><span data-i18n="tabM">MATLAB (book)</span></button>
+            <span class="tab-tools">
+              <button type="button" class="link" data-act="reset" data-i18n="reset">Reset</button>
+              <a class="link" href="py/ex11_cvar_optimisation.py" download data-i18n="download">Download .py</a>
+            </span>
+          </div>
+          <textarea class="code-py" dir="ltr" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code, Mean-CVaR optimisation"></textarea>
+          <pre class="code-m" dir="ltr" hidden></pre>
+        </div>
+        <div class="ex-out" hidden>
+          <pre class="stdout" dir="ltr"></pre>
+          <div class="figs"></div>
+        </div>
+      </article>
+    </div>
+  </section>
+  <section class="chap" id="ch10">
+    <h2 class="label"><span class="chn"><span data-i18n="chapter">Chapter</span> <span dir="ltr">10</span></span><span class="cht" data-i18n="ch10">Performance measurement</span></h2>
+    <div class="content">
+      <article class="ex" id="ex12" data-file="ex12_performance.py">
+        <div class="ex-head">
+          <span class="ex-n" dir="ltr">12</span>
+          <div class="ex-txt">
+            <h3 data-i18n="ex12t">Performance measures</h3>
+            <p data-i18n="ex12b">Sharpe, STARR and Rachev ratios of an equally weighted six-stock portfolio against the DJIA.</p>
+          </div>
+        </div>
+        <div class="ex-bar">
+          <button type="button" class="btn primary run" data-act="run"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg><span data-i18n="run">Run</span></button>
+          <button type="button" class="btn ghost" data-act="code" aria-expanded="false" aria-controls="ex12-code"><span data-i18n="showCode">Show code</span></button>
+          <span class="ex-status" role="status" aria-live="polite"></span>
+        </div>
+        <div class="ex-code" id="ex12-code" hidden>
+          <div class="tabs" role="tablist">
+            <button type="button" role="tab" class="tab" aria-selected="true" data-tab="py"><span data-i18n="tabPy">Python (editable)</span><span class="edited" hidden> · <span data-i18n="edited">edited</span></span></button>
+            <button type="button" role="tab" class="tab" aria-selected="false" data-tab="m"><span data-i18n="tabM">MATLAB (book)</span></button>
+            <span class="tab-tools">
+              <button type="button" class="link" data-act="reset" data-i18n="reset">Reset</button>
+              <a class="link" href="py/ex12_performance.py" download data-i18n="download">Download .py</a>
+            </span>
+          </div>
+          <textarea class="code-py" dir="ltr" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code, Performance measures"></textarea>
+          <pre class="code-m" dir="ltr" hidden></pre>
+        </div>
+        <div class="ex-out" hidden>
+          <pre class="stdout" dir="ltr"></pre>
+          <div class="figs"></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="data">
+    <h2 class="label" data-i18n="hData">Data</h2>
+    <div class="content">
+      <p data-i18n="data1">Adjusted daily closing prices from Yahoo Finance, 2 January 2008 to 31 December 2018, for the Dow Jones Industrial Average and six stocks: Intel, IBM, Apple, Microsoft, 3M and Cisco. Each exercise selects the period stated in the book.</p>
+      <p data-i18n="data2">To run an exercise on your own computer, save <a href="py/bookkit.py" download>bookkit.py</a>, <a href="data/prices.csv" download>prices.csv</a> and the exercise file in one folder, then run it with Python 3, numpy, scipy and matplotlib.</p>
+    </div>
+  </section>
+
+  <section id="notes">
+    <h2 class="label" data-i18n="hNotes">Notes on the code</h2>
+    <div class="content">
+      <p data-i18n="notes0">The Python follows the book’s MATLAB line by line where it can. Where the printed code has a slip, the Python corrects it and says so in a comment marked NOTE:</p>
+      <ul class="notes">
+        <li data-i18n="n1">Returns: the AVaR, CVaR-optimisation and performance exercises use net returns P<sub>t</sub>/P<sub>t−1</sub> − 1; the printed code divides prices only, which gives gross returns close to 1.</li>
+        <li data-i18n="n2">Time series: the book’s estimates imply a negative average DJIA return for 2008–2018, a period in which the index rose, which suggests the price file was read newest first. Here dates run forwards, so the estimates differ.</li>
+        <li data-i18n="n3">Ten-day VaR: the simulated ten-day return is the sum of the ten daily returns (the printed code keeps only day ten), and Student t draws are rescaled to unit variance, as in the estimated model.</li>
+        <li data-i18n="n4">Special cases of the stable law: the normal, Cauchy and Lévy densities are S(2, 0, 1/√2, 0), S(1, 0, 1, 0) and S(0.5, 1, 1, 0); the printed parameters do not give these laws.</li>
+        <li data-i18n="n5">Smaller slips: the normal density’s constant is σ√(2π); QQ plots use plotting positions; the AVaR function called by the code is written out; the performance portfolio holds all six stocks; the Rachev ratio’s boundary term uses index ⌈nα⌉.</li>
+        <li data-i18n="n6">MATLAB toolbox functions are re-implemented: stable fitting by maximum likelihood on an FFT density, conditional maximum likelihood for ARMA-GARCH, and the varbacktest tests. Results therefore agree closely with MATLAB, but not to the last digit.</li>
+      </ul>
+    </div>
+  </section>
+  </main>
+
+  <footer><span data-i18n="footer">Code: Python translation of the book’s MATLAB. Data: Yahoo Finance. Python in the browser: Pyodide.</span><a class="to-top" href="#main" data-i18n="toTop">Back to top ↑</a></footer>
+</div>
+
+<script>
+(function () {
+  var T = {"ar": {"brand": "م. بكري", "navHome": "الرئيسية", "navEx": "التمارين", "navData": "البيانات", "navNotes": "ملاحظات", "kicker": "مرافق الكتاب", "h1": "تمارين الكتاب، تُنفَّذ مباشرة", "lede": "التمارين الاثنا عشر المكتوبة بلغة MATLAB في كتاب <bdi lang=\"en\"><i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i></bdi> (معهد البنك الإسلامي للتنمية، 2021)، منقولةً إلى Python وتُنفَّذ في متصفحك على بيانات سوقية حقيقية. يمكنك تعديل أي مثال وإعادة تشغيله.", "how": "تعمل Python داخل الصفحة نفسها (Pyodide مع numpy وscipy وmatplotlib). يُنزِّل التشغيل الأول نحو 30 ميغابايت يحتفظ بها المتصفح بعد ذلك؛ لا يُثبَّت أي شيء، وتبقى تعديلاتك على جهازك.", "btnLoad": "تشغيل Python", "btnBook": "كتاب إلكتروني مجاني", "btnData": "البيانات (CSV)", "stIdle": "لم تبدأ Python بعد", "stLoadPy": "جارٍ تحميل Python…", "stLoadPkg": "جارٍ تحميل numpy وscipy وmatplotlib…", "stReady": "Python جاهزة", "stRunning": "جارٍ التنفيذ…", "stFail": "تعذّر تشغيل Python. تحقّق من الاتصال وأعد تحميل الصفحة.", "run": "تشغيل", "stop": "إيقاف", "showCode": "عرض الشيفرة", "hideCode": "إخفاء الشيفرة", "tabPy": "Python (قابلة للتعديل)", "tabM": "MATLAB (الكتاب)", "reset": "استعادة الأصل", "edited": "معدَّلة", "download": "تنزيل ملف py", "done": "اكتمل في {s} ث", "failed": "توقّف بخطأ بعد {s} ث", "stopped": "أُوقِف التنفيذ.", "firstRun": "التشغيل الأول: تحميل Python، عادةً بين 15 و40 ثانية.", "figAlt": "الشكل {n} من تمرين «{t}»", "chapter": "الفصل", "ch3": "نظرية الاحتمالات", "ch4": "نمذجة السلاسل الزمنية", "ch5": "الأطراف الثقيلة والتوزيعات المستقرة", "ch6": "بنى الاعتماد", "ch7": "VaR وAVaR", "ch8": "الاختبار الرجعي للقيمة المعرّضة للخطر", "ch9": "تحسين المحافظ", "ch10": "قياس الأداء", "ex01t": "توزيع الأسعار وتوزيع العوائد اللوغاريتمية", "ex01b": "مواءمة التوزيع اللوغاريتمي الطبيعي مع الأسعار اليومية لسهم إنتل، والتوزيع الطبيعي مع عوائده اللوغاريتمية اليومية، 2010–2018.", "ex02t": "التوزيع المشترك", "ex02b": "متوسطات العوائد اللوغاريتمية لسهمَي IBM وإنتل وتغايرها وارتباطها، وكثافتها الطبيعية الثنائية، ومخاطر محفظة بوزنَي 1/3 و2/3.", "ex03t": "نماذج السلاسل الزمنية", "ex03b": "تقدير نماذج AR(1) وMA(1) وARMA(1,1) وGARCH(1,1) بطريقة الإمكان الأعظم على العوائد اللوغاريتمية لمؤشر داو جونز، من أكتوبر 2008 إلى سبتمبر 2018.", "ex04t": "جودة المطابقة", "ex04b": "العزوم ومخطط QQ واختبارات كولموغوروف-سميرنوف وأندرسون-دارلينغ وجارك-بيرا: هل تتبع العوائد اللوغاريتمية لمؤشر داو جونز التوزيع الطبيعي؟", "ex05t": "كثافات التوزيعات المستقرة", "ex05b": "كيف يحدّد المعلمان α وβ شكلَ دالة الكثافة ودالة التوزيع للقانون المستقر، مع التوزيع الطبيعي وتوزيعَي كوشي وليفي بوصفها حالاتٍ خاصة.", "ex06t": "الروابط (الكوبولا)", "ex06b": "روابط غاوس وكلايتون وغامبل وفرانك: دوال التوزيع والكثافات وعينات محاكاة، منها عينات بتوزيعات هامشية من نوع غاما.", "ex07t": "القيمة المعرّضة للخطر وفق التوزيع المستقر", "ex07b": "مواءمة قانون مستقر مع عوائد مؤشر داو جونز 2008–2018، ومقارنة قيمته المعرّضة للخطر عند 95% و99% بالقيمتين الطبيعية والتجريبية.", "ex08t": "القيمة المعرّضة للخطر بنموذج ARMA-GARCH", "ex08b": "نموذج ARMA(1,1)-GARCH(1,1) بصدمات طبيعية وصدمات ستيودنت t، ثم 10,000 مسار مونت كارلو لحساب القيمة المعرّضة للخطر لعشرة أيام.", "ex09t": "VaR وAVaR", "ex09b": "القيمة المعرّضة للخطر ومتوسطها، تجريبيًا ووفق التوزيع الطبيعي، من 90% إلى 99% لخمسة أسهم أمريكية ولمحفظتها المتساوية الأوزان.", "ex10t": "الاختبار الرجعي للقيمة المعرّضة للخطر", "ex10b": "القيمة المعرّضة للخطر بالطريقة الطبيعية والمحاكاة التاريخية وEWMA على نافذة متحركة، مع فحصها باختبارات إشارة المرور وكوبييك وكريستوفرسن.", "ex11t": "التحسين وفق المتوسط والقيمة الشرطية المعرّضة للخطر", "ex11b": "سيناريوهات لستة أسهم مولَّدة من رابطة t مقدَّرة، والحدّ الكفء وفق CVaR من دون بيع على المكشوف، ومقارنته بنموذج المتوسط والتباين.", "ex12t": "مقاييس الأداء", "ex12b": "نسب شارب وSTARR وراتشيف لمحفظة متساوية الأوزان من ستة أسهم مقارنةً بمؤشر داو جونز.", "hData": "البيانات", "data1": "أسعار الإغلاق اليومية المعدّلة من Yahoo Finance، من 2 يناير 2008 إلى 31 ديسمبر 2018، لمؤشر داو جونز الصناعي وستة أسهم: إنتل وIBM وآبل ومايكروسوفت و3M وسيسكو. يختار كل تمرين الفترة المذكورة في الكتاب.", "data2": "لتشغيل تمرين على حاسوبك، احفظ <a href=\"py/bookkit.py\" download>bookkit.py</a> و<a href=\"data/prices.csv\" download>prices.csv</a> وملف التمرين في مجلد واحد، ثم شغّله باستخدام Python 3 مع numpy وscipy وmatplotlib.", "hNotes": "ملاحظات على الشيفرة", "notes0": "تتبع شيفرة Python شيفرةَ MATLAB في الكتاب سطرًا بسطر حيثما أمكن. وحيث يقع خطأ في الشيفرة المطبوعة، تصحّحه شيفرة Python وتشير إليه في تعليق يبدأ بكلمة NOTE:", "n1": "العوائد: تستخدم تمارين AVaR وتحسين CVaR ومقاييس الأداء العوائدَ الصافية P<sub>t</sub>/P<sub>t−1</sub> − 1؛ أما الشيفرة المطبوعة فتقسم الأسعار فقط، فتنتج عوائد إجمالية قريبة من 1.", "n2": "السلاسل الزمنية: تدلّ تقديرات الكتاب على متوسط عائد سالب لمؤشر داو جونز في 2008–2018، مع أن المؤشر ارتفع خلال تلك الفترة، ما يرجّح أن ملف الأسعار قُرئ من الأحدث إلى الأقدم. هنا تسير التواريخ بترتيبها الزمني، لذا تختلف التقديرات.", "n3": "القيمة المعرّضة للخطر لعشرة أيام: العائد المحاكى لعشرة أيام هو مجموع العوائد اليومية العشرة (تحتفظ الشيفرة المطبوعة باليوم العاشر وحده)، وتُعاد معايرة سحوبات ستيودنت t إلى تباين يساوي واحدًا كما في النموذج المقدَّر.", "n4": "الحالات الخاصة للقانون المستقر: كثافات التوزيع الطبيعي وتوزيعَي كوشي وليفي هي <bdi>S(2, 0, 1/√2, 0)</bdi> و<bdi>S(1, 0, 1, 0)</bdi> و<bdi>S(0.5, 1, 1, 0)</bdi>؛ والمعلمات المطبوعة لا تعطي هذه التوزيعات.", "n5": "تصحيحات أصغر: ثابت الكثافة الطبيعية هو σ√(2π)؛ وتستخدم مخططات QQ مواضع الرسم؛ وكُتبت دالة AVaR التي تستدعيها الشيفرة؛ وتضمّ محفظة تمرين الأداء الأسهم الستة كلها؛ ويستخدم الحدّ الطرفي في نسبة راتشيف الدليل ⌈nα⌉.", "n6": "أُعيد بناء دوال صناديق أدوات MATLAB: مواءمة القانون المستقر بالإمكان الأعظم على كثافة محسوبة بتحويل فورييه السريع، والإمكان الأعظم الشرطي لنماذج ARMA-GARCH، واختبارات varbacktest. لذلك تتفق النتائج مع MATLAB اتفاقًا وثيقًا، لا حتى آخر رقم عشري.", "footer": "الشيفرة: نقل شيفرة MATLAB في الكتاب إلى Python. البيانات: Yahoo Finance. تشغيل Python في المتصفح: Pyodide.", "toTop": "العودة إلى الأعلى ↑", "skip": "انتقل إلى المحتوى"}, "fr": {"brand": "M. Bekri", "navHome": "Accueil", "navEx": "Exercices", "navData": "Données", "navNotes": "Notes", "kicker": "Compagnon du livre", "h1": "Les exercices du livre, exécutés en direct", "lede": "Les douze exercices MATLAB de <i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i> (IsDBI, 2021), traduits en Python et exécutés dans votre navigateur sur des données de marché réelles. Modifiez un exemple et relancez-le.", "how": "Python s’exécute dans la page (Pyodide, avec numpy, scipy et matplotlib). La première exécution télécharge environ 30 Mo, que le navigateur conserve ensuite ; rien n’est installé et vos modifications restent sur votre appareil.", "btnLoad": "Démarrer Python", "btnBook": "E-book gratuit", "btnData": "Données (CSV)", "stIdle": "Python n’est pas démarré", "stLoadPy": "Chargement de Python…", "stLoadPkg": "Chargement de numpy, scipy et matplotlib…", "stReady": "Python est prêt", "stRunning": "Exécution…", "stFail": "Python n’a pas pu démarrer. Vérifiez votre connexion et rechargez la page.", "run": "Exécuter", "stop": "Arrêter", "showCode": "Afficher le code", "hideCode": "Masquer le code", "tabPy": "Python (modifiable)", "tabM": "MATLAB (livre)", "reset": "Rétablir", "edited": "modifié", "download": "Télécharger le .py", "done": "Terminé en {s} s", "failed": "Arrêté sur une erreur après {s} s", "stopped": "Arrêté.", "firstRun": "Première exécution : chargement de Python, en général 15 à 40 secondes.", "figAlt": "Figure {n} de l’exercice « {t} »", "chapter": "Chapitre", "ch3": "Théorie des probabilités", "ch4": "Modélisation des séries temporelles", "ch5": "Queues épaisses et lois stables", "ch6": "Structures de dépendance", "ch7": "VaR et AVaR", "ch8": "Backtesting de la VaR", "ch9": "Optimisation de portefeuille", "ch10": "Mesure de la performance", "ex01t": "Distribution des prix et des log-rendements", "ex01b": "Ajuster une loi lognormale aux cours quotidiens d’Intel et une loi normale à ses log-rendements quotidiens, 2010-2018.", "ex02t": "Loi jointe", "ex02b": "Moyennes, covariance et corrélation des log-rendements d’IBM et d’Intel, leur densité normale bivariée et le risque d’un portefeuille pondéré à 1/3 et 2/3.", "ex03t": "Modèles de séries temporelles", "ex03b": "AR(1), MA(1), ARMA(1,1) et GARCH(1,1) estimés par maximum de vraisemblance sur les log-rendements du DJIA, d’octobre 2008 à septembre 2018.", "ex04t": "Qualité de l’ajustement", "ex04b": "Moments, diagramme QQ et tests de Kolmogorov-Smirnov, d’Anderson-Darling et de Jarque-Bera : les log-rendements du DJIA sont-ils normaux ?", "ex05t": "Densités des lois stables", "ex05b": "Comment α et β façonnent la densité et la fonction de répartition d’une loi stable, avec les lois normale, de Cauchy et de Lévy comme cas particuliers.", "ex06t": "Copules", "ex06b": "Copules gaussienne, de Clayton, de Gumbel et de Frank : fonctions de répartition, densités et échantillons simulés, y compris avec des marges Gamma.", "ex07t": "Value at Risk α-stable", "ex07b": "Ajuster une loi stable aux rendements du DJIA, 2008-2018, et comparer sa VaR à 95 % et 99 % avec les VaR normale et empirique.", "ex08t": "Value at Risk ARMA-GARCH", "ex08b": "ARMA(1,1)-GARCH(1,1) avec innovations normales et de Student, puis 10 000 trajectoires de Monte-Carlo pour la VaR à 10 jours.", "ex09t": "VaR et AVaR", "ex09b": "VaR et AVaR empiriques et normales, de 90 % à 99 %, pour cinq actions américaines et leur portefeuille équipondéré.", "ex10t": "Backtesting de la VaR", "ex10b": "VaR normale, par simulation historique et EWMA sur fenêtre glissante, vérifiées par les tests du feu tricolore, de Kupiec et de Christoffersen.", "ex11t": "Optimisation moyenne-CVaR", "ex11b": "Scénarios pour six actions tirés d’une copule de Student estimée, frontière efficiente CVaR sans vente à découvert et comparaison avec moyenne-variance.", "ex12t": "Mesures de performance", "ex12b": "Ratios de Sharpe, STARR et de Rachev d’un portefeuille équipondéré de six actions face au DJIA.", "hData": "Données", "data1": "Cours de clôture quotidiens ajustés de Yahoo Finance, du 2 janvier 2008 au 31 décembre 2018, pour le Dow Jones Industrial Average et six actions : Intel, IBM, Apple, Microsoft, 3M et Cisco. Chaque exercice retient la période indiquée dans le livre.", "data2": "Pour exécuter un exercice sur votre ordinateur, enregistrez <a href=\"py/bookkit.py\" download>bookkit.py</a>, <a href=\"data/prices.csv\" download>prices.csv</a> et le fichier de l’exercice dans un même dossier, puis lancez-le avec Python 3, numpy, scipy et matplotlib.", "hNotes": "Notes sur le code", "notes0": "Le code Python suit le MATLAB du livre ligne à ligne lorsque c’est possible. Là où le code imprimé contient une erreur, le Python la corrige et le signale dans un commentaire marqué NOTE :", "n1": "Rendements : les exercices AVaR, optimisation CVaR et mesures de performance utilisent les rendements nets P<sub>t</sub>/P<sub>t−1</sub> − 1 ; le code imprimé se contente de diviser les prix, ce qui donne des rendements bruts proches de 1.", "n2": "Séries temporelles : les estimations du livre impliquent un rendement moyen négatif du DJIA sur 2008-2018, période où l’indice a progressé, ce qui laisse penser que le fichier de prix a été lu du plus récent au plus ancien. Ici, les dates sont dans l’ordre chronologique, d’où des estimations différentes.", "n3": "VaR à dix jours : le rendement simulé à dix jours est la somme des dix rendements quotidiens (le code imprimé ne garde que le dixième jour), et les tirages de Student sont ramenés à une variance unitaire, comme dans le modèle estimé.", "n4": "Cas particuliers de la loi stable : les densités normale, de Cauchy et de Lévy sont S(2, 0, 1/√2, 0), S(1, 0, 1, 0) et S(0,5, 1, 1, 0) ; les paramètres imprimés ne donnent pas ces lois.", "n5": "Corrections mineures : la constante de la densité normale est σ√(2π) ; les diagrammes QQ utilisent des positions de tracé ; la fonction AVaR appelée par le code est écrite ; le portefeuille de l’exercice de performance détient les six actions ; le terme de bord du ratio de Rachev utilise l’indice ⌈nα⌉.", "n6": "Les fonctions des boîtes à outils MATLAB sont réécrites : ajustement stable par maximum de vraisemblance sur une densité FFT, maximum de vraisemblance conditionnel pour ARMA-GARCH et tests de varbacktest. Les résultats sont donc très proches de ceux de MATLAB, sans être identiques à la dernière décimale.", "footer": "Code : traduction Python du MATLAB du livre. Données : Yahoo Finance. Python dans le navigateur : Pyodide.", "toTop": "Haut de page ↑", "skip": "Aller au contenu"}, "de": {"brand": "M. Bekri", "navHome": "Startseite", "navEx": "Übungen", "navData": "Daten", "navNotes": "Hinweise", "kicker": "Begleitmaterial zum Buch", "h1": "Die Übungen des Buches, live ausgeführt", "lede": "Die zwölf MATLAB-Übungen aus <i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i> (IsDBI, 2021), nach Python übertragen und in Ihrem Browser auf echten Marktdaten ausgeführt. Jedes Beispiel lässt sich bearbeiten und erneut starten.", "how": "Python läuft direkt in der Seite (Pyodide mit numpy, scipy und matplotlib). Der erste Start lädt etwa 30 MB, die der Browser anschließend zwischenspeichert; installiert wird nichts, und Ihre Änderungen bleiben auf Ihrem Gerät.", "btnLoad": "Python starten", "btnBook": "Kostenloses E-Book", "btnData": "Daten (CSV)", "stIdle": "Python ist nicht gestartet", "stLoadPy": "Python wird geladen …", "stLoadPkg": "numpy, scipy und matplotlib werden geladen …", "stReady": "Python ist bereit", "stRunning": "Läuft …", "stFail": "Python konnte nicht starten. Bitte Verbindung prüfen und Seite neu laden.", "run": "Ausführen", "stop": "Stopp", "showCode": "Code anzeigen", "hideCode": "Code ausblenden", "tabPy": "Python (bearbeitbar)", "tabM": "MATLAB (Buch)", "reset": "Zurücksetzen", "edited": "bearbeitet", "download": ".py herunterladen", "done": "Fertig in {s} s", "failed": "Mit Fehler beendet nach {s} s", "stopped": "Abgebrochen.", "firstRun": "Erster Start: Python wird geladen, meist 15 bis 40 Sekunden.", "figAlt": "Abbildung {n} der Übung „{t}“", "chapter": "Kapitel", "ch3": "Wahrscheinlichkeitstheorie", "ch4": "Zeitreihenmodellierung", "ch5": "Schwere Ränder und stabile Verteilungen", "ch6": "Abhängigkeitsstrukturen", "ch7": "VaR und AVaR", "ch8": "Backtesting des VaR", "ch9": "Portfoliooptimierung", "ch10": "Performancemessung", "ex01t": "Verteilung von Kursen und Log-Renditen", "ex01b": "Anpassung einer Lognormalverteilung an die Tageskurse von Intel und einer Normalverteilung an die täglichen Log-Renditen, 2010–2018.", "ex02t": "Gemeinsame Verteilung", "ex02b": "Mittelwerte, Kovarianz und Korrelation der Log-Renditen von IBM und Intel, ihre bivariate Normaldichte und das Risiko eines Portfolios mit den Gewichten 1/3 und 2/3.", "ex03t": "Zeitreihenmodelle", "ex03b": "AR(1), MA(1), ARMA(1,1) und GARCH(1,1), per Maximum Likelihood auf die Log-Renditen des DJIA geschätzt, Oktober 2008 bis September 2018.", "ex04t": "Anpassungsgüte", "ex04b": "Momente, QQ-Plot sowie Kolmogorow-Smirnow-, Anderson-Darling- und Jarque-Bera-Test: Sind die Log-Renditen des DJIA normalverteilt?", "ex05t": "Dichten stabiler Verteilungen", "ex05b": "Wie α und β Dichte und Verteilungsfunktion einer stabilen Verteilung prägen, mit Normal-, Cauchy- und Lévy-Verteilung als Spezialfällen.", "ex06t": "Copulas", "ex06b": "Gauß-, Clayton-, Gumbel- und Frank-Copula: Verteilungsfunktionen, Dichten und simulierte Stichproben, auch mit Gamma-Randverteilungen.", "ex07t": "α-stabiler Value at Risk", "ex07b": "Anpassung einer stabilen Verteilung an DJIA-Renditen 2008–2018 und Vergleich ihres VaR zu 95 % und 99 % mit dem normalen und dem empirischen VaR.", "ex08t": "ARMA-GARCH-Value-at-Risk", "ex08b": "ARMA(1,1)-GARCH(1,1) mit normalen und Student-t-Innovationen, danach 10.000 Monte-Carlo-Pfade für den 10-Tage-VaR.", "ex09t": "VaR und AVaR", "ex09b": "Empirischer und normaler VaR und AVaR von 90 % bis 99 % für fünf US-Aktien und ihr gleichgewichtetes Portfolio.", "ex10t": "Backtesting des VaR", "ex10b": "Normaler, historisch simulierter und EWMA-VaR im rollierenden Fenster, geprüft mit Ampel-, Kupiec- und Christoffersen-Tests.", "ex11t": "Mittelwert-CVaR-Optimierung", "ex11b": "Szenarien für sechs Aktien aus einer geschätzten t-Copula, die Long-only-Effizienzgrenze nach CVaR und der Vergleich mit Mittelwert-Varianz.", "ex12t": "Performancemaße", "ex12b": "Sharpe-, STARR- und Rachev-Ratio eines gleichgewichteten Portfolios aus sechs Aktien gegenüber dem DJIA.", "hData": "Daten", "data1": "Bereinigte tägliche Schlusskurse von Yahoo Finance vom 2. Januar 2008 bis 31. Dezember 2018 für den Dow Jones Industrial Average und sechs Aktien: Intel, IBM, Apple, Microsoft, 3M und Cisco. Jede Übung verwendet den im Buch genannten Zeitraum.", "data2": "Um eine Übung auf dem eigenen Rechner auszuführen, speichern Sie <a href=\"py/bookkit.py\" download>bookkit.py</a>, <a href=\"data/prices.csv\" download>prices.csv</a> und die Übungsdatei in einem Ordner und starten sie mit Python 3, numpy, scipy und matplotlib.", "hNotes": "Hinweise zum Code", "notes0": "Der Python-Code folgt dem MATLAB-Code des Buches, wo immer möglich, Zeile für Zeile. Wo der gedruckte Code einen Fehler enthält, korrigiert ihn der Python-Code und weist in einem mit NOTE markierten Kommentar darauf hin:", "n1": "Renditen: Die Übungen zu AVaR, CVaR-Optimierung und Performancemaßen verwenden Nettorenditen P<sub>t</sub>/P<sub>t−1</sub> − 1; der gedruckte Code teilt nur die Kurse und erhält so Bruttorenditen nahe 1.", "n2": "Zeitreihen: Die Schätzungen im Buch implizieren für 2008–2018 eine negative mittlere DJIA-Rendite, obwohl der Index in diesem Zeitraum stieg; vermutlich wurde die Kursdatei mit dem neuesten Datum zuerst eingelesen. Hier laufen die Daten chronologisch, daher weichen die Schätzungen ab.", "n3": "Zehn-Tage-VaR: Die simulierte Zehn-Tage-Rendite ist die Summe der zehn Tagesrenditen (der gedruckte Code verwendet nur den zehnten Tag), und Student-t-Ziehungen werden wie im geschätzten Modell auf Varianz eins skaliert.", "n4": "Spezialfälle der stabilen Verteilung: Normal-, Cauchy- und Lévy-Dichte sind S(2, 0, 1/√2, 0), S(1, 0, 1, 0) und S(0,5, 1, 1, 0); die gedruckten Parameter ergeben diese Verteilungen nicht.", "n5": "Kleinere Korrekturen: Die Konstante der Normaldichte ist σ√(2π); QQ-Plots verwenden Plotting-Positionen; die vom Code aufgerufene AVaR-Funktion ist ausgeschrieben; das Portfolio der Performance-Übung enthält alle sechs Aktien; der Randterm der Rachev-Ratio verwendet den Index ⌈nα⌉.", "n6": "Funktionen der MATLAB-Toolboxen sind nachgebaut: Anpassung stabiler Verteilungen per Maximum Likelihood auf einer FFT-Dichte, bedingte Maximum-Likelihood-Schätzung für ARMA-GARCH und die Tests von varbacktest. Die Ergebnisse stimmen daher eng, aber nicht bis zur letzten Stelle mit MATLAB überein.", "footer": "Code: Python-Übertragung des MATLAB-Codes aus dem Buch. Daten: Yahoo Finance. Python im Browser: Pyodide.", "toTop": "Nach oben ↑", "skip": "Zum Inhalt springen"}};
+  T.en = {};
+  document.querySelectorAll('[data-i18n]').forEach(function (el) { T.en[el.dataset.i18n] = el.innerHTML; });
+  ['stIdle', 'stLoadPy', 'stLoadPkg', 'stReady', 'stRunning', 'stFail', 'run', 'stop', 'showCode', 'hideCode', 'done', 'failed', 'stopped', 'firstRun', 'figAlt'].forEach(function (k) {
+    if (T.en[k] == null) T.en[k] = ({ stLoadPy: 'Loading Python…', stLoadPkg: 'Loading numpy, scipy and matplotlib…', stReady: 'Python ready', stRunning: 'Running…', stFail: 'Python could not start. Check your connection and reload the page.', stop: 'Stop', hideCode: 'Hide code', done: 'Finished in {s} s', failed: 'Stopped with an error after {s} s', stopped: 'Stopped.', firstRun: 'First run: loading Python, usually 15 to 40 seconds.', figAlt: 'Figure {n} of the exercise “{t}”' })[k];
+  });
+  var lang = 'en';
+  function t(k) { return (T[lang] && T[lang][k] != null) ? T[lang][k] : T.en[k]; }
+
+  /* ---------- language ---------- */
+  function setLang(l, save) {
+    if (!T[l]) l = 'en';
+    lang = l;
+    var root = document.documentElement;
+    root.lang = l; root.dir = l === 'ar' ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-i18n]').forEach(function (el) { el.innerHTML = t(el.dataset.i18n); });
+    document.querySelectorAll('.langs-switch button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.lang === l)); });
+    document.querySelectorAll('.ex').forEach(refreshCard);
+    setPyStatus(pyState, pyKey);
+    if (save) { try { localStorage.setItem('lang', l); } catch (e) {} }
+  }
+  document.querySelectorAll('.langs-switch button').forEach(function (b) {
+    b.addEventListener('click', function () { setLang(b.dataset.lang, true); });
+  });
+
+  /* ---------- Python worker ---------- */
+  var worker = null, pyState = 'idle', pyKey = 'stIdle', running = null, seq = 0;
+  var pystatus = document.getElementById('pystatus');
+  function setPyStatus(state, key) {
+    pyState = state; pyKey = key;
+    pystatus.dataset.state = state;
+    pystatus.querySelector('.txt').textContent = t(key);
+    var start = document.getElementById('start');
+    start.disabled = state !== 'idle' && state !== 'fail';
+  }
+  function getWorker() {
+    if (worker) return worker;
+    worker = new Worker('worker.js?v=1');
+    worker.onmessage = onWorker;
+    worker.onerror = function () { setPyStatus('fail', 'stFail'); };
+    return worker;
+  }
+  function startPython() {
+    if (pyState === 'ready' || pyState === 'loading') return;
+    setPyStatus('loading', 'stLoadPy');
+    getWorker().postMessage({ type: 'init' });
+  }
+  document.getElementById('start').addEventListener('click', startPython);
+
+  function onWorker(e) {
+    var m = e.data;
+    if (m.type === 'status') {
+      var st = m.key === 'stReady' ? 'ready' : (m.key === 'stFail' ? 'fail' : 'loading');
+      setPyStatus(st, m.key);
+      if (running && st === 'loading') setCardStatus(running.card, m.key, '');
+      return;
+    }
+    if (!running || m.id !== running.id) return;
+    var card = running.card;
+    if (m.type === 'started') { setCardStatus(card, 'stRunning', ''); return; }
+    if (m.type === 'out' || m.type === 'err') { appendOut(card, m.text, m.type === 'err'); return; }
+    if (m.type === 'done') {
+      if (!m.ok && m.error) appendOut(card, m.error, true);
+      renderFigs(card, m.figs || []);
+      var s = (m.ms / 1000).toFixed(1);
+      card._last = { key: m.ok ? 'done' : 'failed', s: s, cls: m.ok ? 'ok' : 'err' };
+      setCardStatus(card, card._last.key, card._last.cls, s);
+      finishRun();
+    }
+  }
+
+  /* ---------- exercise cards ---------- */
+  var cache = {};
+  function fetchText(url) {
+    if (!cache[url]) cache[url] = fetch(url).then(function (r) { if (!r.ok) throw new Error(url + ' ' + r.status); return r.text(); });
+    return cache[url];
+  }
+  function cardFiles(card) {
+    var f = card.dataset.file, id = card.id;
+    return { py: 'py/' + f + '?v=1', m: 'matlab/' + id + '.m?v=1' };
+  }
+  function loadCode(card) {
+    if (card._orig != null) return Promise.resolve();
+    var fl = cardFiles(card);
+    return Promise.all([fetchText(fl.py), fetchText(fl.m)]).then(function (r) {
+      card._orig = r[0];
+      var ta = card.querySelector('.code-py');
+      if (!ta.value) ta.value = r[0];
+      card.querySelector('.code-m').textContent = r[1];
+      sizeEditor(ta);
+    });
+  }
+  function sizeEditor(ta) {
+    var lines = ta.value.split('\n').length;
+    ta.style.height = Math.min(34 * 16, Math.max(12 * 16, lines * 0.8125 * 16 * 1.6 + 30)) + 'px';
+  }
+  function setCardStatus(card, key, cls, s) {
+    var el = card.querySelector('.ex-status');
+    el.className = 'ex-status' + (cls ? ' ' + cls : '');
+    el.textContent = key ? t(key).replace('{s}', s || '') : '';
+    card._status = { key: key, cls: cls, s: s };
+  }
+  function refreshCard(card) {
+    var code = card.querySelector('.ex-code');
+    var cb = card.querySelector('[data-act="code"] span');
+    cb.textContent = t(code.hidden ? 'showCode' : 'hideCode');
+    var rb = card.querySelector('[data-act="run"] span');
+    rb.textContent = t(running && running.card === card ? 'stop' : 'run');
+    if (card._status) setCardStatus(card, card._status.key, card._status.cls, card._status.s);
+    var title = card.querySelector('h3').textContent;
+    card.querySelectorAll('.figs img').forEach(function (img, i) { img.alt = t('figAlt').replace('{n}', i + 1).replace('{t}', title); });
+  }
+  function appendOut(card, text, isErr) {
+    var pre = card.querySelector('.stdout');
+    if (isErr) { var sp = document.createElement('span'); sp.className = 'e'; sp.textContent = text; pre.appendChild(sp); }
+    else pre.appendChild(document.createTextNode(text));
+    pre.scrollTop = pre.scrollHeight;
+  }
+  function renderFigs(card, figs) {
+    var box = card.querySelector('.figs');
+    var title = card.querySelector('h3').textContent;
+    box.innerHTML = '';
+    figs.forEach(function (b64, i) {
+      var img = new Image();
+      img.src = 'data:image/png;base64,' + b64;
+      img.alt = t('figAlt').replace('{n}', i + 1).replace('{t}', title);
+      img.loading = 'lazy';
+      box.appendChild(img);
+    });
+  }
+  function setRunButtons() {
+    document.querySelectorAll('.ex').forEach(function (c) {
+      var b = c.querySelector('[data-act="run"]');
+      var mine = running && running.card === c;
+      b.disabled = !!running && !mine;
+      b.classList.toggle('stop', !!mine);
+      b.querySelector('span').textContent = t(mine ? 'stop' : 'run');
+      b.querySelector('svg').style.display = mine ? 'none' : '';
+    });
+  }
+  function finishRun() { running = null; setRunButtons(); }
+
+  function runCard(card) {
+    if (running) {
+      if (running.card === card) { // stop: the only way to interrupt Python is to end the worker
+        worker.terminate(); worker = null;
+        setPyStatus('idle', 'stIdle');
+        appendOut(card, '\n' + t('stopped') + '\n', true);
+        card._status = null; setCardStatus(card, 'stopped', 'err');
+        finishRun();
+      }
+      return;
+    }
+    var id = ++seq;
+    running = { id: id, card: card };
+    setRunButtons();
+    var out = card.querySelector('.ex-out');
+    out.hidden = false;
+    card.querySelector('.stdout').textContent = '';
+    card.querySelector('.figs').innerHTML = '';
+    var cold = pyState !== 'ready';
+    setCardStatus(card, cold ? 'firstRun' : 'stRunning', '');
+    if (cold) setPyStatus('loading', pyState === 'loading' ? pyKey : 'stLoadPy');
+    loadCode(card).then(function () {
+      if (!running || running.id !== id) return;
+      var code = card.querySelector('.code-py').value || card._orig;
+      getWorker().postMessage({ type: 'run', id: id, code: code });
+    }).catch(function (err) {
+      appendOut(card, String(err), true);
+      setCardStatus(card, 'failed', 'err', '0');
+      finishRun();
+    });
+  }
+
+  document.querySelectorAll('.ex').forEach(function (card) {
+    card.querySelector('[data-act="run"]').addEventListener('click', function () { runCard(card); });
+    var codeBox = card.querySelector('.ex-code');
+    var codeBtn = card.querySelector('[data-act="code"]');
+    codeBtn.addEventListener('click', function () {
+      var open = codeBox.hidden;
+      codeBox.hidden = !open;
+      codeBtn.setAttribute('aria-expanded', String(open));
+      codeBtn.querySelector('span').textContent = t(open ? 'hideCode' : 'showCode');
+      if (open) loadCode(card).catch(function (err) { card.querySelector('.code-m').textContent = String(err); });
+    });
+    var ta = card.querySelector('.code-py'), pm = card.querySelector('.code-m');
+    card.querySelectorAll('.tab').forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var py = tab.dataset.tab === 'py';
+        card.querySelectorAll('.tab').forEach(function (x) { x.setAttribute('aria-selected', String(x === tab)); });
+        ta.hidden = !py; pm.hidden = py;
+      });
+    });
+    ta.addEventListener('input', function () {
+      card.querySelector('.edited').hidden = ta.value === card._orig;
+    });
+    ta.addEventListener('keydown', function (e) {
+      if (e.key === 'Tab' && !e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey) {
+        // a lone Tab indents; Escape then Tab leaves the editor
+        if (ta._esc) { ta._esc = false; return; }
+        e.preventDefault();
+        var s = ta.selectionStart, en = ta.selectionEnd;
+        ta.setRangeText('    ', s, en, 'end');
+        ta.dispatchEvent(new Event('input'));
+      } else if (e.key === 'Escape') {
+        ta._esc = true;
+      } else if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        if (!running) runCard(card);
+      } else { ta._esc = false; }
+    });
+    card.querySelector('[data-act="reset"]').addEventListener('click', function () {
+      if (card._orig == null) return;
+      ta.value = card._orig; sizeEditor(ta);
+      card.querySelector('.edited').hidden = true;
+    });
+  });
+
+  /* ---------- start ---------- */
+  var initial = 'en';
+  var h = (location.hash || '').slice(1);
+  if (T[h] && h !== 'en') initial = h;
+  else { try { initial = localStorage.getItem('lang') || 'en'; } catch (e) {} }
+  setLang(initial, false);
+})();
+</script>
+</body>
+</html>
