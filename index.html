@@ -231,6 +231,12 @@ section > h2::before { content: ""; display: block; width: 1.5rem; height: 2px; 
 .content { min-width: 0; max-width: 44rem; }
 .content > p { margin: 0 0 1rem; }
 .content > p:last-child { margin-bottom: 0; }
+.parts { margin: 0 0 1rem; padding-inline-start: 1.4rem; display: grid; gap: 0.45rem; }
+.eb-actions { margin-top: 1.25rem; }
+.exindex { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 0.2rem 1.2rem; }
+.exindex a { display: flex; gap: 0.7rem; align-items: baseline; color: var(--ink); text-decoration: none; padding: 0.4rem 0; border-bottom: 1px solid var(--rule); }
+.exindex a:hover { color: var(--accent); border-color: var(--accent); }
+.exn { font: 500 0.8125rem/1 var(--mono); color: var(--accent); flex: none; }
 .bio {
   margin-top: 1.75rem; padding: 1rem 1.2rem 1.15rem;
   background: var(--card); border: 1px solid var(--rule); border-inline-start: 3px solid var(--accent); border-radius: var(--radius);
@@ -366,7 +372,7 @@ footer .to-top:hover { color: var(--accent); }
       <nav aria-label="Sections">
         <a href="#research" data-i18n="navResearch">Research</a>
         <a href="#publications" data-i18n="navPubs">Publications</a>
-        <a href="book/#about" data-i18n="navEbook">Ebook</a>
+        <a href="#ebook" data-i18n="navEbook">Ebook</a>
         <a href="#blog" data-i18n="navBlog">Blogs</a>
         <a href="#path" data-i18n="navPath">Career</a>
         <a href="#contact" data-i18n="navContact">Contact</a>
@@ -550,6 +556,43 @@ footer .to-top:hover { color: var(--accent); }
     </div>
   </section>
 
+  <section id="ebook">
+    <h2 class="label" data-i18n="hEbook">Ebook</h2>
+    <div class="content">
+      <p data-i18n="ebPre1"><i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i> (Islamic Development Bank Institute, Jeddah, 2021; 170 pp.; <span dir="ltr">ISBN 978-603-8306-06-2</span>) is a hands-on introduction to heavy-tailed distributions and coherent risk measures, written for academics, practitioners and students of Islamic finance.</p>
+      <p data-i18n="ebPre2">Financial returns make extreme moves far more often than the normal distribution allows. The book shows how stable laws, copulas and coherent measures such as Average Value at Risk capture that tail risk, and how to apply them to Sharia-compliant portfolios through worked examples.</p>
+      <p data-i18n="ebPre3">It is organised in four parts:</p>
+      <ol class="parts">
+        <li data-i18n="ebPart1">An overview of Islamic finance: its sources, core principles and guidelines.</li>
+        <li data-i18n="ebPart2">Probability theory, time series modelling, heavy-tailed and stable distributions, and dependence structures.</li>
+        <li data-i18n="ebPart3">Applying these methods to risk management, with an emphasis on market risk.</li>
+        <li data-i18n="ebPart4">Portfolio selection and optimisation, and performance measurement.</li>
+      </ol>
+      <div class="actions eb-actions">
+        <a class="btn primary" href="https://isdbinstitute.org/product/heavy-tails-and-coherent-risk-measures-in-islamic-finance/" target="_blank" rel="noopener"><span data-i18n="ebLink">Book page at IsDBI</span></a>
+        <a class="btn" href="https://apps.apple.com/sa/app/isdbi-reader/id1567203321" target="_blank" rel="noopener">App Store</a>
+        <a class="btn" href="https://play.google.com/store/apps/details?id=com.irtielab.android" target="_blank" rel="noopener">Google Play</a>
+      </div>
+      <h3 class="sub label" data-i18n="ebExH">The twelve exercises</h3>
+      <p data-i18n="ebExP">Each exercise runs live in the browser, with editable Python and the book’s MATLAB side by side.</p>
+      <ol class="exindex">
+          <li><a href="book/#ex01"><span class="exn" dir="ltr">01</span><span data-i18n="ebEx01">Price and log-return distributions</span></a></li>
+          <li><a href="book/#ex02"><span class="exn" dir="ltr">02</span><span data-i18n="ebEx02">Joint distribution</span></a></li>
+          <li><a href="book/#ex03"><span class="exn" dir="ltr">03</span><span data-i18n="ebEx03">Time series models</span></a></li>
+          <li><a href="book/#ex04"><span class="exn" dir="ltr">04</span><span data-i18n="ebEx04">Goodness of fit</span></a></li>
+          <li><a href="book/#ex05"><span class="exn" dir="ltr">05</span><span data-i18n="ebEx05">Stable densities</span></a></li>
+          <li><a href="book/#ex06"><span class="exn" dir="ltr">06</span><span data-i18n="ebEx06">Copulas</span></a></li>
+          <li><a href="book/#ex07"><span class="exn" dir="ltr">07</span><span data-i18n="ebEx07">α-stable Value at Risk</span></a></li>
+          <li><a href="book/#ex08"><span class="exn" dir="ltr">08</span><span data-i18n="ebEx08">ARMA-GARCH Value at Risk</span></a></li>
+          <li><a href="book/#ex09"><span class="exn" dir="ltr">09</span><span data-i18n="ebEx09">VaR and AVaR</span></a></li>
+          <li><a href="book/#ex10"><span class="exn" dir="ltr">10</span><span data-i18n="ebEx10">Backtesting VaR</span></a></li>
+          <li><a href="book/#ex11"><span class="exn" dir="ltr">11</span><span data-i18n="ebEx11">Mean-CVaR optimisation</span></a></li>
+          <li><a href="book/#ex12"><span class="exn" dir="ltr">12</span><span data-i18n="ebEx12">Performance measures</span></a></li>
+      </ol>
+      <div class="actions eb-actions"><a class="btn primary" href="book/"><span data-i18n="ebRun">Run the exercises</span></a></div>
+    </div>
+  </section>
+
   <section id="blog">
     <h2 class="label" data-i18n="hBlog">IsDBI Blog</h2>
     <div class="content">
@@ -659,6 +702,7 @@ footer .to-top:hover { color: var(--accent); }
   var T = {
     ar: {
       brand: "م. بكري",
+      hEbook: "الكتاب الإلكتروني", ebPre1: "<i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i> (معهد البنك الإسلامي للتنمية، جدة، 2021؛ 170 صفحة؛ <span dir=\"ltr\">ISBN 978-603-8306-06-2</span>) مدخل تطبيقي إلى التوزيعات ذات الذيول الثقيلة ومقاييس المخاطر المتّسقة، موجّه إلى الأكاديميين والممارسين وطلبة التمويل الإسلامي.", ebPre2: "تشهد العوائد المالية تقلّبات حادّة أكثر بكثير ممّا يفترضه التوزيع الطبيعي. ويبيّن الكتاب كيف تلتقط التوزيعات المستقرّة ودوال الكوبولا والمقاييس المتّسقة، مثل القيمة المعرّضة للخطر المتوسّطة، مخاطرَ الذيل هذه، وكيف تُطبَّق على المحافظ المتوافقة مع أحكام الشريعة من خلال أمثلة محلولة.", ebPre3: "ويتألّف من أربعة أجزاء:", ebPart1: "نظرة عامة على التمويل الإسلامي: مصادره ومبادئه الأساسية وضوابطه.", ebPart2: "نظرية الاحتمالات، ونمذجة السلاسل الزمنية، والتوزيعات ذات الذيول الثقيلة والمستقرّة، وهياكل الارتباط.", ebPart3: "تطبيق هذه الأساليب في إدارة المخاطر، مع التركيز على مخاطر السوق.", ebPart4: "اختيار المحافظ وتحسينها، وقياس الأداء.", ebLink: "صفحة الكتاب لدى المعهد", ebExH: "التمارين الاثنا عشر", ebExP: "يُشغَّل كل تمرين مباشرة في المتصفح، مع شيفرة Python قابلة للتعديل وشيفرة MATLAB الواردة في الكتاب جنبًا إلى جنب.", ebRun: "شغّل التمارين", ebEx01: "توزيع الأسعار وتوزيع العوائد اللوغاريتمية", ebEx02: "التوزيع المشترك", ebEx03: "نماذج السلاسل الزمنية", ebEx04: "جودة المطابقة", ebEx05: "كثافات التوزيعات المستقرة", ebEx06: "الروابط (الكوبولا)", ebEx07: "القيمة المعرّضة للخطر وفق التوزيع المستقر", ebEx08: "القيمة المعرّضة للخطر بنموذج ARMA-GARCH", ebEx09: "VaR وAVaR", ebEx10: "الاختبار الرجعي للقيمة المعرّضة للخطر", ebEx11: "التحسين وفق المتوسط والقيمة الشرطية المعرّضة للخطر", ebEx12: "مقاييس الأداء",
       navResearch: "البحوث", navPubs: "المنشورات", navEbook: "الكتاب الإلكتروني", navBlog: "المدوّنات", navPath: "المسيرة المهنية", navContact: "التواصل",
       alt: "صورة محمود بكري",
       name: "محمود بكري",
@@ -732,6 +776,7 @@ footer .to-top:hover { color: var(--accent); }
     },
     fr: {
       brand: "M. Bekri",
+      hEbook: "E-book", ebPre1: "<i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i> (Institut de la Banque islamique de développement, Djeddah, 2021 ; 170 p. ; <span dir=\"ltr\">ISBN 978-603-8306-06-2</span>) est une introduction pratique aux distributions à queues épaisses et aux mesures de risque cohérentes, destinée aux universitaires, aux praticiens et aux étudiants en finance islamique.", ebPre2: "Les rendements financiers connaissent des mouvements extrêmes bien plus souvent que ne le prévoit la loi normale. Le livre montre comment les lois stables, les copules et les mesures cohérentes comme l’Average Value at Risk saisissent ce risque de queue, et comment les appliquer à des portefeuilles conformes à la charia au moyen d’exemples traités.", ebPre3: "Il s’organise en quatre parties :", ebPart1: "Un panorama de la finance islamique : ses sources, ses principes fondamentaux et ses règles.", ebPart2: "Théorie des probabilités, modélisation des séries temporelles, lois à queues épaisses et lois stables, structures de dépendance.", ebPart3: "Application de ces méthodes à la gestion des risques, en particulier du risque de marché.", ebPart4: "Sélection et optimisation de portefeuille, et mesure de la performance.", ebLink: "Page du livre (IsDBI)", ebExH: "Les douze exercices", ebExP: "Chaque exercice s’exécute en direct dans le navigateur, avec le code Python modifiable et le MATLAB du livre côte à côte.", ebRun: "Exécuter les exercices", ebEx01: "Distribution des prix et des log-rendements", ebEx02: "Loi jointe", ebEx03: "Modèles de séries temporelles", ebEx04: "Qualité de l’ajustement", ebEx05: "Densités des lois stables", ebEx06: "Copules", ebEx07: "Value at Risk α-stable", ebEx08: "Value at Risk ARMA-GARCH", ebEx09: "VaR et AVaR", ebEx10: "Backtesting de la VaR", ebEx11: "Optimisation moyenne-CVaR", ebEx12: "Mesures de performance",
       navResearch: "Recherche", navPubs: "Publications", navEbook: "E-book", navBlog: "Blogs", navPath: "Parcours", navContact: "Contact",
       alt: "Portrait de Mahmoud Bekri",
       name: "Mahmoud Bekri",
@@ -805,6 +850,7 @@ footer .to-top:hover { color: var(--accent); }
     },
     de: {
       brand: "M. Bekri",
+      hEbook: "E-Book", ebPre1: "<i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i> (Islamic Development Bank Institute, Dschidda, 2021; 170 S.; <span dir=\"ltr\">ISBN 978-603-8306-06-2</span>) ist eine praxisnahe Einführung in Verteilungen mit schweren Rändern und kohärente Risikomaße für Wissenschaft, Praxis und Studierende des islamischen Finanzwesens.", ebPre2: "Finanzrenditen zeigen extreme Ausschläge weit häufiger, als die Normalverteilung zulässt. Das Buch zeigt, wie stabile Verteilungen, Copulas und kohärente Maße wie der Average Value at Risk dieses Randrisiko erfassen und wie man sie anhand durchgerechneter Beispiele auf schariakonforme Portfolios anwendet.", ebPre3: "Es gliedert sich in vier Teile:", ebPart1: "Ein Überblick über das islamische Finanzwesen: Quellen, Grundprinzipien und Leitlinien.", ebPart2: "Wahrscheinlichkeitstheorie, Zeitreihenmodellierung, Verteilungen mit schweren Rändern und stabile Verteilungen, Abhängigkeitsstrukturen.", ebPart3: "Anwendung dieser Methoden im Risikomanagement, mit Schwerpunkt auf dem Marktrisiko.", ebPart4: "Portfolioauswahl und -optimierung sowie Performancemessung.", ebLink: "Buchseite beim IsDBI", ebExH: "Die zwölf Übungen", ebExP: "Jede Übung läuft live im Browser, mit editierbarem Python und dem MATLAB-Code des Buchs nebeneinander.", ebRun: "Übungen ausführen", ebEx01: "Verteilung von Kursen und Log-Renditen", ebEx02: "Gemeinsame Verteilung", ebEx03: "Zeitreihenmodelle", ebEx04: "Anpassungsgüte", ebEx05: "Dichten stabiler Verteilungen", ebEx06: "Copulas", ebEx07: "α-stabiler Value at Risk", ebEx08: "ARMA-GARCH-Value-at-Risk", ebEx09: "VaR und AVaR", ebEx10: "Backtesting des VaR", ebEx11: "Mittelwert-CVaR-Optimierung", ebEx12: "Performancemaße",
       navResearch: "Forschung", navPubs: "Publikationen", navEbook: "E-Book", navBlog: "Blogs", navPath: "Werdegang", navContact: "Kontakt",
       alt: "Porträt von Mahmoud Bekri",
       name: "Mahmoud Bekri",
