@@ -12,6 +12,17 @@ rp = Ret_p @ np.full(6, 1 / 6)
 def sharpe(rp, rb):
     """MATLAB sharpe(Asset, Cash): mean excess return over the std of the asset."""
     return np.mean(rp - rb) / np.std(rp, ddof=1)
+# NOTE: the book calls sharpe(Asset, Cash) with the DJIA in place of cash. Since the
+# DJIA is a risky benchmark, this is neither the classic Sharpe ratio (excess return
+# over a risk-free rate) nor the information ratio (active return over tracking error).
+# It is kept to match the book and labelled as such; the information ratio is added
+# below. A classic Sharpe ratio would need a risk-free series, which the data file
+# does not contain.
+
+def information_ratio(rp, rb):
+    """Mean active return over the std of active returns (tracking error)."""
+    a = rp - rb
+    return np.mean(a) / np.std(a, ddof=1)
 
 def etl(r, alpha):
     """Expected tail loss: -(1/alpha) * mean of the lowest alpha share of r."""
@@ -27,12 +38,17 @@ def rachev_ratio(rp, alpha_num, alpha_den):
     return etl(-rp, alpha_num) / etl(rp, alpha_den)
 
 Sharpe = sharpe(rp, rb)
+IR = information_ratio(rp, rb)
 STARR = STARR_ratio(rp, rb, 0.01)
 RR = rachev_ratio(rp, 0.05, 0.01)
-print(f"Sharpe       = {Sharpe:.4f}")
-print(f"STARR(1%)    = {STARR:.4f}")
-print(f"Rachev ratio = {RR:.4f}   (gain tail 5% / loss tail 1%)")
-print(f"\nannualised: portfolio mean {rp.mean()*252:.2%}, benchmark mean {rb.mean()*252:.2%}")
+print("Daily ratios, benchmark DJIA:")
+print(f"  book's Sharpe (DJIA as cash) = {Sharpe:.4f}   mean(rp - rb) / std(rp)")
+print(f"  information ratio            = {IR:.4f}   mean(rp - rb) / std(rp - rb)")
+print(f"  STARR(1%)                    = {STARR:.4f}   mean(rp - rb) / ETL_1%(rp - rb)")
+print(f"  Rachev ratio                 = {RR:.4f}   ETG_5%(rp) / ETL_1%(rp)")
+print(f"  information ratio, annualised = {IR*np.sqrt(252):.4f}   (x sqrt(252))")
+print(f"\nAnnualised arithmetic mean returns (daily mean x 252): portfolio {rp.mean()*252:.2%}, DJIA {rb.mean()*252:.2%}")
+print("Constant 1/6 weights on daily returns imply daily rebalancing to equal weights.")
 
 fig, ax = plt.subplots(1, 2, figsize=(9.5, 3.8))
 ax[0].plot(dates[1:], np.cumprod(1 + rp), label="equal-weight portfolio")

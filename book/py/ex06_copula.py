@@ -51,6 +51,16 @@ ax[1].plot(bGum[:, 0], bGum[:, 1], ".", ms=2.5, color=COLORS[1]); ax[1].set_titl
 fig.tight_layout()
 mat("corr(Gaussian-Gamma)", np.corrcoef(bG, rowvar=False), "{:9.4f}")
 mat("corr(Gumbel-Gamma)", np.corrcoef(bGum, rowvar=False), "{:9.4f}")
+# Tail dependence coefficients: the limit probability that one variable is extreme given
+# that the other is. Lower tail = joint losses, upper tail = joint gains.
+print("\nTail dependence      lower    upper")
+for nm, lo, up in [("Gaussian, rho=0.6", 0.0, 0.0),
+                   ("t, rho=0.6, nu=4", *(2 * stats.t.sf(np.sqrt(5 * 0.4 / 1.6), 5),) * 2),
+                   ("Clayton, theta=8", 2 ** (-1 / 8), 0.0),
+                   ("Gumbel, theta=2", 0.0, 2 - 2 ** (1 / 2)),
+                   ("Frank, theta=8", 0.0, 0.0)]:
+    print(f"  {nm:<18} {lo:7.3f}  {up:7.3f}")
+print("For loss risk the lower tail matters: Clayton links joint crashes, the Gaussian does not.")
 print("\nThe Gumbel sample clusters in the upper-right corner: upper tail dependence,"
       "\nwhich the Gaussian copula cannot produce.")
 plt.show()

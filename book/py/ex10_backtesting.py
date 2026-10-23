@@ -56,6 +56,14 @@ plt.title("95% VaR violations for different models, Q3 2011"); plt.legend(loc="l
 
 # Backtests (MATLAB: varbacktest + runtests)
 varbacktest(ReturnsTest, np.column_stack([Normal95, Normal99]), [0.95, 0.99], ["Normal95", "Normal99"], "DJI")
+print("""
+  How to read the table
+  TL (traffic light), MATLAB varbacktest convention applied to the whole test window,
+  not the Basel 250-day window: with N observations and x failures,
+  green if P(X <= x) < 95%, yellow if < 99.99%, red otherwise, where X ~ Binomial(N, 1 - VaR level).
+  Coverage tests (Bin, POF, TUFF) ask whether there are too many or too few failures.
+  Independence tests (CCI, TBFI) ask whether failures cluster in time; CC combines POF and CCI.
+  "accept" means not rejected at the 95% test level.""")
 varbacktest(ReturnsTest, np.column_stack([Normal95, Historical95, EWMA95, Normal99, Historical99, EWMA99]),
             [0.95, 0.95, 0.95, 0.99, 0.99, 0.99],
             ["Normal95", "Historical95", "EWMA95", "Normal99", "Historical99", "EWMA99"], "DJI")

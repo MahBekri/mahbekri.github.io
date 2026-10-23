@@ -39,6 +39,13 @@ pReturn2 = mu @ w2; pRisk2 = np.array([port_var_cvar(AssetScen, w2[:, j], 0.95)[
 mat("CVaR portfolio weights (%), ports 1..10", (w1 * 100).T, "{:8.1f}", [str(j + 1) for j in range(10)], symbol)
 mat("Mean-variance weights (%), ports 1..10", (w2 * 100).T, "{:8.1f}", [str(j + 1) for j in range(10)], symbol)
 
+best = symbol[int(np.argmax(mu))]
+print(f"\nPortfolio 10 is the maximum-return end of each frontier. With long-only weights and no"
+      f"\nposition limits, it holds 100% of the single asset with the highest mean return ({best})."
+      "\nThis corner solution is a known property of unconstrained optimisation, not a recommendation:"
+      "\nreal mandates add concentration limits (for example at most 30% per stock), and these"
+      "\nfrontiers are in-sample, so their weights would need an out-of-sample test.")
+
 plt.figure(figsize=(6.4, 4))
 plt.plot(pRisk1, pReturn1, "-o", ms=3, color=COLORS[1], label="CVaR")
 plt.plot(pRisk2, pReturn2, "--o", ms=3, color=COLORS[0], label="Mean-variance")

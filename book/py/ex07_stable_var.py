@@ -17,14 +17,32 @@ m, sig_nor = logret.mean(), logret.std(ddof=1)
 print(f"mean = {m:.6f}  std = {sig_nor:.6f}  skewness = {skewness(logret):.3f}  kurtosis = {kurtosis(logret):.3f}")
 pdfNormal = stats.norm.pdf(xdata, m, sig_nor)
 H, p, ks, cv = kstest_normal((logret - m) / sig_nor)
-print(f"KS test, normal: stat = {ks:.4f}  p = {p:.3g}  -> {'reject' if H else 'accept'}")
+print(f"KS test, normal: stat = {ks:.4f}  p = {p:.3g}  -> {'reject' if H else 'do not reject'} at 5%")
 
 # Fit the stable law by maximum likelihood (MATLAB: fitdist(logret,'stable'))
 pdStable = fit_stable(logret)
 print(pdStable)
 pdfStable = pdStable.fast_pdf(xdata)
 H, p, ks, cv = kstest_cdf(logret, pdStable.fast_cdf)
-print(f"KS test, stable: stat = {ks:.4f}  p = {p:.3g}  -> {'reject' if H else 'accept'}")
+print(f"KS test, stable (standard table): stat = {ks:.4f}  p = {p:.3g}  -> {'reject' if H else 'do not reject'} at 5%")
+# NOTE: the standard KS table assumes the law is fixed in advance. Here the four stable
+# parameters were fitted to the same returns, which pulls the fitted cdf towards the data
+# and makes the table p-value too large. A parametric bootstrap gives the right reference:
+# simulate from the fitted law, refit, recompute the KS statistic, and compare.
+B = 39   # replicates; about 30-60 s in the browser. Raise B for a finer p-value.
+rng = np.random.default_rng(2021)
+Dboot = np.empty(B)
+for b in range(B):
+    xb = pdStable.random(n, rng=rng)
+    Dboot[b] = kstest_cdf(xb, fit_stable(xb).fast_cdf)[2]
+p_boot = (1 + np.sum(Dboot >= ks)) / (B + 1)
+print(f"KS test, stable (parametric bootstrap, B = {B}): p = {p_boot:.3f}  -> "
+      f"{'reject' if p_boot < 0.05 else 'do not reject'} at 5%")
+print(f"  bootstrap KS statistics: median {np.median(Dboot):.4f}, max {Dboot.max():.4f}; observed {ks:.4f}")
+# Tail check for a VaR exercise: observed versus fitted probability of a loss beyond each VaR level
+for q in (0.05, 0.01):
+    v = -pdStable.icdf(q)
+    print(f"  stable fit, P(loss > {q:.0%} stable VaR): model {q:.2%}, observed {np.mean(logret < -v):.2%}")
 
 # VaR at 95% and 99%: normal, stable and empirical
 norVaR95, norVaR99 = -stats.norm.ppf([0.05, 0.01], m, sig_nor)

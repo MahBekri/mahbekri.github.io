@@ -10,6 +10,8 @@ dates, data = load_prices("INTC", "2010-01-01", "2018-12-31")
 shape, loc, scale = stats.lognorm.fit(data, floc=0)
 parmhat = [np.log(scale), shape]              # [mu, sigma] of log(price)
 print(f"lognormal parameters: mu = {parmhat[0]:.4f}, sigma = {parmhat[1]:.4f}")
+print("  (descriptive only: prices over nine years are a trending series, not a sample of"
+      "\n   independent draws, so this fit summarises the price levels rather than testing a model)")
 
 dx = 5
 x = np.arange(data.min(), data.max() + dx, dx)

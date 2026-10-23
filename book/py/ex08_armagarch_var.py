@@ -53,6 +53,20 @@ print(f"  normal (i.i.d., sqrt t) {norVaR95:8.3%}   {norVaR99:8.3%}")
 for d in ["normal", "t"]:
     v95, v99, _, _ = results[d]
     print(f"  ARMA-GARCH, {d:<6} MC  {v95:8.3%}   {v99:8.3%}")
+print("\nDiagnostics")
+for d in ["normal", "t"]:
+    e = results[d][2]; pers = e.alpha1 + e.beta1
+    hl = np.log(0.5) / np.log(pers) if pers < 1 else float("inf")
+    print(f"  {d:<6} alpha1 + beta1 = {pers:.4f}   volatility shock half-life = {hl:.0f} days"
+          + ("   (near the unit-root boundary: shocks fade very slowly)" if pers > 0.99 else ""))
+# Monte Carlo uncertainty: 95% interval for each simulated quantile from order statistics
+for d in ["normal", "t"]:
+    s = np.sort(results[d][3]); out = []
+    for q in (0.05, 0.01):
+        lo, hi = stats.binom.ppf([0.025, 0.975], num_path, q).astype(int)
+        out.append(f"VaR {1-q:.0%} in [{-s[hi]:.3%}, {-s[max(lo-1,0)]:.3%}]")
+    print(f"  {d:<6} Monte Carlo 95% interval: " + ",  ".join(out))
+print("  (parameter uncertainty is not included in these intervals)")
 print("\nThe GARCH VaR is conditional on today's volatility, so it differs from the"
       "\nunconditional normal VaR in either direction depending on the market state.")
 

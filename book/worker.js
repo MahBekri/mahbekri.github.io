@@ -1,7 +1,7 @@
 /* Runs the book's Python exercises in a Web Worker with Pyodide,
    so long computations never freeze the page. */
 const PYODIDE = "https://cdn.jsdelivr.net/pyodide/v0.27.7/full/";
-const VERSION = "1";
+const VERSION = "2";
 importScripts(PYODIDE + "pyodide.js");
 
 let py = null;

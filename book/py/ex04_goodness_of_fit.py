@@ -38,6 +38,16 @@ print("\n           H      p-value      stat    5% crit.")
 for nm, f in [("KS", kstest_normal), ("AD", adtest_normal), ("JB", jbtest)]:
     H, p, st, cv = f(x)
     print(f"  {nm}:  {H:5d}  {p:11.3g}  {st:8.4f}  {cv:8.4f}")
+# NOTE: the mean and variance used to standardise x are estimated from the same data.
+# The table KS p-value assumes known parameters; AD above applies the estimated-parameter
+# correction and JB is asymptotic. The Lilliefors version of KS, simulated here, gives the
+# KS p-value with estimated parameters.
+rng = np.random.default_rng(2021)
+B = 999
+Dsim = np.array([stats.kstest((z - z.mean()) / z.std(ddof=1), "norm").statistic
+                 for z in rng.standard_normal((B, len(x)))])
+D_obs = kstest_normal(x)[2]
+print(f"  KS with estimated mean and variance (Lilliefors, {B} simulations): p = {(1 + np.sum(Dsim >= D_obs)) / (B + 1):.3g}")
 print("\nH = 1 rejects normality at the 5% level: the log returns are not normal")
 print("(excess kurtosis and heavy tails, visible in the QQ plot).")
 plt.show()

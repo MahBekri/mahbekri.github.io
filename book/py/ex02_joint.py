@@ -39,6 +39,9 @@ print(f"\nVar_P = {Var_P:.4e}\nStd_P = {Std_P:.6f}")
 # Correlations of log returns and of prices
 mat("Corr_Logret", np.corrcoef(logret, rowvar=False), "{:10.4f}", rows=["INTC", "IBM"], cols=["INTC", "IBM"])
 mat("Corr_Price", np.corrcoef(price, rowvar=False), "{:10.4f}", rows=["INTC", "IBM"], cols=["INTC", "IBM"])
+rl = np.corrcoef(logret, rowvar=False)[0, 1]; rp_ = np.corrcoef(price, rowvar=False)[0, 1]
+print(f"\nCorrelation, INTC vs IBM: log returns {rl:.4f}   prices {rp_:.4f}")
+print(f"Covariance of log returns: {Sig[0, 1]:.3e} (in squared daily log-return units, so not comparable with a correlation)")
 print("\nPrices are non-stationary, so their correlation mostly reflects common"
       "\ntrends; the log-return correlation is the meaningful dependence measure.")
 plt.show()

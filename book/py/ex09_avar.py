@@ -46,6 +46,9 @@ mat("averageValueAtRisk (empirical)", AVaR * 100, "{:9.3f}", rows, StockTicker)
 mat("normalValueAtRisk", nVaR * 100, "{:9.3f}", rows, StockTicker)
 mat("normalAverageValueAtRisk", nAVaR * 100, "{:9.3f}", rows, StockTicker)
 mat("portfolio, % of value", P * 100, "{:9.3f}", rows, ["VaR emp", "AVaR emp", "VaR nor", "AVaR nor"])
+print("\nConventions: empirical VaR at level b is the ceil(n*b)-th smallest loss; empirical AVaR"
+      "\naverages the worst (1-b)*n losses, counting the boundary loss with its fractional weight."
+      "\nConstant 20% weights on daily returns imply daily rebalancing.")
 print("\nAll figures are daily losses in percent. Diversification: the portfolio AVaR is"
       "\nbelow the average of the stocks' AVaRs (subadditivity of a coherent measure).")
 print(f"  99%: portfolio AVaR {P[-1,1]:.3%} vs mean stock AVaR {AVaR[-1].mean():.3%}")
