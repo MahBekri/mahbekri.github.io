@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Mahmoud Bekri</title>
+<title>Mahmoud Bekri · Heavy tails, risk and Islamic finance</title>
 <meta name="description" content="Mahmoud Bekri, Research Economist at the Islamic Development Bank Institute: heavy-tailed risk, coherent risk measures and Islamic finance.">
 <meta name="author" content="Mahmoud Bekri">
 <link rel="canonical" href="https://mahbekri.github.io/">
@@ -13,7 +13,7 @@
 <link rel="alternate" hreflang="de" href="https://mahbekri.github.io/?lang=de">
 <link rel="alternate" hreflang="x-default" href="https://mahbekri.github.io/">
 <meta property="og:type" content="profile">
-<meta property="og:title" content="Mahmoud Bekri">
+<meta property="og:title" content="Mahmoud Bekri · Heavy tails, risk and Islamic finance">
 <meta property="og:description" content="Research Economist, Islamic Development Bank Institute. Heavy tails, coherent risk measures and Islamic finance.">
 <meta property="og:url" content="https://mahbekri.github.io/">
 <meta property="og:image" content="https://mahbekri.github.io/photo.jpg">
@@ -527,7 +527,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
           <span class="yr">2021</span>
           <div>
             <a class="pt" href="https://isdbinstitute.org/product/heavy-tails-and-coherent-risk-measures-in-islamic-finance/">Heavy Tails and Coherent Risk Measures in Islamic Finance</a>
-            <span class="pa"><span class="me">M. Bekri</span>. Islamic Development Bank Institute, Jeddah. 170 pp. ISBN 978-603-8306-06-2.</span>
+            <span class="pa"><span class="me">M. Bekri</span>. Islamic Development Bank Institute, Jeddah. 170 pp. ISBN 978-603-8306-06-2. <a href="https://doi.org/10.55780/bk21001">doi:10.55780/bk21001</a></span>
             <span class="ps" lang="en">A hands-on introduction to heavy-tailed distributions and coherent risk measures for Islamic finance, closing with portfolio selection, optimisation and performance measurement.</span>
             <span class="tags"><span class="tag" data-i18n="book">Book</span><a class="tag tag-free" href="#ebook" data-i18n="freeBook">Ebook</a><a class="tag tag-free" href="book/" data-i18n="runEx">Run the exercises</a></span>
           </div>
@@ -593,7 +593,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
         <li data-topics="credit">
           <span class="yr">2015</span>
           <div>
-            <span class="pt">AdaBoost Ensemble Classifier for Corporate Default Prediction</span>
+            <a class="pt" href="https://doi.org/10.19026/rjaset.9.1398">AdaBoost Ensemble Classifiers for Corporate Default Prediction</a>
             <span class="pa">S. Ramakrishnan, M. Mirzaei and <span class="me">M. Bekri</span>. <i>Research Journal of Applied Sciences, Engineering and Technology</i> 9(3), 224–230.</span>
           </div>
         </li>
@@ -608,8 +608,8 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
         <li data-topics="tail islamic">
           <span class="yr">2014</span>
           <div>
-            <span class="pt">Portfolio Management with Heavy-Tailed Distributions in Islamic Finance</span>
-            <span class="pa"><span class="me">M. Bekri</span>, Y. S. Kim and S. T. Rachev. <i>Journal of Islamic Economics, Banking and Finance</i> 10(2).</span>
+            <a class="pt" href="https://doi.org/10.12816/0025173">Portfolio Management with Heavy-Tailed Distributions in Islamic Finance</a>
+            <span class="pa"><span class="me">M. Bekri</span>, Y. S. Kim and S. T. Rachev. <i>Journal of Islamic Economics, Banking and Finance</i> 10(2), 114–137.</span>
           </div>
         </li>
       </ol>
@@ -618,7 +618,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
         <li data-topics="tail islamic">
           <span class="yr">2017</span>
           <div>
-            <a class="pt" href="https://www.e-elgar.com/shop/gbp/handbook-of-empirical-research-on-islam-and-economic-life-9781784710729.html">On the Dependency Structure of Islamic Assets</a>
+            <a class="pt" href="https://doi.org/10.4337/9781784710736.00036">On the Dependency Structure of Islamic Assets</a>
             <span class="pa"><span class="me">M. Bekri</span>, M. K. Hassan and N. Alam. In M. K. Hassan (ed.), <i>Handbook of Empirical Research on Islam and Economic Life</i>, Edward Elgar, 602–623.</span>
             <span class="ps" lang="en">Applies copula-GARCH and vine-copula models to six representative Sharia-compliant stocks, showing they capture the dependence between Islamic assets better than tools that assume normality.</span>
           </div>
@@ -1028,8 +1028,18 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
     document.querySelectorAll('[data-i18n-aria]').forEach(function (el) { el.setAttribute('aria-label', t(el.dataset.i18nAria)); });
     document.querySelectorAll('.copy').forEach(function (b) { b.textContent = t('copy'); });
     document.querySelectorAll('.langs-switch button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.lang === l)); });
-    document.title = l === 'ar' ? 'محمود بكري' : 'Mahmoud Bekri';
+    document.title = {"en": "Mahmoud Bekri · Heavy tails, risk and Islamic finance", "ar": "محمود بكري · الذيول الثقيلة والمخاطر والتمويل الإسلامي", "fr": "Mahmoud Bekri · Queues épaisses, risque et finance islamique", "de": "Mahmoud Bekri · Heavy Tails, Risiko und islamisches Finanzwesen"}[l] || "Mahmoud Bekri \u00b7 Heavy tails, risk and Islamic finance";
     try { document.querySelector('meta[name="description"]').setAttribute('content', l === 'en' ? META_EN : t('metaDesc')); } catch (e) {}
+    try {
+      var canon = document.querySelector('link[rel="canonical"]'); var base = canon.dataset.base || canon.getAttribute('href'); canon.dataset.base = base;
+      var url = l === 'en' ? base : base + '?lang=' + l;
+      canon.setAttribute('href', url);
+      var setm = function (sel, v) { var m = document.querySelector(sel); if (m) m.setAttribute('content', v); };
+      setm('meta[property="og:url"]', url);
+      setm('meta[property="og:locale"]', { en: 'en_GB', ar: 'ar_AR', fr: 'fr_FR', de: 'de_DE' }[l]);
+      setm('meta[property="og:title"]', document.title);
+      var d = document.querySelector('meta[name="description"]'); if (d) setm('meta[property="og:description"]', d.getAttribute('content'));
+    } catch (e) {}
     if (save) { try { localStorage.setItem('lang', l); } catch (e) {} }
     if (save) { try { var u = new URL(location.href); if (l === 'en') u.searchParams.delete('lang'); else u.searchParams.set('lang', l); history.replaceState(null, '', u); } catch (e) {} }
     draw();
