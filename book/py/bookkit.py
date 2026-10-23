@@ -14,7 +14,6 @@ Conventions
 * Stable laws use the S1 parameterisation, as MATLAB's makedist('Stable') does:
   E[exp(iuX)] = exp(i*delta*u - |gam*u|^alpha * (1 - i*beta*sign(u)*tan(pi*alpha/2))).
 """
-import io
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=DeprecationWarning)

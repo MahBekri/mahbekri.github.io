@@ -7,6 +7,11 @@
 <meta name="description" content="Mahmoud Bekri, Research Economist at the Islamic Development Bank Institute: heavy-tailed risk, coherent risk measures and Islamic finance.">
 <meta name="author" content="Mahmoud Bekri">
 <link rel="canonical" href="https://mahbekri.github.io/">
+<link rel="alternate" hreflang="en" href="https://mahbekri.github.io/">
+<link rel="alternate" hreflang="ar" href="https://mahbekri.github.io/?lang=ar">
+<link rel="alternate" hreflang="fr" href="https://mahbekri.github.io/?lang=fr">
+<link rel="alternate" hreflang="de" href="https://mahbekri.github.io/?lang=de">
+<link rel="alternate" hreflang="x-default" href="https://mahbekri.github.io/">
 <meta property="og:type" content="profile">
 <meta property="og:title" content="Mahmoud Bekri">
 <meta property="og:description" content="Research Economist, Islamic Development Bank Institute. Heavy tails, coherent risk measures and Islamic finance.">
@@ -359,7 +364,12 @@ footer .to-top:hover { color: var(--accent); }
   .top { position: static; backdrop-filter: none; background: none; }
   .theme, figure.plot, .talk, .contact { box-shadow: none; }
   .js .reveal { opacity: 1 !important; transform: none !important; }
-  section { break-inside: avoid-page; }
+  section { break-inside: auto; }
+  section > h2 { break-after: avoid; }
+  .hero { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); align-items: center; gap: 1.5rem; padding-block: 1rem; }
+  figure.plot { break-inside: avoid; }
+  .theme, .bio, .talk, .contact, .pubs li, .blogs li, .path li, .plain li { break-inside: avoid; }
+  .sub { break-after: avoid; }
 }
 :root {
   /* one type scale shared by every page */
