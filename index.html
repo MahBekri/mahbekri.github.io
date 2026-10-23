@@ -41,7 +41,7 @@
   "knowsLanguage": ["ar", "fr", "en", "de"],
   "image": "https://mahbekri.github.io/photo.jpg",
   "url": "https://mahbekri.github.io/",
-  "sameAs": ["https://isdbinstitute.org/staff/dr-mahmoud-bekri/", "https://www.linkedin.com/in/mahmoud-bekri-21320652/", "https://github.com/MahBekri"]
+  "sameAs": ["https://isdbinstitute.org/staff/dr-mahmoud-bekri/", "https://www.linkedin.com/in/mahmoud-bekri-21320652/", "https://github.com/MahBekri", "https://www.researchgate.net/profile/Mahmoud-Bekri"]
 }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -236,6 +236,22 @@ section > h2::before { content: ""; display: block; width: 1.5rem; height: 2px; 
 .content { min-width: 0; max-width: 44rem; }
 .content > p { margin: 0 0 1rem; }
 .content > p:last-child { margin-bottom: 0; }
+.content.wide { max-width: none; }
+.starts { margin-bottom: 1.25rem; }
+a.theme.start { display: block; color: inherit; text-decoration: none; }
+a.theme.start h3 { color: var(--ink); }
+a.theme.start:hover h3 { color: var(--accent); }
+.now { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; max-width: 44rem; }
+.now li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.35rem 0.7rem; }
+.now .tag { margin: 0; min-width: 6.5rem; text-align: center; }
+.now a { font: 500 var(--t-item, 1.15rem)/1.35 var(--display); color: var(--accent); }
+.now-m { font: 500 var(--t-label, 0.8125rem)/1.5 var(--mono); color: var(--muted); }
+.pfilter { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0 0 1.5rem; }
+.pfilter button { font: 500 0.75rem/1.6 var(--mono); letter-spacing: var(--label-track); text-transform: var(--label-case); padding: 0.2rem 0.7rem; border: 1px solid var(--rule); border-radius: 999px; background: var(--card); color: var(--muted); cursor: pointer; }
+html[lang="ar"] .pfilter button { letter-spacing: 0; text-transform: none; font-size: 0.85rem; }
+.pfilter button:hover { border-color: var(--accent); color: var(--accent); }
+.pfilter button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+.pubs li[hidden], .pub-group[hidden] { display: none; }
 .parts { margin: 0 0 1rem; padding-inline-start: 1.4rem; display: grid; gap: 0.45rem; }
 .eb-actions { margin-top: 1.25rem; }
 .exindex { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 0.2rem 1.2rem; }
@@ -442,6 +458,21 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
     </figure>
   </div>
 
+  <section id="start">
+    <h2 class="label" data-i18n="hStart">Start here</h2>
+    <div class="content wide">
+      <div class="themes starts">
+        <a class="theme start" href="#publications"><span class="sym" dir="ltr">01</span><h3 data-i18n="s1h">Read the research</h3><p data-i18n="s1p">Peer-reviewed work on heavy tails, coherent risk measures and Islamic finance, filterable by topic.</p></a>
+        <a class="theme start" href="#ebook"><span class="sym" dir="ltr">02</span><h3 data-i18n="s2h">Explore the book</h3><p data-i18n="s2p">What <i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i> covers, and where to read it.</p></a>
+        <a class="theme start" href="book/#ch3"><span class="sym" dir="ltr">03</span><h3 data-i18n="s3h">Run the exercises</h3><p data-i18n="s3p">The book’s twelve exercises in Python, editable and runnable in your browser.</p></a>
+      </div>
+      <ul class="now">
+        <li><span class="tag tag-free" data-i18n="nowAcc">Accepted</span><a class="cite-en" lang="en" href="#talks">Pricing Catastrophe-Tailed Energy Assets</a><span class="now-m" dir="ltr">IAEE MENA · KAPSARC · 7–8 Dec 2026</span></li>
+        <li><span class="tag tag-free" data-i18n="nowPub">Published</span><a class="cite-en" lang="en" href="https://doi.org/10.55188/ijifsd.v18i3.1461">Quick Commerce and Islamic Ethics: Maqāṣid and Policy Assessment</a><span class="now-m" dir="ltr">IJIFSD 18(3) · Sep 2026</span></li>
+      </ul>
+    </div>
+  </section>
+
   <section id="about">
     <h2 class="label" data-i18n="hAbout">About</h2>
     <div class="content">
@@ -481,9 +512,17 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
   <section id="publications">
     <h2 class="label" data-i18n="hPubs">Publications</h2>
     <div class="content">
+      <div class="pfilter" role="group" data-i18n-aria="filterAria" aria-label="Filter publications by topic">
+        <button type="button" data-topic="all" aria-pressed="true" data-i18n="fAll">All</button>
+        <button type="button" data-topic="tail" aria-pressed="false" data-i18n="fTail">Tail risk</button>
+        <button type="button" data-topic="islamic" aria-pressed="false" data-i18n="fIslamic">Islamic finance</button>
+        <button type="button" data-topic="credit" aria-pressed="false" data-i18n="fCredit">Credit risk</button>
+        <button type="button" data-topic="energy" aria-pressed="false" data-i18n="fEnergy">Energy</button>
+        <button type="button" data-topic="ethics" aria-pressed="false" data-i18n="fEthics">Ethics</button>
+      </div>
       <h3 class="sub label" data-i18n="pubBooks">Books and thesis</h3>
       <ol class="pubs">
-        <li>
+        <li data-topics="tail islamic">
           <span class="yr">2021</span>
           <div>
             <a class="pt" href="https://isdbinstitute.org/product/heavy-tails-and-coherent-risk-measures-in-islamic-finance/">Heavy Tails and Coherent Risk Measures in Islamic Finance</a>
@@ -492,7 +531,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
             <span class="tags"><span class="tag" data-i18n="book">Book</span><a class="tag tag-free" href="#ebook" data-i18n="freeBook">Ebook</a><a class="tag tag-free" href="book/" data-i18n="runEx">Run the exercises</a></span>
           </div>
         </li>
-        <li>
+        <li data-topics="tail islamic">
           <span class="yr">2014</span>
           <div>
             <a class="pt" href="https://katalog.bibliothek.kit.edu/bib/978165">Portfolio Optimization and Risk Management under Non-normal Stable and Tempered Stable Distributions in Islamic Finance</a>
@@ -503,14 +542,14 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
       </ol>
       <h3 class="sub label" data-i18n="pubJournals">Journal articles</h3>
       <ol class="pubs">
-        <li>
+        <li data-topics="ethics islamic">
           <span class="yr">2026</span>
           <div>
             <a class="pt" href="https://doi.org/10.55188/ijifsd.v18i3.1461">Quick Commerce and Islamic Ethics: Maqāṣid and Policy Assessment</a>
             <span class="pa">M. Hajjar and <span class="me">M. Bekri</span>. <i>International Journal of Islamic Finance and Sustainable Development</i> 18(3), 41–59.</span>
           </div>
         </li>
-        <li>
+        <li data-topics="energy">
           <span class="yr">2017</span>
           <div>
             <a class="pt" href="https://shdl.mmu.edu.my/6943/">Energy Consumption and CO<sub>2</sub> Emissions in Iran, 2025</a>
@@ -518,7 +557,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
             <span class="ps" lang="en">A system-dynamics model of Iran’s energy use and CO<sub>2</sub> emissions from 2000 to 2025, with policy scenarios showing how lower energy intensity cuts projected emissions.</span>
           </div>
         </li>
-        <li>
+        <li data-topics="credit">
           <span class="yr">2016</span>
           <div>
             <a class="pt" href="https://doi.org/10.5445/IR/1000055982">Corporate Default Prediction with Industry Effects: Evidence from Emerging Markets</a>
@@ -527,7 +566,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
             <span class="tags"><span class="tag tag-free" data-i18n="openAccess">Open access</span></span>
           </div>
         </li>
-        <li>
+        <li data-topics="tail islamic">
           <span class="yr">2015</span>
           <div>
             <a class="pt" href="https://www.sciencedirect.com/science/article/pii/S2214845014000519">Tail Risk Analysis of the S&amp;P/OIC COMCEC 50 Index</a>
@@ -535,7 +574,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
             <span class="ps" lang="en">Compares three ways to capture the fat tails of a Sharia-compliant index of large OIC-country firms, after filtering out volatility clustering; stable distributions fit best and give more reliable tail-risk estimates.</span>
           </div>
         </li>
-        <li>
+        <li data-topics="credit">
           <span class="yr">2015</span>
           <div>
             <a class="pt" href="https://doi.org/10.11113/jt.v73.4191">Corporate Default Prediction with AdaBoost and Bagging Classifiers</a>
@@ -543,21 +582,21 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
             <span class="ps" lang="en">Tests AdaBoost and bagging ensembles on default and non-default firms listed on Bursa Malaysia; both classify better than a single model.</span>
           </div>
         </li>
-        <li>
+        <li data-topics="credit">
           <span class="yr">2015</span>
           <div>
             <a class="pt" href="https://doi.org/10.19026/rjaset.9.2635">A Multi-Industry Default Prediction Model Using Logistic Regression and Decision Tree</a>
             <span class="pa">S. Ramakrishnan, M. Mirzaei and <span class="me">M. Bekri</span>. <i>Research Journal of Applied Sciences, Engineering and Technology</i> 9(10), 856–861.</span>
           </div>
         </li>
-        <li>
+        <li data-topics="credit">
           <span class="yr">2015</span>
           <div>
             <span class="pt">AdaBoost Ensemble Classifier for Corporate Default Prediction</span>
             <span class="pa">S. Ramakrishnan, M. Mirzaei and <span class="me">M. Bekri</span>. <i>Research Journal of Applied Sciences, Engineering and Technology</i> 9(3), 224–230.</span>
           </div>
         </li>
-        <li>
+        <li data-topics="tail islamic">
           <span class="yr">2014</span>
           <div>
             <a class="pt" href="https://doi.org/10.1108/IMEFM-10-2012-0096">Tempered Stable Models for Islamic Finance Asset Management</a>
@@ -565,7 +604,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
             <span class="ps" lang="en">Reviews the limits of the standard models used in Islamic finance and sets out a tempered stable framework for modelling Islamic markets in extreme, highly volatile periods.</span>
           </div>
         </li>
-        <li>
+        <li data-topics="tail islamic">
           <span class="yr">2014</span>
           <div>
             <span class="pt">Portfolio Management with Heavy-Tailed Distributions in Islamic Finance</span>
@@ -575,7 +614,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
       </ol>
       <h3 class="sub label" data-i18n="pubChapters">Book chapter</h3>
       <ol class="pubs">
-        <li>
+        <li data-topics="tail islamic">
           <span class="yr">2017</span>
           <div>
             <a class="pt" href="https://www.e-elgar.com/shop/gbp/handbook-of-empirical-research-on-islam-and-economic-life-9781784710729.html">On the Dependency Structure of Islamic Assets</a>
@@ -715,6 +754,10 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
           <a class="addr" href="https://www.linkedin.com/in/mahmoud-bekri-21320652/">linkedin.com/in/mahmoud-bekri-21320652</a>
         </div>
         <div class="row">
+          <span class="label">ResearchGate</span>
+          <a class="addr" href="https://www.researchgate.net/profile/Mahmoud-Bekri">researchgate.net/profile/Mahmoud-Bekri</a>
+        </div>
+        <div class="row">
           <span class="label">GitHub</span>
           <a class="addr" href="https://github.com/MahBekri">github.com/MahBekri</a>
         </div>
@@ -734,6 +777,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
   var T = {
     ar: {
       brand: "م. بكري",
+      hStart: "ابدأ من هنا", s1h: "اقرأ البحوث", s1p: "أعمال محكّمة في الذيول الثقيلة ومقاييس المخاطر المتّسقة والتمويل الإسلامي، مع تصفية حسب الموضوع.", s2h: "استكشف الكتاب", s2p: "ما يتناوله كتاب <bdi lang=\"en\"><i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i></bdi>، وأين يمكن قراءته.", s3h: "شغّل التمارين", s3p: "تمارين الكتاب الاثنا عشر بلغة Python، قابلة للتعديل والتشغيل في متصفحك.", nowAcc: "مقبول", nowPub: "منشور", fAll: "الكل", fTail: "مخاطر الذيل", fIslamic: "التمويل الإسلامي", fCredit: "مخاطر الائتمان", fEnergy: "الطاقة", fEthics: "الأخلاقيات", filterAria: "تصفية المنشورات حسب الموضوع",
       heroRun: "شغّل تمارين الكتاب", metaDesc: "محمود بكري، باحث اقتصادي في معهد البنك الإسلامي للتنمية: المخاطر ذات الذيول الثقيلة، ومقاييس المخاطر المتّسقة، والتمويل الإسلامي.",
       hEbook: "الكتاب الإلكتروني", ebPre1: "<i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i> (معهد البنك الإسلامي للتنمية، جدة، 2021؛ 170 صفحة؛ <span dir=\"ltr\">ISBN 978-603-8306-06-2</span>) مدخل تطبيقي إلى التوزيعات ذات الذيول الثقيلة ومقاييس المخاطر المتّسقة، موجّه إلى الأكاديميين والممارسين وطلبة التمويل الإسلامي.", ebPre2: "تشهد العوائد المالية تقلّبات حادّة أكثر بكثير ممّا يفترضه التوزيع الطبيعي. ويبيّن الكتاب كيف تلتقط التوزيعات المستقرّة ودوال الكوبولا والمقاييس المتّسقة، مثل القيمة المعرّضة للخطر المتوسّطة، مخاطرَ الذيل هذه، وكيف تُطبَّق على المحافظ المتوافقة مع أحكام الشريعة من خلال أمثلة محلولة.", ebPre3: "ويتألّف من أربعة أجزاء:", ebPart1: "نظرة عامة على التمويل الإسلامي: مصادره ومبادئه الأساسية وضوابطه.", ebPart2: "نظرية الاحتمالات، ونمذجة السلاسل الزمنية، والتوزيعات ذات الذيول الثقيلة والمستقرّة، وهياكل الارتباط.", ebPart3: "تطبيق هذه الأساليب في إدارة المخاطر، مع التركيز على مخاطر السوق.", ebPart4: "اختيار المحافظ وتحسينها، وقياس الأداء.", ebLink: "صفحة الكتاب لدى المعهد", ebExH: "التمارين الاثنا عشر", ebExP: "يُشغَّل كل تمرين مباشرة في المتصفح، مع شيفرة Python قابلة للتعديل وشيفرة MATLAB الواردة في الكتاب جنبًا إلى جنب.", ebRun: "شغّل التمارين", ebEx01: "توزيع الأسعار وتوزيع العوائد اللوغاريتمية", ebEx02: "التوزيع المشترك", ebEx03: "نماذج السلاسل الزمنية", ebEx04: "جودة المطابقة", ebEx05: "كثافات التوزيعات المستقرة", ebEx06: "الروابط (الكوبولا)", ebEx07: "القيمة المعرّضة للخطر وفق التوزيع المستقر", ebEx08: "القيمة المعرّضة للخطر بنموذج ARMA-GARCH", ebEx09: "VaR وAVaR", ebEx10: "الاختبار الرجعي للقيمة المعرّضة للخطر", ebEx11: "التحسين وفق المتوسط والقيمة الشرطية المعرّضة للخطر", ebEx12: "مقاييس الأداء",
       navResearch: "البحوث", navPubs: "المنشورات", navEbook: "الكتاب الإلكتروني", navBlog: "المدوّنات", navPath: "المسيرة المهنية", navContact: "التواصل",
@@ -809,6 +853,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
     },
     fr: {
       brand: "M. Bekri",
+      hStart: "Pour commencer", s1h: "Lire les travaux", s1p: "Travaux à comité de lecture sur les queues épaisses, les mesures de risque cohérentes et la finance islamique, filtrables par thème.", s2h: "Découvrir le livre", s2p: "Ce que couvre <i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i>, et où le lire.", s3h: "Exécuter les exercices", s3p: "Les douze exercices du livre en Python, modifiables et exécutables dans votre navigateur.", nowAcc: "Accepté", nowPub: "Publié", fAll: "Tout", fTail: "Risque de queue", fIslamic: "Finance islamique", fCredit: "Risque de crédit", fEnergy: "Énergie", fEthics: "Éthique", filterAria: "Filtrer les publications par thème",
       heroRun: "Exécuter les exercices du livre", metaDesc: "Mahmoud Bekri, économiste-chercheur à l'Institut de la Banque islamique de développement : risques à queues épaisses, mesures de risque cohérentes et finance islamique.",
       hEbook: "E-book", ebPre1: "<i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i> (Institut de la Banque islamique de développement, Djeddah, 2021 ; 170 p. ; <span dir=\"ltr\">ISBN 978-603-8306-06-2</span>) est une introduction pratique aux distributions à queues épaisses et aux mesures de risque cohérentes, destinée aux universitaires, aux praticiens et aux étudiants en finance islamique.", ebPre2: "Les rendements financiers connaissent des mouvements extrêmes bien plus souvent que ne le prévoit la loi normale. Le livre montre comment les lois stables, les copules et les mesures cohérentes comme l’Average Value at Risk saisissent ce risque de queue, et comment les appliquer à des portefeuilles conformes à la charia au moyen d’exemples traités.", ebPre3: "Il s’organise en quatre parties :", ebPart1: "Un panorama de la finance islamique : ses sources, ses principes fondamentaux et ses règles.", ebPart2: "Théorie des probabilités, modélisation des séries temporelles, lois à queues épaisses et lois stables, structures de dépendance.", ebPart3: "Application de ces méthodes à la gestion des risques, en particulier du risque de marché.", ebPart4: "Sélection et optimisation de portefeuille, et mesure de la performance.", ebLink: "Page du livre (IsDBI)", ebExH: "Les douze exercices", ebExP: "Chaque exercice s’exécute en direct dans le navigateur, avec le code Python modifiable et le MATLAB du livre côte à côte.", ebRun: "Exécuter les exercices", ebEx01: "Distribution des prix et des log-rendements", ebEx02: "Loi jointe", ebEx03: "Modèles de séries temporelles", ebEx04: "Qualité de l’ajustement", ebEx05: "Densités des lois stables", ebEx06: "Copules", ebEx07: "Value at Risk α-stable", ebEx08: "Value at Risk ARMA-GARCH", ebEx09: "VaR et AVaR", ebEx10: "Backtesting de la VaR", ebEx11: "Optimisation moyenne-CVaR", ebEx12: "Mesures de performance",
       navResearch: "Recherche", navPubs: "Publications", navEbook: "E-book", navBlog: "Blogs", navPath: "Parcours", navContact: "Contact",
@@ -884,6 +929,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
     },
     de: {
       brand: "M. Bekri",
+      hStart: "Einstieg", s1h: "Forschung lesen", s1p: "Begutachtete Arbeiten zu Heavy Tails, kohärenten Risikomaßen und islamischem Finanzwesen, nach Thema filterbar.", s2h: "Das Buch entdecken", s2p: "Was <i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i> behandelt und wo man es lesen kann.", s3h: "Übungen ausführen", s3p: "Die zwölf Übungen des Buchs in Python, editierbar und direkt im Browser ausführbar.", nowAcc: "Angenommen", nowPub: "Erschienen", fAll: "Alle", fTail: "Tail-Risiko", fIslamic: "Islamisches Finanzwesen", fCredit: "Kreditrisiko", fEnergy: "Energie", fEthics: "Ethik", filterAria: "Publikationen nach Thema filtern",
       heroRun: "Die Übungen des Buchs ausführen", metaDesc: "Mahmoud Bekri, Research Economist am Islamic Development Bank Institute: Heavy-Tail-Risiken, kohärente Risikomaße und islamisches Finanzwesen.",
       hEbook: "E-Book", ebPre1: "<i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i> (Islamic Development Bank Institute, Dschidda, 2021; 170 S.; <span dir=\"ltr\">ISBN 978-603-8306-06-2</span>) ist eine praxisnahe Einführung in Heavy-Tail-Verteilungen und kohärente Risikomaße für Wissenschaft, Praxis und Studierende des islamischen Finanzwesens.", ebPre2: "Finanzrenditen zeigen extreme Ausschläge weit häufiger, als die Normalverteilung zulässt. Das Buch zeigt, wie stabile Verteilungen, Copulas und kohärente Maße wie der Average Value at Risk dieses Randrisiko erfassen und wie man sie anhand durchgerechneter Beispiele auf schariakonforme Portfolios anwendet.", ebPre3: "Es gliedert sich in vier Teile:", ebPart1: "Ein Überblick über das islamische Finanzwesen: Quellen, Grundprinzipien und Leitlinien.", ebPart2: "Wahrscheinlichkeitstheorie, Zeitreihenmodellierung, Heavy-Tail-Verteilungen und stabile Verteilungen, Abhängigkeitsstrukturen.", ebPart3: "Anwendung dieser Methoden im Risikomanagement, mit Schwerpunkt auf dem Marktrisiko.", ebPart4: "Portfolioauswahl und -optimierung sowie Performancemessung.", ebLink: "Buchseite beim IsDBI", ebExH: "Die zwölf Übungen", ebExP: "Jede Übung läuft live im Browser, mit editierbarem Python und dem MATLAB-Code des Buchs nebeneinander.", ebRun: "Übungen ausführen", ebEx01: "Verteilung von Kursen und Log-Renditen", ebEx02: "Gemeinsame Verteilung", ebEx03: "Zeitreihenmodelle", ebEx04: "Anpassungsgüte", ebEx05: "Dichten stabiler Verteilungen", ebEx06: "Copulas", ebEx07: "α-stabiler Value at Risk", ebEx08: "ARMA-GARCH-Value-at-Risk", ebEx09: "VaR und AVaR", ebEx10: "Backtesting des VaR", ebEx11: "Mittelwert-CVaR-Optimierung", ebEx12: "Performancemaße",
       navResearch: "Forschung", navPubs: "Publikationen", navEbook: "E-Book", navBlog: "Blogs", navPath: "Werdegang", navContact: "Kontakt",
@@ -1149,6 +1195,25 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
       try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
     });
   });
+
+  /* ---------- publication topic filter ---------- */
+  (function () {
+    var box = document.querySelector('.pfilter'); if (!box) return;
+    var sec = document.getElementById('publications');
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-topic]'); if (!b) return;
+      var tp = b.dataset.topic;
+      box.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      sec.querySelectorAll('.pubs > li[data-topics]').forEach(function (li) {
+        li.hidden = !(tp === 'all' || li.dataset.topics.split(' ').indexOf(tp) >= 0);
+      });
+      sec.querySelectorAll('h3.sub').forEach(function (h) {
+        var ol = h.nextElementSibling; if (!ol || !ol.matches('.pubs')) return;
+        var any = ol.querySelector('li:not([hidden])');
+        h.hidden = !any; ol.hidden = !any;
+      });
+    });
+  })();
 
   var initial = 'en';
   var h = (location.hash || '').slice(1);
