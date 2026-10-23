@@ -272,11 +272,22 @@ html[lang="ar"] .book-hero .lede { font-size: 1.25rem; }
 .st-plot canvas { width: 100%; height: 100%; display: block; }
 .nw { white-space: nowrap; }
 .st-note { margin: 0; color: var(--muted); font-size: var(--t-small, 0.95rem); min-height: 1.5em; }
+.st-fig { margin: 0; }
+.st-cap { font: 500 var(--t-label, 0.8125rem)/1.5 var(--mono); color: var(--muted); margin: 0 0 0.35rem; }
+html[lang="ar"] .st-cap { letter-spacing: 0; text-transform: none; }
+.st-plot-cdf { height: 240px; }
+.eq .math { overflow-x: auto; overflow-y: hidden; padding: 0.25rem 0; }
+.eq .katex-display { margin: 0.4rem 0; }
+.eq .katex { font-size: 1.05em; }
+@media (max-width: 560px) { .eq .katex { font-size: 0.8em; } }
 .plist { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.6rem; }
 .plist b { font: 600 1.05em var(--display); color: var(--accent); }
 @media (max-width: 560px) { .st-controls { grid-template-columns: minmax(0, 1fr); } .st-plot { height: 260px; } .st-reset { margin-inline-start: 0; } }
 @media print { .st-opts, .st-controls { display: none; } }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <a class="skip" href="#main" data-i18n="skip">Skip to content</a>
@@ -317,11 +328,12 @@ html[lang="ar"] .book-hero .lede { font-size: 1.25rem; }
           <div class="st-row"><label class="st-lab" for="st-m" data-i18n="lblM">μ · location</label><input type="range" id="st-m" min="-3" max="3" step="0.01" value="0" aria-label="μ"><input type="number" id="st-m-v" class="st-num" min="-3" max="3" step="0.01" value="0" dir="ltr" aria-label="μ"></div>
         </div>
         <div class="st-opts">
-          <label><input type="checkbox" id="st-log" checked> <span data-i18n="logLbl">Log scale</span></label>
+          <label><input type="checkbox" id="st-log" checked> <span data-i18n="logLbl">Log scale for the density</span></label>
           <label><input type="checkbox" id="st-gauss" checked> <span data-i18n="gaussLbl">Show the Gaussian (α = 2)</span></label>
           <button type="button" class="btn ghost st-reset" id="st-reset"><span data-i18n="resetBtn">Reset</span></button>
         </div>
-        <div class="st-plot" dir="ltr"><canvas id="stable-canvas" role="img" aria-label="Stable density"></canvas></div>
+        <figure class="st-fig"><figcaption class="st-cap" data-i18n="figPdf">Probability density, f(x)</figcaption><div class="st-plot" dir="ltr"><canvas id="stable-canvas" role="img" aria-label="Probability density of the stable law"></canvas></div></figure>
+        <figure class="st-fig"><figcaption class="st-cap" data-i18n="figCdf">Cumulative distribution function, F(x)</figcaption><div class="st-plot st-plot-cdf" dir="ltr"><canvas id="stable-cdf" role="img" aria-label="Cumulative distribution function of the stable law"></canvas></div></figure>
         <p class="st-note" aria-live="polite"><span data-note="mean" data-i18n="noteMean" hidden>α ≤ 1: the mean does not exist, so expected shortfall is infinite.</span><span data-note="var" data-i18n="noteVar">1 < α < 2: the mean exists but the variance is infinite.</span><span data-note="gauss" data-i18n="noteGauss" hidden>α = 2: the Gaussian case, with variance 2σ².</span><span data-note="shift" data-i18n="noteShift" hidden> Near α = 1 with β ≠ 0, the S1 parameterisation moves the whole distribution by about −βσ tan(πα/2), so the curve can leave the plotted range.</span></p>
       </div>
     </div>
@@ -339,10 +351,31 @@ html[lang="ar"] .book-hero .lede { font-size: 1.25rem; }
     </div>
   </section>
 
+  <section id="equations">
+    <h2 class="label" data-i18n="hEq">The equations</h2>
+    <div class="content eq">
+      <p data-i18n="eq1">A stable law is defined by its characteristic function. In the S1 parameterisation used here and in the book:</p>
+      <div class="math" dir="ltr">$$\begin{aligned}\varphi(u)&=\mathbb{E}\,e^{iuX}\\&=\exp\!\Big(i\mu u-|\sigma u|^{\alpha}\big[1-i\beta\operatorname{sign}(u)\tan\tfrac{\pi\alpha}{2}\big]\Big),\ \ \alpha\neq1,\\&=\exp\!\Big(i\mu u-\sigma|u|\big[1+i\beta\tfrac{2}{\pi}\operatorname{sign}(u)\ln|u|\big]\Big),\ \ \alpha=1.\end{aligned}$$</div>
+      <p data-i18n="eq2">The density (upper figure) and the distribution function (lower figure) follow by inverting it:</p>
+      <div class="math" dir="ltr">$$f(x)=\frac{1}{\pi}\int_{0}^{\infty}\operatorname{Re}\!\big[e^{-iux}\,\varphi(u)\big]\,du,$$
+      $$F(x)=\mathbb{P}(X\le x)=\int_{-\infty}^{x}f(t)\,dt.$$</div>
+      <p data-i18n="eq3">Only three cases have a closed form: the Gaussian, the Cauchy and the Lévy laws.</p>
+      <div class="math" dir="ltr">$$\alpha=2:\quad X\sim\mathcal{N}(\mu,\,2\sigma^{2}),$$
+      $$\alpha=1,\ \beta=0:\quad f(x)=\frac{\sigma}{\pi\,[\sigma^{2}+(x-\mu)^{2}]},$$
+      $$\alpha=\tfrac12,\ \beta=1:\quad f(x)=\sqrt{\frac{\sigma}{2\pi}}\;\frac{e^{-\sigma/(2(x-\mu))}}{(x-\mu)^{3/2}},\quad x>\mu.$$</div>
+      <p data-i18n="eq4">For α &lt; 2 the tails decay as a power of x, not exponentially, which is why the density in the upper figure stays far above the Gaussian. As x → ∞:</p>
+      <div class="math" dir="ltr">$$\mathbb{P}(X>x)\sim C_{\alpha}\,(1+\beta)\,\sigma^{\alpha}\,x^{-\alpha},$$
+      $$f(x)\sim \alpha\,C_{\alpha}\,(1+\beta)\,\sigma^{\alpha}\,x^{-\alpha-1},\qquad C_{\alpha}=\frac{\Gamma(\alpha)\,\sin(\pi\alpha/2)}{\pi},$$</div>
+      <p data-i18n="eq5">and the same holds in the left tail with 1 − β in place of 1 + β. Consequently, moments exist only below α:</p>
+      <div class="math" dir="ltr">$$\mathbb{E}\,|X|^{p}<\infty\iff p<\alpha\quad(\alpha<2),$$</div>
+      <p data-i18n="eq6">so the mean, and with it expected shortfall, is finite only for α &gt; 1, and the variance only for α = 2.</p>
+    </div>
+  </section>
+
   <section id="method">
     <h2 class="label" data-i18n="hMethod">How it is computed</h2>
     <div class="content">
-      <p data-i18n="method">The density follows the S1 parameterisation used in the book and in MATLAB. It is computed in your browser from Nolan’s integral representation with Gauss–Legendre quadrature, and matches SciPy to five significant digits. The dashed curve is the Gaussian case, α = 2, with the same σ and μ, whose variance is 2σ².</p>
+      <p data-i18n="method">The figures follow the S1 parameterisation used in the book and in MATLAB. Because the Fourier integral above oscillates, they are computed in your browser from Nolan’s (1997) integral representation, with Gauss–Legendre quadrature, and match SciPy to five significant digits for the density and to 10⁻⁵ for the distribution function. The dashed curves are the Gaussian case, α = 2, with the same σ and μ.</p>
       <p data-i18n="more">The book’s exercise 5 draws these densities in Python: <a href="../book/#ex05">open it</a>.</p>
     </div>
   </section>
@@ -353,7 +386,7 @@ html[lang="ar"] .book-hero .lede { font-size: 1.25rem; }
 
 <script>
 (function () {
-  var T = {"ar": {"skip": "انتقل إلى المحتوى", "brand": "م. بكري", "navHome": "الرئيسية", "navAbout": "الكتاب الإلكتروني", "navExpl": "المستكشف", "navEx": "التمارين", "kicker": "تفاعلي", "h1": "مستكشف التوزيعات المستقرة", "lede": "حرّك <bdi dir=\"ltr\">α</bdi> و<bdi dir=\"ltr\">β</bdi> و<bdi dir=\"ltr\">σ</bdi> و<bdi dir=\"ltr\">μ</bdi> لترى فورًا كيف يتغيّر شكل التوزيع المستقر <bdi dir=\"ltr\">S(α, β, σ, μ)</bdi>، وإلى أي مدى تمتدّ ذيوله مقارنةً بالتوزيع الغاوسي.", "hExplorer": "الكثافة", "lblA": "α · مؤشر الذيل", "lblB": "β · الالتواء", "lblS": "σ · المقياس", "lblM": "μ · الموقع", "logLbl": "مقياس لوغاريتمي", "gaussLbl": "إظهار المنحنى الغاوسي (<bdi dir=\"ltr\">α = 2</bdi>)", "resetBtn": "إعادة الضبط", "noteMean": "<bdi dir=\"ltr\">α ≤ 1</bdi>: المتوسط غير موجود، ومن ثمّ فالعجز المتوقع لا نهائي.", "noteVar": "<bdi dir=\"ltr\">1 < α < 2</bdi>: المتوسط موجود لكن التباين لا نهائي.", "noteGauss": "<bdi dir=\"ltr\">α = 2</bdi>: الحالة الغاوسية، وتباينها <bdi dir=\"ltr\">2σ²</bdi>.", "hParams": "المعالم", "pA": "<b><bdi dir=\"ltr\">α</bdi></b>، مؤشر الذيل، بين 0 و2: كلما صغر ثقلت الذيول. <bdi dir=\"ltr\">α = 2</bdi> يعطي التوزيع الغاوسي، و<bdi dir=\"ltr\">α = 1</bdi> توزيع كوشي.", "pB": "<b><bdi dir=\"ltr\">β</bdi></b>، الالتواء، بين −1 و1: القيم الموجبة تمدّ الذيل الأيمن، والسالبة الذيل الأيسر.", "pS": "<b><bdi dir=\"ltr\">σ</bdi></b>، المقياس، ويؤدي دور الانحراف المعياري (ويُرمز له في الكتاب بـ <bdi dir=\"ltr\">γ</bdi>).", "pM": "<b><bdi dir=\"ltr\">μ</bdi></b>، الموقع (ويُرمز له في الكتاب بـ <bdi dir=\"ltr\">δ</bdi>).", "hMethod": "طريقة الحساب", "method": "تتبع الكثافة الصيغة S1 المعتمدة في الكتاب وفي MATLAB، وتُحسب في متصفحك انطلاقًا من التمثيل التكاملي لنولان بتربيع غاوس–لوجاندر، وتطابق نتائج SciPy حتى خمسة أرقام معنوية. المنحنى المتقطّع هو الحالة الغاوسية <bdi dir=\"ltr\">α = 2</bdi> بنفس <bdi dir=\"ltr\">σ</bdi> و<bdi dir=\"ltr\">μ</bdi>، وتباينها <bdi dir=\"ltr\">2σ²</bdi>.", "more": "يرسم التمرين 5 من الكتاب هذه الكثافات بلغة Python: <a href=\"../book/#ex05\">افتحه</a>.", "footer": "تُحسب الكثافة في متصفحك، ولا تغادر أي بيانات جهازك.", "toTop": "العودة إلى الأعلى ↑", "docTitle": "مستكشف التوزيعات المستقرة · محمود بكري", "metaDesc": "مستكشف تفاعلي للتوزيعات المستقرة: حدّد α وβ وσ وμ وشاهد الكثافة وذيولها الثقيلة مقارنةً بالتوزيع الغاوسي.", "noteShift": " قرب <bdi dir=\"ltr\">α = 1</bdi> ومع <bdi dir=\"ltr\">β ≠ 0</bdi>، تُزيح الصيغة S1 التوزيع كلّه بنحو <bdi dir=\"ltr\">−βσ tan(πα/2)</bdi>، فقد يخرج المنحنى من نطاق الرسم."}, "fr": {"skip": "Aller au contenu", "brand": "M. Bekri", "navHome": "Accueil", "navAbout": "E-book", "navExpl": "Explorateur", "navEx": "Exercices", "kicker": "Interactif", "h1": "Explorateur des lois stables", "lede": "Faites varier α, β, σ et μ et voyez aussitôt comment la loi stable S(α, β, σ, μ) change de forme, et jusqu’où ses queues s’étendent au-delà de la gaussienne.", "hExplorer": "La densité", "lblA": "α · indice de queue", "lblB": "β · asymétrie", "lblS": "σ · échelle", "lblM": "μ · position", "logLbl": "Échelle logarithmique", "gaussLbl": "Afficher la gaussienne (α = 2)", "resetBtn": "Réinitialiser", "noteMean": "α ≤ 1 : la moyenne n’existe pas, l’expected shortfall est donc infini.", "noteVar": "1 < α < 2 : la moyenne existe mais la variance est infinie.", "noteGauss": "α = 2 : le cas gaussien, de variance 2σ².", "hParams": "Les paramètres", "pA": "<b>α</b>, l’indice de queue, entre 0 et 2 : plus il est petit, plus les queues sont épaisses. α = 2 donne la gaussienne, α = 1 la loi de Cauchy.", "pB": "<b>β</b>, l’asymétrie, entre −1 et 1 : les valeurs positives étirent la queue droite, les négatives la gauche.", "pS": "<b>σ</b>, l’échelle, qui joue le rôle de l’écart-type (notée γ dans le livre).", "pM": "<b>μ</b>, la position (notée δ dans le livre).", "hMethod": "Méthode de calcul", "method": "La densité suit la paramétrisation S1 du livre et de MATLAB. Elle est calculée dans votre navigateur à partir de la représentation intégrale de Nolan, par quadrature de Gauss–Legendre, et concorde avec SciPy à cinq chiffres significatifs. La courbe en pointillés est le cas gaussien, α = 2, avec les mêmes σ et μ, de variance 2σ².", "more": "L’exercice 5 du livre trace ces densités en Python : <a href=\"../book/#ex05\">l’ouvrir</a>.", "footer": "Densité calculée dans votre navigateur. Aucune donnée ne quitte votre appareil.", "toTop": "Haut de page ↑", "docTitle": "Explorateur des lois stables · Mahmoud Bekri", "metaDesc": "Explorateur interactif des lois α-stables : choisissez α, β, σ et μ et comparez la densité et ses queues épaisses à la gaussienne.", "noteShift": " Près de α = 1 avec β ≠ 0, la paramétrisation S1 déplace toute la loi d’environ −βσ tan(πα/2) : la courbe peut sortir de la zone tracée."}, "de": {"skip": "Zum Inhalt springen", "brand": "M. Bekri", "navHome": "Start", "navAbout": "E-Book", "navExpl": "Explorer", "navEx": "Übungen", "kicker": "Interaktiv", "h1": "Explorer für stabile Verteilungen", "lede": "Verändern Sie α, β, σ und μ und sehen Sie sofort, wie sich die stabile Verteilung S(α, β, σ, μ) verformt und wie weit ihre Ränder über die Gauß-Verteilung hinausreichen.", "hExplorer": "Die Dichte", "lblA": "α · Tail-Index", "lblB": "β · Schiefe", "lblS": "σ · Skala", "lblM": "μ · Lage", "logLbl": "Logarithmische Skala", "gaussLbl": "Gauß-Kurve zeigen (α = 2)", "resetBtn": "Zurücksetzen", "noteMean": "α ≤ 1: Der Erwartungswert existiert nicht, der Expected Shortfall ist daher unendlich.", "noteVar": "1 < α < 2: Der Erwartungswert existiert, die Varianz ist unendlich.", "noteGauss": "α = 2: der Gaußsche Fall mit Varianz 2σ².", "hParams": "Die Parameter", "pA": "<b>α</b>, der Tail-Index, zwischen 0 und 2: Je kleiner, desto schwerer die Ränder. α = 2 ergibt die Gauß-Verteilung, α = 1 die Cauchy-Verteilung.", "pB": "<b>β</b>, die Schiefe, zwischen −1 und 1: Positive Werte dehnen den rechten Rand, negative den linken.", "pS": "<b>σ</b>, die Skala, die die Rolle der Standardabweichung spielt (im Buch γ).", "pM": "<b>μ</b>, die Lage (im Buch δ).", "hMethod": "Berechnung", "method": "Die Dichte folgt der S1-Parametrisierung des Buchs und von MATLAB. Sie wird in Ihrem Browser aus Nolans Integraldarstellung mit Gauß-Legendre-Quadratur berechnet und stimmt mit SciPy auf fünf signifikante Stellen überein. Die gestrichelte Kurve ist der Gaußsche Fall α = 2 mit denselben σ und μ, Varianz 2σ².", "more": "Übung 5 des Buchs zeichnet diese Dichten in Python: <a href=\"../book/#ex05\">öffnen</a>.", "footer": "Die Dichte wird in Ihrem Browser berechnet. Es verlassen keine Daten Ihr Gerät.", "toTop": "Nach oben ↑", "docTitle": "Explorer für stabile Verteilungen · Mahmoud Bekri", "metaDesc": "Interaktiver Explorer für α-stabile Verteilungen: α, β, σ und μ wählen und Dichte und schwere Ränder mit der Gauß-Verteilung vergleichen.", "noteShift": " Nahe α = 1 mit β ≠ 0 verschiebt die S1-Parametrisierung die ganze Verteilung um etwa −βσ tan(πα/2), sodass die Kurve den dargestellten Bereich verlassen kann."}};
+  var T = {"ar": {"skip": "انتقل إلى المحتوى", "brand": "م. بكري", "navHome": "الرئيسية", "navAbout": "الكتاب الإلكتروني", "navExpl": "المستكشف", "navEx": "التمارين", "kicker": "تفاعلي", "h1": "مستكشف التوزيعات المستقرة", "lede": "حرّك <bdi dir=\"ltr\">α</bdi> و<bdi dir=\"ltr\">β</bdi> و<bdi dir=\"ltr\">σ</bdi> و<bdi dir=\"ltr\">μ</bdi> لترى فورًا كيف يتغيّر شكل التوزيع المستقر <bdi dir=\"ltr\">S(α, β, σ, μ)</bdi>، وإلى أي مدى تمتدّ ذيوله مقارنةً بالتوزيع الغاوسي.", "hExplorer": "الكثافة", "lblA": "α · مؤشر الذيل", "lblB": "β · الالتواء", "lblS": "σ · المقياس", "lblM": "μ · الموقع", "logLbl": "مقياس لوغاريتمي للكثافة", "gaussLbl": "إظهار المنحنى الغاوسي (<bdi dir=\"ltr\">α = 2</bdi>)", "resetBtn": "إعادة الضبط", "noteMean": "<bdi dir=\"ltr\">α ≤ 1</bdi>: المتوسط غير موجود، ومن ثمّ فالعجز المتوقع لا نهائي.", "noteVar": "<bdi dir=\"ltr\">1 < α < 2</bdi>: المتوسط موجود لكن التباين لا نهائي.", "noteGauss": "<bdi dir=\"ltr\">α = 2</bdi>: الحالة الغاوسية، وتباينها <bdi dir=\"ltr\">2σ²</bdi>.", "hParams": "المعالم", "pA": "<b><bdi dir=\"ltr\">α</bdi></b>، مؤشر الذيل، بين 0 و2: كلما صغر ثقلت الذيول. <bdi dir=\"ltr\">α = 2</bdi> يعطي التوزيع الغاوسي، و<bdi dir=\"ltr\">α = 1</bdi> توزيع كوشي.", "pB": "<b><bdi dir=\"ltr\">β</bdi></b>، الالتواء، بين −1 و1: القيم الموجبة تمدّ الذيل الأيمن، والسالبة الذيل الأيسر.", "pS": "<b><bdi dir=\"ltr\">σ</bdi></b>، المقياس، ويؤدي دور الانحراف المعياري (ويُرمز له في الكتاب بـ <bdi dir=\"ltr\">γ</bdi>).", "pM": "<b><bdi dir=\"ltr\">μ</bdi></b>، الموقع (ويُرمز له في الكتاب بـ <bdi dir=\"ltr\">δ</bdi>).", "hMethod": "طريقة الحساب", "method": "تتبع الأشكال الصيغة S1 المعتمدة في الكتاب وفي MATLAB. ولأن تكامل فورييه أعلاه متذبذب، تُحسب في متصفحك انطلاقًا من التمثيل التكاملي لنولان (1997) بتربيع غاوس–لوجاندر، وتطابق نتائج SciPy حتى خمسة أرقام معنوية للكثافة وبدقة 10⁻⁵ لدالة التوزيع. المنحنيات المتقطّعة هي الحالة الغاوسية <bdi dir=\"ltr\">α = 2</bdi> بنفس σ وμ.", "more": "يرسم التمرين 5 من الكتاب هذه الكثافات بلغة Python: <a href=\"../book/#ex05\">افتحه</a>.", "footer": "تُحسب الكثافة في متصفحك، ولا تغادر أي بيانات جهازك.", "toTop": "العودة إلى الأعلى ↑", "docTitle": "مستكشف التوزيعات المستقرة · محمود بكري", "metaDesc": "مستكشف تفاعلي للتوزيعات المستقرة: حدّد α وβ وσ وμ وشاهد الكثافة وذيولها الثقيلة مقارنةً بالتوزيع الغاوسي.", "noteShift": " قرب <bdi dir=\"ltr\">α = 1</bdi> ومع <bdi dir=\"ltr\">β ≠ 0</bdi>، تُزيح الصيغة S1 التوزيع كلّه بنحو <bdi dir=\"ltr\">−βσ tan(πα/2)</bdi>، فقد يخرج المنحنى من نطاق الرسم.", "figPdf": "دالة الكثافة الاحتمالية، f(x)", "figCdf": "دالة التوزيع التراكمي، F(x)", "hEq": "المعادلات", "eq1": "يُعرَّف التوزيع المستقر بدالته المميِّزة. وبالصيغة S1 المعتمدة هنا وفي الكتاب:", "eq2": "وتُستخرج الكثافة (الشكل العلوي) ودالة التوزيع (الشكل السفلي) بعكسها:", "eq3": "ولا توجد صيغة مغلقة إلا في ثلاث حالات: التوزيع الغاوسي، وتوزيع كوشي، وتوزيع ليفي.", "eq4": "حين يكون <bdi dir=\"ltr\">α &lt; 2</bdi> تتناقص الذيول وفق قوّة لـ x لا أسّيًا، ولهذا تبقى الكثافة في الشكل العلوي أعلى بكثير من الغاوسية. وعندما <bdi dir=\"ltr\">x → ∞</bdi>:", "eq5": "والأمر نفسه في الذيل الأيسر مع <bdi dir=\"ltr\">1 − β</bdi> بدل <bdi dir=\"ltr\">1 + β</bdi>. ومن ثمّ لا توجد العزوم إلا دون α:", "eq6": "فالمتوسط، ومعه العجز المتوقع، منتهٍ فقط إذا <bdi dir=\"ltr\">α &gt; 1</bdi>، والتباين فقط إذا <bdi dir=\"ltr\">α = 2</bdi>."}, "fr": {"skip": "Aller au contenu", "brand": "M. Bekri", "navHome": "Accueil", "navAbout": "E-book", "navExpl": "Explorateur", "navEx": "Exercices", "kicker": "Interactif", "h1": "Explorateur des lois stables", "lede": "Faites varier α, β, σ et μ et voyez aussitôt comment la loi stable S(α, β, σ, μ) change de forme, et jusqu’où ses queues s’étendent au-delà de la gaussienne.", "hExplorer": "La densité", "lblA": "α · indice de queue", "lblB": "β · asymétrie", "lblS": "σ · échelle", "lblM": "μ · position", "logLbl": "Échelle logarithmique pour la densité", "gaussLbl": "Afficher la gaussienne (α = 2)", "resetBtn": "Réinitialiser", "noteMean": "α ≤ 1 : la moyenne n’existe pas, l’expected shortfall est donc infini.", "noteVar": "1 < α < 2 : la moyenne existe mais la variance est infinie.", "noteGauss": "α = 2 : le cas gaussien, de variance 2σ².", "hParams": "Les paramètres", "pA": "<b>α</b>, l’indice de queue, entre 0 et 2 : plus il est petit, plus les queues sont épaisses. α = 2 donne la gaussienne, α = 1 la loi de Cauchy.", "pB": "<b>β</b>, l’asymétrie, entre −1 et 1 : les valeurs positives étirent la queue droite, les négatives la gauche.", "pS": "<b>σ</b>, l’échelle, qui joue le rôle de l’écart-type (notée γ dans le livre).", "pM": "<b>μ</b>, la position (notée δ dans le livre).", "hMethod": "Méthode de calcul", "method": "Les figures suivent la paramétrisation S1 du livre et de MATLAB. L’intégrale de Fourier ci-dessus étant oscillante, elles sont calculées dans votre navigateur à partir de la représentation intégrale de Nolan (1997), par quadrature de Gauss–Legendre, et concordent avec SciPy à cinq chiffres significatifs pour la densité et à 10⁻⁵ près pour la fonction de répartition. Les courbes en pointillés sont le cas gaussien, α = 2, avec les mêmes σ et μ.", "more": "L’exercice 5 du livre trace ces densités en Python : <a href=\"../book/#ex05\">l’ouvrir</a>.", "footer": "Densité calculée dans votre navigateur. Aucune donnée ne quitte votre appareil.", "toTop": "Haut de page ↑", "docTitle": "Explorateur des lois stables · Mahmoud Bekri", "metaDesc": "Explorateur interactif des lois α-stables : choisissez α, β, σ et μ et comparez la densité et ses queues épaisses à la gaussienne.", "noteShift": " Près de α = 1 avec β ≠ 0, la paramétrisation S1 déplace toute la loi d’environ −βσ tan(πα/2) : la courbe peut sortir de la zone tracée.", "figPdf": "Densité de probabilité, f(x)", "figCdf": "Fonction de répartition, F(x)", "hEq": "Les équations", "eq1": "Une loi stable se définit par sa fonction caractéristique. Dans la paramétrisation S1 utilisée ici et dans le livre :", "eq2": "La densité (figure du haut) et la fonction de répartition (figure du bas) s’obtiennent en l’inversant :", "eq3": "Seuls trois cas ont une forme explicite : les lois de Gauss, de Cauchy et de Lévy.", "eq4": "Pour α < 2, les queues décroissent comme une puissance de x, et non exponentiellement ; c’est pourquoi la densité de la figure du haut reste bien au-dessus de la gaussienne. Quand x → ∞ :", "eq5": "et de même pour la queue gauche avec 1 − β au lieu de 1 + β. Les moments n’existent donc qu’en dessous de α :", "eq6": "la moyenne, et avec elle l’expected shortfall, n’est finie que pour α > 1, et la variance seulement pour α = 2."}, "de": {"skip": "Zum Inhalt springen", "brand": "M. Bekri", "navHome": "Start", "navAbout": "E-Book", "navExpl": "Explorer", "navEx": "Übungen", "kicker": "Interaktiv", "h1": "Explorer für stabile Verteilungen", "lede": "Verändern Sie α, β, σ und μ und sehen Sie sofort, wie sich die stabile Verteilung S(α, β, σ, μ) verformt und wie weit ihre Ränder über die Gauß-Verteilung hinausreichen.", "hExplorer": "Die Dichte", "lblA": "α · Tail-Index", "lblB": "β · Schiefe", "lblS": "σ · Skala", "lblM": "μ · Lage", "logLbl": "Logarithmische Skala für die Dichte", "gaussLbl": "Gauß-Kurve zeigen (α = 2)", "resetBtn": "Zurücksetzen", "noteMean": "α ≤ 1: Der Erwartungswert existiert nicht, der Expected Shortfall ist daher unendlich.", "noteVar": "1 < α < 2: Der Erwartungswert existiert, die Varianz ist unendlich.", "noteGauss": "α = 2: der Gaußsche Fall mit Varianz 2σ².", "hParams": "Die Parameter", "pA": "<b>α</b>, der Tail-Index, zwischen 0 und 2: Je kleiner, desto schwerer die Ränder. α = 2 ergibt die Gauß-Verteilung, α = 1 die Cauchy-Verteilung.", "pB": "<b>β</b>, die Schiefe, zwischen −1 und 1: Positive Werte dehnen den rechten Rand, negative den linken.", "pS": "<b>σ</b>, die Skala, die die Rolle der Standardabweichung spielt (im Buch γ).", "pM": "<b>μ</b>, die Lage (im Buch δ).", "hMethod": "Berechnung", "method": "Die Abbildungen folgen der S1-Parametrisierung des Buchs und von MATLAB. Da das obige Fourier-Integral oszilliert, werden sie in Ihrem Browser aus Nolans (1997) Integraldarstellung mit Gauß-Legendre-Quadratur berechnet und stimmen mit SciPy auf fünf signifikante Stellen für die Dichte und auf 10⁻⁵ für die Verteilungsfunktion überein. Die gestrichelten Kurven sind der Gaußsche Fall α = 2 mit denselben σ und μ.", "more": "Übung 5 des Buchs zeichnet diese Dichten in Python: <a href=\"../book/#ex05\">öffnen</a>.", "footer": "Die Dichte wird in Ihrem Browser berechnet. Es verlassen keine Daten Ihr Gerät.", "toTop": "Nach oben ↑", "docTitle": "Explorer für stabile Verteilungen · Mahmoud Bekri", "metaDesc": "Interaktiver Explorer für α-stabile Verteilungen: α, β, σ und μ wählen und Dichte und schwere Ränder mit der Gauß-Verteilung vergleichen.", "noteShift": " Nahe α = 1 mit β ≠ 0 verschiebt die S1-Parametrisierung die ganze Verteilung um etwa −βσ tan(πα/2), sodass die Kurve den dargestellten Bereich verlassen kann.", "figPdf": "Wahrscheinlichkeitsdichte, f(x)", "figCdf": "Verteilungsfunktion, F(x)", "hEq": "Die Gleichungen", "eq1": "Eine stabile Verteilung ist durch ihre charakteristische Funktion definiert. In der hier und im Buch verwendeten S1-Parametrisierung:", "eq2": "Dichte (obere Abbildung) und Verteilungsfunktion (untere Abbildung) ergeben sich durch Inversion:", "eq3": "Nur drei Fälle haben eine geschlossene Form: die Gauß-, die Cauchy- und die Lévy-Verteilung.", "eq4": "Für α < 2 fallen die Ränder wie eine Potenz von x, nicht exponentiell; deshalb liegt die Dichte in der oberen Abbildung weit über der Gauß-Kurve. Für x → ∞:", "eq5": "und ebenso am linken Rand mit 1 − β statt 1 + β. Momente existieren daher nur unterhalb von α:", "eq6": "Der Erwartungswert, und damit der Expected Shortfall, ist nur für α > 1 endlich, die Varianz nur für α = 2."}};
   T.en = {};
   document.querySelectorAll('[data-i18n]').forEach(function (el) { T.en[el.dataset.i18n] = el.innerHTML; });
   T.en.docTitle = "Stable law explorer \u00b7 Mahmoud Bekri"; T.en.metaDesc = "Interactive explorer of \u03b1-stable distributions: set \u03b1, \u03b2, \u03c3 and \u03bc and see the density and its heavy tails against the Gaussian.";
@@ -376,7 +409,7 @@ html[lang="ar"] .book-hero .lede { font-size: 1.25rem; }
     } catch (e) {}
     if (save) { try { localStorage.setItem('lang', l); } catch (e) {}
       try { var u = new URL(location.href); if (l === 'en') u.searchParams.delete('lang'); else u.searchParams.set('lang', l); history.replaceState(null, '', u); } catch (e) {} }
-    if (window.__stableRedraw) window.__stableRedraw();
+    if (window.renderMathInElement) renderMathInElement(document.getElementById('equations'), { delimiters: [{ left: '$$', right: '$$', display: true }, { left: '\\(', right: '\\)', display: false }], throwOnError: false });
   }
   document.querySelectorAll('.langs-switch button').forEach(function (b) { b.addEventListener('click', function () { setLang(b.dataset.lang, true); }); });
   var initial = 'en', q = null;
@@ -386,14 +419,12 @@ html[lang="ar"] .book-hero .lede { font-size: 1.25rem; }
 })();
 </script>
 <script>
-/* Stable law explorer: density of S(alpha, beta, sigma, mu) in the S1 parameterisation
-   (as in MATLAB makedist('Stable') and the book). Nolan's integral representation,
-   evaluated with Gauss-Legendre quadrature clustered at the peak of the integrand. */
+/* Stable law explorer: density and distribution function of S(alpha, beta, sigma, mu), S1 parameterisation
+   (as in MATLAB makedist('Stable') and the book). Nolan's integral representation, evaluated with
+   Gauss-Legendre quadrature clustered at the peak of the integrand. Validated against SciPy. */
 (function () {
   var root = document.getElementById('explorer');
   if (!root) return;
-  var canvas = document.getElementById('stable-canvas');
-  var ctx = canvas.getContext('2d');
 
   // ---------- numerics ----------
   var GX = [], GW = [];
@@ -409,7 +440,6 @@ html[lang="ar"] .book-hero .lede { font-size: 1.25rem; }
       GX.push(z); GW.push(2 / ((1 - z * z) * pp * pp));
     }
   })(20);
-
   function quad(fun, lo, hi, mid) {
     var pts = [lo, hi];
     if (mid > lo && mid < hi) pts.push(mid);
@@ -429,8 +459,7 @@ html[lang="ar"] .book-hero .lede { font-size: 1.25rem; }
     return tot;
   }
   function root1(g, lo, hi) {
-    var a = lo + 1e-12, b = hi - 1e-12;
-    var ga = g(a), gb = g(b);
+    var a = lo + 1e-12, b = hi - 1e-12, ga = g(a), gb = g(b);
     if (!isFinite(ga)) ga = 1e300;
     if (!isFinite(gb)) gb = 1e300;
     var inc = gb > ga;
@@ -441,123 +470,151 @@ html[lang="ar"] .book-hero .lede { font-size: 1.25rem; }
     }
     return 0.5 * (a + b);
   }
-  function kernel(G) { if (!isFinite(G) || G <= 0) return 0; var r = G * Math.exp(-G); return isFinite(r) ? r : 0; }
-
-  function nolan(x, a, b) {
-    var zeta = -b * Math.tan(Math.PI * a / 2);
-    if (x < zeta) return nolan(-x, a, -b);
-    var th0 = Math.atan(b * Math.tan(Math.PI * a / 2)) / a;
-    if (Math.abs(x - zeta) < 1e-10) return gammaFn(1 + 1 / a) * Math.cos(th0) / (Math.PI * Math.pow(1 + zeta * zeta, 1 / (2 * a)));
-    var lo = -th0, hi = Math.PI / 2, e = a / (a - 1);
-    var k = Math.pow(x - zeta, e), c0 = Math.pow(Math.cos(a * th0), 1 / (a - 1));
-    var g = function (th) {
-      return k * c0 * Math.pow(Math.cos(th) / Math.sin(a * (th0 + th)), e) * Math.cos(a * th0 + (a - 1) * th) / Math.cos(th);
-    };
-    var mid = root1(g, lo, hi);
-    var I = quad(function (th) { return kernel(g(th)); }, lo, hi, mid);
-    return a / (Math.PI * Math.abs(a - 1) * (x - zeta)) * I;
-  }
-  function std1(x, b) { // alpha = 1, S1 standard
-    if (Math.abs(b) < 1e-12) return 1 / (Math.PI * (1 + x * x));
-    if (b < 0) return std1(-x, -b);
-    var c = Math.exp(-Math.PI * x / (2 * b));
-    var g = function (th) {
-      return c * (2 / Math.PI) * ((Math.PI / 2 + b * th) / Math.cos(th)) * Math.exp((1 / b) * (Math.PI / 2 + b * th) * Math.tan(th));
-    };
-    var lo = -Math.PI / 2 + 1e-12, hi = Math.PI / 2 - 1e-12;
-    var mid = root1(g, lo, hi);
-    return quad(function (th) { return kernel(g(th)); }, lo, hi, mid) / (2 * b);
-  }
-  function stdPdf(x, a, b) {
-    if (a >= 2) return Math.exp(-x * x / 4) / Math.sqrt(4 * Math.PI);
-    if (Math.abs(a - 1) < 1e-9) return std1(x, b);
-    var zeta = -b * Math.tan(Math.PI * a / 2);
-    return nolan(x + zeta, a, b);
-  }
-  function pdf(x, a, b, s, m) {
-    if (Math.abs(a - 1) < 1e-9) m = m + (2 / Math.PI) * b * s * Math.log(s);
-    var v = stdPdf((x - m) / s, a, b) / s;
-    return isFinite(v) && v > 0 ? v : 0;
-  }
-  function gammaFn(z) { // Lanczos
-    var g = 7, p = [0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313,
+  function kpdf(G) { if (!isFinite(G) || G <= 0) return 0; var r = G * Math.exp(-G); return isFinite(r) ? r : 0; }
+  function kcdf(G) { if (G !== G) return 0; if (G === Infinity) return 0; var r = Math.exp(-G); return isFinite(r) ? r : 0; }
+  function gammaFn(z) {
+    var p = [0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313,
       -176.61502916214059, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
     if (z < 0.5) return Math.PI / (Math.sin(Math.PI * z) * gammaFn(1 - z));
     z -= 1; var x = p[0];
-    for (var i = 1; i < g + 2; i++) x += p[i] / (z + i);
-    var t = z + g + 0.5;
+    for (var i = 1; i < 9; i++) x += p[i] / (z + i);
+    var t = z + 7.5;
     return Math.sqrt(2 * Math.PI) * Math.pow(t, z + 0.5) * Math.exp(-t) * x;
   }
-  window.__stablePdf = pdf; // exposed for testing
+  function erf(x) { // Abramowitz-Stegun 7.1.26 refined by series for small |x|
+    var s = x < 0 ? -1 : 1; x = Math.abs(x);
+    var t = 1 / (1 + 0.3275911 * x);
+    var y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x);
+    return s * y;
+  }
+  function nolanSetup(a, b) {
+    var th0 = Math.atan(b * Math.tan(Math.PI * a / 2)) / a, e = a / (a - 1), c0 = Math.pow(Math.cos(a * th0), 1 / (a - 1));
+    return { th0: th0, e: e, c0: c0, zeta: -b * Math.tan(Math.PI * a / 2) };
+  }
+  function nolanG(S, a, k) {
+    return function (th) { return k * S.c0 * Math.pow(Math.cos(th) / Math.sin(a * (S.th0 + th)), S.e) * Math.cos(a * S.th0 + (a - 1) * th) / Math.cos(th); };
+  }
+  function nPdf(x, a, b) {
+    var S = nolanSetup(a, b);
+    if (x < S.zeta) return nPdf(-x, a, -b);
+    if (Math.abs(x - S.zeta) < 1e-10) return gammaFn(1 + 1 / a) * Math.cos(S.th0) / (Math.PI * Math.pow(1 + S.zeta * S.zeta, 1 / (2 * a)));
+    var g = nolanG(S, a, Math.pow(x - S.zeta, S.e)), lo = -S.th0, hi = Math.PI / 2, mid = root1(g, lo, hi);
+    return a / (Math.PI * Math.abs(a - 1) * (x - S.zeta)) * quad(function (th) { return kpdf(g(th)); }, lo, hi, mid);
+  }
+  function nCdf(x, a, b) {
+    var S = nolanSetup(a, b);
+    if (x < S.zeta) return 1 - nCdf(-x, a, -b);
+    var c1 = a < 1 ? (Math.PI / 2 - S.th0) / Math.PI : 1;
+    if (Math.abs(x - S.zeta) < 1e-10) return (Math.PI / 2 - S.th0) / Math.PI;
+    var g = nolanG(S, a, Math.pow(x - S.zeta, S.e)), lo = -S.th0, hi = Math.PI / 2, mid = root1(g, lo, hi);
+    return c1 + (a < 1 ? 1 : -1) / Math.PI * quad(function (th) { return kcdf(g(th)); }, lo, hi, mid);
+  }
+  function g1(x, b) {
+    var c = Math.exp(-Math.PI * x / (2 * b));
+    return function (th) { return c * (2 / Math.PI) * ((Math.PI / 2 + b * th) / Math.cos(th)) * Math.exp((1 / b) * (Math.PI / 2 + b * th) * Math.tan(th)); };
+  }
+  var LO1 = -Math.PI / 2 + 1e-12, HI1 = Math.PI / 2 - 1e-12;
+  function pdf1(x, b) {
+    if (Math.abs(b) < 1e-12) return 1 / (Math.PI * (1 + x * x));
+    if (b < 0) return pdf1(-x, -b);
+    var g = g1(x, b); return quad(function (th) { return kpdf(g(th)); }, LO1, HI1, root1(g, LO1, HI1)) / (2 * b);
+  }
+  function cdf1(x, b) {
+    if (Math.abs(b) < 1e-12) return 0.5 + Math.atan(x) / Math.PI;
+    if (b < 0) return 1 - cdf1(-x, -b);
+    var g = g1(x, b); return quad(function (th) { return kcdf(g(th)); }, LO1, HI1, root1(g, LO1, HI1)) / Math.PI;
+  }
+  function shiftLoc(a, b, s, m) { return Math.abs(a - 1) < 1e-9 ? m + (2 / Math.PI) * b * s * Math.log(s) : m; }
+  function pdf(x, a, b, s, m) {
+    m = shiftLoc(a, b, s, m); var z = (x - m) / s, v;
+    if (a >= 2) v = Math.exp(-z * z / 4) / Math.sqrt(4 * Math.PI);
+    else if (Math.abs(a - 1) < 1e-9) v = pdf1(z, b);
+    else v = nPdf(z - b * Math.tan(Math.PI * a / 2), a, b);
+    v = v / s; return isFinite(v) && v > 0 ? v : 0;
+  }
+  function cdf(x, a, b, s, m) {
+    m = shiftLoc(a, b, s, m); var z = (x - m) / s, v;
+    if (a >= 2) v = 0.5 * (1 + erf(z / 2));
+    else if (Math.abs(a - 1) < 1e-9) v = cdf1(z, b);
+    else v = nCdf(z - b * Math.tan(Math.PI * a / 2), a, b);
+    return isFinite(v) ? Math.min(1, Math.max(0, v)) : 0;
+  }
+  window.__stablePdf = pdf; window.__stableCdf = cdf;
 
   // ---------- controls ----------
   var DEF = { a: 1.5, b: 0, s: 1, m: 0 };
-  var inputs = { a: root.querySelector('#st-a'), b: root.querySelector('#st-b'), s: root.querySelector('#st-s'), m: root.querySelector('#st-m') };
-  var outs = { a: root.querySelector('#st-a-v'), b: root.querySelector('#st-b-v'), s: root.querySelector('#st-s-v'), m: root.querySelector('#st-m-v') };
+  var inputs = {}, outs = {};
+  ['a', 'b', 's', 'm'].forEach(function (k) { inputs[k] = root.querySelector('#st-' + k); outs[k] = root.querySelector('#st-' + k + '-v'); });
   var logBox = root.querySelector('#st-log'), gBox = root.querySelector('#st-gauss');
-  var notes = { mean: root.querySelector('[data-note="mean"]'), varn: root.querySelector('[data-note="var"]'), gauss: root.querySelector('[data-note="gauss"]'), shift: root.querySelector('[data-note="shift"]') };
-
+  var notes = {};
+  ['mean', 'var', 'gauss', 'shift'].forEach(function (k) { notes[k] = root.querySelector('[data-note="' + k + '"]'); });
+  var cPdf = document.getElementById('stable-canvas'), cCdf = document.getElementById('stable-cdf');
   function val(k) { return parseFloat(inputs[k].value); }
   function css(name, fb) { var v = getComputedStyle(root).getPropertyValue(name).trim(); return v || fb; }
 
-  var XMIN = -10, XMAX = 10, NPTS = 361;
-  function draw() {
-    var a = val('a'), b = val('b'), s = val('s'), m = val('m');
-    [['a', a], ['b', b], ['s', s], ['m', m]].forEach(function (p) { if (document.activeElement !== outs[p[0]]) outs[p[0]].value = p[1].toFixed(2); });
-    notes.mean.hidden = !(a <= 1); notes.varn.hidden = !(a > 1 && a < 2); notes.gauss.hidden = !(a >= 2); notes.shift.hidden = !(Math.abs(a - 1) < 0.15 && Math.abs(a - 1) > 1e-9 && Math.abs(b) > 0.05);
-    var log = logBox.checked, showG = gBox.checked;
-
+  var XMIN = -10, XMAX = 10, NPTS = 301;
+  function chart(canvas, xs, curves, opt) {
+    var ctx = canvas.getContext('2d');
     var dpr = window.devicePixelRatio || 1, W = canvas.clientWidth, H = canvas.clientHeight;
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H); ctx.fillStyle = css('--card', '#ffffff'); ctx.fillRect(0, 0, W, H);
-
-    var xs = [], ys = [], gs = [];
-    for (var i = 0; i < NPTS; i++) {
-      var x = XMIN + (XMAX - XMIN) * i / (NPTS - 1);
-      xs.push(x); ys.push(pdf(x, a, b, s, m));
-      gs.push(Math.exp(-(x - m) * (x - m) / (4 * s * s)) / (s * Math.sqrt(4 * Math.PI)));
-    }
-    var ymaxData = Math.max.apply(null, ys.concat(showG ? gs : []));
-    var padL = 46, padR = 12, padT = 12, padB = 28, pw = W - padL - padR, ph = H - padT - padB;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = css('--card', '#ffffff'); ctx.fillRect(0, 0, W, H);
+    var padL = 46, padR = 12, padT = 10, padB = 26, pw = W - padL - padR, ph = H - padT - padB;
     var X = function (x) { return padL + (x - XMIN) / (XMAX - XMIN) * pw; };
-    var ylo, yhi, Y;
-    if (log) {
-      yhi = Math.pow(10, Math.ceil(Math.log10(Math.max(ymaxData, 1e-12)))); ylo = yhi * 1e-6;
-      Y = function (y) { var v = Math.log10(Math.max(y, ylo * 1e-3)); return padT + (Math.log10(yhi) - v) / (Math.log10(yhi) - Math.log10(ylo)) * ph; };
-    } else {
-      yhi = ymaxData * 1.08; ylo = 0;
-      Y = function (y) { return padT + (yhi - y) / (yhi - ylo) * ph; };
-    }
-    var ink = css('--ink', '#16233b'), muted = css('--muted', '#586378'), rule = css('--rule', '#d9dfe8'), accent = css('--accent', '#1f3a6e'), mark = css('--mark', '#2f63a8');
+    var ylo = opt.ylo, yhi = opt.yhi, Y;
+    if (opt.log) Y = function (y) { var v = Math.log10(Math.max(y, ylo * 1e-3)); return padT + (Math.log10(yhi) - v) / (Math.log10(yhi) - Math.log10(ylo)) * ph; };
+    else Y = function (y) { return padT + (yhi - y) / (yhi - ylo) * ph; };
+    var muted = css('--muted', '#586378'), rule = css('--rule', '#d9dfe8');
     ctx.font = '11px "JetBrains Mono", ui-monospace, monospace'; ctx.fillStyle = muted; ctx.strokeStyle = rule; ctx.lineWidth = 1;
-    // grid
-    var ticks = log ? [0, 1, 2, 3, 4, 5, 6].map(function (k) { return yhi / Math.pow(10, k); }) : [0, 0.25, 0.5, 0.75, 1].map(function (f) { return ylo + f * (yhi - ylo); });
     ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
-    ticks.forEach(function (t) {
-      var y = Y(t); ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
-      var lab = log ? ('1e' + Math.round(Math.log10(t))) : (t === 0 ? '0' : t.toPrecision(2));
-      ctx.fillText(lab, padL - 6, y);
+    opt.ticks.forEach(function (t) {
+      var y = Y(t[0]); ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke(); ctx.fillText(t[1], padL - 6, y);
     });
     ctx.textAlign = 'center'; ctx.textBaseline = 'top';
     for (var xt = -10; xt <= 10; xt += 5) { var px = X(xt); ctx.beginPath(); ctx.moveTo(px, padT); ctx.lineTo(px, padT + ph); ctx.stroke(); ctx.fillText(String(xt), px, padT + ph + 6); }
-    // curves
-    function line(arr, color, dash, width) {
+    curves.forEach(function (c) {
       ctx.save(); ctx.beginPath(); ctx.rect(padL, padT, pw, ph); ctx.clip();
-      ctx.strokeStyle = color; ctx.lineWidth = width; ctx.setLineDash(dash); ctx.beginPath();
-      arr.forEach(function (y, i) { var px = X(xs[i]), py = Y(y); if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py); });
+      ctx.strokeStyle = c.color; ctx.lineWidth = c.width; ctx.setLineDash(c.dash); ctx.beginPath();
+      c.ys.forEach(function (y, i) { var px = X(xs[i]), py = Y(y); if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py); });
       ctx.stroke(); ctx.restore();
+    });
+  }
+  function draw() {
+    var a = val('a'), b = val('b'), s = val('s'), m = val('m');
+    [['a', a], ['b', b], ['s', s], ['m', m]].forEach(function (p) { if (document.activeElement !== outs[p[0]]) outs[p[0]].value = p[1].toFixed(2); });
+    notes.mean.hidden = !(a <= 1); notes['var'].hidden = !(a > 1 && a < 2); notes.gauss.hidden = !(a >= 2);
+    notes.shift.hidden = !(Math.abs(a - 1) < 0.15 && Math.abs(a - 1) > 1e-9 && Math.abs(b) > 0.05);
+    var log = logBox.checked, showG = gBox.checked;
+    var xs = [], fp = [], fc = [], gp = [], gc = [];
+    for (var i = 0; i < NPTS; i++) {
+      var x = XMIN + (XMAX - XMIN) * i / (NPTS - 1), z = (x - m) / s;
+      xs.push(x); fp.push(pdf(x, a, b, s, m)); fc.push(cdf(x, a, b, s, m));
+      gp.push(Math.exp(-z * z / 4) / (s * Math.sqrt(4 * Math.PI))); gc.push(0.5 * (1 + erf(z / 2)));
     }
-    if (showG) line(gs, muted, [5, 4], 1.4);
-    line(ys, accent, [], 2.2);
-    canvas.setAttribute('aria-label', 'Stable density, alpha ' + a.toFixed(2) + ', beta ' + b.toFixed(2) + ', sigma ' + s.toFixed(2) + ', mu ' + m.toFixed(2) + (log ? ', log scale' : ''));
+    var accent = css('--accent', '#1f3a6e'), muted = css('--muted', '#586378');
+    var ymax = Math.max.apply(null, fp.concat(showG ? gp : []));
+    var popt;
+    if (log) {
+      var yhi = Math.pow(10, Math.ceil(Math.log10(Math.max(ymax, 1e-12))));
+      popt = { log: true, ylo: yhi * 1e-6, yhi: yhi, ticks: [0, 1, 2, 3, 4, 5, 6].map(function (k) { var v = yhi / Math.pow(10, k); return [v, '1e' + Math.round(Math.log10(v))]; }) };
+    } else {
+      var top = ymax * 1.08;
+      popt = { log: false, ylo: 0, yhi: top, ticks: [0, 0.25, 0.5, 0.75, 1].map(function (f) { var v = f * top; return [v, v === 0 ? '0' : v.toPrecision(2)]; }) };
+    }
+    var gcol = { color: muted, dash: [5, 4], width: 1.4 };
+    chart(cPdf, xs, (showG ? [Object.assign({ ys: gp }, gcol)] : []).concat([{ ys: fp, color: accent, dash: [], width: 2.2 }]), popt);
+    chart(cCdf, xs, (showG ? [Object.assign({ ys: gc }, gcol)] : []).concat([{ ys: fc, color: accent, dash: [], width: 2.2 }]),
+      { log: false, ylo: 0, yhi: 1.04, ticks: [[0, '0'], [0.25, '0.25'], [0.5, '0.5'], [0.75, '0.75'], [1, '1']] });
+    var desc = 'alpha ' + a.toFixed(2) + ', beta ' + b.toFixed(2) + ', sigma ' + s.toFixed(2) + ', mu ' + m.toFixed(2);
+    cPdf.setAttribute('aria-label', 'Probability density of the stable law, ' + desc + (log ? ', log scale' : ''));
+    cCdf.setAttribute('aria-label', 'Cumulative distribution function of the stable law, ' + desc);
   }
 
   var pending = false;
   function schedule() { if (pending) return; pending = true; requestAnimationFrame(function () { pending = false; draw(); }); }
-  Object.keys(inputs).forEach(function (k) { inputs[k].addEventListener('input', schedule); });
-  Object.keys(outs).forEach(function (k) {
-    var box = outs[k], rng = inputs[k];
-    var lo = parseFloat(rng.min), hi = parseFloat(rng.max);
+  Object.keys(inputs).forEach(function (k) {
+    var rng = inputs[k], box = outs[k], lo = parseFloat(rng.min), hi = parseFloat(rng.max);
+    rng.addEventListener('input', schedule);
     box.addEventListener('input', function () {
       var v = parseFloat(String(box.value).replace(',', '.'));
       if (isFinite(v) && v >= lo && v <= hi) { rng.value = v; schedule(); }
@@ -565,20 +622,19 @@ html[lang="ar"] .book-hero .lede { font-size: 1.25rem; }
     var commit = function () {
       var v = parseFloat(String(box.value).replace(',', '.'));
       if (!isFinite(v)) v = parseFloat(rng.value);
-      v = Math.min(hi, Math.max(lo, v));
-      rng.value = v; box.value = v.toFixed(2); schedule();
+      v = Math.min(hi, Math.max(lo, v)); rng.value = v; box.value = v.toFixed(2); schedule();
     };
-    box.addEventListener('change', commit);
-    box.addEventListener('blur', commit);
+    box.addEventListener('change', commit); box.addEventListener('blur', commit);
     box.addEventListener('keydown', function (e) { if (e.key === 'Enter') { commit(); box.blur(); } });
   });
   logBox.addEventListener('change', schedule); gBox.addEventListener('change', schedule);
   root.querySelector('#st-reset').addEventListener('click', function () {
     Object.keys(DEF).forEach(function (k) { inputs[k].value = DEF[k]; }); logBox.checked = true; gBox.checked = true; schedule();
   });
-  if (window.ResizeObserver) new ResizeObserver(schedule).observe(canvas); else window.addEventListener('resize', schedule);
+  if (window.ResizeObserver) { var ro = new ResizeObserver(schedule); ro.observe(cPdf); ro.observe(cCdf); } else window.addEventListener('resize', schedule);
   draw();
 })();
 </script>
+<script>window.addEventListener('load', function () { if (window.renderMathInElement) renderMathInElement(document.getElementById('equations'), { delimiters: [{ left: '$$', right: '$$', display: true }], throwOnError: false }); });</script>
 </body>
 </html>
