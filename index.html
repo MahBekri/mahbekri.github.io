@@ -236,6 +236,7 @@ section > h2::before { content: ""; display: block; width: 1.5rem; height: 2px; 
 .content { min-width: 0; max-width: 44rem; }
 .content > p { margin: 0 0 1rem; }
 .content > p:last-child { margin-bottom: 0; }
+.plot figcaption .try { display: inline-block; margin-top: 0.35rem; font: 500 var(--t-label, 0.8125rem)/1.5 var(--mono); color: var(--accent); }
 section, .ex { scroll-margin-top: 4.5rem; }
 .content.wide { max-width: none; }
 .starts { margin-bottom: 1.25rem; }
@@ -421,6 +422,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
         <a href="#research" data-i18n="navResearch">Research</a>
         <a href="#publications" data-i18n="navPubs">Publications</a>
         <a href="book/" data-i18n="navEbook">Ebook</a>
+        <a href="explorer/" data-i18n="navExplorer">Explorer</a>
         <a href="#blog" data-i18n="navBlog">Blogs</a>
         <a href="#path" data-i18n="navPath">Career</a>
         <a href="#contact" data-i18n="navContact">Contact</a>
@@ -457,6 +459,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
         <span class="key"><i class="k-stable"></i><span dir="ltr">α-stable, α = 1.5</span></span>
         <span class="key"><i class="k-gauss"></i><span data-i18n="kGauss">Gaussian, α = 2</span></span>
         <span data-i18n="kCaption">Symmetric densities on a common scale, log axis. The ratio compares densities at one point, not tail probabilities.</span>
+        <a class="try" href="explorer/" data-i18n="tryOwn">Try your own α, β, σ and μ →</a>
       </figcaption>
     </figure>
   </div>
@@ -781,6 +784,8 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
   var T = {
     ar: {
       brand: "م. بكري",
+      navExplorer: "المستكشف",
+      tryOwn: "جرّب قيمك الخاصة لـ <bdi dir=\"ltr\">α وβ وσ وμ</bdi> ←",
       p6h: "إعارة، إدارة مخاطر النماذج", p6s: "إدارة المخاطر، البنك الإسلامي للتنمية: إطار مخاطر النماذج، والإشراف على مديري المحافظ الخارجيين للأسهم، واختبارات الضغط لإدارة الأصول والخصوم، والتحوّط",
       cvBtn: "السيرة الذاتية (PDF)",
       hStart: "ابدأ من هنا", s1h: "اقرأ البحوث", s1p: "كتب وأبحاث في الذيول الثقيلة ومقاييس المخاطر المتّسقة والتمويل الإسلامي ومخاطر الائتمان، مع تصفية حسب الموضوع.", s2h: "استكشف الكتاب الإلكتروني", s2p: "ما يتناوله كتاب <bdi lang=\"en\"><i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i></bdi>، وأين يمكن قراءته.", s3h: "شغّل التمارين", s3p: "تمارين الكتاب الاثنا عشر بلغة Python، قابلة للتعديل والتشغيل في متصفحك.", nowAcc: "مقبول", nowPub: "منشور", fAll: "الكل", fTail: "مخاطر الذيل", fIslamic: "التمويل الإسلامي", fCredit: "مخاطر الائتمان", fEnergy: "الطاقة", fEthics: "الأخلاقيات", filterAria: "تصفية المنشورات حسب الموضوع",
@@ -859,6 +864,8 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
     },
     fr: {
       brand: "M. Bekri",
+      navExplorer: "Explorateur",
+      tryOwn: "Essayez vos propres α, β, σ et μ →",
       p6h: "Détachement, risque de modèle", p6s: "Département de la gestion des risques, Banque islamique de développement : cadre de risque de modèle, supervision des gérants actions externes, stress tests actif-passif et couverture",
       cvBtn: "CV (PDF)",
       hStart: "Pour commencer", s1h: "Lire les travaux", s1p: "Livres et articles sur les queues épaisses, les mesures de risque cohérentes, la finance islamique et le risque de crédit, filtrables par thème.", s2h: "Découvrir l’e-book", s2p: "Ce que couvre <i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i>, et où le lire.", s3h: "Exécuter les exercices", s3p: "Les douze exercices du livre en Python, modifiables et exécutables dans votre navigateur.", nowAcc: "Accepté", nowPub: "Publié", fAll: "Tout", fTail: "Risque de queue", fIslamic: "Finance islamique", fCredit: "Risque de crédit", fEnergy: "Énergie", fEthics: "Éthique", filterAria: "Filtrer les publications par thème",
@@ -937,6 +944,8 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
     },
     de: {
       brand: "M. Bekri",
+      navExplorer: "Explorer",
+      tryOwn: "Eigene Werte für α, β, σ und μ ausprobieren →",
       p6h: "Abordnung, Modellrisiko", p6s: "Abteilung Risikomanagement, Islamische Entwicklungsbank: Modellrisiko-Rahmenwerk, Aufsicht über externe Aktienmanager, ALM-Stresstests und Absicherung",
       cvBtn: "Lebenslauf (PDF)",
       hStart: "Einstieg", s1h: "Forschung lesen", s1p: "Bücher und Artikel zu Heavy Tails, kohärenten Risikomaßen, islamischem Finanzwesen und Kreditrisiko, nach Thema filterbar.", s2h: "Das E-Book entdecken", s2p: "Was <i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i> behandelt und wo man es lesen kann.", s3h: "Übungen ausführen", s3p: "Die zwölf Übungen des Buchs in Python, editierbar und direkt im Browser ausführbar.", nowAcc: "Angenommen", nowPub: "Erschienen", fAll: "Alle", fTail: "Tail-Risiko", fIslamic: "Islamisches Finanzwesen", fCredit: "Kreditrisiko", fEnergy: "Energie", fEthics: "Ethik", filterAria: "Publikationen nach Thema filtern",
