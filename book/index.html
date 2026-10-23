@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Heavy Tails and Coherent Risk Measures in Islamic Finance · Ebook · Mahmoud Bekri</title>
-<meta name="description" content="The twelve MATLAB exercises of Heavy Tails and Coherent Risk Measures in Islamic Finance (IsDBI, 2021), translated to Python and run in the browser on real market data.">
+<meta name="description" content="Heavy Tails and Coherent Risk Measures in Islamic Finance by Mahmoud Bekri (IsDBI, 2021): what the book covers, where to read it, and its twelve exercises in Python, runnable in the browser.">
 <meta name="author" content="Mahmoud Bekri">
 <link rel="canonical" href="https://mahbekri.github.io/book/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="The book’s exercises, run live · Mahmoud Bekri">
+<meta property="og:title" content="Heavy Tails and Coherent Risk Measures in Islamic Finance · Ebook · Mahmoud Bekri">
 <meta property="og:description" content="Stable laws, GARCH, copulas, VaR, AVaR and CVaR optimisation: the exercises of Heavy Tails and Coherent Risk Measures in Islamic Finance, runnable in the browser.">
 <meta property="og:url" content="https://mahbekri.github.io/book/">
 <meta property="og:image" content="https://mahbekri.github.io/photo.jpg">
@@ -165,6 +165,7 @@ html[dir="rtl"] .book-title { text-align: right; }
 .ex-task .f { font-family: var(--display); font-style: italic; white-space: nowrap; unicode-bidi: isolate; direction: ltr; }
 html[lang="ar"] .ex-task .f { font-family: "Spectral", "Spectral Fallback", Georgia, serif; }
 .ex-task .f.fl { white-space: normal; }
+@media (max-width: 480px) { .ex-task { margin-inline-start: 0; } .ex-task .f { white-space: normal; } }
 .ex-task-b ul + ol, .ex-task-b ol + ul { margin-top: 0.7rem; }
 .ex-task .f sub, .ex-task .f sup { font-size: 0.72em; }
 .ex-task .fb { display: block; margin: 0.2rem 0 0.6rem; padding-inline-start: 0.5rem; line-height: 1.9; }
@@ -242,6 +243,22 @@ html[lang="ar"] .book-hero .lede { font-size: 1.25rem; }
 .ex-n { font-size: var(--t-label); }
 #companion .actions { margin-top: 0.25rem; }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Book",
+  "name": "Heavy Tails and Coherent Risk Measures in Islamic Finance",
+  "author": { "@type": "Person", "name": "Mahmoud Bekri", "url": "https://mahbekri.github.io/" },
+  "publisher": { "@type": "Organization", "name": "Islamic Development Bank Institute", "url": "https://isdbinstitute.org/" },
+  "datePublished": "2021",
+  "isbn": "978-603-8306-06-2",
+  "numberOfPages": 170,
+  "inLanguage": "en",
+  "bookFormat": "https://schema.org/EBook",
+  "url": "https://mahbekri.github.io/book/",
+  "sameAs": "https://isdbinstitute.org/product/heavy-tails-and-coherent-risk-measures-in-islamic-finance/"
+}
+</script>
 </head>
 <body>
 <a class="skip" href="#main" data-i18n="skip">Skip to content</a>
@@ -843,7 +860,7 @@ html[lang="ar"] .book-hero .lede { font-size: 1.25rem; }
   }
   function getWorker() {
     if (worker) return worker;
-    worker = new Worker('worker.js?v=2');
+    worker = new Worker('worker.js?v=3');
     worker.onmessage = onWorker;
     worker.onerror = function () { setPyStatus('fail', 'stFail'); };
     return worker;
@@ -885,7 +902,7 @@ html[lang="ar"] .book-hero .lede { font-size: 1.25rem; }
   }
   function cardFiles(card) {
     var f = card.dataset.file, id = card.id;
-    return { py: 'py/' + f + '?v=2', m: 'matlab/' + id + '.m?v=2' };
+    return { py: 'py/' + f + '?v=3', m: 'matlab/' + id + '.m?v=3' };
   }
   function loadCode(card) {
     if (card._orig != null) return Promise.resolve();
@@ -916,7 +933,7 @@ html[lang="ar"] .book-hero .lede { font-size: 1.25rem; }
     rb.textContent = t(running && running.card === card ? 'stop' : 'run');
     if (card._status) setCardStatus(card, card._status.key, card._status.cls, card._status.s);
     var title = card.querySelector('h3').textContent;
-    card.querySelectorAll('.figs img').forEach(function (img, i) { img.alt = t('figAlt').replace('{n}', i + 1).replace('{t}', title); });
+    card.querySelectorAll('.figs img').forEach(function (img, i) { img.alt = t('figAlt').replace('{n}', i + 1).replace('{t}', title) + (img.dataset.desc ? ': ' + img.dataset.desc : ''); });
   }
   function appendOut(card, text, isErr) {
     var pre = card.querySelector('.stdout');
@@ -928,10 +945,12 @@ html[lang="ar"] .book-hero .lede { font-size: 1.25rem; }
     var box = card.querySelector('.figs');
     var title = card.querySelector('h3').textContent;
     box.innerHTML = '';
-    figs.forEach(function (b64, i) {
+    figs.forEach(function (f, i) {
+      var b64 = Array.isArray(f) ? f[0] : f, desc = Array.isArray(f) ? f[1] : '';
       var img = new Image();
       img.src = 'data:image/png;base64,' + b64;
-      img.alt = t('figAlt').replace('{n}', i + 1).replace('{t}', title);
+      img.dataset.desc = desc || '';
+      img.alt = t('figAlt').replace('{n}', i + 1).replace('{t}', title) + (desc ? ': ' + desc : '');
       img.loading = 'lazy';
       box.appendChild(img);
     });

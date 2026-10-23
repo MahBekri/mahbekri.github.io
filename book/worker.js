@@ -1,7 +1,7 @@
 /* Runs the book's Python exercises in a Web Worker with Pyodide,
    so long computations never freeze the page. */
 const PYODIDE = "https://cdn.jsdelivr.net/pyodide/v0.27.7/full/";
-const VERSION = "2";
+const VERSION = "3";
 importScripts(PYODIDE + "pyodide.js");
 
 let py = null;
@@ -41,7 +41,14 @@ def _bk_figs():
         f = plt.figure(n)
         b = io.BytesIO()
         f.savefig(b, format="png", dpi=144, bbox_inches="tight", facecolor="white")
-        out.append(base64.b64encode(b.getvalue()).decode("ascii"))
+        titles = []
+        if f._suptitle is not None and f._suptitle.get_text():
+            titles.append(f._suptitle.get_text())
+        for ax in f.axes:
+            t = ax.get_title()
+            if t:
+                titles.append(t)
+        out.append([base64.b64encode(b.getvalue()).decode("ascii"), "; ".join(titles)])
     plt.close("all")
     return out
 `);
