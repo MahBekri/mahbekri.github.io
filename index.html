@@ -1104,6 +1104,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
       return pad.t + (YMAX - l) / (YMAX - YMIN) * ph;
     };
     ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--card').trim() || '#ffffff'; ctx.fillRect(0, 0, W, H);
     var mono = '11px "JetBrains Mono", ui-monospace, monospace';
     ctx.font = mono;
     ctx.fillStyle = col('--muted');

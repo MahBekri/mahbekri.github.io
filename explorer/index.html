@@ -145,21 +145,8 @@ section > h2::before { content: ""; display: block; width: 1.5rem; height: 2px; 
 .cht { display: block; color: var(--ink); text-transform: none; letter-spacing: 0; font: 500 1.05rem/1.35 var(--display); margin-top: 0.2rem; }
 .content { min-width: 0; max-width: 48rem; display: grid; gap: 1.25rem; }
 .content > p { margin: 0; }
-.st-box { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 1.1rem 1.2rem 1rem; box-shadow: var(--shadow); display: grid; gap: 0.9rem; }
-.st-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem 1.5rem; }
-.st-row { display: grid; grid-template-columns: minmax(0, 1fr) 3.2rem; grid-template-areas: "lab out" "rng rng"; align-items: center; gap: 0.2rem 0.5rem; }
-.st-lab { grid-area: lab; font: 500 var(--t-label, 0.8125rem)/1.4 var(--mono); color: var(--ink); }
-.st-row input[type=range] { grid-area: rng; width: 100%; accent-color: var(--accent); direction: ltr; }
-.st-row output { grid-area: out; font: 500 var(--t-label, 0.8125rem)/1.4 var(--mono); color: var(--mark); text-align: end; font-variant-numeric: tabular-nums; }
-.st-opts { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; font-size: var(--t-small, 0.95rem); }
-.st-opts input { accent-color: var(--accent); }
-.st-reset { margin-inline-start: auto; }
 .st-plot { position: relative; height: 300px; }
-.st-plot canvas { width: 100%; height: 100%; display: block; }
-.nw { white-space: nowrap; }
-.st-note { margin: 0; color: var(--muted); font-size: var(--t-small, 0.95rem); min-height: 1.5em; }
 @media (max-width: 560px) { .st-controls { grid-template-columns: minmax(0, 1fr); } .st-plot { height: 240px; } .st-reset { margin-inline-start: 0; } }
-@media print { #explorer { display: none; } }
 section, .ex { scroll-margin-top: 4.5rem; }
 .hash { font: 400 0.8125rem/1.5 var(--mono); overflow-wrap: anywhere; }
 .book-hero { padding-block: 3.5rem 2.5rem; max-width: 52rem; }
@@ -273,10 +260,11 @@ html[lang="ar"] .book-hero .lede { font-size: 1.25rem; }
 #companion .actions { margin-top: 0.25rem; }
 .st-box { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 1.1rem 1.2rem 1rem; box-shadow: var(--shadow); display: grid; gap: 0.9rem; }
 .st-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem 1.5rem; }
-.st-row { display: grid; grid-template-columns: minmax(0, 1fr) 3.2rem; grid-template-areas: "lab out" "rng rng"; align-items: center; gap: 0.2rem 0.5rem; }
+.st-row { display: grid; grid-template-columns: minmax(0, 1fr) 5.2rem; grid-template-areas: "lab out" "rng rng"; align-items: center; gap: 0.2rem 0.5rem; }
 .st-lab { grid-area: lab; font: 500 var(--t-label, 0.8125rem)/1.4 var(--mono); color: var(--ink); }
 .st-row input[type=range] { grid-area: rng; width: 100%; accent-color: var(--accent); direction: ltr; }
-.st-row output { grid-area: out; font: 500 var(--t-label, 0.8125rem)/1.4 var(--mono); color: var(--mark); text-align: end; font-variant-numeric: tabular-nums; }
+.st-num { grid-area: out; width: 100%; box-sizing: border-box; font: 500 var(--t-label, 0.8125rem)/1.4 var(--mono); color: var(--mark); text-align: end; font-variant-numeric: tabular-nums; padding: 0.2rem 0.4rem; border: 1px solid var(--rule); border-radius: 6px; background: var(--paper); }
+.st-num:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
 .st-opts { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; font-size: var(--t-small, 0.95rem); }
 .st-opts input { accent-color: var(--accent); }
 .st-reset { margin-inline-start: auto; }
@@ -323,10 +311,10 @@ html[lang="ar"] .book-hero .lede { font-size: 1.25rem; }
     <div class="content">
       <div class="st-box">
         <div class="st-controls">
-          <div class="st-row"><label class="st-lab" for="st-a" data-i18n="lblA">α · tail index</label><input type="range" id="st-a" min="0.3" max="2" step="0.01" value="1.5"><output id="st-a-v" for="st-a" dir="ltr">1.5</output></div>
-          <div class="st-row"><label class="st-lab" for="st-b" data-i18n="lblB">β · skewness</label><input type="range" id="st-b" min="-1" max="1" step="0.01" value="0"><output id="st-b-v" for="st-b" dir="ltr">0</output></div>
-          <div class="st-row"><label class="st-lab" for="st-s" data-i18n="lblS">σ · scale</label><input type="range" id="st-s" min="0.2" max="3" step="0.01" value="1"><output id="st-s-v" for="st-s" dir="ltr">1</output></div>
-          <div class="st-row"><label class="st-lab" for="st-m" data-i18n="lblM">μ · location</label><input type="range" id="st-m" min="-3" max="3" step="0.01" value="0"><output id="st-m-v" for="st-m" dir="ltr">0</output></div>
+          <div class="st-row"><label class="st-lab" for="st-a" data-i18n="lblA">α · tail index</label><input type="range" id="st-a" min="0.3" max="2" step="0.01" value="1.5" aria-label="α"><input type="number" id="st-a-v" class="st-num" min="0.3" max="2" step="0.01" value="1.5" dir="ltr" aria-label="α"></div>
+          <div class="st-row"><label class="st-lab" for="st-b" data-i18n="lblB">β · skewness</label><input type="range" id="st-b" min="-1" max="1" step="0.01" value="0" aria-label="β"><input type="number" id="st-b-v" class="st-num" min="-1" max="1" step="0.01" value="0" dir="ltr" aria-label="β"></div>
+          <div class="st-row"><label class="st-lab" for="st-s" data-i18n="lblS">σ · scale</label><input type="range" id="st-s" min="0.2" max="3" step="0.01" value="1" aria-label="σ"><input type="number" id="st-s-v" class="st-num" min="0.2" max="3" step="0.01" value="1" dir="ltr" aria-label="σ"></div>
+          <div class="st-row"><label class="st-lab" for="st-m" data-i18n="lblM">μ · location</label><input type="range" id="st-m" min="-3" max="3" step="0.01" value="0" aria-label="μ"><input type="number" id="st-m-v" class="st-num" min="-3" max="3" step="0.01" value="0" dir="ltr" aria-label="μ"></div>
         </div>
         <div class="st-opts">
           <label><input type="checkbox" id="st-log" checked> <span data-i18n="logLbl">Log scale</span></label>
@@ -515,13 +503,13 @@ html[lang="ar"] .book-hero .lede { font-size: 1.25rem; }
   var XMIN = -10, XMAX = 10, NPTS = 361;
   function draw() {
     var a = val('a'), b = val('b'), s = val('s'), m = val('m');
-    outs.a.textContent = a.toFixed(2); outs.b.textContent = b.toFixed(2); outs.s.textContent = s.toFixed(2); outs.m.textContent = m.toFixed(2);
+    [['a', a], ['b', b], ['s', s], ['m', m]].forEach(function (p) { if (document.activeElement !== outs[p[0]]) outs[p[0]].value = p[1].toFixed(2); });
     notes.mean.hidden = !(a <= 1); notes.varn.hidden = !(a > 1 && a < 2); notes.gauss.hidden = !(a >= 2); notes.shift.hidden = !(Math.abs(a - 1) < 0.15 && Math.abs(a - 1) > 1e-9 && Math.abs(b) > 0.05);
     var log = logBox.checked, showG = gBox.checked;
 
     var dpr = window.devicePixelRatio || 1, W = canvas.clientWidth, H = canvas.clientHeight;
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H); ctx.fillStyle = css('--card', '#ffffff'); ctx.fillRect(0, 0, W, H);
 
     var xs = [], ys = [], gs = [];
     for (var i = 0; i < NPTS; i++) {
@@ -567,6 +555,23 @@ html[lang="ar"] .book-hero .lede { font-size: 1.25rem; }
   var pending = false;
   function schedule() { if (pending) return; pending = true; requestAnimationFrame(function () { pending = false; draw(); }); }
   Object.keys(inputs).forEach(function (k) { inputs[k].addEventListener('input', schedule); });
+  Object.keys(outs).forEach(function (k) {
+    var box = outs[k], rng = inputs[k];
+    var lo = parseFloat(rng.min), hi = parseFloat(rng.max);
+    box.addEventListener('input', function () {
+      var v = parseFloat(String(box.value).replace(',', '.'));
+      if (isFinite(v) && v >= lo && v <= hi) { rng.value = v; schedule(); }
+    });
+    var commit = function () {
+      var v = parseFloat(String(box.value).replace(',', '.'));
+      if (!isFinite(v)) v = parseFloat(rng.value);
+      v = Math.min(hi, Math.max(lo, v));
+      rng.value = v; box.value = v.toFixed(2); schedule();
+    };
+    box.addEventListener('change', commit);
+    box.addEventListener('blur', commit);
+    box.addEventListener('keydown', function (e) { if (e.key === 'Enter') { commit(); box.blur(); } });
+  });
   logBox.addEventListener('change', schedule); gBox.addEventListener('change', schedule);
   root.querySelector('#st-reset').addEventListener('click', function () {
     Object.keys(DEF).forEach(function (k) { inputs[k].value = DEF[k]; }); logBox.checked = true; gBox.checked = true; schedule();
