@@ -361,6 +361,26 @@ footer .to-top:hover { color: var(--accent); }
   .js .reveal { opacity: 1 !important; transform: none !important; }
   section { break-inside: avoid-page; }
 }
+:root {
+  /* one type scale shared by every page */
+  --t-h1: clamp(2.6rem, 6vw, 4.25rem);
+  --t-lede: 1.3rem;
+  --t-card: 1.25rem;
+  --t-item: 1.15rem;
+  --t-small: 0.95rem;
+  --t-xs: 0.875rem;
+  --t-label: 0.8125rem;
+}
+.hero h1 { font-size: var(--t-h1); }
+.lede { font-size: var(--t-lede); }
+.theme h3 { font-size: var(--t-card); }
+.theme p, .bio p, .ps, .pa, .path span, .spoken { font-size: var(--t-small); }
+.ps { line-height: 1.6; }
+.pt, .bt { font-size: var(--t-item); line-height: 1.35; }
+html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
+.bm, .lang-note, footer { font-size: var(--t-xs); }
+.yr, .exn, .path .when { font-size: var(--t-label); }
+.addr { font-size: var(--t-small); }
 </style>
 </head>
 <body>
