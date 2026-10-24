@@ -183,12 +183,12 @@
     var ctx = canvas.getContext('2d'), dpr = window.devicePixelRatio || 1, W = canvas.clientWidth, H = canvas.clientHeight;
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.fillStyle = css('--card', '#ffffff'); ctx.fillRect(0, 0, W, H);
-    ctx.font = '11px "JetBrains Mono", ui-monospace, monospace'; ctx.lineWidth = 1;
+    ctx.font = '12px "JetBrains Mono", ui-monospace, monospace'; ctx.lineWidth = 1;
     return { ctx: ctx, W: W, H: H, L: 52, R: 12, T: 10, B: 26 };
   }
   function niceStep(span, n) { var r = span / n, p = Math.pow(10, Math.floor(Math.log10(r))), m = r / p; return (m < 1.5 ? 1 : m < 3 ? 2 : m < 7 ? 5 : 10) * p; }
   function grid(F, X, Y, xt, yt) {
-    var c = F.ctx, muted = css('--muted', '#586378'); c.strokeStyle = css('--rule', '#d9dfe8'); c.fillStyle = muted;
+    var c = F.ctx, muted = css('--muted', '#586378'); c.strokeStyle = css('--rule', '#d9dfe8'); c.fillStyle = css('--axis', '#465166');
     c.textAlign = 'right'; c.textBaseline = 'middle';
     yt.forEach(function (v) { var y = Y(v[0]); c.beginPath(); c.moveTo(F.L, y); c.lineTo(F.W - F.R, y); c.stroke(); c.fillText(v[1], F.L - 6, y); });
     c.textAlign = 'center'; c.textBaseline = 'top';

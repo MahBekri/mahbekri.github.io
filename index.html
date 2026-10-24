@@ -55,6 +55,7 @@
 @font-face { font-family: "Spectral Fallback"; src: local("Times New Roman"), local("Liberation Serif"), local("Times"); size-adjust: 110%; ascent-override: 96%; descent-override: 42%; line-gap-override: 0%; }
 @font-face { font-family: "Source Sans Fallback"; src: local("Arial"), local("Liberation Sans"), local("Helvetica"); size-adjust: 93.4%; ascent-override: 109%; descent-override: 43%; line-gap-override: 0%; }
 :root {
+  --axis: #465166;
   /* white, grey and navy; one light theme only */
   --paper: #f6f8fb;
   --surface: #eaeef4;
@@ -792,7 +793,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
       role: "باحث اقتصادي · معهد البنك الإسلامي للتنمية، جدة",
       lede: "أدرس ما يحدث في أطراف توزيعات العوائد المالية، حيث يفترض النموذج الغاوسي أن الخسائر الكبيرة لا تكاد تقع، بينما تقول الأسواق <em>غير ذلك</em>، وما يعنيه ذلك للتمويل الإسلامي.",
       ariaChart: "رسم بمقياس لوغاريتمي لكثافتين متماثلتين من التوزيعات المستقرة (α-stable). يحتفظ المنحنى ذو α = 1.5 باحتمال معتبر بعيدًا عن المركز، بينما ينخفض المنحنى الغاوسي ذو α = 2 إلى ما دون واحد في المليون بعد نحو سبع وحدات.",
-      kGauss: "غاوسي، α = 2",
+      kGauss: "غاوسي، <bdi dir=\"ltr\">α = 2</bdi>",
       kCaption: "كثافات متماثلة بمقياس مشترك، ومحور لوغاريتمي. تقارن النسبة الكثافتين عند نقطة واحدة، لا احتمالات الذيل.",
       ann: "أعلى بـ{n} مرة من الكثافة الغاوسية",
       hAbout: "نبذة",
@@ -1100,9 +1101,9 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
     };
     ctx.clearRect(0, 0, W, H);
     ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--card').trim() || '#ffffff'; ctx.fillRect(0, 0, W, H);
-    var mono = '11px "JetBrains Mono", ui-monospace, monospace';
+    var mono = '12px "JetBrains Mono", ui-monospace, monospace';
     ctx.font = mono;
-    ctx.fillStyle = col('--muted');
+    ctx.fillStyle = col('--axis') || col('--muted');
     ctx.strokeStyle = col('--rule');
     ctx.lineWidth = 1;
     ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
@@ -1139,20 +1140,36 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
     var i6 = xs.findIndex(function (x) { return x >= 6; });
     var px6 = X(6), py6 = Y(stable[i6]);
     var ratio = Math.round(stable[i6] / gauss[i6]);
-    var label = (lang === 'ar' ? '' : 'x = 6: ') + t('ann').replace('{n}', ratio);
-    ctx.font = lang === 'ar' ? '12px "IBM Plex Sans Arabic", Tahoma, sans-serif' : mono;
-    ctx.direction = lang === 'ar' ? 'rtl' : 'ltr';
-    var tw = ctx.measureText(label).width, bh = 18, bx = Math.max(pad.l + 2, px6 - tw - 14), by = py6 + 10;
+    var rtl = lang === 'ar', pre = 'x = 6', ann = t('ann').replace('{n}', ratio);
+    var FM = '13px "JetBrains Mono", ui-monospace, monospace', FA = '13px "IBM Plex Sans Arabic", Tahoma, sans-serif';
+    function wid(s, f, d) { ctx.font = f; ctx.direction = d; return ctx.measureText(s).width; }
+    // one line if it fits beside the curve, otherwise "x = 6" above the comparison; Arabic keeps x = 6 left-to-right
+    var avail = W - pad.l - pad.r - 8, lines;
+    if (rtl) {
+      var one = wid(pre, FM, 'ltr') + 10 + wid(ann, FA, 'rtl');
+      lines = one <= avail ? [[[pre, FM, 'ltr'], [ann, FA, 'rtl']]] : [[[pre, FM, 'ltr']], [[ann, FA, 'rtl']]];
+    } else {
+      var full = pre + ': ' + ann;
+      lines = wid(full, FM, 'ltr') <= avail ? [[[full, FM, 'ltr']]] : [[[pre + ':', FM, 'ltr']], [[ann, FM, 'ltr']]];
+    }
+    var lw = lines.map(function (ln) { return ln.reduce(function (s, p, k) { return s + wid(p[0], p[1], p[2]) + (k ? 10 : 0); }, 0); });
+    var tw = Math.max.apply(null, lw), bh = 20 * lines.length;
+    var bx = Math.min(W - pad.r - tw - 4, Math.max(pad.l + 4, px6 - tw - 14)), by = py6 + 10;
     ctx.fillStyle = col('--paper'); ctx.globalAlpha = 0.92;
     ctx.fillRect(bx - 4, by, tw + 8, bh);
     ctx.globalAlpha = 1;
     ctx.strokeStyle = col('--mark'); ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(px6 - 2, py6 + 3); ctx.lineTo(bx + tw + 4, by + 2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(px6 - 2, py6 + 3); ctx.lineTo(Math.min(bx + tw + 4, px6 - 2), by + 2); ctx.stroke();
     ctx.fillStyle = col('--mark');
     ctx.beginPath(); ctx.arc(px6, py6, 3, 0, 2 * Math.PI); ctx.fill();
     ctx.textBaseline = 'middle';
-    ctx.textAlign = lang === 'ar' ? 'right' : 'left';
-    ctx.fillText(label, lang === 'ar' ? bx + tw : bx, by + bh / 2 + 0.5);
+    lines.forEach(function (ln, r) {
+      var y = by + 10 + 20 * r + 0.5;
+      if (rtl) { // draw from the right edge leftwards
+        var xr = bx + tw;
+        ln.forEach(function (p) { ctx.font = p[1]; ctx.direction = p[2]; ctx.textAlign = 'right'; ctx.fillText(p[0], xr, y); xr -= wid(p[0], p[1], p[2]) + 10; });
+      } else { ctx.font = ln[0][1]; ctx.direction = 'ltr'; ctx.textAlign = 'left'; ctx.fillText(ln[0][0], bx, y); }
+    });
     ctx.direction = 'ltr';
   }
 

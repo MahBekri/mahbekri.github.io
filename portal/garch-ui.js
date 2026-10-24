@@ -105,13 +105,13 @@
     if (!G || $('gx-out').hidden) return;
     var cv = $('gx-ts'), c = cv.getContext('2d'), dpr = window.devicePixelRatio || 1, W = cv.clientWidth, H = cv.clientHeight;
     cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); c.setTransform(dpr, 0, 0, dpr, 0, 0);
-    c.fillStyle = css('--card', '#fff'); c.fillRect(0, 0, W, H); c.font = '11px "JetBrains Mono", ui-monospace, monospace';
+    c.fillStyle = css('--card', '#fff'); c.fillRect(0, 0, W, H); c.font = '12px "JetBrains Mono", ui-monospace, monospace';
     var j = +$('gx-lv').value, s0 = G.start, pts = base.pts, n = pts.length - s0, L = 52, R = 12, Tp = 10, B = 26, pw = W - L - R, ph = H - Tp - B;
     var gn = G.V.gn[j], gs = G.V.gs[j], lo = 0, hi = 0, i;
     for (i = 0; i < n; i++) { var r = pts[s0 + i].r; lo = Math.min(lo, r, -gs[i] / 100); hi = Math.max(hi, r); }
     lo *= 1.05; hi *= 1.05;
     var X = function (k) { return L + k / Math.max(1, n - 1) * pw; }, Y = function (v) { return Tp + (hi - v) / (hi - lo) * ph; };
-    var st = niceStep(hi - lo, 5); c.strokeStyle = css('--rule', '#d9dfe8'); c.fillStyle = css('--muted', '#586378'); c.lineWidth = 1; c.textAlign = 'right'; c.textBaseline = 'middle';
+    var st = niceStep(hi - lo, 5); c.strokeStyle = css('--rule', '#d9dfe8'); c.fillStyle = css('--axis', '#465166'); c.lineWidth = 1; c.textAlign = 'right'; c.textBaseline = 'middle';
     for (var v = Math.ceil(lo / st) * st; v <= hi; v += st) { var yy = Y(v); c.beginPath(); c.moveTo(L, yy); c.lineTo(W - R, yy); c.stroke(); c.fillText((100 * v).toFixed(st < 0.01 ? 1 : 0) + '%', L - 6, yy); }
     c.textAlign = 'center'; c.textBaseline = 'top';
     if (isFinite(pts[s0].tm)) {
