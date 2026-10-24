@@ -1,7 +1,7 @@
 /* Runs the book's Python exercises in a Web Worker with Pyodide,
    so long computations never freeze the page. */
 const PYODIDE = "https://cdn.jsdelivr.net/pyodide/v0.27.7/full/";
-const VERSION = "5";
+const VERSION = "6";
 importScripts(PYODIDE + "pyodide.js");
 
 let py = null;
@@ -53,7 +53,7 @@ def _bk_figs():
   post({ type: "status", key: "stReady" });
 }
 
-let kitWritten = false;
+let kitWritten = null; // text of the helper module currently on the Python path
 async function run(id, code, kit) {
   if (!ready) ready = init();
   try {
@@ -64,7 +64,7 @@ async function run(id, code, kit) {
     post({ type: "done", id, ok: false, error: String(e && e.message || e), figs: [], ms: 0 });
     return;
   }
-  if (kit && !kitWritten) { py.FS.writeFile("/home/pyodide/bookkit.py", kit); kitWritten = true; }
+  if (kit && kit !== kitWritten) { py.FS.writeFile("/home/pyodide/bookkit.py", kit); py.runPython("import sys; sys.modules.pop('bookkit', None)"); kitWritten = kit; }
   current = id;
   post({ type: "started", id });
   const t0 = performance.now();

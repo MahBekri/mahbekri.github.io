@@ -3,8 +3,8 @@
  "kdf": "PBKDF2-SHA256",
  "iter": 310000,
  "cipher": "AES-256-GCM",
- "salt": "EX4IWGNc3sIEw0InPbk9FQ==",
- "check": "pqKhy5o+bykLv37dL7z0G5LHFlfk2nD5wiPML1aqg0BrgCGgQIuPV0mTrgS4cc4=",
+ "salt": "E6bl8TcdeDo/MLDaf6vuZA==",
+ "check": "65KU9lLrvQy20V9yqNKrS9Qt4C9ELuexUSLQMGsO2Z2G6qC8Wwxp2kTd8ETAlQ8=",
  "files": [
   "py/bookkit.py",
   "py/ex01_lognormal_normal.py",
