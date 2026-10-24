@@ -204,10 +204,41 @@
     c.strokeStyle = css('--accent', '#1f3a6e'); c.lineWidth = 1; c.beginPath();
     for (i = 0; i < n; i++) { if (i === 0) c.moveTo(X(i), Y(x[i].r)); else c.lineTo(X(i), Y(x[i].r)); }
     c.stroke();
-    var v99 = -res.risk[2].stab.VaR; c.strokeStyle = css('--err', '#b3261e'); c.setLineDash([5, 4]); c.lineWidth = 1.2;
-    c.beginPath(); c.moveTo(F.L, Y(v99)); c.lineTo(F.W - F.R, Y(v99)); c.stroke(); c.restore();
-    cv.setAttribute('aria-label', t('figTs') + ': ' + n + ' ' + t('obs').toLowerCase() + ', ' + t('var') + ' 99% (' + t('stable') + ') ' + pc(-v99));
+    var lv = +$('pt-lv').value, rk = res.risk[lv], vs = -rk.stab.VaR, vn = -rk.norm.VaR;
+    c.lineWidth = 1.4;
+    c.strokeStyle = css('--muted', '#586378'); c.setLineDash([2, 3]); c.beginPath(); c.moveTo(F.L, Y(vn)); c.lineTo(F.W - F.R, Y(vn)); c.stroke();
+    c.strokeStyle = css('--err', '#b3261e'); c.setLineDash([6, 4]); c.beginPath(); c.moveTo(F.L, Y(vs)); c.lineTo(F.W - F.R, Y(vs)); c.stroke();
+    c.setLineDash([]); c.fillStyle = css('--err', '#b3261e');
+    for (i = 0; i < n; i++) if (x[i].r < vs) { c.beginPath(); c.arc(X(i), Y(x[i].r), 2.2, 0, 2 * Math.PI); c.fill(); }
+    c.restore();
+    var lvs = (100 * rk.p).toFixed(1).replace('.0', '') + '%';
+    cv.setAttribute('aria-label', t('figTs') + ', ' + lvs + ': ' + t('lgNVar').replace(/<[^>]+>/g, '') + ' ' + pc(-vn) + ', ' + t('lgSVar').replace(/<[^>]+>/g, '') + ' ' + pc(-vs));
+    backtest(lv);
   }
+  function kupiec(k, n, p) { // unconditional coverage; p = breach probability
+    var lr;
+    if (k === 0) lr = -2 * n * Math.log(1 - p);
+    else if (k === n) lr = -2 * n * Math.log(p);
+    else { var q = k / n; lr = -2 * ((n - k) * Math.log(1 - p) + k * Math.log(p) - (n - k) * Math.log(1 - q) - k * Math.log(q)); }
+    lr = Math.max(0, lr);
+    return 1 - ST.erf(Math.sqrt(lr / 2)); // chi-square(1) tail
+  }
+  function backtest(lv) {
+    var rk = res.risk[lv], n = res.pts.length, pb = 1 - rk.p, lvs = '<bdi dir="ltr">' + (100 * rk.p).toFixed(1).replace('.0', '') + '%</bdi>';
+    var cols = [rk.norm.VaR, rk.stab.VaR].map(function (v) {
+      var k = 0; res.pts.forEach(function (p) { if (p.r < -v) k++; });
+      return { v: v, k: k, p: kupiec(k, n, pb) };
+    });
+    var row = function (h, f) { return '<tr><th scope="row">' + h + '</th>' + cols.map(function (c) { return '<td dir="ltr">' + f(c) + '</td>'; }).join('') + '</tr>'; };
+    $('pt-bt').innerHTML = '<thead><tr><th scope="col"></th><th scope="col">' + t('normal') + '</th><th scope="col">' + t('stable') + '</th></tr></thead><tbody>' +
+      row(t('btVar') + ' ' + lvs, function (c) { return pc(c.v); }) +
+      row(t('btHits'), function (c) { return c.k + ' <span class="pt-muted">(' + (100 * c.k / n).toFixed(2) + '%)</span>'; }) +
+      row(t('btExp'), function () { return (pb * n).toFixed(1) + ' <span class="pt-muted">(' + (100 * pb).toFixed(1).replace('.0', '') + '%)</span>'; }) +
+      row(t('btP'), function (c) { return c.p < 1e-4 ? '&lt; 0.0001' : c.p.toFixed(4); }) +
+      row(t('btVerd'), function (c) { return '<span class="' + (c.p < 0.05 ? 'pt-bad' : 'pt-good') + '">' + t(c.p < 0.05 ? 'btRej' : 'btOk') + '</span>'; }) + '</tbody>';
+    $('pt-btn').innerHTML = t('btNote').replace('{lv}', lvs).replace('{e}', (pb * n).toFixed(0)).replace('{n}', n);
+  }
+
   function drawHist() {
     var cv = $('pt-hist'), F = frame(cv), c = F.ctx, d = res.d, s = d.sorted, n = s.length, fit = res.fit, log = $('pt-log').checked;
     var lo = s[0], hi = s[n - 1], span = hi - lo; lo -= 0.03 * span; hi += 0.03 * span;
@@ -294,6 +325,7 @@
   });
   ['pt-col', 'pt-kind', 'pt-rt', 'pt-freq'].forEach(function (id) { $(id).addEventListener('change', run); });
   $('pt-log').addEventListener('change', draw);
+  $('pt-lv').addEventListener('change', drawTs);
   document.addEventListener('langchange', function () { if (res) render(); });
   var tmr = null;
   window.addEventListener('resize', function () { clearTimeout(tmr); tmr = setTimeout(draw, 120); });
