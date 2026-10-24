@@ -135,6 +135,7 @@
         ann: frequency(s.pts, $('pt-freq').value), risk: P.risk(d, fit, LEVELS) };
       $('results').hidden = false;
       render();
+      try { document.dispatchEvent(new CustomEvent('portal:result')); } catch (e) {}
     }, 30);
   }
 
