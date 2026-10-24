@@ -48,6 +48,7 @@
   }
   function fitStable(s) { // s sorted
     var x05 = quantile(s, 0.05), x25 = quantile(s, 0.25), x50 = quantile(s, 0.5), x75 = quantile(s, 0.75), x95 = quantile(s, 0.95);
+    if (!(x75 > x25) || !(x95 > x05)) return null; // too many identical values
     var na = (x95 - x05) / (x75 - x25), nb = (x95 + x05 - 2 * x50) / (x95 - x05);
     var sg = nb < 0 ? -1 : 1, anb = Math.abs(nb);
     var best = null, bestD = Infinity;
@@ -57,14 +58,14 @@
         if (dd < bestD) { bestD = dd; best = [a, b]; }
       }
     }
-    var al = Math.min(2, best[0]), be = al >= 2 ? 0 : best[1];
+    var al = best[0] > 1.995 ? 2 : best[0], be = al >= 2 ? 0 : best[1]; // beta is not identified at alpha = 2
     var sigma = (x75 - x25) / bilin(TAB.NC, al, be);
     var z0 = bilin(TAB.NZ, al, be) * sg; be *= sg;
     var mu;
     if (al >= 2) mu = x50;
     else if (Math.abs(al - 1) < 1e-9) mu = x50 - sigma * z0 - (2 / Math.PI) * be * sigma * Math.log(sigma);
     else mu = x50 - sigma * (z0 + be * Math.tan(Math.PI * al / 2));
-    return { alpha: al, beta: be, sigma: sigma, mu: mu, mu0: x50 - sigma * z0, nuA: na, nuB: nb, clipped: na < TAB.NA[TAB.NA.length - 1][0] || na > TAB.NA[0][0] };
+    return { alpha: al, beta: be, sigma: sigma, mu: mu, mu0: x50 - sigma * z0, nuA: na, nuB: nb, low: na > bilin(TAB.NA, 0.6, Math.min(1, anb)) };
   }
 
   // ---------- stable quantile and expected shortfall ----------

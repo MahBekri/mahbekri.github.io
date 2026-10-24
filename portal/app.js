@@ -107,7 +107,7 @@
   function status(msg, err) { var s = $('pt-status'); s.innerHTML = msg; s.classList.toggle('pt-err', !!err); }
   function load(text, name, defaultCol) {
     try { table = parse(text); }
-    catch (e) { table = null; $('pt-opts').hidden = true; $('results').hidden = true; status(t(e.message in (window.__T_en || {}) ? e.message : 'errRead'), true); return; }
+    catch (e) { table = null; res = null; $('pt-opts').hidden = true; $('results').hidden = true; status(t(e.message in (window.__T_en || {}) ? e.message : 'errRead'), true); return; }
     table.file = name;
     var sel = $('pt-col'); sel.innerHTML = '';
     table.numeric.forEach(function (j) { var o = document.createElement('option'); o.value = j; o.textContent = table.names[j]; sel.appendChild(o); });
@@ -127,8 +127,10 @@
     setTimeout(function () {
       var col = +$('pt-col').value, s = series(table, col, $('pt-kind').value, $('pt-rt').value);
       var x = s.pts.map(function (p) { return p.r; });
-      if (x.length < 30) { $('results').hidden = true; status(t('errFew'), true); return; }
+      $('pt-rt').closest('.pt-opt').hidden = s.kind !== 'price';
+      if (x.length < 30) { $('results').hidden = true; res = null; status(t('errFew'), true); return; }
       var d = P.describe(x), fit = P.fitStable(d.sorted);
+      if (!fit) { $('results').hidden = true; res = null; status(t('errFlat'), true); return; }
       res = { col: table.names[col], file: table.file, kind: s.kind, rtype: $('pt-rt').value, pts: s.pts, d: d, fit: fit,
         ann: frequency(s.pts, $('pt-freq').value), risk: P.risk(d, fit, LEVELS) };
       $('results').hidden = false;
@@ -155,7 +157,7 @@
     kv('pt-jb', [[t('jb'), f(d.jb, 1)], [t('jbp'), d.jbP < 1e-4 ? '&lt; 0.0001' : f(d.jbP, 4)]]);
     $('pt-jbv').textContent = d.jbP < 0.05 ? t('jbRej') : t('jbNot');
     kv('pt-fit', [['α · ' + t('alpha'), f(fit.alpha, 3)], ['β · ' + t('beta'), f(fit.beta, 3)], ['σ · ' + t('sigma'), pc(fit.sigma, 3)], ['μ · ' + t('mu'), pc(fit.mu, 3)]]);
-    $('pt-fitn').innerHTML = fit.alpha >= 2 ? t('fitG') : fit.alpha <= 1 ? t('fitHeavy') : t('fitOk');
+    $('pt-fitn').innerHTML = (fit.alpha >= 2 ? t('fitG') : fit.alpha <= 1 ? t('fitHeavy') : t('fitOk')) + (fit.low ? ' ' + t('fitLow') : '') + (d.n < 250 ? ' ' + t('fewObs') : '');
     var rows = '<thead><tr><th scope="col">' + t('measure') + '</th><th scope="col">' + t('hist') + '</th><th scope="col">' + t('normal') + '</th><th scope="col">' + t('stable') + '</th></tr></thead><tbody>';
     res.risk.forEach(function (r) {
       var lv = '<bdi dir="ltr">' + (100 * r.p).toFixed(1).replace('.0', '') + '%</bdi>';

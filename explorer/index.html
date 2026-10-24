@@ -557,7 +557,7 @@ html[lang="ar"] .st-cap { letter-spacing: 0; text-transform: none; }
   function val(k) { return parseFloat(inputs[k].value); }
   function css(name, fb) { var v = getComputedStyle(root).getPropertyValue(name).trim(); return v || fb; }
 
-  var XMIN = -10, XMAX = 10, NPTS = 301;
+  var XMIN = -10, XMAX = 10, NPTS = 241, cache = null;
   function chart(canvas, xs, curves, opt) {
     var ctx = canvas.getContext('2d');
     var dpr = window.devicePixelRatio || 1, W = canvas.clientWidth, H = canvas.clientHeight;
@@ -590,12 +590,16 @@ html[lang="ar"] .st-cap { letter-spacing: 0; text-transform: none; }
     notes.mean.hidden = !(a <= 1); notes['var'].hidden = !(a > 1 && a < 2); notes.gauss.hidden = !(a >= 2);
     notes.shift.hidden = !(Math.abs(a - 1) < 0.15 && Math.abs(a - 1) > 1e-9 && Math.abs(b) > 0.05);
     var log = logBox.checked, showG = gBox.checked;
-    var xs = [], fp = [], fc = [], gp = [], gc = [];
-    for (var i = 0; i < NPTS; i++) {
-      var x = XMIN + (XMAX - XMIN) * i / (NPTS - 1), z = (x - m) / s;
-      xs.push(x); fp.push(pdf(x, a, b, s, m)); fc.push(cdf(x, a, b, s, m));
-      gp.push(Math.exp(-z * z / 4) / (s * Math.sqrt(4 * Math.PI))); gc.push(0.5 * (1 + erf(z / 2)));
+    var key = [a, b, s, m].join(',');
+    if (!cache || cache.key !== key) { // recompute only when a parameter changes; resizes reuse the curves
+      cache = { key: key, xs: [], fp: [], fc: [], gp: [], gc: [] };
+      for (var i = 0; i < NPTS; i++) {
+        var x = XMIN + (XMAX - XMIN) * i / (NPTS - 1), z = (x - m) / s;
+        cache.xs.push(x); cache.fp.push(pdf(x, a, b, s, m)); cache.fc.push(cdf(x, a, b, s, m));
+        cache.gp.push(Math.exp(-z * z / 4) / (s * Math.sqrt(4 * Math.PI))); cache.gc.push(0.5 * (1 + erf(z / 2)));
+      }
     }
+    var xs = cache.xs, fp = cache.fp, fc = cache.fc, gp = cache.gp, gc = cache.gc;
     var accent = css('--accent', '#1f3a6e'), muted = css('--muted', '#586378');
     var ymax = Math.max.apply(null, fp.concat(showG ? gp : []));
     var popt;
