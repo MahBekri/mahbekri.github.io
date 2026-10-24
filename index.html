@@ -433,6 +433,9 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
   .top .right nav a { padding: 0.55rem 0.55rem; }
 }
 @media print { .menu-btn { display: none !important; } }
+
+/* phones: the hero keeps its two main actions; exercises are in Start here, Email and LinkedIn in Contact */
+@media (max-width: 640px) { .hero .hero-extra { display: none; } }
 </style>
 </head>
 <body>
@@ -473,9 +476,9 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
       <div class="actions">
         <a class="btn primary" href="#publications"><span data-i18n="navPubs">Publications</span></a>
         <a class="btn" href="cv.pdf"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M8 13h8M8 17h5"/></svg><span data-i18n="cvBtn">CV (PDF)</span></a>
-        <a class="btn" href="book/#companion"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg><span data-i18n="heroRun">Run the exercises</span></a>
-        <a class="btn" href="mailto:Mahmoud.bekri@gmail.com"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span data-i18n="lEmail">Email</span></a>
-        <a class="btn" href="https://www.linkedin.com/in/mahmoud-bekri-21320652/"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.1c.5-1 1.8-2 3.8-2 4 0 4.8 2.6 4.8 6V21h-4v-5.2c0-1.3 0-2.9-1.8-2.9s-2.1 1.4-2.1 2.8V21h-4z"/></svg>LinkedIn</a>
+        <a class="btn hero-extra" href="book/#companion"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg><span data-i18n="heroRun">Run the exercises</span></a>
+        <a class="btn hero-extra" href="mailto:Mahmoud.bekri@gmail.com"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span data-i18n="lEmail">Email</span></a>
+        <a class="btn hero-extra" href="https://www.linkedin.com/in/mahmoud-bekri-21320652/"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.1c.5-1 1.8-2 3.8-2 4 0 4.8 2.6 4.8 6V21h-4v-5.2c0-1.3 0-2.9-1.8-2.9s-2.1 1.4-2.1 2.8V21h-4z"/></svg>LinkedIn</a>
       </div>
     </div>
     <figure class="plot">
