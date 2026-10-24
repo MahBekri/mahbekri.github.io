@@ -2,7 +2,8 @@
    Mean:      r_t = c + phi r_{t-1} + theta e_{t-1} + e_t,   e_t = s_t z_t
    Variance:  s_t^2 = omega + a e_{t-1}^2 + b s_{t-1}^2
    Estimation is two-step: Gaussian quasi-maximum likelihood for the ARMA-GARCH parameters, then
-   McCulloch's quantile fit of a stable law to the standardised residuals z_t (stable innovations).
+   maximum likelihood (alpha in [1.05, 2], started from McCulloch's quantile fit) for a stable law
+   fitted to the standardised residuals z_t (stable innovations).
    Requires stable.js and analysis.js. Returns are scaled to per cent internally. */
 (function (root) {
   var P = root.Portal, ST = root.Stable;
@@ -174,6 +175,7 @@
     var start = oos ? opts.init : 0, cuts = [];
     if (oos) for (var c = start; c < n; c += opts.step) cuts.push(c); else cuts.push(0);
     var models = ['un', 'us', 'gn', 'gs'];
+    var volOos = new Float64Array(n - start);
     var V = {}; models.forEach(function (m) { V[m] = levels.map(function () { return new Float64Array(n - start); }); });
     var warm = null, warmZ = null, blocks = [];
     cuts.forEach(function (c0, bi) {
@@ -181,10 +183,10 @@
       var p = fit(x, 0, fitTo, warm, warmZ); warm = p.u; warmZ = p.z;
       var zq = zQuant(p, levels);
       var d = P.describe(x.slice(0, fitTo)), fu = P.fitStable(d.sorted);
-      var uq = levels.map(function (lv) { return { n: d.mean + d.sd * P.normInv(1 - lv), s: P.stQuantile(1 - lv, fu) }; });
+      var uq = levels.map(function (lv) { var qn = d.mean + d.sd * P.normInv(1 - lv); return { n: qn, s: fu ? P.stQuantile(1 - lv, fu) : qn }; }); // flat window: no stable fit, fall back to normal
       var fl = filter(x, p, 0, n, p.s0, p.m0); // causal: value at t uses data up to t-1 only
       for (var t = c0; t < c1; t++) {
-        var s = Math.sqrt(fl.s2[t]);
+        var s = Math.sqrt(fl.s2[t]); volOos[t - start] = s / 100;
         levels.forEach(function (lv, j) {
           V.un[j][t - start] = -uq[j].n; V.us[j][t - start] = -uq[j].s;
           V.gn[j][t - start] = -(fl.mu[t] + s * zq[j].n); V.gs[j][t - start] = -(fl.mu[t] + s * zq[j].s);
@@ -212,7 +214,7 @@
       return { p: lv, varN: -(mN + sN * qn) / 100, esN: esN / 100, varS: -(mN + sN * qs) / 100, esS: isFinite(esZ) ? -(mN + sN * esZ) / 100 : Infinity };
     });
     var vol = []; for (var t = 0; t < n; t++) vol.push(Math.sqrt(ff.s2[t]) / 100);
-    return { oos: oos, start: start, V: V, tests: tests, blocks: blocks, full: pf, forecast: fc, vol: vol, persistence: pf.a + pf.b };
+    return { oos: oos, start: start, V: V, tests: tests, blocks: blocks, full: pf, forecast: fc, vol: vol, volOos: volOos, persistence: pf.a + pf.b };
   }
 
   root.Garch = { stableMLE: stableMLE, fit: fit, filter: filter, run: run, kupiec: kupiec, christoffersen: christoffersen, unpack: unpack };

@@ -12,6 +12,7 @@
     G = msg.result; G.opts = cur; render();
   }
 
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function pc(v, k) { return isFinite(v) ? (100 * v).toFixed(k == null ? 2 : k) + '%' : '∞'; }
   function f(v, k) { return isFinite(v) ? v.toFixed(k) : '∞'; }
   function pv(p) { return p < 1e-4 ? '&lt; 0.0001' : p.toFixed(4); }
@@ -21,21 +22,23 @@
   function start() {
     var res = window.__portal && window.__portal.res;
     if (!res) return;
-    base = res; G = null; $('gx-out').hidden = true;
-    var opts = { mode: $('gx-mode').value, init: 500, step: 250 };
+    var CAP = 10000; // the model is re-estimated window by window; keep long series tractable in a browser
+    base = res.pts.length > CAP ? { pts: res.pts.slice(-CAP), col: res.col, capped: res.pts.length } : res;
+    G = null; $('gx-out').hidden = true;
+    var n0 = base.pts.length, opts = { mode: $('gx-mode').value, init: 500, step: Math.max(250, Math.ceil((n0 - 500) / 20)) };
     if (opts.mode === 'oos' && res.pts.length < opts.init + 100) { opts.mode = 'is'; }
-    var pts = res.pts.map(function (p) { return { r: p.r }; }), id = ++job;
+    var pts = base.pts.map(function (p) { return { r: p.r }; }), id = ++job;
     status(t('gxBusy'));
     cur = opts;
     try {
-      if (!worker) { worker = new Worker('worker.js?v=2'); worker.onmessage = function (e) { done(e.data); }; worker.onerror = function () { worker = null; fallback(); }; }
+      if (!worker) { worker = new Worker('worker.js?v=3'); worker.onmessage = function (e) { done(e.data); }; worker.onerror = function () { worker = null; fallback(); }; }
       worker.postMessage({ id: id, pts: pts, levels: LEVELS, opts: opts });
     } catch (e) { worker = null; fallback(); }
     function fallback() {
       setTimeout(function () {
         try {
           var R = window.Garch.run(pts, LEVELS, opts);
-          done({ id: id, result: { oos: R.oos, start: R.start, V: R.V, tests: R.tests, forecast: R.forecast, vol: R.vol, nBlocks: R.blocks.length, full: R.full } });
+          done({ id: id, result: { oos: R.oos, start: R.start, V: R.V, tests: R.tests, forecast: R.forecast, vol: R.vol, volOos: R.volOos, nBlocks: R.blocks.length, full: R.full } });
         } catch (err) { done({ id: id, error: String(err) }); }
       }, 30);
     }
@@ -46,8 +49,10 @@
     if (!G || !base) return;
     var fp = G.full, z = fp.z, n = base.pts.length, nEval = n - G.start;
     var from = base.pts[G.start].d, to = base.pts[n - 1].d;
-    status(G.oos && !from ? t('gxDoneOosN').replace('{k}', G.nBlocks).replace('{n}', nEval) : G.oos ? t('gxDoneOos').replace('{k}', G.nBlocks).replace('{n}', nEval).replace('{from}', '<bdi dir="ltr">' + (from || '') + '</bdi>')
-      : t('gxDoneIs').replace('{n}', nEval));
+    status(G.oos && !from ? t('gxDoneOosN').replace('{k}', G.nBlocks).replace('{n}', nEval) : G.oos ? t('gxDoneOos').replace('{k}', G.nBlocks).replace('{n}', nEval).replace('{from}', '<bdi dir="ltr">' + esc(from || '') + '</bdi>')
+      : t('gxDoneIs').replace('{n}', nEval)) ;
+    if (base.capped) $('gx-status').innerHTML += ' ' + t('gxCap').replace('{n}', base.capped);
+    if (G.opts && G.opts.step > 250) $('gx-status').innerHTML += ' ' + t('gxStep').replace('{s}', G.opts.step);
     var cancel = Math.abs(fp.phi + fp.theta) < 0.05 && Math.abs(fp.phi) > 0.3;
     $('gx-parn').textContent = cancel ? t('gxCancel') : '';
     $('gx-par').innerHTML = kv([
@@ -130,7 +135,7 @@
     for (var i = G.start; i < base.pts.length; i++) {
       var k = i - G.start, row = [base.pts[i].d, base.pts[i].r.toPrecision(10)];
       LEVELS.forEach(function (lv, j) { row.push((G.V.gn[j][k] / 100).toPrecision(8), (G.V.gs[j][k] / 100).toPrecision(8)); });
-      row.push(G.vol[i].toPrecision(8)); lines.push(row.join(','));
+      row.push(G.volOos[k].toPrecision(8)); lines.push(row.join(','));
     }
     var b = new Blob(['﻿' + lines.join('\n') + '\n'], { type: 'text/csv;charset=utf-8' }), a = document.createElement('a');
     a.href = URL.createObjectURL(b); a.download = String(base.col).replace(/[^\w.-]+/g, '_') + '_arma_garch_var.csv'; document.body.appendChild(a); a.click();

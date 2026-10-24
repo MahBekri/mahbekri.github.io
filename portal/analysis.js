@@ -52,8 +52,10 @@
     var na = (x95 - x05) / (x75 - x25), nb = (x95 + x05 - 2 * x50) / (x95 - x05);
     var sg = nb < 0 ? -1 : 1, anb = Math.abs(nb);
     var best = null, bestD = Infinity;
-    for (var a = 0.6; a <= 2.00001; a += 0.005) {
-      for (var b = 0; b <= 1.00001; b += 0.01) {
+    for (var ia = 0; ia <= 280; ia++) { // integer steps: a lands exactly on 1, not 1.0000000000000002
+      var a = Math.round((0.6 + ia * 0.005) * 1000) / 1000;
+      for (var ib = 0; ib <= 100; ib++) {
+        var b = ib / 100;
         var da = (bilin(TAB.NA, a, b) - na) / na, db = bilin(TAB.NB, a, b) - anb, dd = da * da + db * db;
         if (dd < bestD) { bestD = dd; best = [a, b]; }
       }
@@ -79,7 +81,7 @@
     return 0.5 * (lo + hi);
   }
   function stES(p, f, q) { // expected shortfall of the left tail beyond the (1-p) quantile q, as a return
-    if (f.alpha <= 1) return -Infinity;
+    if (f.alpha <= 1 + 1e-9) return -Infinity;
     var a = f.alpha, s = f.sigma, T = Math.log(1 + 1e4), N = 400, h = T / N, sum = 0;
     for (var i = 0; i <= N; i++) {
       var t = i * h, x = q - s * (Math.exp(t) - 1), w = (i === 0 || i === N) ? 1 : (i % 2 ? 4 : 2);

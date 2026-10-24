@@ -533,14 +533,14 @@ html[lang="ar"] .st-cap { letter-spacing: 0; text-transform: none; }
   function pdf(x, a, b, s, m) {
     m = shiftLoc(a, b, s, m); var z = (x - m) / s, v;
     if (a >= 2) v = Math.exp(-z * z / 4) / Math.sqrt(4 * Math.PI);
-    else if (Math.abs(a - 1) < 1e-9) v = pdf1(z, b);
+    else if (Math.abs(a - 1) < 1e-2) v = pdf1(Math.abs(a - 1) < 1e-9 ? z : z - b * Math.tan(Math.PI * a / 2), b); // near 1: S0 law at alpha = 1, error O(|alpha - 1|)
     else v = nPdf(z - b * Math.tan(Math.PI * a / 2), a, b);
     v = v / s; return isFinite(v) && v > 0 ? v : 0;
   }
   function cdf(x, a, b, s, m) {
     m = shiftLoc(a, b, s, m); var z = (x - m) / s, v;
     if (a >= 2) v = 0.5 * (1 + erf(z / 2));
-    else if (Math.abs(a - 1) < 1e-9) v = cdf1(z, b);
+    else if (Math.abs(a - 1) < 1e-2) v = cdf1(Math.abs(a - 1) < 1e-9 ? z : z - b * Math.tan(Math.PI * a / 2), b);
     else v = nCdf(z - b * Math.tan(Math.PI * a / 2), a, b);
     return isFinite(v) ? Math.min(1, Math.max(0, v)) : 0;
   }

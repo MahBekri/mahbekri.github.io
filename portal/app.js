@@ -18,11 +18,14 @@
   }
   function parseDate(s, mf) { // mf: month first (US m/d/yyyy), decided per column
     s = String(s || '').trim().replace(/^"|"$/g, '');
-    var m = s.match(/^(\d{1,2})[./-](\d{1,2})[./-](\d{4})/);
+    var TIME = '([ T]\\d{1,2}:\\d{2}(:\\d{2}(\\.\\d+)?)?\\s*(Z|[+-]\\d{2}:?\\d{2})?)?$'; // optional time; anything else is not a date
+    var m = s.match(new RegExp('^(\\d{1,2})[./-](\\d{1,2})[./-](\\d{4})' + TIME));
     if (m) return mf ? Date.UTC(+m[3], +m[1] - 1, +m[2]) : Date.UTC(+m[3], +m[2] - 1, +m[1]);
-    m = s.match(/^(\d{4})[./-](\d{1,2})[./-](\d{1,2})/);
+    m = s.match(new RegExp('^(\\d{4})[./-](\\d{1,2})[./-](\\d{1,2})' + TIME));
     if (m) return Date.UTC(+m[1], +m[2] - 1, +m[3]);
-    var v = Date.parse(s); return isFinite(v) && /\d{4}/.test(s) ? v : NaN;
+    if (!/\d{4}/.test(s) || /[<>&"]/.test(s)) return NaN;
+    var v = Date.parse(s); if (!isFinite(v)) return NaN;
+    var dt = new Date(v); return Date.UTC(dt.getFullYear(), dt.getMonth(), dt.getDate()); // calendar date as written, whatever the time zone
   }
   function parse(text) {
     var lines = text.replace(/^﻿/, '').split(/\r\n|\n|\r/).filter(function (l) { return l.trim() !== ''; });
@@ -48,7 +51,7 @@
     var decComma = delim !== ',' && rows.slice(1, 40).some(function (r) { return r.some(function (c) { return /^-?\d+,\d+$/.test(c); }); });
     if (decComma) rows = rows.map(function (r) { return r.map(function (c) { return /^[-+]?\d{1,3}(\.\d{3})*,\d+$|^[-+]?\d+,\d+$/.test(c) ? c.replace(/\./g, '').replace(',', '.') : c; }); });
     else rows = rows.map(function (r) { return r.map(function (c) { return /^-?\d{1,3}(,\d{3})+(\.\d+)?$/.test(c) ? c.replace(/,/g, '') : c; }); });
-    var ncol = Math.max.apply(null, rows.map(function (r) { return r.length; }));
+    var ncol = rows.reduce(function (m, r) { return Math.max(m, r.length); }, 0); // no apply: very long files exceed the argument limit
     var header = rows[0].some(function (c) { return c !== '' && isNaN(cellNum(c)) && isNaN(parseDate(c)); });
     var names = [], body = header ? rows.slice(1) : rows;
     for (var j = 0; j < ncol; j++) names.push(header && rows[0][j] ? rows[0][j] : (t('colN') + ' ' + (j + 1)));
@@ -62,9 +65,11 @@
     if (!numeric.length) throw new Error('errNoNum');
     var mf = false;
     if (dateCol >= 0) {
-      var firstBig = false, secondBig = false;
-      body.forEach(function (r) { var m = String(r[dateCol]).match(/^(\d{1,2})[./-](\d{1,2})[./-]\d{4}/); if (m) { if (+m[1] > 12) firstBig = true; if (+m[2] > 12) secondBig = true; } });
-      mf = secondBig && !firstBig;
+      var firstBig = false, secondBig = false, f1 = {}, f2 = {};
+      body.forEach(function (r) { var m = String(r[dateCol]).match(/^(\d{1,2})[./-](\d{1,2})[./-]\d{4}/); if (m) { if (+m[1] > 12) firstBig = true; if (+m[2] > 12) secondBig = true; f1[+m[1]] = 1; f2[+m[2]] = 1; } });
+      var n1 = Object.keys(f1).length, n2 = Object.keys(f2).length;
+      // a field above 12 must be the day; if neither is, the field that never changes is the day (monthly data dated on the 1st)
+      mf = secondBig && !firstBig || (!firstBig && !secondBig && n2 === 1 && n1 > 1);
     }
     return { names: names, rows: body, numeric: numeric, dateCol: dateCol, mf: mf };
   }
@@ -79,7 +84,7 @@
     if (pts.length > 1 && isFinite(pts[0].tm) && isFinite(pts[pts.length - 1].tm) && pts[0].tm > pts[pts.length - 1].tm) pts.reverse();
     var vals = pts.map(function (p) { return p.v; });
     if (kind === 'auto') {
-      var min = Math.min.apply(null, vals);
+      var min = vals.reduce(function (m, v) { return v < m ? v : m; }, Infinity);
       if (min > 0) kind = 'price';
       else { var a = vals.map(Math.abs).sort(function (x, y) { return x - y; }); kind = a[Math.floor(a.length / 2)] > 0.2 ? 'pct' : 'ret'; }
     }
@@ -158,7 +163,7 @@
     kv('pt-jb', [[t('jb'), f(d.jb, 1)], [t('jbp'), d.jbP < 1e-4 ? '&lt; 0.0001' : f(d.jbP, 4)]]);
     $('pt-jbv').textContent = d.jbP < 0.05 ? t('jbRej') : t('jbNot');
     kv('pt-fit', [['α · ' + t('alpha'), f(fit.alpha, 3)], ['β · ' + t('beta'), f(fit.beta, 3)], ['σ · ' + t('sigma'), pc(fit.sigma, 3)], ['μ · ' + t('mu'), pc(fit.mu, 3)]]);
-    $('pt-fitn').innerHTML = (fit.alpha >= 2 ? t('fitG') : fit.alpha <= 1 ? t('fitHeavy') : t('fitOk')) + (fit.low ? ' ' + t('fitLow') : '') + (d.n < 250 ? ' ' + t('fewObs') : '');
+    $('pt-fitn').innerHTML = (fit.alpha >= 2 ? t('fitG') : fit.alpha <= 1 + 1e-9 ? t('fitHeavy') : t('fitOk')) + (fit.low ? ' ' + t('fitLow') : '') + (d.n < 250 ? ' ' + t('fewObs') : '');
     var rows = '<thead><tr><th scope="col">' + t('measure') + '</th><th scope="col">' + t('hist') + '</th><th scope="col">' + t('normal') + '</th><th scope="col">' + t('stable') + '</th></tr></thead><tbody>';
     res.risk.forEach(function (r) {
       var lv = '<bdi dir="ltr">' + (100 * r.p).toFixed(1).replace('.0', '') + '%</bdi>';
