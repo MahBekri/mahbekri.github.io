@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>Mahmoud Bekri, CV (français)</title>
+<meta name="author" content="Mahmoud Bekri">
+<style>
+@font-face { font-family: "Spectral"; font-weight: 500; src: url(fonts/spectral-latin-500-normal.woff2), url(fonts/spectral-latin-ext-500-normal.woff2); }
+@font-face { font-family: "Spectral"; font-weight: 400; src: url(fonts/spectral-latin-400-normal.woff2), url(fonts/spectral-latin-ext-400-normal.woff2); }
+@font-face { font-family: "Spectral"; font-weight: 400; font-style: italic; src: url(fonts/spectral-latin-400-italic.woff2), url(fonts/spectral-latin-ext-400-italic.woff2); }
+@font-face { font-family: "Source Sans 3"; font-weight: 400; src: url(fonts/source-sans-3-latin-400-normal.woff2), url(fonts/source-sans-3-latin-ext-400-normal.woff2); }
+@font-face { font-family: "Source Sans 3"; font-weight: 400; font-style: italic; src: url(fonts/source-sans-3-latin-400-italic.woff2), url(fonts/source-sans-3-latin-ext-400-italic.woff2); }
+@font-face { font-family: "Source Sans 3"; font-weight: 600; src: url(fonts/source-sans-3-latin-600-normal.woff2), url(fonts/source-sans-3-latin-ext-600-normal.woff2); }
+@font-face { font-family: "JetBrains Mono"; font-weight: 500; src: url(fonts/jetbrains-mono-latin-500-normal.woff2); }
+:root { --ink: #16233b; --muted: #586378; --accent: #1f3a6e; --rule: #d9dfe8; --paper: #f6f8fb;
+  --display: "Spectral", Georgia, serif; --body: "Source Sans 3", "Segoe UI", sans-serif; --mono: "JetBrains Mono", Consolas, monospace; }
+@page { size: A4; margin: 17mm 17mm 18mm; }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin: 0; color: var(--ink); background: #fff; font: 400 9.6pt/1.42 var(--body); hyphens: none; }
+a { color: inherit; text-decoration: none; }
+i, em { font-style: italic; }
+
+header { border-bottom: 2px solid var(--accent); padding-bottom: 9pt; margin-bottom: 4pt; }
+h1 { font: 500 25pt/1.05 var(--display); margin: 0; letter-spacing: -0.005em; }
+h1 small { font: 400 12pt var(--display); color: var(--muted); margin-left: 4pt; }
+.role { font: 400 12pt/1.3 var(--display); font-style: italic; color: var(--accent); margin: 4pt 0 6pt; }
+.contact { display: flex; flex-wrap: wrap; gap: 2pt 14pt; font-size: 9pt; color: var(--muted); }
+.contact span::before { content: ""; display: inline-block; width: 3.5pt; height: 3.5pt; border-radius: 50%; background: var(--accent); margin: 0 5pt 1.5pt 0; vertical-align: middle; }
+
+h2 { font: 500 8pt/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
+  margin: 15pt 0 7pt; padding-bottom: 4pt; border-bottom: 1px solid var(--rule); break-after: avoid; }
+h3 { font: 600 9.6pt/1.35 var(--body); margin: 8pt 0 3pt; color: var(--ink); break-after: avoid; }
+p { margin: 0 0 5pt; }
+.bg p { text-align: justify; }
+
+.e { display: grid; grid-template-columns: 27mm 1fr; column-gap: 4mm; margin: 0 0 8pt; }
+.e.split { break-inside: auto; }
+.e:not(.split) { break-inside: avoid; }
+.sub .t, .e .t, .o { break-after: avoid; }
+h3.c { font: 500 10.5pt var(--display); color: var(--muted); margin: 10pt 0 6pt; }
+.d { font: 500 7.8pt/1.75 var(--mono); color: var(--muted); letter-spacing: 0.02em; padding-top: 1.2pt; }
+.t { font: 500 11pt/1.3 var(--display); color: var(--ink); }
+.o { color: var(--muted); }
+.n { color: var(--muted); font-size: 9pt; }
+.thesis { font-family: var(--display); font-style: italic; font-size: 10pt; }
+ul { margin: 3pt 0 0; padding: 0 0 0 11pt; }
+li { margin: 0 0 2.2pt; padding-left: 1pt; }
+li::marker { color: var(--accent); font-size: 8pt; }
+.cols { columns: 2; column-gap: 9mm; }
+.cols li { break-inside: avoid; }
+.sub { margin-top: 6pt; }
+.sub .t { font-size: 10pt; }
+
+.pubs p { padding-left: 12pt; text-indent: -12pt; margin-bottom: 4.5pt; }
+.pubs h3 { font: 500 10.5pt var(--display); margin-top: 9pt; }
+.pubs b { font-weight: 600; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; column-gap: 9mm; }
+.kv b { font-weight: 600; }
+li b { font-weight: 600; }
+.kv { display: grid; grid-template-columns: 27mm 1fr; column-gap: 4mm; margin-bottom: 3pt; }
+.kv .d { padding-top: 0.6pt; }
+.keep { break-inside: avoid; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Mahmoud Bekri<small>PhD, CIB</small></h1>
+  <p class="role">Économiste chercheur, Institut de la Banque islamique de développement, Djeddah</p>
+  <div class="contact">
+    <span><a href="mailto:Mahmoud.bekri@gmail.com">Mahmoud.bekri@gmail.com</a></span>
+    <span><a href="mailto:MBekri@isdb.org">MBekri@isdb.org</a></span>
+    <span><a href="https://mahbekri.github.io/?lang=fr">mahbekri.github.io</a></span>
+    <span><a href="https://www.linkedin.com/in/mahmoud-bekri-21320652">linkedin.com/in/mahmoud-bekri-21320652</a></span>
+  </div>
+</header>
+
+<section class="bg">
+<h2>Profil</h2>
+<p>Économiste chercheur à l’Institut de la Banque islamique de développement, formé en physique et en finance au KIT, avec plus de dix ans au sein du Groupe de la BID. Ses recherches portent sur les distributions à queues épaisses, les mesures de risque cohérentes (CVaR et AVaR sous lois α-stables) et la finance islamique, et s’appliquent à la modélisation des risques, aux sukuk et à la conception de produits, ainsi qu’au renforcement des capacités des banques centrales et des régulateurs. En 2026, il est détaché auprès de l’équipe Risque de modèle du Département de gestion des risques de la BID.</p>
+</section>
+
+<section>
+<h2>Formation</h2>
+<div class="e"><div class="d">2014</div><div>
+  <div class="t">Doctorat en économie et finance</div>
+  <div class="o">Institut de technologie de Karlsruhe (KIT), Allemagne · Institut d’économie (ECON), chaire d’économétrie et de statistique</div>
+  <div class="thesis">«&#8239;Portfolio Optimization and Risk Management under Non-normal Stable and Tempered Stable Distributions in Islamic Finance&#8239;»</div>
+  <div>Magna cum laude · Directeurs de thèse&#8239;: Prof. Svetlozar Rachev (Stony Brook University, États-Unis), Prof. Wolf-Dieter Heller (KIT), Prof. Frank Fabozzi (Yale University, États-Unis)</div>
+</div></div>
+<div class="e"><div class="d">2011</div><div>
+  <div class="t">Diplôme allemand de physique (Diplom-Physiker)</div>
+  <div class="o">Institut de technologie de Karlsruhe (KIT), Allemagne</div>
+  <div class="thesis">«&#8239;Studies of Si-MCM-41 and Al-MCM-41 Surface Structure and Surface Charge&#8239;»</div>
+  <div>Mention «&#8239;très bien&#8239;» (sehr gut) · Directeur&#8239;: Prof. Schimmel</div>
+</div></div>
+<h3 class="c">Certifications professionnelles</h3>
+<div class="e"><div class="d">2024</div><div>
+  <div class="t">Certificat en gestion de projet avancée</div>
+  <div class="o">Meirc Professional Certificate (MPC), membre du PMI</div>
+</div></div>
+<div class="e"><div class="d">2018</div><div>
+  <div class="t">Certificat de leadership en banque et finance islamiques</div>
+  <div class="o">Cambridge Islamic Finance Leadership Programme (IFLP) 2018</div>
+</div></div>
+<div class="e"><div class="d">2016</div><div>
+  <div class="t">Banquier islamique certifié (Certified Islamic Banker, CIB)</div>
+  <div class="o">CIBAFI</div>
+</div></div>
+</section>
+
+<section class="pubs">
+<h2>Publications choisies</h2>
+<h3>Livre et chapitre d’ouvrage</h3>
+<p>Bekri, M. (2021). <i>Heavy Tails and Coherent Risk Measures in Islamic Finance.</i> Islamic Development Bank Institute, Djeddah. 170 p. ISBN 978-603-8306-06-2.</p>
+<p>Bekri, M., Kabir Hassan, M., Alam, N. (2017). On the dependency structure of Islamic assets. In M. Kabir Hassan (dir.), <i>Handbook of Empirical Research on Islam and Economic Life</i>, p. 602–623.</p>
+<h3>Thèse de doctorat</h3>
+<p>Bekri, M. (2014). <i>Portfolio Optimization and Risk Management under Non-normal Stable and Tempered Stable Distributions in Islamic Finance.</i> Thèse de doctorat, KIT, Allemagne.</p>
+<h3>Revues indexées</h3>
+<p>Hajjar, M., Bekri, M. (2026). Quick Commerce and Islamic Ethics: Maqāṣid and Policy Assessment. <i>International Journal of Islamic Finance and Sustainable Development</i>, 18(3), 41–59. doi:10.55188/ijifsd.v18i3.1461</p>
+<p>Mirzaei, M., Bekri, M. (2017). Energy consumption and CO<sub>2</sub> emissions in Iran, 2025. <i>Environmental Research</i>, 154, 345–351.</p>
+<p>Mirzaei, M., Bekri, M., Ramakrishnan, S. (2016). Corporate Default Prediction with Industry Effects: Evidence from emerging markets. <i>International Journal of Economics and Financial Issues</i>, 6(S3), 161–169.</p>
+<p>Ramakrishnan, S., Mirzaei, M., Bekri, M. (2015). Corporate Default Prediction with Adaboost and Bagging Classifiers. <i>Jurnal Teknologi</i>, 73(2), 45–50.</p>
+<p>Ramakrishnan, S., Mirzaei, M., Bekri, M. (2015). A Multi-Industry Default Prediction Model using Logistic Regression and Decision Tree. <i>Research Journal of Applied Sciences, Engineering and Technology</i>, 9(10), 856–861.</p>
+<p>Ramakrishnan, S., Mirzaei, M., Bekri, M. (2015). Adaboost Ensemble Classifiers for Corporate Default Prediction. <i>Research Journal of Applied Sciences, Engineering and Technology</i>, 9(3), 224–230.</p>
+<p>Bekri, M., Kim, Y. S. (2015). Tail risk analysis of the S&amp;P/OIC COMCEC 50 index. <i>Borsa Istanbul Review</i>, 15(1), 1–16.</p>
+<p>Bekri, M., Kim, Y. S. (2014). Portfolio management with heavy tailed distributions in Islamic Finance. <i>Journal of Islamic Economics, Banking and Finance</i>, 10(2), 114–137.</p>
+<p>Bekri, M., Kim, Y. S., Rachev, S. T. (2014). Tempered stable models for Islamic finance asset Management. <i>International Journal of Islamic and Middle Eastern Finance and Management</i>, 7(1), 37–60.</p>
+<h3>Communications</h3>
+<p>Bekri, M. (2026). Pricing Catastrophe-Tailed Energy Assets: A Stable-Law Expected-Shortfall Correction to the Cost of Capital for Nuclear Power. Accepté, 4<sup>e</sup> conférence IAEE MENA, KAPSARC, Riyad, 7–8 décembre 2026.</p>
+</section>
+
+<section>
+<h2>Expérience professionnelle</h2>
+
+<div class="e split"><div class="d">01/2026–auj.</div><div>
+  <div class="t">Détachement, Risque de modèle</div>
+  <div class="o">Département de gestion des risques, BID</div>
+  <ul>
+    <li>Contribue à la construction du cadre de gestion du risque de modèle de la Banque.</li>
+    <li>A conçu un cadre de surveillance des risques actions multigérants, qui suit les gérants externes par rapport à leur indice de référence (tracking error, attribution des risques et évaluation de la performance), documenté pour une validation formelle de modèle.</li>
+    <li>A construit un modèle de stress des flux de trésorerie pour la gestion actif-passif et un modèle ALM islamique, avec rapprochement complet et contrôles qualité.</li>
+    <li>A appuyé l’analyse de couverture, notamment la comptabilité de couverture des swaps, et animé un atelier interne sur la couverture des portefeuilles d’actions islamiques.</li>
+  </ul>
+</div></div>
+
+<div class="e split"><div class="d">2018–auj.</div><div>
+  <div class="t">Économiste chercheur</div>
+  <div class="o">Institut de la Banque islamique de développement (IsDBI)</div>
+  <ul>
+    <li>Pilote des travaux de recherche, de conseil en politiques et de renforcement des capacités pour développer la finance islamique dans les pays membres de la BID.</li>
+    <li>Mène des recherches économiques et quantitatives appliquées sur la finance durable, les instruments de partage des risques et l’innovation fintech, et développe des modèles financiers pour les produits islamiques et les instruments souverains tels que les sukuk.</li>
+    <li>Collabore avec les banques centrales, les ministères des finances et les partenaires au développement, et représente l’Institut dans les forums et conférences internationaux.</li>
+  </ul>
+  <h3>Réalisations marquantes</h3>
+  <ul>
+    <li><b>Livre&#8239;:</b> auteur de <i>Heavy Tails and Coherent Risk Measures in Islamic Finance</i> (IsDBI, 2021).</li>
+    <li><b>Brevets et produits&#8239;:</b> rôle clé dans le «&#8239;Smart Voucher System&#8239;» de l’IsDBI (brevet américain 12282916) et contribution aux brevets «&#8239;The Blockchain-based Voucher System&#8239;» et «&#8239;Blockchain-based Credit Management&#8239;»&#8239;; participation au projet Smart Economy et conception d’un produit fintech au service de la finance islamique souveraine&#8239;; analyste en tarification et développeur de produit pour le Sukuk Assets Utility Awqaf.</li>
+    <li><b>Indice de référence&#8239;:</b> a dirigé un groupe de travail et réalisé le travail quantitatif sur «&#8239;Developing an Islamic Financial Returns Benchmark for Islamic Financial Institutions&#8239;», y compris la base de données et l’analyse des données d’enquête de Consensus Economics.</li>
+    <li><b>Renforcement des capacités&#8239;:</b> conception et animation de programmes pour les banques centrales et les régulateurs en Libye, au Maroc, en Ouganda et en Mauritanie&#8239;; représentant de l’IsDBI au sein du groupe de travail Libye (Banque centrale de Libye, Libya Development Bank)&#8239;; formation «&#8239;Introduction à la finance islamique&#8239;» pour le programme PTCI à Dakar, Sénégal&#8239;; atelier international sur la réglementation des fonds propres des institutions financières islamiques à Oman&#8239;; membre de l’équipe du Center of Excellence on Islamic Finance, qui a organisé son premier atelier à Médine.</li>
+    <li><b>Monnaie numérique et crypto-actifs&#8239;:</b> coordination du projet de monnaie numérique de l’Autorité monétaire palestinienne et membre de l’équipe d’organisation du premier Forum des économistes, «&#8239;The Rise of Central Bank Digital Currency: Motives, Approaches, and Techniques&#8239;»&#8239;; intervenant et panéliste à l’atelier de l’ADFIMI et de la Qatar Development Bank sur «&#8239;Sharia Compliance Issues of Crypto Assets&#8239;».</li>
+    <li><b>Subventions, projets et pays&#8239;:</b> contribution à plusieurs subventions en finance islamique (awqaf, finance participative et sociale)&#8239;; rédaction de la contribution de l’IsDBI aux stratégies de partenariat avec les pays membres pour le Niger, la Guinée et le Maroc&#8239;; chargé de projets d’assistance technique pour l’Ouganda, le Burkina Faso et les Émirats arabes unis&#8239;; évaluateur du projet de l’aéroport Queen Alia, Amman, avec le Département de l’évaluation des opérations de la BID&#8239;; coéditeur du rapport pays sur la finance islamique à Djibouti.</li>
+    <li><b>Travaux de recherche&#8239;:</b> «&#8239;Taming Inflation: An Islamic-finance Perspective&#8239;»&#8239;; «&#8239;The Determination of Alpha in the Capital Adequacy Ratio for Islamic Financial Institutions&#8239;» (TICIEF 2019)&#8239;; «&#8239;On the Role of Cryptocurrencies in Islamic Finance, Real Economy and Sustainability&#8239;» (Istanbul)&#8239;; recherches sur les sukuk indexés sur le PIB et l’inflation après la COVID-19&#8239;; étude de cas de l’Islamic Banking Africa Summit.</li>
+    <li><b>Blogs et traduction&#8239;:</b> auteur de billets, dont «&#8239;Inflation Dependence Structure in a post-COVID-19 World&#8239;» et «&#8239;Crypto GDP Sukuk, for Better Debt Servicing in Post-COVID-19&#8239;», et traduction de travaux de l’IsDBI entre l’anglais, l’arabe et le français.</li>
+  </ul>
+</div></div>
+
+<div class="e split"><div class="d">2015–2018</div><div>
+  <div class="t">Jeune professionnel</div>
+  <div class="o">Groupe de la Banque islamique de développement, Young Professionals Programme (YPP)&#8239;: formation et trois rotations</div>
+  <ul>
+    <li><b>Financial Product Development Center</b> (deuxième et troisième rotations)&#8239;: représentant du département au Comité de gestion des risques du Groupe de la BID&#8239;; auteur d’études sur les structures indexées sur le PIB et sur les matières premières, sur les credit default swaps et leur modélisation, et sur le risque fiduciaire et d’évaluation par des tiers&#8239;; participation à la conception de la Sovereign Finance Company et de son modèle de flux de trésorerie&#8239;; optimisation du panier d’actions de sukuk échangeables&#8239;; constitution d’une base de données sur les sukuk et analyse de leur risque de queue&#8239;; analyse des obligations servant à tarifer les sukuk&#8239;; premier projet d’indice des exportations des pays membres de l’OCI.</li>
+    <li><b>Département des services financiers islamiques</b> (première rotation)&#8239;: examen de l’étude de faisabilité du projet Awqaf Properties Investment Fund à Cotonou, Bénin, et participation à la mission d’évaluation&#8239;; présentation du projet Zitouna Tamkeen aux comités d’investissement&#8239;; audit du projet saoudien de viande du Hajj (Adahi)&#8239;; contribution à la revue du processus d’assistance technique.</li>
+    <li>Participation à la 29<sup>e</sup> école d’été internationale de l’Association suisse des actuaires sur la gestion quantitative des risques, Lausanne.</li>
+  </ul>
+</div></div>
+
+<div class="e"><div class="d">11/2013–02/2015</div><div>
+  <div class="t">Chercheur postdoctoral</div>
+  <div class="o">Institut de théorie économique et de statistique (ETS), KIT, Allemagne</div>
+  <ul>
+    <li>Recherche en ingénierie financière, optimisation de portefeuille et gestion des risques&#8239;; gestion des projets de recherche sur la finance islamique.</li>
+    <li>Enseignement de l’ingénierie financière et des méthodes financières avancées&#8239;; encadrement de mémoires de licence et de master et co-encadrement d’une thèse de doctorat.</li>
+  </ul>
+</div></div>
+
+<div class="e"><div class="d">11/2013–09/2014</div><div>
+  <div class="t">Consultant senior, projets de finance islamique</div>
+  <div class="o">FinAnalytica et Bravo Risk Management, New York</div>
+  <ul>
+    <li>Développement d’outils d’analyse de portefeuille et d’un outil de gestion des risques pour le trading quotidien&#8239;; application des lois stables et à queues épaisses aux composantes du DAX et aux sukuk pour améliorer la performance des portefeuilles et maîtriser le risque de queue.</li>
+  </ul>
+</div></div>
+
+<h3 class="c">Expériences antérieures</h3>
+<div class="kv"><div class="d">04/2013–10/2013</div><div><b>Analyste et consultant senior en analyse des réseaux sociaux</b>, SONEAN GmbH, Francfort&#8239;: stratégies d’affaires fondées sur l’analyse des réseaux et analyse des réseaux de décideurs.</div></div>
+<div class="kv"><div class="d">12/2012–02/2013</div><div><b>Responsable commercial</b>, Edmund Optics, Karlsruhe&#8239;: conseil technique, études de faisabilité et offres.</div></div>
+<div class="kv"><div class="d">09/2012–11/2012</div><div><b>Stagiaire, tarification de portefeuilles</b>, Hoist Finance Group, Düsseldorf&#8239;: tarification de portefeuilles de prêts non performants.</div></div>
+<div class="kv"><div class="d">03/2011–08/2012</div><div><b>Chef de projet</b>, TISFO (Tunisian Industrial Services for Oil), Sousse&#8239;: études de marché, conduite de projets et contrôle budgétaire.</div></div>
+</section>
+
+<div class="keep">
+<h2>Relecteur pour</h2>
+<div class="kv"><div class="d">2015</div><div><i>International Journal of Islamic and Middle Eastern Finance and Management</i></div></div>
+<div class="kv"><div class="d">2014</div><div><i>Frontiers in Mathematical Finance</i></div></div>
+</div>
+
+<div class="keep">
+<h2>Langues et logiciels</h2>
+<div class="kv"><div class="d">Langues</div><div>Arabe (langue maternelle) · anglais, français et allemand (courant)</div></div>
+<div class="kv"><div class="d">Logiciels</div><div>MATLAB, Python, MS Office</div></div>
+<div class="kv"><div class="d">Intérêts</div><div>Lecture, écriture, sport et voyages</div></div>
+</div>
+
+<div class="keep">
+<h2>Autres activités</h2>
+<ul>
+  <li>Membre du German Business Circle du Bureau de liaison économique germano-saoudien, Djeddah, Arabie saoudite.</li>
+  <li>Membre de la Société scientifique tunisienne (TWG), Karlsruhe, Allemagne.</li>
+  <li>Membre du «&#8239;Wednesday Talk&#8239;», rencontre académique d’économistes à l’université du Roi Abdulaziz, Djeddah, Arabie saoudite.</li>
+  <li>Ancien président du jury du master en gestion financière islamique, Effat College of Business, Djeddah, Arabie saoudite.</li>
+</ul>
+</div>
+
+</body>
+</html>
