@@ -365,6 +365,25 @@ html[dir="rtl"] .pt-kv th { padding: 0.22rem 0 0.22rem 0.5rem; }
 .lg-gs::before { border-top: 2px solid var(--err); }
 @media (max-width: 380px) { .gx-bt th, .gx-bt td { font-size: 0.7rem !important; padding: 0.3rem 0.12rem !important; } }
 @media (max-width: 420px) { .gx-yr thead th { font-size: 0.62rem !important; } .gx-yr th, .gx-yr td { padding-left: 0.12rem !important; padding-right: 0.12rem !important; } .pt-yr th, .pt-yr td, .pt-bt th, .pt-bt td { padding: 0.32rem 0.2rem; font-size: 0.78rem; } .pt-yr thead th, .pt-bt thead th { white-space: normal; hyphens: auto; } .gx-bt th, .gx-bt td, .gx-yr th, .gx-yr td { padding: 0.32rem 0.18rem; font-size: 0.74rem; } .gx-bt thead th, .gx-yr thead th { font-size: 0.68rem; letter-spacing: 0; } }
+
+/* ---- type harmony: Spectral for headings, Source Sans 3 for text, JetBrains Mono only for menu, labels, tags, numbers and code ---- */
+.st-lab { font: 500 var(--t-small)/1.4 var(--body); }
+.st-cap { font: 600 var(--t-small)/1.5 var(--body); color: var(--ink); letter-spacing: 0; text-transform: none; }
+.plist b { font: inherit; font-weight: 600; color: var(--accent); }
+.pt-paste summary { font: 500 var(--t-xs)/1.5 var(--body); color: var(--accent); }
+.pt-opt label { font: 600 var(--t-xs)/1.4 var(--body); color: var(--ink); }
+.pt-card h3 { font: 500 var(--t-card)/1.3 var(--display); letter-spacing: 0; text-transform: none; color: var(--ink); }
+.gx h4.pt-sub, .pt-card h3.pt-sub { font: 500 1.05rem/1.4 var(--display); letter-spacing: 0; text-transform: none; color: var(--ink); }
+.pt-legend { font: 500 var(--t-xs)/1.4 var(--body); }
+.pt-verdict { font: 600 var(--t-small)/1.5 var(--body); }
+.pt-kv th, .pt-risk tbody th, .pt-risk tfoot th { font-family: var(--body); font-size: var(--t-small); }
+.pt-kv td, .pt-risk td { font-family: var(--mono); font-size: var(--t-xs); }
+.pt-risk thead th { font: 600 var(--t-xs)/1.35 var(--body); letter-spacing: 0; color: var(--muted); }
+@media (max-width: 420px) {
+  /* one compact size for every table on phones */
+  .pt-risk th, .pt-risk td, .pt-risk thead th, .pt-kv th, .pt-kv td { font-size: 0.75rem !important; letter-spacing: 0 !important; }
+}
+.pt-kv td.pt-word { font-family: var(--body); font-size: var(--t-small); }
 </style>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous" media="print" onload="this.media='all'">
@@ -587,7 +606,7 @@ html[dir="rtl"] .pt-kv th { padding: 0.22rem 0 0.22rem 0.5rem; }
 </script>
 <script src="stable.js?v=3"></script>
 <script src="analysis.js?v=3"></script>
-<script src="app.js?v=4"></script>
+<script src="app.js?v=5"></script>
 <script src="garch.js?v=3"></script>
 <script src="garch-ui.js?v=4"></script>
 <script>

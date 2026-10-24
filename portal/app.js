@@ -148,7 +148,7 @@
   function pc(v, k) { return isFinite(v) ? (100 * v).toFixed(k == null ? 2 : k) + '%' : '∞'; }
   function f(v, k) { return isFinite(v) ? v.toFixed(k) : '∞'; }
   function kv(id, rows) {
-    $(id).innerHTML = rows.map(function (r) { return '<tr><th scope="row">' + r[0] + '</th><td dir="ltr">' + r[1] + '</td></tr>'; }).join('');
+    $(id).innerHTML = rows.map(function (r) { var word = !/\d/.test(String(r[1]).replace(/<[^>]+>/g, '')); return '<tr><th scope="row">' + r[0] + '</th><td dir="ltr"' + (word ? ' class="pt-word"' : '') + '>' + r[1] + '</td></tr>'; }).join(''); // words in the body font, numbers in mono
   }
   function render() {
     if (!res) return;

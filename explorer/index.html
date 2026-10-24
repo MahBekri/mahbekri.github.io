@@ -284,6 +284,11 @@ html[lang="ar"] .st-cap { letter-spacing: 0; text-transform: none; }
 .plist b { font: 600 1.05em var(--display); color: var(--accent); }
 @media (max-width: 560px) { .st-controls { grid-template-columns: minmax(0, 1fr); } .st-plot { height: 260px; } .st-reset { margin-inline-start: 0; } }
 @media print { .st-opts, .st-controls { display: none; } }
+
+/* ---- type harmony: Spectral for headings, Source Sans 3 for text, JetBrains Mono only for menu, labels, tags, numbers and code ---- */
+.st-lab { font: 500 var(--t-small)/1.4 var(--body); }
+.st-cap { font: 600 var(--t-small)/1.5 var(--body); color: var(--ink); letter-spacing: 0; text-transform: none; }
+.plist b { font: inherit; font-weight: 600; color: var(--accent); }
 </style>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous" media="print" onload="this.media='all'">
