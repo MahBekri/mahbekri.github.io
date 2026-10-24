@@ -1,7 +1,7 @@
 /* Runs the book's Python exercises in a Web Worker with Pyodide,
    so long computations never freeze the page. */
 const PYODIDE = "https://cdn.jsdelivr.net/pyodide/v0.27.7/full/";
-const VERSION = "4";
+const VERSION = "5";
 importScripts(PYODIDE + "pyodide.js");
 
 let py = null;
@@ -17,12 +17,11 @@ async function init() {
   py.setStdout({ batched: (s) => post({ type: "out", id: current, text: s + "\n" }) });
   py.setStderr({ batched: (s) => post({ type: "err", id: current, text: s + "\n" }) });
   post({ type: "status", key: "stLoadPkg" });
-  const [kit, csv] = await Promise.all([
-    fetch("py/bookkit.py?v=" + VERSION).then((r) => { if (!r.ok) throw new Error("bookkit.py " + r.status); return r.text(); }),
+  // the exercises' helper module (bookkit.py) is published encrypted; the page sends it, decrypted, with each run
+  const [csv] = await Promise.all([
     fetch("data/prices.csv?v=" + VERSION).then((r) => { if (!r.ok) throw new Error("prices.csv " + r.status); return r.text(); }),
     py.loadPackage(["numpy", "scipy", "matplotlib"]),
   ]);
-  py.FS.writeFile("/home/pyodide/bookkit.py", kit);
   py.FS.writeFile("/home/pyodide/prices.csv", csv);
   await py.runPythonAsync(`
 import os, sys, io, base64, warnings
@@ -32,7 +31,6 @@ if "/home/pyodide" not in sys.path:
     sys.path.insert(0, "/home/pyodide")
 warnings.filterwarnings("ignore", message=".*non-interactive.*")
 warnings.filterwarnings("ignore", message=".*FigureCanvasAgg.*")
-import bookkit
 import matplotlib.pyplot as plt
 
 def _bk_figs():
@@ -55,7 +53,8 @@ def _bk_figs():
   post({ type: "status", key: "stReady" });
 }
 
-async function run(id, code) {
+let kitWritten = false;
+async function run(id, code, kit) {
   if (!ready) ready = init();
   try {
     await ready;
@@ -65,6 +64,7 @@ async function run(id, code) {
     post({ type: "done", id, ok: false, error: String(e && e.message || e), figs: [], ms: 0 });
     return;
   }
+  if (kit && !kitWritten) { py.FS.writeFile("/home/pyodide/bookkit.py", kit); kitWritten = true; }
   current = id;
   post({ type: "started", id });
   const t0 = performance.now();
@@ -93,5 +93,5 @@ async function run(id, code) {
 self.onmessage = (e) => {
   const m = e.data;
   if (m.type === "init") { queue = queue.then(() => { if (!ready) ready = init(); return ready.catch(() => { ready = null; post({ type: "status", key: "stFail" }); }); }); }
-  if (m.type === "run") { queue = queue.then(() => run(m.id, m.code)); }
+  if (m.type === "run") { queue = queue.then(() => run(m.id, m.code, m.kit)); }
 };
