@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Return analysis portal · Mahmoud Bekri</title>
+<meta name="description" content="Load a price or return series and get its statistics, a normality test, a stable-law fit, and value at risk and expected shortfall under historical, normal and stable models, computed in your browser.">
+<meta name="author" content="Mahmoud Bekri">
+<link rel="canonical" href="https://mahbekri.github.io/portal/">
+<link rel="alternate" hreflang="en" href="https://mahbekri.github.io/portal/">
+<link rel="alternate" hreflang="ar" href="https://mahbekri.github.io/portal/?lang=ar">
+<link rel="alternate" hreflang="fr" href="https://mahbekri.github.io/portal/?lang=fr">
+<link rel="alternate" hreflang="de" href="https://mahbekri.github.io/portal/?lang=de">
+<link rel="alternate" hreflang="x-default" href="https://mahbekri.github.io/portal/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Return analysis portal · Mahmoud Bekri">
+<meta property="og:description" content="Load a price or return series and get its statistics, a normality test, a stable-law fit, and value at risk and expected shortfall under historical, normal and stable models, computed in your browser.">
+<meta property="og:url" content="https://mahbekri.github.io/portal/">
+<meta property="og:image" content="https://mahbekri.github.io/photo.jpg">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#1f3a6e">
+<meta name="color-scheme" content="only light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231f3a6e'/%3E%3Cpath d='M6 50 C20 50 24 12 32 12 S44 50 58 50' fill='none' stroke='%23ffffff' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap"></noscript>
+<style>
+/* Companion page to the home page: same tokens, top bar and label rail; one section per book chapter, one card per exercise. */
+@font-face { font-family: "Spectral Fallback"; src: local("Times New Roman"), local("Liberation Serif"), local("Times"); size-adjust: 110%; ascent-override: 96%; descent-override: 42%; line-gap-override: 0%; }
+@font-face { font-family: "Source Sans Fallback"; src: local("Arial"), local("Liberation Sans"), local("Helvetica"); size-adjust: 93.4%; ascent-override: 109%; descent-override: 43%; line-gap-override: 0%; }
+:root {
+  --paper: #f6f8fb;
+  --surface: #eaeef4;
+  --ink: #16233b;
+  --muted: #586378;
+  --rule: #d9dfe8;
+  --accent: #1f3a6e;
+  --mark: #2f63a8;
+  --card: #ffffff;
+  --wash: rgba(31, 58, 110, 0.08);
+  --codebg: #f3f5f9;
+  --ok: #2f7d5b;
+  --err: #a8322a;
+  --shadow: 0 1px 2px rgba(22, 35, 59, 0.05), 0 8px 24px -12px rgba(22, 35, 59, 0.2);
+  color-scheme: only light;
+  --radius: 10px;
+  --display: "Spectral", "Spectral Fallback", Georgia, "Times New Roman", serif;
+  --body: "Source Sans 3", "Source Sans Fallback", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --code: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --label-case: uppercase;
+  --label-track: 0.07em;
+}
+html[lang="ar"] {
+  --display: "Noto Naskh Arabic", "Amiri", "Times New Roman", serif;
+  --body: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --mono: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --label-case: none;
+  --label-track: 0;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+::selection { background: var(--accent); color: var(--paper); }
+[hidden] { display: none !important; }
+body {
+  margin: 0;
+  background: var(--paper);
+  background-image: radial-gradient(60rem 32rem at 85% -6rem, var(--wash), transparent 70%);
+  background-repeat: no-repeat;
+  color: var(--ink);
+  font: 400 1.0625rem/1.65 var(--body);
+  -webkit-font-smoothing: antialiased;
+}
+html[lang="ar"] body { line-height: 1.85; }
+.wrap {
+  max-width: 68rem; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: env(safe-area-inset-top, 0px) calc(4rem + env(safe-area-inset-bottom, 0px));
+}
+a { color: var(--accent); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+.label { font: 500 0.8125rem/1.5 var(--mono); letter-spacing: var(--label-track); text-transform: var(--label-case); color: var(--muted); }
+.skip { position: absolute; inset-inline-start: 1rem; top: -3rem; z-index: 20; background: var(--accent); color: var(--paper); padding: 0.6rem 1rem; border-radius: 6px; text-decoration: none; font: 500 0.875rem/1 var(--body); }
+.skip:focus { top: 1rem; }
+main:focus { outline: none; }
+
+.top {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; justify-content: space-between; align-items: center;
+  padding-block: 0.9rem; border-bottom: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  -webkit-backdrop-filter: saturate(1.4) blur(12px); backdrop-filter: saturate(1.4) blur(12px);
+  font: 500 0.8125rem/1.4 var(--mono);
+}
+.brand { display: inline-flex; align-items: center; gap: 0.55rem; color: var(--ink); text-decoration: none; font-weight: 600; }
+.top nav { display: flex; flex-wrap: wrap; gap: 0.25rem 0.35rem; }
+.top nav a { color: var(--muted); text-decoration: none; padding: 0.3rem 0.55rem; border-radius: 6px; transition: color 0.15s, background-color 0.15s; }
+.top nav a:hover { color: var(--ink); background: var(--surface); }
+.langs-switch { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+.langs-switch button { font: 500 0.8125rem/1 var(--mono); color: var(--muted); background: transparent; border: 0; padding: 0.45rem 0.7rem; cursor: pointer; }
+.langs-switch button:hover { color: var(--ink); background: var(--surface); }
+.langs-switch button + button { border-inline-start: 1px solid var(--rule); }
+.langs-switch button[aria-pressed="true"] { background: var(--accent); color: var(--paper); }
+.langs-switch .ar { font-family: "IBM Plex Sans Arabic", Tahoma, sans-serif; }
+.right { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; }
+
+.hero { padding-block: 3.5rem 3rem; max-width: 46rem; }
+.hero h1 { font: 500 clamp(2.2rem, 5.2vw, 3.6rem)/1.1 var(--display); letter-spacing: -0.015em; margin: 0.6rem 0 1.1rem; text-wrap: balance; }
+html[lang="ar"] .hero h1 { letter-spacing: 0; line-height: 1.35; }
+.lede { font: 400 1.25rem/1.55 var(--display); margin: 0 0 1rem; text-wrap: pretty; }
+html[lang="ar"] .lede { font-size: 1.2rem; line-height: 1.9; }
+.how { color: var(--muted); margin: 0; max-width: 40rem; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-top: 1.75rem; }
+.btn {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  font: 500 0.875rem/1 var(--body); text-decoration: none; cursor: pointer;
+  padding: 0.65rem 1rem; border-radius: 999px;
+  border: 1px solid var(--rule); color: var(--ink); background: var(--card);
+  transition: border-color 0.15s, color 0.15s, transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); box-shadow: var(--shadow); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+.btn.primary:hover { color: var(--paper); filter: brightness(1.08); }
+.btn.ghost { background: transparent; }
+.btn[disabled] { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn.stop { background: var(--err); border-color: var(--err); color: #fff; }
+.pystatus { display: inline-flex; align-items: center; gap: 0.5rem; font: 500 0.8125rem/1.4 var(--mono); color: var(--muted); margin-inline-start: 0.4rem; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rule); flex: none; }
+.pystatus[data-state="loading"] .dot { background: var(--mark); animation: pulse 1s ease-in-out infinite; }
+.pystatus[data-state="ready"] .dot { background: var(--ok); }
+.pystatus[data-state="fail"] .dot { background: var(--err); }
+@keyframes pulse { 50% { opacity: 0.3; } }
+@media (prefers-reduced-motion: reduce) { .pystatus .dot { animation: none !important; } }
+
+section { display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: 1rem 3rem; padding-block: 2.5rem; border-top: 1px solid var(--rule); }
+section > h2 { margin: 0.35rem 0 0; font-weight: 500; align-self: start; position: sticky; top: 5rem; }
+section > h2::before { content: ""; display: block; width: 1.5rem; height: 2px; background: var(--accent); margin-bottom: 0.7rem; border-radius: 2px; }
+.chn { display: block; color: var(--mark); }
+.cht { display: block; color: var(--ink); text-transform: none; letter-spacing: 0; font: 500 1.05rem/1.35 var(--display); margin-top: 0.2rem; }
+.content { min-width: 0; max-width: 48rem; display: grid; gap: 1.25rem; }
+.content > p { margin: 0; }
+.st-plot { position: relative; height: 300px; }
+@media (max-width: 560px) { .st-controls { grid-template-columns: minmax(0, 1fr); } .st-plot { height: 240px; } .st-reset { margin-inline-start: 0; } }
+section, .ex { scroll-margin-top: 4.5rem; }
+.hash { font: 400 0.8125rem/1.5 var(--mono); overflow-wrap: anywhere; }
+.book-hero { padding-block: 3.5rem 2.5rem; max-width: 52rem; }
+html[dir="rtl"] .book-title { text-align: right; }
+.sub { margin: 1rem 0 -0.25rem; font-weight: 500; display: flex; align-items: center; gap: 0.75rem; }
+.sub::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+.parts { margin: 0; padding-inline-start: 1.4rem; display: grid; gap: 0.45rem; }
+.actions.tight { margin-top: 0; }
+.exindex { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 0.4rem 1.2rem; }
+.exindex a { display: flex; gap: 0.7rem; align-items: baseline; color: var(--ink); text-decoration: none; padding: 0.35rem 0; border-bottom: 1px solid var(--rule); }
+.exindex a:hover { color: var(--accent); border-color: var(--accent); }
+.exn { font: 500 0.8125rem/1 var(--mono); color: var(--mark); flex: none; }
+
+.ex { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 1.2rem 1.3rem; box-shadow: var(--shadow); min-width: 0; }
+.ex-head { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); gap: 0.6rem; }
+.ex-n { font: 500 0.875rem/1.9 "JetBrains Mono", ui-monospace, monospace; color: var(--mark); font-variant-numeric: tabular-nums; }
+.ex h3 { font: 500 1.3rem/1.3 var(--display); margin: 0 0 0.3rem; text-wrap: balance; }
+.ex-txt p { margin: 0; color: var(--muted); font-size: 0.98rem; }
+.ex-task { margin: 1rem 0 0; margin-inline-start: 3rem; padding: 0.85rem 1rem 0.9rem; background: var(--paper); border: 1px solid var(--rule); border-inline-start: 3px solid var(--accent); border-radius: 8px; font-size: 0.95rem; }
+.ex-task-h { margin: 0 0 0.35rem; }
+.ex-task-b p { margin: 0 0 0.5rem; }
+.ex-task-b ul, .ex-task-b ol { margin: 0; padding-inline-start: 1.3rem; display: grid; gap: 0.3rem; }
+.ex-task-b li::marker { color: var(--mark); }
+.ex-task .f { font-family: var(--display); font-style: italic; white-space: nowrap; unicode-bidi: isolate; direction: ltr; }
+html[lang="ar"] .ex-task .f { font-family: "Spectral", "Spectral Fallback", Georgia, serif; }
+.ex-task .f.fl { white-space: normal; }
+@media (max-width: 480px) { .ex-task { margin-inline-start: 0; } .ex-task .f { white-space: normal; } }
+.ex-task-b ul + ol, .ex-task-b ol + ul { margin-top: 0.7rem; }
+.ex-task .f sub, .ex-task .f sup { font-size: 0.72em; }
+.ex-task .fb { display: block; margin: 0.2rem 0 0.6rem; padding-inline-start: 0.5rem; line-height: 1.9; }
+.ex-task .fb .f { display: inline-block; direction: ltr; }
+.ex-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.6rem; margin-top: 1rem; padding-inline-start: 3rem; }
+.ex-status { font: 400 0.8125rem/1.4 var(--mono); color: var(--muted); }
+.ex-status.ok { color: var(--ok); }
+.ex-status.err { color: var(--err); }
+.ex-code { margin-top: 1rem; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; background: var(--codebg); }
+.tabs { display: flex; flex-wrap: wrap; align-items: stretch; border-bottom: 1px solid var(--rule); background: var(--card); }
+.tab { font: 500 0.8125rem/1 var(--mono); color: var(--muted); background: transparent; border: 0; border-bottom: 2px solid transparent; padding: 0.75rem 0.9rem 0.65rem; cursor: pointer; }
+.tab[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+.tab .edited { color: var(--mark); }
+.tab-tools { margin-inline-start: auto; display: inline-flex; align-items: center; gap: 0.9rem; padding-inline: 0.9rem; }
+.link { font: 500 0.8125rem/1 var(--mono); color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 0.2em; text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent); }
+.code-py, .code-m {
+  display: block; width: 100%; margin: 0; border: 0; resize: vertical;
+  background: var(--codebg); color: var(--ink);
+  font: 400 0.8125rem/1.6 var(--code); tab-size: 4;
+  padding: 0.9rem 1rem; min-height: 12rem; max-height: 34rem; overflow: auto; white-space: pre;
+  text-align: left; direction: ltr;
+}
+.code-py:focus { outline: none; box-shadow: inset 0 0 0 2px var(--accent); }
+.code-m { color: #2d3a52; }
+.ex-out { margin-top: 1rem; display: grid; gap: 0.9rem; }
+.stdout {
+  margin: 0; padding: 0.85rem 1rem; border-radius: 8px; background: #101a2e; color: #dfe6f1;
+  font: 400 0.78rem/1.55 var(--code); white-space: pre; overflow: auto; max-height: 30rem; text-align: left; direction: ltr;
+}
+.stdout:empty { display: none; }
+.stdout .e { color: #ffb4ab; }
+.figs { display: grid; gap: 0.9rem; }
+.figs img { display: block; width: 100%; height: auto; max-width: 100%; border: 1px solid var(--rule); border-radius: 8px; background: #fff; }
+.notes { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.8rem; }
+.notes li { padding-inline-start: 1rem; position: relative; color: var(--ink); }
+.notes li::before { content: ""; position: absolute; inset-inline-start: 0; top: 0.75em; width: 5px; height: 1px; background: var(--accent); }
+footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.875rem; color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 2rem; }
+footer .to-top { font: 500 0.8125rem/1.4 var(--mono); color: var(--muted); text-decoration: none; white-space: nowrap; }
+footer .to-top:hover { color: var(--accent); }
+
+@media (max-width: 860px) {
+  .hero { padding-block: 2.25rem 2rem; }
+  section { grid-template-columns: minmax(0, 1fr); padding-block: 2rem; gap: 1rem; }
+  section > h2 { position: static; }
+  .top { position: static; }
+}
+@media (max-width: 520px) {
+  .ex { padding: 1rem; }
+  .ex-head { grid-template-columns: minmax(0, 1fr); gap: 0.2rem; }
+  .ex-bar { padding-inline-start: 0; }
+  .ex-task { margin-inline-start: 0; }
+  .tab-tools { margin-inline-start: 0; padding: 0.4rem 0.9rem 0.6rem; width: 100%; }
+}
+@media print {
+  .top nav, .langs-switch, .actions, .ex-bar, footer .to-top { display: none !important; }
+  body { background: #fff; }
+  .ex { box-shadow: none; break-inside: auto; }
+  .ex-head, .ex-task-b li, .ex-task .fb { break-inside: avoid; }
+  .chap .content { display: block; }
+  .chap .ex + .ex { margin-top: 1rem; }
+  section { display: block; padding-block: 1.25rem; }
+  section > h2 { position: static; margin-bottom: 0.9rem; break-after: avoid; }
+  .chap { break-before: page; }
+  .exindex li, .parts li, .notes li { break-inside: avoid; }
+  .sub { break-after: avoid; }
+}
+:root {
+  /* one type scale shared by every page */
+  --t-h1: clamp(2.6rem, 6vw, 4.25rem);
+  --t-lede: 1.3rem;
+  --t-card: 1.25rem;
+  --t-item: 1.15rem;
+  --t-small: 0.95rem;
+  --t-xs: 0.875rem;
+  --t-label: 0.8125rem;
+}
+.hero h1 { font-size: var(--t-h1); margin: 0 0 1rem; }
+.role { margin: 0 0 1.5rem; color: var(--accent); }
+.book-hero .lede { font-size: var(--t-lede); max-width: 26em; margin: 0; }
+html[lang="ar"] .book-hero .lede { font-size: 1.25rem; }
+.ex h3 { font-size: var(--t-card); }
+.ex-txt p { font-size: var(--t-small); }
+.ex-n { font-size: var(--t-label); }
+#companion .actions { margin-top: 0.25rem; }
+.st-box { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 1.1rem 1.2rem 1rem; box-shadow: var(--shadow); display: grid; gap: 0.9rem; }
+.st-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem 1.5rem; }
+.st-row { display: grid; grid-template-columns: minmax(0, 1fr) 5.2rem; grid-template-areas: "lab out" "rng rng"; align-items: center; gap: 0.2rem 0.5rem; }
+.st-lab { grid-area: lab; font: 500 var(--t-label, 0.8125rem)/1.4 var(--mono); color: var(--ink); }
+.st-row input[type=range] { grid-area: rng; width: 100%; accent-color: var(--accent); direction: ltr; }
+.st-num { grid-area: out; width: 100%; box-sizing: border-box; font: 500 var(--t-label, 0.8125rem)/1.4 var(--mono); color: var(--mark); text-align: end; font-variant-numeric: tabular-nums; padding: 0.2rem 0.4rem; border: 1px solid var(--rule); border-radius: 6px; background: var(--paper); }
+.st-num:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.st-opts { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; font-size: var(--t-small, 0.95rem); }
+.st-opts input { accent-color: var(--accent); }
+.st-reset { margin-inline-start: auto; }
+.st-plot { position: relative; height: 340px; }
+.st-plot canvas { width: 100%; height: 100%; display: block; }
+.nw { white-space: nowrap; }
+.st-note { margin: 0; color: var(--muted); font-size: var(--t-small, 0.95rem); min-height: 1.5em; }
+.st-fig { margin: 0; }
+.st-cap { font: 500 var(--t-label, 0.8125rem)/1.5 var(--mono); color: var(--muted); margin: 0 0 0.35rem; }
+html[lang="ar"] .st-cap { letter-spacing: 0; text-transform: none; }
+.st-plot-cdf { height: 240px; }
+.plist { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.6rem; }
+.plist b { font: 600 1.05em var(--display); color: var(--accent); }
+@media (max-width: 560px) { .st-controls { grid-template-columns: minmax(0, 1fr); } .st-plot { height: 260px; } .st-reset { margin-inline-start: 0; } }
+@media print { .st-opts, .st-controls { display: none; } }
+</style>
+<style>
+.pt-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.pt-box { gap: 1rem; }
+.pt-load { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 0.9rem; }
+.pt-file { cursor: pointer; }
+#pt-file:focus-visible + * , .pt-file:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pt-dl { font-size: var(--t-small, 0.95rem); color: var(--accent); }
+.pt-paste summary { cursor: pointer; font: 500 var(--t-label, 0.8125rem)/1.5 var(--mono); color: var(--ink); }
+.pt-paste[open] summary { margin-bottom: 0.5rem; }
+.pt-paste textarea { width: 100%; box-sizing: border-box; font: 400 0.8125rem/1.5 var(--mono); color: var(--ink); background: var(--paper); border: 1px solid var(--rule); border-radius: 8px; padding: 0.5rem 0.6rem; resize: vertical; margin-bottom: 0.6rem; }
+.pt-paste textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.pt-hint { margin: 0; color: var(--muted); font-size: var(--t-small, 0.95rem); }
+.pt-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 0.6rem 1.25rem; border-top: 1px solid var(--rule); padding-top: 0.9rem; }
+.pt-opts[hidden] { display: none; }
+.pt-opt { display: grid; gap: 0.25rem; }
+.pt-opt label { font: 500 var(--t-label, 0.8125rem)/1.4 var(--mono); color: var(--ink); }
+.pt-opt select { font: 400 var(--t-small, 0.95rem)/1.4 var(--body); color: var(--ink); background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 0.4rem 0.5rem; max-width: 100%; }
+.pt-opt select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.pt-status:empty { display: none; }
+.pt-err { color: var(--err) !important; }
+.pt-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; align-items: start; }
+.pt-card { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 1rem 1.1rem; box-shadow: var(--shadow); min-width: 0; }
+.pt-card h3 { font: 500 var(--t-label, 0.8125rem)/1.5 var(--mono); letter-spacing: var(--label-track); text-transform: var(--label-case); color: var(--muted); margin: 0 0 0.6rem; }
+html[lang="ar"] .pt-card h3 { letter-spacing: 0; text-transform: none; }
+.pt-kv, .pt-risk { width: 100%; border-collapse: collapse; font-size: var(--t-small, 0.95rem); font-variant-numeric: tabular-nums; }
+.pt-kv th { text-align: start; font-weight: 400; color: var(--muted); padding: 0.22rem 0.5rem 0.22rem 0; }
+.pt-kv td { text-align: end; font-family: var(--mono); font-size: 0.875rem; color: var(--ink); padding: 0.22rem 0; }
+html[dir="rtl"] .pt-kv th { padding: 0.22rem 0 0.22rem 0.5rem; }
+.pt-kv tr + tr th, .pt-kv tr + tr td { border-top: 1px solid var(--rule); }
+.pt-risk th, .pt-risk td { padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--rule); }
+.pt-risk thead th { font: 500 var(--t-label, 0.8125rem)/1.4 var(--mono); color: var(--muted); text-align: end; white-space: nowrap; }
+.pt-risk thead th:first-child, .pt-risk tbody th { text-align: start; }
+.pt-risk tbody th { font-weight: 400; color: var(--ink); white-space: nowrap; }
+.pt-risk td { text-align: end; font-family: var(--mono); font-size: 0.875rem; }
+.pt-risk tbody tr:nth-child(4n+1) th, .pt-risk tbody tr:nth-child(4n+1) td, .pt-risk tbody tr:nth-child(4n+2) th, .pt-risk tbody tr:nth-child(4n+2) td { background: var(--paper); }
+.pt-scroll { overflow-x: auto; }
+.pt-verdict { margin: 0.6rem 0 0; font-weight: 500; }
+.pt-small { margin: 0.6rem 0 0; color: var(--muted); font-size: 0.875rem; }
+.pt-plot { height: 300px; }
+.pt-figbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 1rem; margin-top: 0.6rem; font-size: var(--t-small, 0.95rem); }
+.pt-figbar input { accent-color: var(--accent); }
+.pt-figbar .pt-png { margin-inline-start: auto; }
+.pt-legend { display: flex; flex-wrap: wrap; gap: 0.3rem 1.1rem; margin: 0 0 0.4rem; font: 500 0.75rem/1.4 var(--mono); color: var(--muted); }
+.lg::before { content: ""; display: inline-block; width: 1.4rem; height: 0; vertical-align: middle; margin-inline-end: 0.4rem; border-top: 2px solid var(--accent); }
+.lg-bar::before { height: 0.7rem; border: 0; background: rgba(47, 99, 168, 0.22); width: 0.9rem; }
+.lg-norm::before { border-top: 2px dashed var(--muted); }
+.lg-var::before { border-top: 2px dashed var(--err); }
+.lg-ts::before { border-top-width: 1px; }
+.pt-dls { display: flex; flex-wrap: wrap; gap: 0.6rem 0.9rem; }
+#results[hidden] { display: none; }
+@media (max-width: 560px) { .pt-plot { height: 240px; } .pt-card { padding: 0.9rem 0.85rem; } .pt-risk th, .pt-risk td { padding: 0.4rem 0.35rem; } }
+@media print { .pt-load, .pt-paste, .pt-opts, .pt-figbar, .pt-dls { display: none; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="../"><svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="var(--accent)"/><path d="M6 50 C20 50 24 12 32 12 S44 50 58 50" fill="none" stroke="var(--paper)" stroke-width="5" stroke-linecap="round"/></svg><span data-i18n="brand">M. Bekri</span></a>
+    <div class="right">
+      <nav aria-label="Sections">
+        <a href="../" data-i18n="navHome">Home</a>
+        <a href="../book/" data-i18n="navAbout">Ebook</a>
+        <a href="../explorer/" data-i18n="navExpl">Stable laws</a>
+        <a href="./" aria-current="page" data-i18n="navPortal">Portal</a>
+        <a href="../book/#companion" data-i18n="navEx">Exercises</a>
+      </nav>
+      <div class="langs-switch" role="group" aria-label="Language">
+        <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="ar" lang="ar" class="ar" aria-pressed="false">عربي</button>
+        <button type="button" data-lang="fr" lang="fr" aria-pressed="false">FR</button>
+        <button type="button" data-lang="de" lang="de" aria-pressed="false">DE</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+  <div class="hero book-hero">
+    <h1 data-i18n="h1">Return analysis portal</h1>
+    <p class="role label" data-i18n="kicker">Your data, your results</p>
+    <p class="lede" data-i18n="lede">Load a price or return series and get its statistics, a normality test, a stable-law fit, and value at risk and expected shortfall under three models. Everything is computed in your browser; your file never leaves your device.</p>
+  </div>
+
+  <section id="data">
+    <h2 class="label" data-i18n="hData">Your series</h2>
+    <div class="content">
+      <div class="st-box pt-box">
+        <div class="pt-load">
+          <label class="pt-file btn primary" for="pt-file"><span data-i18n="fileLbl">Choose a CSV file</span></label>
+          <input type="file" id="pt-file" accept=".csv,.txt,.tsv,text/csv,text/plain" class="pt-hidden">
+          <button type="button" class="btn" id="pt-sample"><span data-i18n="btnSample">Try the book’s data</span></button>
+          <a class="pt-dl" href="../book/data/prices.csv" download="prices.csv" data-i18n="dlSample">Download the sample (CSV)</a>
+        </div>
+        <details class="pt-paste">
+          <summary data-i18n="pasteLbl">Or paste the data</summary>
+          <label class="pt-hidden" for="pt-text" data-i18n="pasteAria">Data to analyse</label>
+          <textarea id="pt-text" rows="6" dir="ltr" spellcheck="false" placeholder="Date,Close&#10;2024-01-02,4742.83&#10;2024-01-03,4704.81&#10;…"></textarea>
+          <button type="button" class="btn" id="pt-go"><span data-i18n="btnAnalyse">Analyse</span></button>
+        </details>
+        <p class="pt-hint" data-i18n="fmtHint">A CSV or text file with a date column and one or more numeric columns, as exported by Yahoo Finance, Bloomberg or Excel. Commas, semicolons and tabs are recognised as separators, and decimal commas too. Prices are turned into returns; return series are used as they are.</p>
+        <div class="pt-opts" id="pt-opts" hidden>
+          <div class="pt-opt"><label for="pt-col" data-i18n="optCol">Column</label><select id="pt-col"></select></div>
+          <div class="pt-opt"><label for="pt-kind" data-i18n="optKind">The column holds</label><select id="pt-kind">
+            <option value="auto" data-i18n="kAuto">Detect automatically</option>
+            <option value="price" data-i18n="kPrices">Prices or index levels</option>
+            <option value="ret" data-i18n="kRet">Returns, as decimals (0.01 = 1%)</option>
+            <option value="pct" data-i18n="kPct">Returns, in per cent (1 = 1%)</option></select></div>
+          <div class="pt-opt"><label for="pt-rt" data-i18n="optRet">Returns from prices</label><select id="pt-rt">
+            <option value="log" data-i18n="rLog">Logarithmic</option>
+            <option value="simple" data-i18n="rSimple">Simple</option></select></div>
+          <div class="pt-opt"><label for="pt-freq" data-i18n="optFreq">Frequency</label><select id="pt-freq">
+            <option value="auto" data-i18n="fAuto">From the dates</option>
+            <option value="252" data-i18n="fD">Daily</option>
+            <option value="52" data-i18n="fW">Weekly</option>
+            <option value="12" data-i18n="fM">Monthly</option></select></div>
+        </div>
+        <p class="st-note pt-status" id="pt-status" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="results" hidden>
+    <h2 class="label" data-i18n="hResults">Results</h2>
+    <div class="content">
+      <div class="pt-grid">
+        <div class="pt-card"><h3 data-i18n="hSeries">The series</h3><table class="pt-kv" id="pt-sum"></table></div>
+        <div class="pt-card"><h3 data-i18n="hNorm">Normality</h3><table class="pt-kv" id="pt-jb"></table><p class="pt-verdict" id="pt-jbv"></p></div>
+        <div class="pt-card"><h3 data-i18n="hFit">Stable fit, S1</h3><table class="pt-kv" id="pt-fit"></table><p class="pt-small" id="pt-fitn"></p></div>
+      </div>
+      <div class="pt-card"><h3 data-i18n="hRisk">Value at risk and expected shortfall</h3>
+        <div class="pt-scroll"><table class="pt-risk" id="pt-risk"></table></div>
+        <p class="pt-small" id="pt-riskn"></p></div>
+      <figure class="st-fig pt-card"><figcaption class="st-cap" data-i18n="figTs">Returns over time</figcaption>
+        <div class="pt-legend"><span class="lg lg-ts" data-i18n="lgRet">Returns</span><span class="lg lg-var" data-i18n="lgVar">Stable VaR at 99%</span></div><div class="st-plot pt-plot" dir="ltr"><canvas id="pt-ts" role="img" aria-label="Returns over time"></canvas></div>
+        <div class="pt-figbar"><button type="button" class="btn ghost pt-png" data-canvas="pt-ts" data-name="returns.png"><span data-i18n="dlPng">Download the figure (PNG)</span></button></div></figure>
+      <figure class="st-fig pt-card"><figcaption class="st-cap" data-i18n="figHist">Distribution of returns, with the normal and stable fits</figcaption>
+        <div class="pt-legend"><span class="lg lg-bar" data-i18n="lgData">Data</span><span class="lg lg-norm" data-i18n="lgNorm">Normal</span><span class="lg lg-st" data-i18n="lgSt">Stable</span></div>
+        <div class="st-plot pt-plot" dir="ltr"><canvas id="pt-hist" role="img" aria-label="Histogram of returns with normal and stable densities"></canvas></div>
+        <div class="pt-figbar"><label><input type="checkbox" id="pt-log" checked> <span data-i18n="logLbl">Log scale, to see the tails</span></label><button type="button" class="btn ghost pt-png" data-canvas="pt-hist" data-name="distribution.png"><span data-i18n="dlPng">Download the figure (PNG)</span></button></div></figure>
+      <div class="pt-dls">
+        <button type="button" class="btn" id="pt-dlr"><span data-i18n="dlRet">Download the returns (CSV)</span></button>
+        <button type="button" class="btn" id="pt-dlx"><span data-i18n="dlRes">Download the results (CSV)</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="method">
+    <h2 class="label" data-i18n="hMethod">How it is computed</h2>
+    <div class="content">
+      <ul class="plist">
+        <li data-i18n="m1"><b>Returns.</b> Prices become logarithmic returns, ln(P<sub>t</sub>/P<sub>t−1</sub>), or simple returns if you choose. Rows that are missing or not numeric are skipped, and dates in reverse order are put in time order.</li>
+        <li data-i18n="m2"><b>Normality.</b> The Jarque–Bera statistic, n/6 · (S² + K²/4), combines skewness S and excess kurtosis K; its p-value comes from the χ² law with two degrees of freedom.</li>
+        <li data-i18n="m3"><b>Stable fit.</b> McCulloch’s (1986) quantile method matches the 5, 25, 50, 75 and 95% quantiles of the data with those of S(α, β, σ, μ) in the S1 parameterisation used in the book. The reference table was computed with the same numerics as the <a href="../explorer/">stable-law page</a>.</li>
+        <li data-i18n="m4"><b>Risk.</b> Value at risk is the loss exceeded with probability 1 − p; expected shortfall is the average loss beyond it. The historical figures use the data alone, the normal ones the sample mean and standard deviation, and the stable ones the fitted law, with expected shortfall integrated numerically. Both are for one period and expressed as a percentage of the position.</li>
+        <li data-i18n="m5">The book’s exercise 7 does the same for the Dow Jones in Python: <a href="../book/#ex07">open it</a>.</li>
+      </ul>
+    </div>
+  </section>
+  </main>
+
+  <footer><span data-i18n="footer">Computed in your browser. Your file never leaves your device.</span><a class="to-top" href="#main" data-i18n="toTop">Back to top ↑</a></footer>
+</div>
+<script>
+(function () {
+  var T = {"ar": {"skip": "انتقل إلى المحتوى", "brand": "م. بكري", "navHome": "الرئيسية", "navAbout": "الكتاب الإلكتروني", "navExpl": "التوزيعات المستقرة", "navPortal": "البوابة", "navEx": "التمارين", "h1": "بوابة تحليل العوائد", "kicker": "بياناتك ونتائجك", "lede": "حمّل سلسلة أسعار أو عوائد واحصل على إحصاءاتها، واختبار للتوزيع الطبيعي، وتقدير للتوزيع المستقر، والقيمة المعرّضة للخطر والعجز المتوقع وفق ثلاثة نماذج. يجري الحساب كلّه في متصفحك، ولا يغادر ملفك جهازك.", "hData": "سلسلتك", "fileLbl": "اختر ملف CSV", "btnSample": "جرّب بيانات الكتاب", "dlSample": "نزّل العيّنة (CSV)", "pasteLbl": "أو الصق البيانات", "pasteAria": "البيانات المراد تحليلها", "btnAnalyse": "حلّل", "fmtHint": "ملف CSV أو ملف نصي فيه عمود للتاريخ وعمود رقمي أو أكثر، كما تصدّره Yahoo Finance أو Bloomberg أو Excel. تُقبل الفواصل والفواصل المنقوطة وعلامات الجدولة، وكذلك الفاصلة العشرية. تتحوّل الأسعار إلى عوائد، وتُستخدم سلاسل العوائد كما هي.", "optCol": "العمود", "optKind": "يحتوي العمود على", "kAuto": "اكتشاف تلقائي", "kPrices": "أسعار أو مستويات مؤشر", "kRet": "عوائد بالكسور العشرية (0.01 = 1%)", "kPct": "عوائد بالنسبة المئوية (1 = 1%)", "optRet": "العوائد من الأسعار", "rLog": "لوغاريتمية", "rSimple": "بسيطة", "optFreq": "التواتر", "fAuto": "من التواريخ", "fD": "يومي", "fW": "أسبوعي", "fM": "شهري", "hResults": "النتائج", "hSeries": "السلسلة", "hNorm": "التوزيع الطبيعي", "hFit": "تقدير التوزيع المستقر، S1", "hRisk": "القيمة المعرّضة للخطر والعجز المتوقع", "figTs": "العوائد عبر الزمن", "figHist": "توزيع العوائد، مع التقديرين الطبيعي والمستقر", "lgData": "البيانات", "lgNorm": "طبيعي", "lgSt": "مستقر", "logLbl": "مقياس لوغاريتمي لرؤية الذيول", "dlPng": "نزّل الشكل (PNG)", "dlRet": "نزّل العوائد (CSV)", "dlRes": "نزّل النتائج (CSV)", "hMethod": "طريقة الحساب", "m1": "<b>العوائد.</b> تتحوّل الأسعار إلى عوائد لوغاريتمية <bdi dir=\"ltr\">ln(P<sub>t</sub>/P<sub>t−1</sub>)</bdi>، أو إلى عوائد بسيطة إن اخترت ذلك. تُتجاوز الصفوف الناقصة أو غير الرقمية، وتُرتَّب التواريخ المعكوسة زمنيًا.", "m2": "<b>التوزيع الطبيعي.</b> تجمع إحصائية جارك–بيرا <bdi dir=\"ltr\">n/6 · (S² + K²/4)</bdi> بين الالتواء S والتفلطح الزائد K، وتُحسب قيمتها الاحتمالية من توزيع <bdi dir=\"ltr\">χ²</bdi> بدرجتي حرية.", "m3": "<b>تقدير التوزيع المستقر.</b> تطابق طريقة ماكولوك (1986) القائمة على المئينات المئينات 5 و25 و50 و75 و95% للبيانات مع مئينات <bdi dir=\"ltr\">S(α, β, σ, μ)</bdi> بالصيغة S1 المعتمدة في الكتاب. وقد حُسب الجدول المرجعي بالطريقة العددية نفسها المستخدمة في <a href=\"../explorer/\">صفحة التوزيعات المستقرة</a>.", "m4": "<b>المخاطر.</b> القيمة المعرّضة للخطر هي الخسارة التي تُتجاوز باحتمال <bdi dir=\"ltr\">1 − p</bdi>، والعجز المتوقع هو متوسط الخسارة فيما وراءها. تعتمد الأرقام التاريخية على البيانات وحدها، والطبيعية على المتوسط والانحراف المعياري للعيّنة، والمستقرة على التوزيع المقدَّر مع تكامل عددي للعجز المتوقع. وكلاهما لفترة واحدة ومعبَّر عنه نسبةً مئوية من المركز.", "m5": "يجري التمرين 7 من الكتاب الحساب نفسه لمؤشر داو جونز بلغة Python: <a href=\"../book/#ex07\">افتحه</a>.", "footer": "يجري الحساب في متصفحك، ولا يغادر ملفك جهازك.", "toTop": "العودة إلى الأعلى ↑", "docTitle": "بوابة تحليل العوائد · محمود بكري", "metaDesc": "حمّل سلسلة أسعار أو عوائد واحصل على إحصاءاتها واختبار التوزيع الطبيعي وتقدير التوزيع المستقر والقيمة المعرّضة للخطر والعجز المتوقع وفق النماذج التاريخية والطبيعية والمستقرة، محسوبة في متصفحك.", "colN": "العمود", "stBusy": "جارٍ التحليل…", "stDone": "{n} عائدًا من {col} ({kind}).", "kindPl": "عوائد لوغاريتمية من الأسعار", "kindPs": "عوائد بسيطة من الأسعار", "kindR": "عوائد كما وردت", "errFew": "يلزم 30 عائدًا على الأقل. تحقّق من الملف والعمود.", "errNoNum": "لم يُعثر على عمود رقمي. تحقّق من الفاصل ومن الملف.", "errRead": "تعذّرت قراءة الملف. تحقّق من أنه ملف CSV أو ملف نصي.", "errBig": "حجم الملف أكبر من 30 ميغابايت.", "obs": "عدد المشاهدات", "period": "الفترة", "freq": "التواتر", "fQ": "ربع سنوي", "fY": "سنوي", "mean": "المتوسط", "sd": "الانحراف المعياري", "annVol": "التقلّب السنوي", "skew": "الالتواء", "kurt": "التفلطح الزائد", "min": "أسوأ عائد", "max": "أفضل عائد", "jb": "إحصائية جارك–بيرا", "jbp": "القيمة الاحتمالية", "jbRej": "يُرفض التوزيع الطبيعي عند مستوى 5%: الذيول أثقل مما يسمح به التوزيع الغاوسي.", "jbNot": "لا يُرفض التوزيع الطبيعي عند مستوى 5%.", "alpha": "مؤشر الذيل", "beta": "الالتواء", "sigma": "المقياس", "mu": "الموقع", "fitOk": "<bdi dir=\"ltr\">1 < α < 2</bdi>: المتوسط موجود، والتباين لا نهائي، والذيول تتناقص وفق قانون قوّة.", "fitHeavy": "<bdi dir=\"ltr\">α ≤ 1</bdi>: المتوسط غير موجود، ولذا فالعجز المتوقع المستقر لا نهائي.", "fitG": "<bdi dir=\"ltr\">α = 2</bdi>: التقدير المستقر هو التوزيع الغاوسي.", "measure": "المقياس", "hist": "تاريخي", "normal": "طبيعي", "stable": "مستقر", "var": "VaR", "es": "ES", "riskN": "خسائر فترة واحدة نسبةً مئوية من المركز. يستند العجز المتوقع التاريخي عند 99% إلى أسوأ {k} عائدًا.", "lgRet": "العوائد", "lgVar": "VaR المستقرة عند 99%"}, "fr": {"skip": "Aller au contenu", "brand": "M. Bekri", "navHome": "Accueil", "navAbout": "E-book", "navExpl": "Lois stables", "navPortal": "Portail", "navEx": "Exercices", "h1": "Portail d’analyse des rendements", "kicker": "Vos données, vos résultats", "lede": "Chargez une série de prix ou de rendements et obtenez ses statistiques, un test de normalité, l’ajustement d’une loi stable, ainsi que la value at risk et l’expected shortfall selon trois modèles. Tout est calculé dans votre navigateur ; votre fichier ne quitte pas votre appareil.", "hData": "Votre série", "fileLbl": "Choisir un fichier CSV", "btnSample": "Essayer les données du livre", "dlSample": "Télécharger l’échantillon (CSV)", "pasteLbl": "Ou coller les données", "pasteAria": "Données à analyser", "btnAnalyse": "Analyser", "fmtHint": "Un fichier CSV ou texte avec une colonne de dates et une ou plusieurs colonnes numériques, tel qu’exporté par Yahoo Finance, Bloomberg ou Excel. Virgules, points-virgules et tabulations sont reconnus comme séparateurs, ainsi que les virgules décimales. Les prix sont convertis en rendements ; les séries de rendements sont utilisées telles quelles.", "optCol": "Colonne", "optKind": "La colonne contient", "kAuto": "Détection automatique", "kPrices": "Des prix ou niveaux d’indice", "kRet": "Des rendements décimaux (0,01 = 1 %)", "kPct": "Des rendements en pour cent (1 = 1 %)", "optRet": "Rendements à partir des prix", "rLog": "Logarithmiques", "rSimple": "Simples", "optFreq": "Fréquence", "fAuto": "D’après les dates", "fD": "Quotidienne", "fW": "Hebdomadaire", "fM": "Mensuelle", "hResults": "Résultats", "hSeries": "La série", "hNorm": "Normalité", "hFit": "Ajustement stable, S1", "hRisk": "Value at risk et expected shortfall", "figTs": "Rendements au fil du temps", "figHist": "Distribution des rendements, avec les ajustements normal et stable", "lgData": "Données", "lgNorm": "Normale", "lgSt": "Stable", "logLbl": "Échelle logarithmique, pour voir les queues", "dlPng": "Télécharger la figure (PNG)", "dlRet": "Télécharger les rendements (CSV)", "dlRes": "Télécharger les résultats (CSV)", "hMethod": "Méthode de calcul", "m1": "<b>Rendements.</b> Les prix deviennent des rendements logarithmiques, ln(P<sub>t</sub>/P<sub>t−1</sub>), ou des rendements simples si vous le choisissez. Les lignes manquantes ou non numériques sont ignorées, et les dates en ordre inverse sont remises dans l’ordre chronologique.", "m2": "<b>Normalité.</b> La statistique de Jarque–Bera, n/6 · (S² + K²/4), combine l’asymétrie S et l’excès de kurtosis K ; sa p-valeur provient de la loi du χ² à deux degrés de liberté.", "m3": "<b>Ajustement stable.</b> La méthode des quantiles de McCulloch (1986) fait correspondre les quantiles à 5, 25, 50, 75 et 95 % des données avec ceux de S(α, β, σ, μ) dans la paramétrisation S1 du livre. La table de référence a été calculée avec les mêmes méthodes numériques que la <a href=\"../explorer/\">page des lois stables</a>.", "m4": "<b>Risque.</b> La value at risk est la perte dépassée avec une probabilité 1 − p ; l’expected shortfall est la perte moyenne au-delà. Les chiffres historiques n’utilisent que les données, les chiffres normaux la moyenne et l’écart-type de l’échantillon, et les chiffres stables la loi ajustée, l’expected shortfall étant intégré numériquement. Les deux portent sur une période et sont exprimés en pourcentage de la position.", "m5": "L’exercice 7 du livre fait de même pour le Dow Jones en Python : <a href=\"../book/#ex07\">l’ouvrir</a>.", "footer": "Calculé dans votre navigateur. Votre fichier ne quitte pas votre appareil.", "toTop": "Haut de page ↑", "docTitle": "Portail d’analyse des rendements · Mahmoud Bekri", "metaDesc": "Chargez une série de prix ou de rendements et obtenez ses statistiques, un test de normalité, l’ajustement d’une loi stable, la value at risk et l’expected shortfall selon les modèles historique, normal et stable, calculés dans votre navigateur.", "colN": "Colonne", "stBusy": "Analyse en cours…", "stDone": "{n} rendements à partir de {col} ({kind}).", "kindPl": "rendements logarithmiques à partir des prix", "kindPs": "rendements simples à partir des prix", "kindR": "rendements tels quels", "errFew": "Il faut au moins 30 rendements. Vérifiez le fichier et la colonne.", "errNoNum": "Aucune colonne numérique n’a été trouvée. Vérifiez le séparateur et le fichier.", "errRead": "Le fichier n’a pas pu être lu. Vérifiez qu’il s’agit d’un fichier CSV ou texte.", "errBig": "Le fichier dépasse 30 Mo.", "obs": "Observations", "period": "Période", "freq": "Fréquence", "fQ": "Trimestrielle", "fY": "Annuelle", "mean": "Moyenne", "sd": "Écart-type", "annVol": "Volatilité annualisée", "skew": "Asymétrie", "kurt": "Excès de kurtosis", "min": "Pire rendement", "max": "Meilleur rendement", "jb": "Statistique de Jarque–Bera", "jbp": "p-valeur", "jbRej": "La normalité est rejetée au seuil de 5 % : les queues sont plus épaisses que ne l’autorise la gaussienne.", "jbNot": "La normalité n’est pas rejetée au seuil de 5 %.", "alpha": "indice de queue", "beta": "asymétrie", "sigma": "échelle", "mu": "position", "fitOk": "1 < α < 2 : la moyenne existe, la variance est infinie et les queues décroissent selon une loi de puissance.", "fitHeavy": "α ≤ 1 : la moyenne n’existe pas, l’expected shortfall stable est donc infini.", "fitG": "α = 2 : l’ajustement stable est la gaussienne.", "measure": "Mesure", "hist": "Historique", "normal": "Normale", "stable": "Stable", "var": "VaR", "es": "ES", "riskN": "Pertes sur une période, en pourcentage de la position. L’expected shortfall historique à 99 % repose sur les {k} pires rendements.", "lgRet": "Rendements", "lgVar": "VaR stable à 99 %"}, "de": {"skip": "Zum Inhalt springen", "brand": "M. Bekri", "navHome": "Start", "navAbout": "E-Book", "navExpl": "Stabile Verteilungen", "navPortal": "Portal", "navEx": "Übungen", "h1": "Portal zur Renditeanalyse", "kicker": "Ihre Daten, Ihre Ergebnisse", "lede": "Laden Sie eine Kurs- oder Renditereihe und erhalten Sie ihre Kennzahlen, einen Normalitätstest, die Anpassung einer stabilen Verteilung sowie Value at Risk und Expected Shortfall unter drei Modellen. Alles wird in Ihrem Browser berechnet; Ihre Datei verlässt Ihr Gerät nicht.", "hData": "Ihre Reihe", "fileLbl": "CSV-Datei wählen", "btnSample": "Daten des Buchs testen", "dlSample": "Beispieldatei herunterladen (CSV)", "pasteLbl": "Oder Daten einfügen", "pasteAria": "Zu analysierende Daten", "btnAnalyse": "Analysieren", "fmtHint": "Eine CSV- oder Textdatei mit einer Datumsspalte und einer oder mehreren Zahlenspalten, wie sie Yahoo Finance, Bloomberg oder Excel exportieren. Kommas, Semikolons und Tabulatoren werden als Trennzeichen erkannt, ebenso Dezimalkommas. Kurse werden in Renditen umgerechnet; Renditereihen werden unverändert verwendet.", "optCol": "Spalte", "optKind": "Die Spalte enthält", "kAuto": "Automatisch erkennen", "kPrices": "Kurse oder Indexstände", "kRet": "Renditen als Dezimalzahlen (0,01 = 1 %)", "kPct": "Renditen in Prozent (1 = 1 %)", "optRet": "Renditen aus Kursen", "rLog": "Logarithmisch", "rSimple": "Einfach", "optFreq": "Frequenz", "fAuto": "Aus den Daten", "fD": "Täglich", "fW": "Wöchentlich", "fM": "Monatlich", "hResults": "Ergebnisse", "hSeries": "Die Reihe", "hNorm": "Normalität", "hFit": "Stabile Anpassung, S1", "hRisk": "Value at Risk und Expected Shortfall", "figTs": "Renditen im Zeitverlauf", "figHist": "Verteilung der Renditen mit normaler und stabiler Anpassung", "lgData": "Daten", "lgNorm": "Normal", "lgSt": "Stabil", "logLbl": "Logarithmische Skala für die Ränder", "dlPng": "Abbildung herunterladen (PNG)", "dlRet": "Renditen herunterladen (CSV)", "dlRes": "Ergebnisse herunterladen (CSV)", "hMethod": "Berechnung", "m1": "<b>Renditen.</b> Kurse werden zu logarithmischen Renditen, ln(P<sub>t</sub>/P<sub>t−1</sub>), oder auf Wunsch zu einfachen Renditen. Fehlende oder nicht numerische Zeilen werden übersprungen, umgekehrt sortierte Daten zeitlich geordnet.", "m2": "<b>Normalität.</b> Die Jarque-Bera-Statistik, n/6 · (S² + K²/4), verbindet die Schiefe S und die Überschusskurtosis K; ihr p-Wert folgt aus der χ²-Verteilung mit zwei Freiheitsgraden.", "m3": "<b>Stabile Anpassung.</b> McCullochs (1986) Quantilmethode gleicht die 5-, 25-, 50-, 75- und 95-%-Quantile der Daten mit denen von S(α, β, σ, μ) in der S1-Parametrisierung des Buchs ab. Die Referenztabelle wurde mit denselben numerischen Verfahren berechnet wie die <a href=\"../explorer/\">Seite zu stabilen Verteilungen</a>.", "m4": "<b>Risiko.</b> Der Value at Risk ist der Verlust, der mit Wahrscheinlichkeit 1 − p überschritten wird; der Expected Shortfall ist der durchschnittliche Verlust jenseits davon. Die historischen Werte beruhen allein auf den Daten, die normalen auf Mittelwert und Standardabweichung der Stichprobe, die stabilen auf der angepassten Verteilung, wobei der Expected Shortfall numerisch integriert wird. Beide gelten für eine Periode, in Prozent der Position.", "m5": "Übung 7 des Buchs macht dasselbe für den Dow Jones in Python: <a href=\"../book/#ex07\">öffnen</a>.", "footer": "In Ihrem Browser berechnet. Ihre Datei verlässt Ihr Gerät nicht.", "toTop": "Nach oben ↑", "docTitle": "Portal zur Renditeanalyse · Mahmoud Bekri", "metaDesc": "Laden Sie eine Kurs- oder Renditereihe und erhalten Sie Kennzahlen, einen Normalitätstest, die Anpassung einer stabilen Verteilung sowie Value at Risk und Expected Shortfall unter historischem, normalem und stabilem Modell, berechnet in Ihrem Browser.", "colN": "Spalte", "stBusy": "Analyse läuft…", "stDone": "{n} Renditen aus {col} ({kind}).", "kindPl": "logarithmische Renditen aus Kursen", "kindPs": "einfache Renditen aus Kursen", "kindR": "Renditen wie angegeben", "errFew": "Es werden mindestens 30 Renditen benötigt. Prüfen Sie Datei und Spalte.", "errNoNum": "Keine Zahlenspalte gefunden. Prüfen Sie Trennzeichen und Datei.", "errRead": "Die Datei konnte nicht gelesen werden. Prüfen Sie, ob es eine CSV- oder Textdatei ist.", "errBig": "Die Datei ist größer als 30 MB.", "obs": "Beobachtungen", "period": "Zeitraum", "freq": "Frequenz", "fQ": "Vierteljährlich", "fY": "Jährlich", "mean": "Mittelwert", "sd": "Standardabweichung", "annVol": "Annualisierte Volatilität", "skew": "Schiefe", "kurt": "Überschusskurtosis", "min": "Schlechteste Rendite", "max": "Beste Rendite", "jb": "Jarque-Bera-Statistik", "jbp": "p-Wert", "jbRej": "Normalität wird auf dem 5-%-Niveau abgelehnt: Die Ränder sind schwerer, als die Gauß-Verteilung zulässt.", "jbNot": "Normalität wird auf dem 5-%-Niveau nicht abgelehnt.", "alpha": "Tail-Index", "beta": "Schiefe", "sigma": "Skala", "mu": "Lage", "fitOk": "1 < α < 2: Der Erwartungswert existiert, die Varianz ist unendlich, und die Ränder fallen nach einem Potenzgesetz ab.", "fitHeavy": "α ≤ 1: Der Erwartungswert existiert nicht, der stabile Expected Shortfall ist daher unendlich.", "fitG": "α = 2: Die stabile Anpassung ist die Gauß-Verteilung.", "measure": "Maß", "hist": "Historisch", "normal": "Normal", "stable": "Stabil", "var": "VaR", "es": "ES", "riskN": "Verluste über eine Periode in Prozent der Position. Der historische Expected Shortfall zu 99 % beruht auf den {k} schlechtesten Renditen.", "lgRet": "Renditen", "lgVar": "Stabiler VaR zu 99 %"}};
+  var DYN = {"colN": "Column", "stBusy": "Analysing…", "stDone": "{n} returns from {col} ({kind}).", "kindPl": "log returns from prices", "kindPs": "simple returns from prices", "kindR": "returns as given", "errFew": "At least 30 returns are needed. Check the file and the column.", "errNoNum": "No numeric column was found. Check the separator and the file.", "errRead": "The file could not be read. Check that it is a CSV or text file.", "errBig": "The file is larger than 30 MB.", "obs": "Observations", "period": "Period", "freq": "Frequency", "fQ": "Quarterly", "fY": "Annual", "mean": "Mean", "sd": "Standard deviation", "annVol": "Annualised volatility", "skew": "Skewness", "kurt": "Excess kurtosis", "min": "Worst return", "max": "Best return", "jb": "Jarque–Bera statistic", "jbp": "p-value", "jbRej": "Normality is rejected at the 5% level: the tails are heavier than the Gaussian allows.", "jbNot": "Normality is not rejected at the 5% level.", "alpha": "tail index", "beta": "skewness", "sigma": "scale", "mu": "location", "fitOk": "1 < α < 2: the mean exists, the variance is infinite, and the tails decay as a power law.", "fitHeavy": "α ≤ 1: the mean does not exist, so the stable expected shortfall is infinite.", "fitG": "α = 2: the stable fit is the Gaussian.", "measure": "Measure", "hist": "Historical", "normal": "Normal", "stable": "Stable", "var": "VaR", "es": "ES", "riskN": "One-period losses as a percentage of the position. The historical expected shortfall at 99% rests on the worst {k} returns."};
+  T.en = {};
+  document.querySelectorAll('[data-i18n]').forEach(function (el) { T.en[el.dataset.i18n] = el.innerHTML; });
+  for (var k in DYN) T.en[k] = DYN[k];
+  T.en.docTitle = document.title; T.en.metaDesc = document.querySelector('meta[name="description"]').getAttribute('content');
+  window.__T_en = T.en;
+  var lang = 'en';
+  function t(k) { return (T[lang] && T[lang][k] != null) ? T[lang][k] : T.en[k]; }
+  window.__t = t;
+  function setLang(l, save) {
+    if (!T[l]) l = 'en';
+    lang = l;
+    var r = document.documentElement; r.lang = l; r.dir = l === 'ar' ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-i18n]').forEach(function (el) { el.innerHTML = t(el.dataset.i18n); });
+    document.querySelectorAll('.langs-switch button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.lang === l)); });
+    document.title = t('docTitle');
+    try {
+      var md = document.querySelector('meta[name="description"]'); md.setAttribute('content', t('metaDesc'));
+      var canon = document.querySelector('link[rel="canonical"]'); var base = canon.dataset.base || canon.getAttribute('href'); canon.dataset.base = base;
+      var url = l === 'en' ? base : base + '?lang=' + l; canon.setAttribute('href', url);
+      var setm = function (sel, v) { var m = document.querySelector(sel); if (m) m.setAttribute('content', v); };
+      setm('meta[property="og:url"]', url); setm('meta[property="og:locale"]', { en: 'en_GB', ar: 'ar_AR', fr: 'fr_FR', de: 'de_DE' }[l]);
+      setm('meta[property="og:title"]', document.title); setm('meta[property="og:description"]', t('metaDesc'));
+    } catch (e) {}
+    if (save) { try { localStorage.setItem('lang', l); } catch (e) {}
+      try { var u = new URL(location.href); if (l === 'en') u.searchParams.delete('lang'); else u.searchParams.set('lang', l); history.replaceState(null, '', u); } catch (e) {} }
+    try { document.dispatchEvent(new CustomEvent('langchange')); } catch (e) {}
+  }
+  document.querySelectorAll('.langs-switch button').forEach(function (b) { b.addEventListener('click', function () { setLang(b.dataset.lang, true); }); });
+  var initial = 'en', q = null;
+  try { q = new URLSearchParams(location.search).get('lang'); } catch (e) {}
+  if (q && (T[q] || q === 'en')) initial = q; else { try { initial = localStorage.getItem('lang') || 'en'; } catch (e) {} }
+  setLang(initial, false);
+})();
+</script>
+<script src="stable.js"></script>
+<script src="analysis.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
