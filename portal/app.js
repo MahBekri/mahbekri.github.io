@@ -116,7 +116,7 @@
     table.file = name;
     var sel = $('pt-col'); sel.innerHTML = '';
     table.numeric.forEach(function (j) { var o = document.createElement('option'); o.value = j; o.textContent = table.names[j]; sel.appendChild(o); });
-    var pick = table.numeric[table.numeric.length - 1];
+    var pick = table.numeric[0]; // first numeric column, unless a column is named Adj Close, Close, Price or Return
     if (/close|adj|price|last|value|ret/i.test(table.names.join(' '))) {
       for (var k = table.numeric.length - 1; k >= 0; k--) if (/adj/i.test(table.names[table.numeric[k]])) { pick = table.numeric[k]; break; }
       if (!/adj/i.test(table.names[pick])) for (k = table.numeric.length - 1; k >= 0; k--) if (/close|price|last|ret/i.test(table.names[table.numeric[k]])) { pick = table.numeric[k]; break; }
