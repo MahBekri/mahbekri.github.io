@@ -126,14 +126,14 @@
 
   function download() {
     if (!G) return;
-    var lines = ['date,return,' + LEVELS.map(function (lv) { return 'VaR_garch_normal_' + lv + ',VaR_garch_stable_' + lv; }).join(',') + ',volatility'];
+    var lines = ['date,return,' + LEVELS.map(function (lv) { return 'VaR_arma_garch_normal_' + lv + ',VaR_arma_garch_stable_' + lv; }).join(',') + ',volatility'];
     for (var i = G.start; i < base.pts.length; i++) {
       var k = i - G.start, row = [base.pts[i].d, base.pts[i].r.toPrecision(10)];
       LEVELS.forEach(function (lv, j) { row.push((G.V.gn[j][k] / 100).toPrecision(8), (G.V.gs[j][k] / 100).toPrecision(8)); });
       row.push(G.vol[i].toPrecision(8)); lines.push(row.join(','));
     }
     var b = new Blob(['﻿' + lines.join('\n') + '\n'], { type: 'text/csv;charset=utf-8' }), a = document.createElement('a');
-    a.href = URL.createObjectURL(b); a.download = String(base.col).replace(/[^\w.-]+/g, '_') + '_garch_var.csv'; document.body.appendChild(a); a.click();
+    a.href = URL.createObjectURL(b); a.download = String(base.col).replace(/[^\w.-]+/g, '_') + '_arma_garch_var.csv'; document.body.appendChild(a); a.click();
     setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
   }
 
