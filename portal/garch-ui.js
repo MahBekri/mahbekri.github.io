@@ -92,7 +92,7 @@
       if (window.Garch.kupiec(k, nn, pb).p >= 0.05) return '<td dir="ltr">' + k + '</td>';
       var many = k > nn * pb; return '<td dir="ltr" class="' + (many ? 'pt-bad' : 'pt-few') + '">' + k + ' ' + (many ? '▲' : '▼') + '</td>';
     };
-    var body = order.map(function (y) { var e = ys[y]; return '<tr><th scope="row">' + y + '</th><td dir="ltr">' + (e.n * pb).toFixed(1) + '</td>' + e.k.map(function (k) { return cell(k, e.n); }).join('') + '</tr>'; }).join('');
+    var body = order.filter(function (y) { return ys[y].n >= 20; }).map(function (y) { var e = ys[y]; return '<tr><th scope="row">' + y + '</th><td dir="ltr">' + (e.n * pb).toFixed(1) + '</td>' + e.k.map(function (k) { return cell(k, e.n); }).join('') + '</tr>'; }).join('');
     var tot = MODELS.map(function (m) { return cell(T[m][j].k, T[m][j].n); }).join('');
     $('gx-yr').innerHTML = '<thead><tr><th scope="col">' + t('yrYear') + '</th><th scope="col">' + t('btExp') + '</th>' + MODELS.map(function (m) { return '<th scope="col">' + t('m' + m.toUpperCase()) + '</th>'; }).join('') + '</tr></thead><tbody>' + body +
       '</tbody><tfoot><tr><th scope="row">' + t('yrAll') + '</th><td dir="ltr">' + (T.un[j].n * pb).toFixed(1) + '</td>' + tot + '</tr></tfoot>';
