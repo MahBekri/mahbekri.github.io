@@ -347,7 +347,7 @@
     rd.onerror = function () { status(t('errRead'), true); };
     rd.readAsText(fl);
   });
-  $('pt-go').addEventListener('click', function () { var v = $('pt-text').value; if (v.trim()) load(v, 'pasted'); });
+  $('pt-go').addEventListener('click', function () { var v = $('pt-text').value; if (v.trim()) load(v, 'pasted'); else { status(t('errEmpty'), true); $('pt-text').focus(); } });
   $('pt-sample').addEventListener('click', function () {
     status(t('stBusy'));
     fetch('../book/data/prices.csv').then(function (r) { if (!r.ok) throw 0; return r.text(); })
