@@ -230,13 +230,37 @@
       return { v: v, k: k, p: kupiec(k, n, pb) };
     });
     var row = function (h, f) { return '<tr><th scope="row">' + h + '</th>' + cols.map(function (c) { return '<td dir="ltr">' + f(c) + '</td>'; }).join('') + '</tr>'; };
-    $('pt-bt').innerHTML = '<thead><tr><th scope="col"></th><th scope="col">' + t('normal') + '</th><th scope="col">' + t('stable') + '</th></tr></thead><tbody>' +
+    $('pt-bt').innerHTML = '<thead><tr><th scope="col">' + t('measure2') + '</th><th scope="col">' + t('normal') + '</th><th scope="col">' + t('stable') + '</th></tr></thead><tbody>' +
       row(t('btVar') + ' ' + lvs, function (c) { return pc(c.v); }) +
       row(t('btHits'), function (c) { return c.k + ' <span class="pt-muted">(' + (100 * c.k / n).toFixed(2) + '%)</span>'; }) +
       row(t('btExp'), function () { return (pb * n).toFixed(1) + ' <span class="pt-muted">(' + (100 * pb).toFixed(1).replace('.0', '') + '%)</span>'; }) +
       row(t('btP'), function (c) { return c.p < 1e-4 ? '&lt; 0.0001' : c.p.toFixed(4); }) +
       row(t('btVerd'), function (c) { return '<span class="' + (c.p < 0.05 ? 'pt-bad' : 'pt-good') + '">' + t(c.p < 0.05 ? 'btRej' : 'btOk') + '</span>'; }) + '</tbody>';
     $('pt-btn').innerHTML = t('btNote').replace('{lv}', lvs).replace('{e}', (pb * n).toFixed(0)).replace('{n}', n);
+    yearly(cols, pb, lvs);
+  }
+  function yearly(cols, pb, lvs) {
+    var tb = $('pt-yr'), note = $('pt-yrn'), pts = res.pts;
+    if (!isFinite(pts[0].tm)) { tb.innerHTML = ''; note.textContent = t('yrNoDates'); return; }
+    var ys = {}, order = [];
+    pts.forEach(function (p) {
+      var y = new Date(p.tm).getUTCFullYear();
+      if (!ys[y]) { ys[y] = { n: 0, k: [0, 0] }; order.push(y); }
+      ys[y].n++; cols.forEach(function (c, j) { if (p.r < -c.v) ys[y].k[j]++; });
+    });
+    var cell = function (k, n) { // flag rejections: too many breaches (risk understated) or too few (overstated)
+      if (kupiec(k, n, pb) >= 0.05) return '<td dir="ltr">' + k + '</td>';
+      var many = k > n * pb;
+      return '<td dir="ltr" class="' + (many ? 'pt-bad' : 'pt-few') + '">' + k + ' ' + (many ? '▲' : '▼') + '</td>';
+    };
+    var body = order.map(function (y) {
+      var e = ys[y];
+      return '<tr><th scope="row">' + y + '</th><td dir="ltr">' + e.n + '</td><td dir="ltr">' + (e.n * pb).toFixed(1) + '</td>' + cell(e.k[0], e.n) + cell(e.k[1], e.n) + '</tr>';
+    }).join('');
+    var n = pts.length;
+    tb.innerHTML = '<thead><tr><th scope="col">' + t('yrYear') + '</th><th scope="col">' + t('yrN') + '</th><th scope="col">' + t('btExp') + '</th><th scope="col">' + t('normal') + '</th><th scope="col">' + t('stable') + '</th></tr></thead><tbody>' + body +
+      '</tbody><tfoot><tr><th scope="row">' + t('yrAll') + '</th><td dir="ltr">' + n + '</td><td dir="ltr">' + (n * pb).toFixed(1) + '</td>' + cell(cols[0].k, n) + cell(cols[1].k, n) + '</tr></tfoot>';
+    note.innerHTML = t('yrNote').replace('{lv}', lvs);
   }
 
   function drawHist() {
