@@ -506,7 +506,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
       <p class="lede" data-i18n="lede">I study what happens in the tails of financial returns, where the Gaussian model says large losses should almost never occur and markets say <em>otherwise</em>, and what that means for Islamic finance.</p>
       <div class="actions">
         <a class="btn primary" href="#publications"><span data-i18n="navPubs">Publications</span></a>
-        <a class="btn" id="cv-link" href="cv.pdf"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M8 13h8M8 17h5"/></svg><span data-i18n="cvBtn">CV (PDF)</span></a>
+        <a class="btn" id="cv-link" href="cv.pdf" data-goatcounter-click="cv-download" data-goatcounter-title="CV (PDF)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M8 13h8M8 17h5"/></svg><span data-i18n="cvBtn">CV (PDF)</span></a>
         <a class="btn hero-extra" href="book/#companion"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg><span data-i18n="heroRun">Run the exercises</span></a>
       </div>
       <p class="hero-links"><a href="mailto:Mahmoud.bekri@gmail.com"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span data-i18n="lEmail">Email</span></a><a href="https://www.linkedin.com/in/mahmoud-bekri-21320652/"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.1c.5-1 1.8-2 3.8-2 4 0 4.8 2.6 4.8 6V21h-4v-5.2c0-1.3 0-2.9-1.8-2.9s-2.1 1.4-2.1 2.8V21h-4z"/></svg>LinkedIn</a></p>
@@ -817,7 +817,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
   </section>
   </main>
 
-  <footer><span data-i18n="footer">Views expressed in research are the author’s own and do not necessarily reflect those of the IsDB Group.</span><span class="foot-end"><span id="updated"></span><a class="to-top" href="#main" data-i18n="toTop">Back to top ↑</a></span></footer>
+  <footer><span data-i18n="footer">Views expressed in research are the author’s own and do not necessarily reflect those of the IsDB Group.</span><span class="foot-end"><span id="updated"></span><span id="visits" hidden></span><a class="to-top" href="#main" data-i18n="toTop">Back to top ↑</a></span></footer>
 </div>
 
 <script>
@@ -903,7 +903,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
       c6s: "مجموعة البنك الإسلامي للتنمية: تنقّل بين إدارة الخدمات المالية الإسلامية ومركز تطوير المنتجات المالية",
       c7y: "منذ 2018",
       copy: "نسخ", copied: "تم النسخ", selected: "تم التحديد",
-      toTop: "العودة إلى الأعلى ↑", skip: "انتقل إلى المحتوى", updated: "آخر تحديث: {d}"
+      toTop: "العودة إلى الأعلى ↑", skip: "انتقل إلى المحتوى", updated: "آخر تحديث: {d}", visits: "{n} زيارة"
     },
     fr: {
       brand: "M. Bekri",
@@ -983,7 +983,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
       c6s: "Groupe de la BID : rotations au Département des services financiers islamiques et au Centre de développement des produits financiers",
       c7y: "Depuis 2018",
       copy: "Copier", copied: "Copié", selected: "Sélectionné",
-      toTop: "Haut de page ↑", skip: "Aller au contenu", updated: "Mis à jour en {d}"
+      toTop: "Haut de page ↑", skip: "Aller au contenu", updated: "Mis à jour en {d}", visits: "{n} visites"
     },
     de: {
       brand: "M. Bekri",
@@ -1063,9 +1063,9 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
       c6s: "IsDB-Gruppe: Rotationen in der Abteilung für islamische Finanzdienstleistungen und im Zentrum für Finanzproduktentwicklung",
       c7y: "Seit 2018",
       copy: "Kopieren", copied: "Kopiert", selected: "Markiert",
-      toTop: "Nach oben ↑", skip: "Zum Inhalt springen", updated: "Aktualisiert im {d}"
+      toTop: "Nach oben ↑", skip: "Zum Inhalt springen", updated: "Aktualisiert im {d}", visits: "{n} Besuche"
     },
-    en: { ann: "{n}× the Gaussian density", copy: "Copy", copied: "Copied", selected: "Selected", updated: "Updated {d}" }
+    en: { ann: "{n}× the Gaussian density", copy: "Copy", copied: "Copied", selected: "Selected", updated: "Updated {d}", visits: "{n} visits" }
   };
   // English strings are read from the page itself
   document.querySelectorAll('[data-i18n]').forEach(function (el) { T.en[el.dataset.i18n] = el.innerHTML; });
@@ -1103,7 +1103,7 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
     if (save) { try { var u = new URL(location.href); if (l === 'en') u.searchParams.delete('lang'); else u.searchParams.set('lang', l); history.replaceState(null, '', u); } catch (e) {} }
     draw();
     renderBlogs();
-    renderUpdated();
+    renderUpdated(); renderVisits();
   }
 
   /* ---------- tail plot ---------- */
@@ -1260,6 +1260,24 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
     applyTopic(box, blogTopic);
   }
 
+  /* ---------- visit count (GoatCounter, no cookies); hidden if unavailable ---------- */
+  var visitTotal = null;
+  function renderVisits() {
+    var el = document.getElementById('visits');
+    if (!el || visitTotal == null) return;
+    var L = BL[lang] || BL.en, n;
+    try { n = new Intl.NumberFormat(L.loc).format(visitTotal); } catch (e) { n = String(visitTotal); }
+    el.textContent = t('visits').replace('{n}', n);
+    el.title = 'GoatCounter';
+    el.hidden = false;
+  }
+  if (window.fetch && !/^(localhost|127\.)/.test(location.hostname)) {
+    fetch('https://mahbekri.goatcounter.com/counter/TOTAL.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      var v = j && parseInt(String(j.count).replace(/[^0-9]/g, ''), 10);
+      if (v > 0) { visitTotal = v; renderVisits(); }
+    }).catch(function () {});
+  }
+
   /* ---------- last updated ---------- */
   function renderUpdated() {
     var el = document.getElementById('updated'), d = new Date(document.lastModified);
@@ -1375,5 +1393,6 @@ html[lang="ar"] .bt { font-size: var(--t-item); line-height: 1.7; }
   if (g.querySelector('a[aria-current="page"]')) b.classList.add('current');
 })();
 </script>
+<script data-goatcounter="https://mahbekri.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
