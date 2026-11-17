@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sadid Risk Analytics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: an instrument panel. One wide column, hairline rules, mono labels like gauge markings;
+   the only loud element is the magnified loss tail in the hero. */
+:root{
+  --paper:#F3F5F2; --surface:#FFFFFF; --ink:#10262B; --muted:#55686B; --line:#D3DCD8;
+  --accent:#0B6E63; --tail:#A86D12;
+  --display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --body:"IBM Plex Sans","Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --arabic:"IBM Plex Sans Arabic","Noto Sans Arabic",Tahoma,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0C1A1D; --surface:#12262A; --ink:#E8EFEC; --muted:#9DB0AF; --line:#27403F;
+    --accent:#56C7B4; --tail:#E3AC4E; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0C1A1D; --surface:#12262A; --ink:#E8EFEC; --muted:#9DB0AF; --line:#27403F;
+  --accent:#56C7B4; --tail:#E3AC4E; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.label{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1,h2,h3{font-family:var(--display);font-stretch:112%;text-wrap:balance;margin:0;letter-spacing:-.01em}
+h1{font-size:clamp(34px,7.2vw,68px);line-height:1.02;font-weight:700}
+h2{font-size:clamp(26px,4.4vw,40px);line-height:1.08;font-weight:650}
+h3{font-size:21px;line-height:1.2;font-weight:650}
+p{margin:0;max-width:65ch}
+
+/* Header */
+header{border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:16px 0}
+.mark{display:flex;align-items:baseline;gap:10px;text-decoration:none}
+.mark b{font-family:var(--display);font-stretch:118%;font-weight:800;font-size:22px;letter-spacing:.02em}
+.mark span{font-family:var(--arabic);font-weight:600;font-size:20px;color:var(--accent)}
+.mark small{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+nav{display:flex;gap:20px;flex-wrap:wrap}
+nav a{font-size:15px;text-decoration:none;color:var(--muted);padding:4px 0;border-bottom:1px solid transparent}
+nav a:hover{color:var(--ink);border-bottom-color:var(--accent)}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:40px;align-items:center;padding:56px 0 48px}
+.hero-copy{display:flex;flex-direction:column;gap:20px}
+.hero-copy p{font-size:19px;color:var(--muted)}
+.cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:4px}
+.btn{display:inline-block;background:var(--accent);color:var(--paper);font-weight:600;text-decoration:none;padding:13px 22px;border-radius:3px;border:1px solid var(--accent);font-family:var(--body);font-size:16px;cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+.link{font-weight:500;text-underline-offset:4px}
+figure{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:18px 16px 14px}
+figure svg{display:block;width:100%;height:auto}
+figcaption{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+figcaption strong{font-family:var(--display);font-stretch:110%;font-size:17px}
+figcaption span{font-size:13.5px;color:var(--muted)}
+.c-normal{fill:none;stroke:var(--muted);stroke-width:2}
+.c-heavy{fill:none;stroke:var(--tail);stroke-width:2.5}
+.c-gap{fill:var(--tail);opacity:.22}
+.c-axis{stroke:var(--line);stroke-width:1}
+.c-var{stroke:var(--accent);stroke-width:1.5;stroke-dasharray:4 4}
+.c-text{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+.c-text.acc{fill:var(--accent)} .c-text.tl{fill:var(--tail)}
+
+/* Sections */
+section{padding:56px 0;border-top:1px solid var(--line)}
+.head{display:flex;flex-direction:column;gap:12px;margin-bottom:32px}
+.head p{color:var(--muted)}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.three div{display:flex;flex-direction:column;gap:8px;padding-top:14px;border-top:2px solid var(--ink)}
+.three p{color:var(--muted);font-size:16px}
+
+.products{display:flex;flex-direction:column}
+.product{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr) minmax(0,280px);gap:28px;padding:26px 0;border-top:1px solid var(--line)}
+.product:last-child{border-bottom:1px solid var(--line)}
+.product .who{margin-top:8px}
+.product p{font-size:16.5px}
+.product ul{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:15px;color:var(--muted)}
+.product li{padding-left:16px;position:relative}
+.product li::before{content:"";position:absolute;left:0;top:.68em;width:8px;height:1px;background:var(--accent)}
+
+.terms{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.terms div{background:var(--surface);padding:20px;display:flex;flex-direction:column;gap:8px}
+.terms p{font-size:15px;color:var(--muted)}
+
+.about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,320px);gap:40px}
+.about-copy{display:flex;flex-direction:column;gap:16px}
+.facts{display:flex;flex-direction:column;margin:0;padding:0;list-style:none;border-top:1px solid var(--line)}
+.facts li{display:flex;flex-direction:column;gap:2px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15.5px}
+
+form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:720px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+label{font-size:14px;font-weight:500}
+input,textarea{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:11px 12px;width:100%}
+input:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+textarea{min-height:120px;resize:vertical}
+#form-note{grid-column:1/-1;font-size:15px;color:var(--muted);min-height:1.5em}
+
+footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;flex-direction:column;gap:8px}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:minmax(0,1fr);padding:36px 0 32px;gap:28px}
+  .three{grid-template-columns:minmax(0,1fr);gap:20px}
+  .product{grid-template-columns:minmax(0,1fr);gap:12px}
+  .terms{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .about{grid-template-columns:minmax(0,1fr);gap:28px}
+  section{padding:40px 0}
+}
+@media (max-width:480px){
+  .terms,form{grid-template-columns:minmax(0,1fr)}
+  nav{gap:16px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="mark" href="#top" aria-label="Sadid Risk Analytics, home">
+      <b>SADID</b><span lang="ar" dir="rtl">سديد</span><small>Risk Analytics</small>
+    </a>
+    <nav aria-label="Main">
+      <a href="#products">Products</a>
+      <a href="#how">How we work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div class="hero-copy">
+      <span class="label">Stress testing · Hedging · Tail risk</span>
+      <h1>Risk tools built for Islamic finance.</h1>
+      <p>Models that respect Sharia limits and work with the instruments you actually hold: Murabaha, Ijara and Sukuk, modelled as they are.</p>
+      <div class="cta">
+        <a class="btn" href="#contact">Request a demonstration</a>
+        <a class="link" href="#products">See the three tools</a>
+      </div>
+    </div>
+    <figure>
+      <svg id="tail" viewBox="0 0 560 300" role="img" aria-label="Chart of the left tail of two return distributions. The heavy-tailed curve sits well above the normal curve for large losses."></svg>
+      <figcaption>
+        <strong>The part of the loss a standard report leaves out.</strong>
+        <span>Left tail, magnified. Illustrative curves: a normal distribution against a Student-t with 3 degrees of freedom.</span>
+      </figcaption>
+    </figure>
+  </div>
+
+  <section aria-labelledby="why-h">
+    <div class="wrap">
+      <div class="head">
+        <span class="label">Why Sadid</span>
+        <h2 id="why-h">Sadid means accurate, on target.</h2>
+      </div>
+      <div class="three">
+        <div>
+          <h3>Built for your balance sheet</h3>
+          <p>Fixed Murabaha prices, repricing Ijara rentals and profit-sharing accounts each behave differently under stress. We model each one as it is, not as a loan in disguise.</p>
+        </div>
+        <div>
+          <h3>Transparent by design</h3>
+          <p>Open formulas and a written method note with every tool. Your auditors and your Sharia board can check every step.</p>
+        </div>
+        <div>
+          <h3>Ready in weeks</h3>
+          <p>You receive a working model and a session that explains it, without a long consulting project.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="products" aria-labelledby="prod-h">
+    <div class="wrap">
+      <div class="head">
+        <span class="label">Products</span>
+        <h2 id="prod-h">Three tools, each answering one hard question.</h2>
+      </div>
+      <div class="products">
+        <article class="product">
+          <div>
+            <h3>ALM Stress Tester</h3>
+            <div class="label who">Treasury and ALM teams</div>
+          </div>
+          <p>Where do funding gaps open when customers pay late, profit rates move or deposits leave? Enter your book once, run the scenario library, and take a one-page summary to your ALCO.</p>
+          <ul>
+            <li>Excel model with scenario library</li>
+            <li>Liquidity gap by time bucket</li>
+            <li>Method note and board summary sheet</li>
+          </ul>
+        </article>
+        <article class="product">
+          <div>
+            <h3>Hedge Sizer</h3>
+            <div class="label who">Treasury and market-risk teams</div>
+          </div>
+          <p>How much should you hedge at each tenor? The workbook reads your repricing gaps and returns the profit-rate swap notionals that bring rate sensitivity close to zero in every maturity bucket.</p>
+          <ul>
+            <li>Formula-only workbook, no macros</li>
+            <li>Sensitivity before and after the hedge</li>
+            <li>Tickets rounded to trading lots</li>
+          </ul>
+        </article>
+        <article class="product">
+          <div>
+            <h3>Tail-Risk Screen</h3>
+            <div class="label who">Sharia-compliant funds and takaful investment teams</div>
+          </div>
+          <p>What could your Sharia-screened portfolio lose in the bad tail? Standard VaR assumes calm markets. This report measures expected shortfall with models designed for extreme moves.</p>
+          <ul>
+            <li>Portfolio tail-risk report</li>
+            <li>Standard VaR beside heavy-tailed expected shortfall</li>
+            <li>Model file and method note</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" aria-labelledby="how-h">
+    <div class="wrap">
+      <div class="head">
+        <span class="label">How we work</span>
+        <h2 id="how-h">Four commitments that come with every tool.</h2>
+      </div>
+      <div class="terms">
+        <div><h3>Your data stays with you</h3><p>The tools run on your own machines. Nothing is uploaded to us.</p></div>
+        <div><h3>Excel first</h3><p>Built in the software your risk team already uses and your auditors already review.</p></div>
+        <div><h3>Sharia basis in writing</h3><p>Each tool comes with a note on its Sharia basis for your own board to review.</p></div>
+        <div><h3>Three languages</h3><p>Tools and support in English, Arabic and French.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" aria-labelledby="about-h">
+    <div class="wrap about">
+      <div class="about-copy">
+        <span class="label">About</span>
+        <h2 id="about-h">Founded by a risk researcher who has worked inside Islamic development finance.</h2>
+        <p>Sadid Risk Analytics was founded by Dr Mahmoud Bekri, an economist and physicist trained at the Karlsruhe Institute of Technology. His research covers heavy-tailed distributions, coherent risk measures and Islamic finance.</p>
+        <p>Sadid exists because smaller Islamic institutions face the same regulatory and market pressure as large ones, with a fraction of the quantitative staff. We give them tools they can understand, audit and run themselves.</p>
+      </div>
+      <ul class="facts">
+        <li><span class="label">Training</span>PhD in Economics and Finance and Diplom in Physics, KIT</li>
+        <li><span class="label">Experience</span>More than ten years in research and risk management at a multilateral Islamic development bank</li>
+        <li><span class="label">Research</span>Heavy tails, expected shortfall, Islamic finance</li>
+        <li><span class="label">Languages</span>Arabic, French, English, German</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="contact" aria-labelledby="contact-h">
+    <div class="wrap">
+      <div class="head">
+        <span class="label">Contact</span>
+        <h2 id="contact-h">Tell us what you need to measure.</h2>
+        <p>Send a short description of your institution and the risk question in front of you. You will get a reply in English, Arabic or French.</p>
+      </div>
+      <div class="cta">
+        <a class="btn" href="https://www.linkedin.com/in/mahmoud-bekri-21320652" rel="noopener">Message Dr Mahmoud Bekri on LinkedIn</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Sadid Risk Analytics provides models and analytics. It does not give investment advice or issue Sharia rulings.</span>
+    <span>&copy; 2026 Sadid Risk Analytics</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // Left tail of two densities, x in standard deviations.
+  var svg=document.getElementById('tail'), NS='http://www.w3.org/2000/svg';
+  var x0=-6, x1=-1.6, yMax=0.125, L=44, R=546, T=24, B=250;
+  function X(x){return L+(x-x0)/(x1-x0)*(R-L)}
+  function Y(y){return B-Math.min(y,yMax)/yMax*(B-T)}
+  function normal(x){return Math.exp(-x*x/2)/Math.sqrt(2*Math.PI)}
+  function t3(x){return 2/(Math.PI*Math.sqrt(3))/Math.pow(1+x*x/3,2)}
+  function el(n,a,txt){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e}
+  var pn=[],pt=[],i,x;
+  for(i=0;i<=110;i++){x=x0+(x1-x0)*i/110;pn.push([X(x),Y(normal(x))]);pt.push([X(x),Y(t3(x))])}
+  function line(p){return p.map(function(q,j){return (j?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)}).join(' ')}
+  // Shaded gap between the curves
+  var gap=line(pt)+' '+pn.slice().reverse().map(function(q){return 'L'+q[0].toFixed(1)+' '+q[1].toFixed(1)}).join(' ')+' Z';
+  el('path',{d:gap,'class':'c-gap'});
+  el('line',{x1:L,y1:B,x2:R,y2:B,'class':'c-axis'});
+  for(i=-6;i<=-2;i++){
+    el('line',{x1:X(i),y1:B,x2:X(i),y2:B+5,'class':'c-axis'});
+    el('text',{x:X(i),y:B+19,'text-anchor':'middle','class':'c-text'},i+'σ');
+  }
+  el('text',{x:L,y:B+40,'class':'c-text'},'Daily loss, in standard deviations');
+  // 99% VaR under the normal model
+  var v=-2.326;
+  el('line',{x1:X(v),y1:T+14,x2:X(v),y2:B,'class':'c-var'});
+  el('text',{x:X(v)-6,y:T+10,'text-anchor':'end','class':'c-text acc'},'99% VaR, normal model');
+  el('path',{d:line(pn),'class':'c-normal'});
+  el('path',{d:line(pt),'class':'c-heavy'});
+  el('text',{x:X(-4.2),y:Y(t3(-4.2))-12,'text-anchor':'middle','class':'c-text tl'},'Heavy-tailed model');
+  el('text',{x:X(-3.05),y:B-8,'text-anchor':'end','class':'c-text'},'Normal model');
+
+})();
+</script>
+</body>
+</html>
