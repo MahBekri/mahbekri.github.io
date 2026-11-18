@@ -122,6 +122,11 @@ section{padding:56px 0;border-top:1px solid var(--line)}
 .calc th{text-align:left;font-weight:400;color:var(--muted);padding:9px 0;border-bottom:1px solid var(--line)}
 .calc td{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;padding:9px 0;border-bottom:1px solid var(--line)}
 .fine{font-size:13.5px;color:var(--muted);max-width:80ch}
+.shots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:start}
+.shot{display:flex;flex-direction:column;gap:10px;text-decoration:none;background:#FFFFFF;border:1px solid var(--line);border-radius:4px;padding:12px}
+.shot img{display:block;width:100%;height:auto;max-height:520px;object-fit:cover;object-position:top}
+.shot span{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#586378}
+.shot:hover{border-color:var(--accent)}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .tab{font:inherit;font-size:15px;font-weight:500;padding:9px 16px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);cursor:pointer}
 .tab.on{background:var(--accent);border-color:var(--accent);color:var(--paper)}
@@ -152,7 +157,7 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
   .terms{grid-template-columns:repeat(2,minmax(0,1fr))}
   .about{grid-template-columns:minmax(0,1fr);gap:28px}
   .serve{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .calc,.tiers,.two{grid-template-columns:minmax(0,1fr)}
+  .calc,.tiers,.two,.shots{grid-template-columns:minmax(0,1fr)}
   section{padding:40px 0}
 }
 @media (max-width:480px){
@@ -184,7 +189,7 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
       <span class="label">Stress testing · Hedging · Tail risk · Mandate oversight</span>
       <h1>Risk management solutions for Islamic finance.</h1>
       <p>We are building transparent risk models that start from the contracts Islamic institutions actually hold, Murabaha, Ijara and Sukuk, with every assumption written down and open to audit.</p>
-      <p class="stage">In development: two working prototypes and two tools on the roadmap.</p>
+      <p class="stage">In development: four working prototypes, not yet validated or on sale.</p>
       <div class="cta">
         <a class="btn" href="#contact">Get in touch</a>
         <a class="link" href="#online">Try the online tools</a>
@@ -243,29 +248,29 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
     <div class="wrap">
       <div class="head">
         <span class="label">Solutions</span>
-        <h2 id="prod-h">Two prototypes and two tools on the roadmap, each answering one hard question.</h2>
+        <h2 id="prod-h">Four working prototypes, each answering one hard question.</h2>
       </div>
       <div class="products">
         <article class="product">
           <div>
             <h3>ALM Stress Tester</h3>
-            <div class="status s-plan">Planned</div>
+            <div class="status s-proto">Prototype</div>
             <div class="label who">Treasury and ALM teams</div>
           </div>
-          <p>Where do funding gaps open when customers pay late or deposits leave? The first version will cover liquidity stress: enter your book, run the scenario library, and take a one-page summary to your ALCO. Profit-rate sensitivity will follow.</p>
+          <p>Where do funding gaps open when customers pay late or funding leaves? Enter your book once and compare six stress scenarios side by side: the cumulative liquidity position, the survival horizon and the uncompensated cost of delay. This version covers liquidity stress. Profit-rate sensitivity will follow. <a class="link" href="samples/alm-stress-tester.pdf">See a sample output</a>.</p>
           <ul>
-            <li>Excel model with scenario library</li>
-            <li>Liquidity gap by time bucket</li>
-            <li>Method note and board summary sheet</li>
+            <li>Excel model with a six-scenario library</li>
+            <li>Liquidity gap and survival horizon by time bucket</li>
+            <li>Method note and a one-page summary</li>
           </ul>
         </article>
         <article class="product">
           <div>
             <h3>Hedge Sizer</h3>
-            <div class="status s-dev">In development</div>
+            <div class="status s-proto">Prototype</div>
             <div class="label who">Treasury and market-risk teams</div>
           </div>
-          <p>How large is your rate exposure at each tenor, and what would offset it? The workbook reads your repricing gaps and computes the swap notionals that minimise residual sensitivity across maturity buckets, then shows what remains after rounding to tradable sizes. It reports exposures and hypothetical hedge structures. It does not recommend trades.</p>
+          <p>How large is your rate exposure at each tenor, and what would offset it? The workbook reads your repricing gaps and computes the swap notionals that minimise residual sensitivity across maturity buckets, then shows what remains after rounding to tradable sizes. It reports exposures and hypothetical hedge structures. It does not recommend trades. <a class="link" href="samples/hedge-sizer.pdf">See a sample output</a>.</p>
           <ul>
             <li>Formula-only workbook, no macros</li>
             <li>Sensitivity before and after the hedge</li>
@@ -278,7 +283,7 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
             <div class="status s-proto">Prototype</div>
             <div class="label who">Sharia-compliant funds and takaful investment teams</div>
           </div>
-          <p>What could your Sharia-screened portfolio lose in the bad tail? VaR computed under a normal distribution can understate extreme losses when returns have heavy tails. The workbook sets a normal model beside a Student-t fit, a Cornish-Fisher adjustment and the data itself, and reports how much the normal model leaves out. <a class="link" href="#online">Try the online tools</a>.</p>
+          <p>What could your Sharia-screened portfolio lose in the bad tail? VaR computed under a normal distribution can understate extreme losses when returns have heavy tails. The workbook sets a normal model beside a Student-t fit, a Cornish-Fisher adjustment and the data itself, and reports how much the normal model leaves out. <a class="link" href="samples/tail-risk-screen.pdf">See a sample output</a>.</p>
           <ul>
             <li>Excel workbook with a one-page tail-risk report</li>
             <li>Normal-model VaR beside heavy-tailed expected shortfall</li>
@@ -291,13 +296,29 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
             <div class="status s-proto">Prototype</div>
             <div class="label who">Institutions with external equity managers</div>
           </div>
-          <p>Are your external managers taking the risks you agreed to? One view of every mandate against its benchmark: realised tracking error, concentration, screening under your chosen methodology and tail risk. You update it by refreshing the inputs each quarter. Missing data shows as incomplete, never as a pass.</p>
+          <p>Are your external managers taking the risks you agreed to? One view of every mandate against its benchmark: realised tracking error, concentration, screening under your chosen methodology and tail risk. You update it by refreshing the inputs each quarter. Missing data shows as incomplete, never as a pass. <a class="link" href="samples/equity-mandate-monitor.pdf">See a sample output</a>.</p>
           <ul>
             <li>Multi-manager oversight workbook</li>
             <li>Tracking error and concentration by mandate</li>
             <li>Screening breaches and missing data flagged</li>
           </ul>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="samples" aria-labelledby="samp-h">
+    <div class="wrap">
+      <div class="head">
+        <span class="label">Sample outputs</span>
+        <h2 id="samp-h">What each tool produces.</h2>
+        <p>One summary page from each prototype, run on synthetic data. No real institution, portfolio or market is represented. Select a page to open it as a PDF.</p>
+      </div>
+      <div class="shots">
+        <a class="shot" href="samples/alm-stress-tester.pdf"><img src="img/alm-stress-tester.png" width="858" height="652" loading="lazy" alt="ALM Stress Tester summary: data checks, six scenarios compared, status against the policy horizon, and the cumulative liquidity position by bucket."><span>ALM Stress Tester: liquidity stress summary</span></a>
+        <a class="shot" href="samples/hedge-sizer.pdf"><img src="img/hedge-sizer.png" width="848" height="883" loading="lazy" alt="Hedge Sizer results: swap notionals by tenor, sensitivity by bucket before and after the hedge, hedge quality and an exposure check."><span>Hedge Sizer: sizing results</span></a>
+        <a class="shot" href="samples/tail-risk-screen.pdf"><img src="img/tail-risk-screen.png" width="791" height="1170" loading="lazy" alt="Tail-Risk Screen report: distribution shape, value at risk and expected shortfall under normal, Cornish-Fisher, Student-t and historical views."><span>Tail-Risk Screen: tail-risk report</span></a>
+        <a class="shot" href="samples/equity-mandate-monitor.pdf"><img src="img/equity-mandate-monitor.png" width="823" height="768" loading="lazy" alt="Equity Mandate Monitor: data checks, performance, tail risk, concentration, screening and status for three managers."><span>Equity Mandate Monitor: manager oversight</span></a>
       </div>
     </div>
   </section>
@@ -429,7 +450,7 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
             <li><span class="label">Sharia limits on hedging</span>Hedges tied to a real exposure and sized within it</li>
             <li><span class="label">Screening</span>Sharia screening methodologies and their effect on portfolio risk</li>
             <li><span class="label">Gharar</span>Research on contractual uncertainty and its measurement</li>
-            <li><span class="label">Practice</span>More than ten years of research and risk management within Islamic development finance</li>
+            <li><span class="label">Practice</span>More than ten years of research and risk management practice in Islamic finance</li>
           </ul>
         </div>
       </div>
