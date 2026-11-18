@@ -106,6 +106,34 @@ section{padding:56px 0;border-top:1px solid var(--line)}
 .facts{display:flex;flex-direction:column;margin:0;padding:0;list-style:none;border-top:1px solid var(--line)}
 .facts li{display:flex;flex-direction:column;gap:2px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15.5px}
 
+.serve{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:22px}
+.serve div{display:flex;flex-direction:column;gap:8px;padding-top:12px;border-top:1px solid var(--line)}
+.serve h3{font-size:17px}.serve p{font-size:15px;color:var(--muted)}
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:22px}
+.calc-in,.calc-out{display:flex;flex-direction:column;gap:12px}
+.calc label{font-size:14px;font-weight:500}
+.calc textarea,.calc select{font-family:var(--mono);font-size:14px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:3px;padding:10px 12px}
+.calc textarea{min-height:190px;width:100%;resize:vertical}
+.calc textarea:focus,.calc select:focus{outline:2px solid var(--accent);outline-offset:1px}
+.calc-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn.ghost{background:transparent;color:var(--accent)}
+#c-msg{font-size:14.5px;color:var(--tail);min-height:1.4em}
+.calc table{width:100%;border-collapse:collapse;font-size:15px}
+.calc th{text-align:left;font-weight:400;color:var(--muted);padding:9px 0;border-bottom:1px solid var(--line)}
+.calc td{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;padding:9px 0;border-bottom:1px solid var(--line)}
+.fine{font-size:13.5px;color:var(--muted);max-width:80ch}
+.tier-h{margin:26px 0 14px}
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-bottom:8px}
+.tier{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.tier .price{font-family:var(--display);font-stretch:112%;font-weight:700;font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums}
+.tier .price small{font-family:var(--body);font-weight:400;font-size:14px;color:var(--muted)}
+.tier p{font-size:15px;color:var(--muted)}
+.tier ul{list-style:none;margin:4px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:14.5px}
+.tier li{padding-left:16px;position:relative}
+.tier li::before{content:"";position:absolute;left:0;top:.68em;width:8px;height:1px;background:var(--accent)}
+.notes{margin:0;padding:0;list-style:none;counter-reset:n;border-top:1px solid var(--line)}
+.notes li{counter-increment:n;display:flex;gap:16px;padding:13px 0;border-bottom:1px solid var(--line);font-size:17px}
+.notes li::before{content:counter(n,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:5px}
 footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);font-size:14px}
 footer .wrap{display:flex;flex-direction:column;gap:8px}
 
@@ -115,10 +143,12 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
   .product{grid-template-columns:minmax(0,1fr);gap:12px}
   .terms{grid-template-columns:repeat(2,minmax(0,1fr))}
   .about{grid-template-columns:minmax(0,1fr);gap:28px}
+  .serve{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .calc,.tiers{grid-template-columns:minmax(0,1fr)}
   section{padding:40px 0}
 }
 @media (max-width:480px){
-  .terms{grid-template-columns:minmax(0,1fr)}
+  .terms,.serve{grid-template-columns:minmax(0,1fr)}
   nav{gap:16px}
 }
 </style>
@@ -130,9 +160,11 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
       <b>SADID</b><span lang="ar" dir="rtl">سديد</span><small>Risk Analytics</small>
     </a>
     <nav aria-label="Main">
-      <a href="#products">Products</a>
-      <a href="#how">How we work</a>
-      <a href="#about">About</a>
+      <a href="#solutions">Solutions</a>
+      <a href="#online">Online tools</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#research">Research</a>
+      <a href="#expertise">Expertise</a>
       <a href="#contact">Contact</a>
     </nav>
   </div>
@@ -147,7 +179,7 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
       <p class="stage">In development: one working prototype and three tools on the roadmap.</p>
       <div class="cta">
         <a class="btn" href="#contact">Get in touch</a>
-        <a class="link" href="#products">See the roadmap</a>
+        <a class="link" href="#online">Try the online calculator</a>
       </div>
     </div>
     <figure>
@@ -158,6 +190,22 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
       </figcaption>
     </figure>
   </div>
+
+  <section id="serve" aria-labelledby="serve-h">
+    <div class="wrap">
+      <div class="head">
+        <span class="label">Who we serve</span>
+        <h2 id="serve-h">For the professionals and institutions who measure risk in Islamic finance.</h2>
+      </div>
+      <div class="serve">
+        <div><h3>Islamic banks and windows</h3><p>Treasury, ALM and risk teams that need stress testing and hedge analysis built around their contracts.</p></div>
+        <div><h3>Takaful operators</h3><p>Investment and risk functions overseeing Sharia-compliant portfolios and external managers.</p></div>
+        <div><h3>Asset managers and asset owners</h3><p>Teams running or supervising Sharia-screened equity mandates.</p></div>
+        <div><h3>Research institutions</h3><p>Universities, central bank research units and think tanks studying risk in Islamic finance.</p></div>
+        <div><h3>Individual professionals</h3><p>Analysts, consultants, lecturers and students who want rigorous tools without an enterprise licence.</p></div>
+      </div>
+    </div>
+  </section>
 
   <section aria-labelledby="why-h">
     <div class="wrap">
@@ -182,10 +230,10 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
     </div>
   </section>
 
-  <section id="products" aria-labelledby="prod-h">
+  <section id="solutions" aria-labelledby="prod-h">
     <div class="wrap">
       <div class="head">
-        <span class="label">Products</span>
+        <span class="label">Solutions</span>
         <h2 id="prod-h">One prototype and three tools on the roadmap, each answering one hard question.</h2>
       </div>
       <div class="products">
@@ -260,19 +308,101 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
     </div>
   </section>
 
-  <section id="about" aria-labelledby="about-h">
+  <section id="online" aria-labelledby="online-h">
+    <div class="wrap">
+      <div class="head">
+        <span class="label">Online tools · preview</span>
+        <h2 id="online-h">Tail-risk calculator: try it now.</h2>
+        <p>Paste a series of periodic returns and compare what a normal model says with what the data says. Everything is calculated in your browser. Nothing you enter is sent anywhere.</p>
+      </div>
+      <div class="calc">
+        <div class="calc-in">
+          <label for="c-data">Returns, one per line or separated by commas (decimals such as -0.021, or percentages such as -2.1%)</label>
+          <textarea id="c-data" spellcheck="false" placeholder="0.012&#10;-0.034&#10;0.008&#10;..."></textarea>
+          <div class="calc-row">
+            <label for="c-conf">Confidence level</label>
+            <select id="c-conf"><option value="0.95">95%</option><option value="0.975" selected>97.5%</option><option value="0.99">99%</option></select>
+            <button class="btn" id="c-run" type="button">Calculate</button>
+            <button class="btn ghost" id="c-sample" type="button">Load synthetic sample</button>
+          </div>
+          <div id="c-msg" role="status" aria-live="polite"></div>
+        </div>
+        <div class="calc-out">
+          <table aria-label="Tail-risk results">
+            <tbody id="c-out">
+              <tr><th scope="row">Observations</th><td>-</td></tr>
+              <tr><th scope="row">Mean return per period</th><td>-</td></tr>
+              <tr><th scope="row">Volatility per period</th><td>-</td></tr>
+              <tr><th scope="row">Value at risk, historical</th><td>-</td></tr>
+              <tr><th scope="row">Value at risk, normal model</th><td>-</td></tr>
+              <tr><th scope="row">Expected shortfall, historical</th><td>-</td></tr>
+              <tr><th scope="row">Expected shortfall, normal model</th><td>-</td></tr>
+              <tr><th scope="row">Observations in the tail</th><td>-</td></tr>
+              <tr><th scope="row">Tail ratio, historical over normal</th><td>-</td></tr>
+            </tbody>
+          </table>
+          <p class="fine">Losses are shown as positive numbers. The historical quantile uses linear interpolation. Expected shortfall is the average of returns at or below it. With few observations in the tail, read the result as an indication. This is a calculation aid, not investment advice.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" aria-labelledby="price-h">
+    <div class="wrap">
+      <div class="head">
+        <span class="label">Pricing · indicative</span>
+        <h2 id="price-h">Use the tools online, or download them for your institution.</h2>
+        <p>Indicative launch pricing in US dollars. Sales have not opened: the venture is not yet incorporated and no payment is taken on this site. Contact us to join the waiting list.</p>
+      </div>
+      <h3 class="tier-h">Online, for individuals</h3>
+      <div class="tiers">
+        <div class="tier"><span class="label">Preview</span><div class="price">Free</div><p>The online calculators as they are released, with limits on data size.</p><ul><li>Tail-risk calculator</li><li>Results on screen</li></ul></div>
+        <div class="tier"><span class="label">Professional</span><div class="price">$39 <small>per month</small></div><p>Or $390 per year. Every online tool for one named user.</p><ul><li>Full data limits</li><li>Export of results and method notes</li><li>Use in your own professional work</li></ul></div>
+        <div class="tier"><span class="label">Academic</span><div class="price">$190 <small>per year</small></div><p>For students, lecturers and researchers, on verification.</p><ul><li>Everything in Professional</li><li>Non-commercial research and teaching</li></ul></div>
+      </div>
+      <h3 class="tier-h">Download, for institutions</h3>
+      <div class="tiers">
+        <div class="tier"><span class="label">Single tool</span><div class="price">$4,800 <small>per year</small></div><p>One Excel model for one institution, run on your own machines.</p><ul><li>Method note and updates</li><li>One walkthrough session</li></ul></div>
+        <div class="tier"><span class="label">Full suite</span><div class="price">$14,400 <small>per year</small></div><p>All tools as they are released, for one institution.</p><ul><li>Everything in Single tool, per tool</li><li>Priority support</li></ul></div>
+        <div class="tier"><span class="label">Research institution</span><div class="price">$1,900 <small>per year</small></div><p>The full suite for universities and research units.</p><ul><li>Non-commercial research and teaching</li><li>Unlimited users within the institution</li></ul></div>
+      </div>
+      <p class="fine">Institutional setup is a one-off fee from $2,500, agreed with the scope. Tailoring to your book or reporting format is quoted separately. Prices exclude any applicable taxes.</p>
+    </div>
+  </section>
+
+  <section id="research" aria-labelledby="res-h">
+    <div class="wrap">
+      <div class="head">
+        <span class="label">Research and insights · in preparation</span>
+        <h2 id="res-h">Short technical notes on the questions our tools answer.</h2>
+      </div>
+      <ol class="notes">
+        <li>Why VaR under a normal distribution understates risk in Sharia-screened portfolios</li>
+        <li>Payment delays: the risk Islamic banks model least</li>
+        <li>Sizing a profit-rate swap bucket by bucket</li>
+        <li>Hedging and gharar: where the Sharia line sits</li>
+        <li>What a small Islamic bank needs from a stress test</li>
+        <li>Extreme events in Islamic equity indices: what the data shows</li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="expertise" aria-labelledby="exp-h">
     <div class="wrap about">
       <div class="about-copy">
-        <span class="label">About</span>
-        <h2 id="about-h">Led by a risk researcher who has worked inside Islamic development finance.</h2>
-        <p>Sadid Risk Analytics is a venture in development, led by Dr Mahmoud Bekri, an economist and physicist trained at the Karlsruhe Institute of Technology. His research covers heavy-tailed distributions, coherent risk measures and Islamic finance.</p>
-        <p>Sadid exists because smaller Islamic institutions face the same regulatory and market pressure as large ones, with a fraction of the quantitative staff. We are building tools they can understand, audit and run themselves.</p>
+        <span class="label">Expertise</span>
+        <h2 id="exp-h">Quantitative risk research, applied inside Islamic finance.</h2>
+        <p>Sadid is a venture in development. Its models draw on doctoral and peer-reviewed research in heavy-tailed risk measurement and on more than ten years of research and risk management practice at a multilateral Islamic development bank.</p>
+        <p>Smaller Islamic institutions face the same regulatory and market pressure as large ones, with a fraction of the quantitative staff. We are building tools they can understand, audit and run themselves.</p>
       </div>
       <ul class="facts">
-        <li><span class="label">Training</span>PhD in Economics and Finance and Diplom in Physics, KIT</li>
-        <li><span class="label">Experience</span>More than ten years in research and risk management at a multilateral Islamic development bank</li>
-        <li><span class="label">Research</span>Heavy tails, expected shortfall, Islamic finance</li>
-        <li><span class="label">Languages</span>Arabic, French, English, German</li>
+        <li><span class="label">Tail risk</span>Heavy-tailed and stable distributions, expected shortfall, coherent risk measures</li>
+        <li><span class="label">Balance-sheet risk</span>ALM, liquidity stress testing, payment-delay behaviour</li>
+        <li><span class="label">Hedging</span>Profit-rate swap sizing within Sharia exposure limits</li>
+        <li><span class="label">Equity oversight</span>External mandate monitoring and Sharia screening analytics</li>
+        <li><span class="label">Islamic finance</span>Contract structures, gharar and their consequences for risk models</li>
+        <li><span class="label">Training</span>Doctorate in economics and finance, degree in physics</li>
+        <li><span class="label">Working languages</span>Arabic, French, English, German</li>
       </ul>
     </div>
   </section>
@@ -282,10 +412,10 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
       <div class="head">
         <span class="label">Contact</span>
         <h2 id="contact-h">Tell us what you need to measure.</h2>
-        <p>Send a short description of your institution and the risk question in front of you. You will get a reply in English, Arabic or French.</p>
+        <p>Send a short description of your institution or your work and the risk question in front of you. Use the same route to join the waiting list. You will get a reply in English, Arabic or French.</p>
       </div>
       <div class="cta">
-        <a class="btn" href="https://www.linkedin.com/in/mahmoud-bekri-21320652" rel="noopener">Message Dr Mahmoud Bekri on LinkedIn</a>
+        <a class="btn" href="https://www.linkedin.com/in/mahmoud-bekri-21320652" rel="noopener">Contact us on LinkedIn</a>
       </div>
     </div>
   </section>
@@ -331,6 +461,39 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
   el('text',{x:X(-4.2),y:Y(t3(-4.2))-12,'text-anchor':'middle','class':'c-text tl'},'Heavy-tailed model');
   el('text',{x:X(-2.62),y:Y(0.027),'text-anchor':'end','class':'c-text'},'Normal model');
 
+
+  // ---- Tail-risk calculator: runs entirely in the browser ----
+  var Z={'0.95':-1.6448536,'0.975':-1.9599640,'0.99':-2.3263479};
+  function $(id){return document.getElementById(id)}
+  function pct(v){return (v*100).toFixed(2)+'%'}
+  function parse(txt){
+    var raw=txt.split(/[\s,;]+/).filter(Boolean), hasPct=/%/.test(txt), v=[], bad=0;
+    raw.forEach(function(t){var n=parseFloat(t.replace('%',''));if(isFinite(n))v.push(n);else bad++});
+    var big=v.some(function(n){return Math.abs(n)>1});
+    if(hasPct||big)v=v.map(function(n){return n/100});
+    return {v:v,bad:bad,scaled:hasPct||big};
+  }
+  function run(){
+    var d=parse($('c-data').value), v=d.v, n=v.length, msg=$('c-msg'), cells=$('c-out').querySelectorAll('td');
+    if(n<20){msg.textContent='Enter at least 20 returns. Found '+n+'.';return}
+    var conf=$('c-conf').value, a=1-parseFloat(conf), z=Z[conf];
+    var mean=v.reduce(function(x,y){return x+y},0)/n;
+    var sd=Math.sqrt(v.reduce(function(x,y){return x+(y-mean)*(y-mean)},0)/(n-1));
+    var srt=v.slice().sort(function(x,y){return x-y}), pos=(n-1)*a, lo=Math.floor(pos), q=srt[lo]+(pos-lo)*((srt[lo+1]!==undefined?srt[lo+1]:srt[lo])-srt[lo]);
+    var tail=srt.filter(function(x){return x<=q}), es=-tail.reduce(function(x,y){return x+y},0)/tail.length;
+    var phi=Math.exp(-z*z/2)/Math.sqrt(2*Math.PI), nvar=-(mean+sd*z), nes=-(mean-sd*phi/a);
+    var out=[String(n),pct(mean),pct(sd),pct(-q),pct(nvar),pct(es),pct(nes),String(tail.length),nes>0?(es/nes).toFixed(2):'n/a'];
+    for(var i=0;i<cells.length;i++)cells[i].textContent=out[i];
+    msg.textContent=(d.bad?d.bad+' entries could not be read and were ignored. ':'')+(d.scaled?'Values were read as percentages. ':'')+(tail.length<5?'Only '+tail.length+' observations sit in the tail: treat the tail figures as indicative.':'');
+  }
+  function sample(){
+    // synthetic heavy-tailed monthly returns from a small seeded generator
+    var seed=20261118; function r(){seed=(seed*1664525+1013904223)%4294967296;return seed/4294967296}
+    function g(){return Math.sqrt(-2*Math.log(r()+1e-12))*Math.cos(2*Math.PI*r())}
+    var out=[];for(var i=0;i<120;i++){var c=(g()*g()+g()*g()+g()*g())/3; var t=g()/Math.sqrt(Math.abs(c)+0.35); out.push((0.006+0.032*t).toFixed(4))}
+    $('c-data').value=out.join('\n'); run();
+  }
+  $('c-run').addEventListener('click',run); $('c-sample').addEventListener('click',sample);
 })();
 </script>
 </body>
