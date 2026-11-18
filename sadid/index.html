@@ -11,8 +11,8 @@
 /* Layout idea: an instrument panel. One wide column, hairline rules, mono labels like gauge markings;
    the only loud element is the magnified loss tail in the hero. */
 :root{
-  --paper:#F3F5F2; --surface:#FFFFFF; --ink:#10262B; --muted:#55686B; --line:#D3DCD8;
-  --accent:#0B6E63; --tail:#A86D12;
+  --paper:#F6F8FB; --surface:#FFFFFF; --ink:#16233B; --muted:#586378; --line:#D9DFE8;
+  --accent:#1F3A6E; --tail:#2F63A8;
   --display:"Archivo","Arial Narrow",Arial,sans-serif;
   --body:"IBM Plex Sans","Segoe UI",Helvetica,Arial,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
@@ -21,13 +21,13 @@
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --paper:#0C1A1D; --surface:#12262A; --ink:#E8EFEC; --muted:#9DB0AF; --line:#27403F;
-    --accent:#56C7B4; --tail:#E3AC4E; color-scheme:dark;
+    --paper:#0F1726; --surface:#172236; --ink:#E6EBF3; --muted:#9AA6BA; --line:#26334A;
+    --accent:#8FB0E6; --tail:#6FA0E0; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --paper:#0C1A1D; --surface:#12262A; --ink:#E8EFEC; --muted:#9DB0AF; --line:#27403F;
-  --accent:#56C7B4; --tail:#E3AC4E; color-scheme:dark;
+  --paper:#0F1726; --surface:#172236; --ink:#E6EBF3; --muted:#9AA6BA; --line:#26334A;
+  --accent:#8FB0E6; --tail:#6FA0E0; color-scheme:dark;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
