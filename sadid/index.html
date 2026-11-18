@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sadid Risk Analytics</title>
+<meta name="description" content="Sadid Risk Analytics is developing transparent, Sharia-aware risk tools for Islamic banks, takaful operators and Sharia-compliant funds.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@500;600&display=swap" rel="stylesheet">
@@ -87,6 +88,10 @@ section{padding:56px 0;border-top:1px solid var(--line)}
 .product{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr) minmax(0,280px);gap:28px;padding:26px 0;border-top:1px solid var(--line)}
 .product:last-child{border-bottom:1px solid var(--line)}
 .product .who{margin-top:8px}
+.status{display:inline-block;margin-top:8px;padding:2px 9px;border:1px solid var(--line);border-radius:999px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.status.s-proto{border-color:var(--accent);color:var(--accent)}
+.status.s-dev{border-color:var(--tail);color:var(--tail)}
+.hero-copy p.stage{font-family:var(--mono);font-size:13px;letter-spacing:.02em;color:var(--accent)}
 .product p{font-size:16.5px}
 .product ul{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:15px;color:var(--muted)}
 .product li{padding-left:16px;position:relative}
@@ -101,15 +106,6 @@ section{padding:56px 0;border-top:1px solid var(--line)}
 .facts{display:flex;flex-direction:column;margin:0;padding:0;list-style:none;border-top:1px solid var(--line)}
 .facts li{display:flex;flex-direction:column;gap:2px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15.5px}
 
-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:720px}
-.field{display:flex;flex-direction:column;gap:6px}
-.field.full{grid-column:1/-1}
-label{font-size:14px;font-weight:500}
-input,textarea{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:11px 12px;width:100%}
-input:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
-textarea{min-height:120px;resize:vertical}
-#form-note{grid-column:1/-1;font-size:15px;color:var(--muted);min-height:1.5em}
-
 footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);font-size:14px}
 footer .wrap{display:flex;flex-direction:column;gap:8px}
 
@@ -122,7 +118,7 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
   section{padding:40px 0}
 }
 @media (max-width:480px){
-  .terms,form{grid-template-columns:minmax(0,1fr)}
+  .terms{grid-template-columns:minmax(0,1fr)}
   nav{gap:16px}
 }
 </style>
@@ -147,10 +143,11 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
     <div class="hero-copy">
       <span class="label">Stress testing · Hedging · Tail risk · Mandate oversight</span>
       <h1>Risk tools built for Islamic finance.</h1>
-      <p>Models that respect Sharia limits and work with the instruments you actually hold: Murabaha, Ijara and Sukuk, modelled as they are.</p>
+      <p>We are building transparent risk models for Islamic financial institutions, designed around the instruments they actually hold: Murabaha, Ijara and Sukuk.</p>
+      <p class="stage">In development: one working prototype and three tools on the roadmap.</p>
       <div class="cta">
-        <a class="btn" href="#contact">Request a demonstration</a>
-        <a class="link" href="#products">See the four tools</a>
+        <a class="btn" href="#contact">Get in touch</a>
+        <a class="link" href="#products">See the roadmap</a>
       </div>
     </div>
     <figure>
@@ -171,15 +168,15 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
       <div class="three">
         <div>
           <h3>Built for your balance sheet</h3>
-          <p>Fixed Murabaha prices, repricing Ijara rentals and profit-sharing accounts each behave differently under stress. We model each one as it is, not as a loan in disguise.</p>
+          <p>Fixed Murabaha prices, repricing Ijara rentals and profit-sharing accounts each behave differently under stress. Our models are designed to treat each one as it is, with the assumptions written down.</p>
         </div>
         <div>
           <h3>Transparent by design</h3>
-          <p>Open formulas and a written method note with every tool. Your auditors and your Sharia board can check every step.</p>
+          <p>Our standard for every tool is open formulas and a written method note, so that your auditors and your Sharia board can check every step.</p>
         </div>
         <div>
-          <h3>Ready in weeks</h3>
-          <p>You receive a working model and a session that explains it, without a long consulting project.</p>
+          <h3>No long consulting project</h3>
+          <p>You receive a working model and a session that explains it. Delivery time is agreed once the scope is defined.</p>
         </div>
       </div>
     </div>
@@ -189,15 +186,16 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
     <div class="wrap">
       <div class="head">
         <span class="label">Products</span>
-        <h2 id="prod-h">Four tools, each answering one hard question.</h2>
+        <h2 id="prod-h">One prototype and three tools on the roadmap, each answering one hard question.</h2>
       </div>
       <div class="products">
         <article class="product">
           <div>
             <h3>ALM Stress Tester</h3>
+            <div class="status s-plan">Planned</div>
             <div class="label who">Treasury and ALM teams</div>
           </div>
-          <p>Where do funding gaps open when customers pay late, profit rates move or deposits leave? Enter your book once, run the scenario library, and take a one-page summary to your ALCO.</p>
+          <p>Where do funding gaps open when customers pay late or deposits leave? The first version will cover liquidity stress: enter your book, run the scenario library, and take a one-page summary to your ALCO. Profit-rate sensitivity will follow.</p>
           <ul>
             <li>Excel model with scenario library</li>
             <li>Liquidity gap by time bucket</li>
@@ -207,18 +205,20 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
         <article class="product">
           <div>
             <h3>Hedge Sizer</h3>
+            <div class="status s-dev">In development</div>
             <div class="label who">Treasury and market-risk teams</div>
           </div>
-          <p>How much should you hedge at each tenor? The workbook reads your repricing gaps and returns the profit-rate swap notionals that bring rate sensitivity close to zero in every maturity bucket.</p>
+          <p>How large is your rate exposure at each tenor, and what would offset it? The workbook reads your repricing gaps and computes the swap notionals that minimise residual sensitivity across maturity buckets, then shows what remains after rounding to tradable sizes. It reports exposures and hypothetical hedge structures. It does not recommend trades.</p>
           <ul>
             <li>Formula-only workbook, no macros</li>
             <li>Sensitivity before and after the hedge</li>
-            <li>Tickets rounded to trading lots</li>
+            <li>Residual exposure after rounding to lots</li>
           </ul>
         </article>
         <article class="product">
           <div>
             <h3>Tail-Risk Screen</h3>
+            <div class="status s-plan">Planned</div>
             <div class="label who">Sharia-compliant funds and takaful investment teams</div>
           </div>
           <p>What could your Sharia-screened portfolio lose in the bad tail? VaR computed under a normal distribution understates extreme losses. This report measures expected shortfall with models designed for heavy tails.</p>
@@ -231,13 +231,14 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
         <article class="product">
           <div>
             <h3>Equity Mandate Monitor</h3>
+            <div class="status s-proto">Prototype</div>
             <div class="label who">Institutions with external equity managers</div>
           </div>
-          <p>Are your external managers taking the risks you agreed to? One view of every mandate against its benchmark: tracking error, concentration, screening compliance and tail risk, refreshed each quarter.</p>
+          <p>Are your external managers taking the risks you agreed to? One view of every mandate against its benchmark: realised tracking error, concentration, screening under your chosen methodology and tail risk. You update it by refreshing the inputs each quarter. Missing data shows as incomplete, never as a pass.</p>
           <ul>
             <li>Multi-manager oversight workbook</li>
             <li>Tracking error and concentration by mandate</li>
-            <li>Sharia-screening breaches flagged</li>
+            <li>Screening breaches and missing data flagged</li>
           </ul>
         </article>
       </div>
@@ -248,13 +249,13 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
     <div class="wrap">
       <div class="head">
         <span class="label">How we work</span>
-        <h2 id="how-h">Four commitments that come with every tool.</h2>
+        <h2 id="how-h">Four standards we build every tool to.</h2>
       </div>
       <div class="terms">
-        <div><h3>Your data stays with you</h3><p>The tools run on your own machines. Nothing is uploaded to us.</p></div>
+        <div><h3>Your data stays with you</h3><p>The tools run on your own machines. Any data shared for setup or support is agreed with you in advance.</p></div>
         <div><h3>Excel first</h3><p>Built in the software your risk team already uses and your auditors already review.</p></div>
-        <div><h3>Sharia basis in writing</h3><p>Each tool comes with a note on its Sharia basis for your own board to review.</p></div>
-        <div><h3>Three languages</h3><p>Tools and support in English, Arabic and French.</p></div>
+        <div><h3>Assumptions in writing</h3><p>Each tool comes with a note on its screening assumptions and the standards it follows, for your own Sharia board to review. The note is not a Sharia approval.</p></div>
+        <div><h3>English first</h3><p>Tools and documentation are in English. Arabic and French will follow.</p></div>
       </div>
     </div>
   </section>
@@ -263,9 +264,9 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
     <div class="wrap about">
       <div class="about-copy">
         <span class="label">About</span>
-        <h2 id="about-h">Founded by a risk researcher who has worked inside Islamic development finance.</h2>
-        <p>Sadid Risk Analytics was founded by Dr Mahmoud Bekri, an economist and physicist trained at the Karlsruhe Institute of Technology. His research covers heavy-tailed distributions, coherent risk measures and Islamic finance.</p>
-        <p>Sadid exists because smaller Islamic institutions face the same regulatory and market pressure as large ones, with a fraction of the quantitative staff. We give them tools they can understand, audit and run themselves.</p>
+        <h2 id="about-h">Led by a risk researcher who has worked inside Islamic development finance.</h2>
+        <p>Sadid Risk Analytics is a venture in development, led by Dr Mahmoud Bekri, an economist and physicist trained at the Karlsruhe Institute of Technology. His research covers heavy-tailed distributions, coherent risk measures and Islamic finance.</p>
+        <p>Sadid exists because smaller Islamic institutions face the same regulatory and market pressure as large ones, with a fraction of the quantitative staff. We are building tools they can understand, audit and run themselves.</p>
       </div>
       <ul class="facts">
         <li><span class="label">Training</span>PhD in Economics and Finance and Diplom in Physics, KIT</li>
@@ -292,7 +293,8 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
 
 <footer>
   <div class="wrap">
-    <span>Sadid Risk Analytics provides models and analytics. It does not give investment advice or issue Sharia rulings.</span>
+    <span>Sadid Risk Analytics develops models and analytics. It does not give investment advice, recommend transactions or issue Sharia rulings.</span>
+    <span>Sadid Risk Analytics is a pre-incorporation venture. No company has been registered yet.</span>
     <span>&copy; 2026 Sadid Risk Analytics</span>
   </div>
 </footer>
