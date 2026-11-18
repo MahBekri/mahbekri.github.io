@@ -122,6 +122,12 @@ section{padding:56px 0;border-top:1px solid var(--line)}
 .calc th{text-align:left;font-weight:400;color:var(--muted);padding:9px 0;border-bottom:1px solid var(--line)}
 .calc td{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;padding:9px 0;border-bottom:1px solid var(--line)}
 .fine{font-size:13.5px;color:var(--muted);max-width:80ch}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tab{font:inherit;font-size:15px;font-weight:500;padding:9px 16px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);cursor:pointer}
+.tab.on{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.panel{display:flex;flex-direction:column;gap:12px}
+.panel[hidden]{display:none}
+iframe.tool{width:100%;height:820px;border:1px solid var(--line);border-radius:4px;background:var(--surface)}
 .tier-h{margin:26px 0 14px}
 .two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px}
 .two>div{display:flex;flex-direction:column;gap:14px}
@@ -181,7 +187,7 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
       <p class="stage">In development: one working prototype and three tools on the roadmap.</p>
       <div class="cta">
         <a class="btn" href="#contact">Get in touch</a>
-        <a class="link" href="#online">Try the online calculator</a>
+        <a class="link" href="#online">Try the online tools</a>
       </div>
     </div>
     <figure>
@@ -314,10 +320,25 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
   <section id="online" aria-labelledby="online-h">
     <div class="wrap">
       <div class="head">
-        <span class="label">Online tools · preview</span>
-        <h2 id="online-h">Tail-risk calculator: try it now.</h2>
-        <p>Paste a series of periodic returns and compare what a normal model says with what the data says. Everything is calculated in your browser. Nothing you enter is sent anywhere.</p>
+        <span class="label">Online tools · free preview</span>
+        <h2 id="online-h">Three tools you can use now.</h2>
+        <p>Analyse a return series, explore heavy-tailed distributions, or run a quick tail-risk check. Everything is calculated in your browser. Your data is not sent anywhere.</p>
       </div>
+      <div class="tabs" role="tablist" aria-label="Online tools">
+        <button class="tab on" role="tab" aria-selected="true" aria-controls="t-portal" id="tab-portal" type="button">Return analysis</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="t-explorer" id="tab-explorer" type="button">Stable distributions</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="t-calc" id="tab-calc" type="button">Quick calculator</button>
+      </div>
+      <div class="panel" id="t-portal" role="tabpanel" aria-labelledby="tab-portal">
+        <p class="fine">Load a price or return series and get its statistics, a normality test, a stable-law fit, and value at risk and expected shortfall under historical, normal and stable models. <a class="link" href="../portal/?embed=1">Open in a full page</a></p>
+        <iframe class="tool" title="Return analysis tool" src="../portal/?embed=1" loading="lazy"></iframe>
+      </div>
+      <div class="panel" id="t-explorer" role="tabpanel" aria-labelledby="tab-explorer" hidden>
+        <p class="fine">Set the four parameters of a stable distribution and see its density, its distribution function and its tails against the normal. <a class="link" href="../explorer/?embed=1">Open in a full page</a></p>
+        <iframe class="tool" title="Stable distribution explorer" data-src="../explorer/?embed=1" loading="lazy"></iframe>
+      </div>
+      <div class="panel" id="t-calc" role="tabpanel" aria-labelledby="tab-calc" hidden>
+        <p class="fine">Paste periodic returns and compare what a normal model says with what the data says.</p>
       <div class="calc">
         <div class="calc-in">
           <label for="c-data">Returns, one per line or separated by commas. Enter decimals such as -0.021, or add a % sign for per cent such as -2.1%. Each entry is read on its own.</label>
@@ -347,6 +368,7 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
           <p class="fine">Losses are shown as positive numbers. The historical quantile uses linear interpolation. Expected shortfall is the average of returns at or below it. With few observations in the tail, read the result as an indication. A negative figure means the model shows a gain at that point of the distribution. This is a calculation aid, not investment advice.</p>
         </div>
       </div>
+      </div>
     </div>
   </section>
 
@@ -358,7 +380,7 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
         <p>Sales have not opened: the venture is not yet incorporated and no payment is taken on this site. No price list is published until the first tool has been independently validated.</p>
       </div>
       <div class="tiers">
-        <div class="tier"><span class="label">Online preview</span><div class="price">Free</div><p>The online calculators as they are released, for anyone.</p><ul><li>Tail-risk calculator, available now</li><li>Runs in your browser</li></ul></div>
+        <div class="tier"><span class="label">Online preview</span><div class="price">Free</div><p>The online tools as they are released, for anyone.</p><ul><li>Return analysis, stable distributions and a quick calculator, available now</li><li>They run in your browser</li></ul></div>
         <div class="tier"><span class="label">Institutional licence</span><div class="price">By scope</div><p>Downloadable Excel models for one institution, run on your own machines.</p><ul><li>Annual licence with method note and updates</li><li>Setup and tailoring agreed in advance</li><li>Quoted after a discussion of your needs</li></ul></div>
         <div class="tier"><span class="label">Research and academic use</span><div class="price">On request</div><p>For universities and research units, for non-commercial research and teaching.</p><ul><li>Terms agreed case by case</li></ul></div>
       </div>
@@ -433,7 +455,7 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
   <div class="wrap">
     <span>Sadid Risk Analytics develops models and analytics. It does not give investment advice, recommend transactions or issue Sharia rulings.</span>
     <span>Sadid Risk Analytics is a pre-incorporation venture. No company has been registered yet.</span>
-    <span id="privacy"><strong>Privacy.</strong> This page sets no cookies and runs no analytics. What you enter in the calculator stays in your browser. The page is hosted on GitHub Pages and loads fonts from Google Fonts, and both receive your IP address in order to deliver the page.</span>
+    <span id="privacy"><strong>Privacy.</strong> This page sets no cookies. What you enter in the online tools stays in your browser. The page is hosted on GitHub Pages and loads fonts from Google Fonts, and both receive your IP address in order to deliver the page. The return analysis and stable distribution tools also load a mathematics library from jsDelivr and count page views with GoatCounter.</span>
     <span>&copy; 2026 Sadid Risk Analytics</span>
   </div>
 </footer>
@@ -517,6 +539,13 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
     var out=[];for(var i=0;i<120;i++){var c=(g()*g()+g()*g()+g()*g())/3; var t=g()/Math.sqrt(Math.abs(c)+0.35); out.push((0.006+0.032*t).toFixed(4))}
     $('c-data').value=out.join('\n'); run();
   }
+  var tabs=document.querySelectorAll('.tab');
+  function pick(btn){
+    for(var i=0;i<tabs.length;i++){var on=tabs[i]===btn, pn=$(tabs[i].getAttribute('aria-controls'));
+      tabs[i].classList.toggle('on',on); tabs[i].setAttribute('aria-selected',on?'true':'false'); pn.hidden=!on;
+      if(on){var fr=pn.querySelector('iframe[data-src]'); if(fr){fr.src=fr.getAttribute('data-src'); fr.removeAttribute('data-src')}}}
+  }
+  for(var ti=0;ti<tabs.length;ti++)tabs[ti].addEventListener('click',function(){pick(this)});
   $('c-run').addEventListener('click',run); $('c-data').addEventListener('input',function(){clearOut();$('c-msg').textContent=''}); $('c-conf').addEventListener('change',function(){clearOut();$('c-msg').textContent=''}); $('c-sample').addEventListener('click',sample);
 })();
 </script>
