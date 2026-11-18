@@ -319,7 +319,7 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
       </div>
       <div class="calc">
         <div class="calc-in">
-          <label for="c-data">Returns, one per line or separated by commas (decimals such as -0.021, or percentages such as -2.1%)</label>
+          <label for="c-data">Returns, one per line or separated by commas. Enter decimals such as -0.021, or add a % sign for per cent such as -2.1%. Each entry is read on its own.</label>
           <textarea id="c-data" spellcheck="false" placeholder="0.012&#10;-0.034&#10;0.008&#10;..."></textarea>
           <div class="calc-row">
             <label for="c-conf">Confidence level</label>
@@ -343,7 +343,7 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
               <tr><th scope="row">Tail ratio, historical over normal</th><td>-</td></tr>
             </tbody>
           </table>
-          <p class="fine">Losses are shown as positive numbers. The historical quantile uses linear interpolation. Expected shortfall is the average of returns at or below it. With few observations in the tail, read the result as an indication. This is a calculation aid, not investment advice.</p>
+          <p class="fine">Losses are shown as positive numbers. The historical quantile uses linear interpolation. Expected shortfall is the average of returns at or below it. With few observations in the tail, read the result as an indication. A negative figure means the model shows a gain at that point of the distribution. This is a calculation aid, not investment advice.</p>
         </div>
       </div>
     </div>
@@ -481,25 +481,40 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
   var Z={'0.95':-1.6448536,'0.975':-1.9599640,'0.99':-2.3263479};
   function $(id){return document.getElementById(id)}
   function pct(v){return (v*100).toFixed(2)+'%'}
+  var TOKEN=/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?%?$/i;
   function parse(txt){
-    var raw=txt.split(/[\s,;]+/).filter(Boolean), hasPct=/%/.test(txt), v=[], bad=0;
-    raw.forEach(function(t){var n=parseFloat(t.replace('%',''));if(isFinite(n))v.push(n);else bad++});
-    var big=v.some(function(n){return Math.abs(n)>1});
-    if(hasPct||big)v=v.map(function(n){return n/100});
-    return {v:v,bad:bad,scaled:hasPct||big};
+    // Each entry is read on its own: a trailing % means per cent, anything else is a decimal.
+    var raw=txt.split(/[\s,;]+/).filter(Boolean), v=[], bad=[], nPct=0;
+    raw.forEach(function(t){
+      if(!TOKEN.test(t)){bad.push(t);return}
+      var isPct=t.charAt(t.length-1)==='%', n=Number(isPct?t.slice(0,-1):t);
+      if(!isFinite(n)){bad.push(t);return}
+      if(isPct){n=n/100;nPct++}
+      v.push(n);
+    });
+    return {v:v,bad:bad,nPct:nPct};
   }
+  function clearOut(){var c=$('c-out').querySelectorAll('td');for(var i=0;i<c.length;i++)c[i].textContent='-'}
   function run(){
     var d=parse($('c-data').value), v=d.v, n=v.length, msg=$('c-msg'), cells=$('c-out').querySelectorAll('td');
-    if(n<20){msg.textContent='Enter at least 20 returns. Found '+n+'.';return}
-    var conf=$('c-conf').value, a=1-parseFloat(conf), z=Z[conf];
+    var conf=$('c-conf').value, a=1-parseFloat(conf), z=Z[conf], need=Math.ceil(2/a);
+    if(d.bad.length){clearOut();msg.textContent='Nothing was calculated. '+d.bad.length+' entr'+(d.bad.length>1?'ies':'y')+' could not be read: '+d.bad.slice(0,4).join(', ')+(d.bad.length>4?' and others':'')+'. Correct them and try again.';return}
+    if(n<need){clearOut();msg.textContent='Nothing was calculated. At '+(parseFloat(conf)*100)+'% confidence at least '+need+' returns are needed. Found '+n+'.';return}
     var mean=v.reduce(function(x,y){return x+y},0)/n;
     var sd=Math.sqrt(v.reduce(function(x,y){return x+(y-mean)*(y-mean)},0)/(n-1));
     var srt=v.slice().sort(function(x,y){return x-y}), pos=(n-1)*a, lo=Math.floor(pos), q=srt[lo]+(pos-lo)*((srt[lo+1]!==undefined?srt[lo+1]:srt[lo])-srt[lo]);
     var tail=srt.filter(function(x){return x<=q}), es=-tail.reduce(function(x,y){return x+y},0)/tail.length;
     var phi=Math.exp(-z*z/2)/Math.sqrt(2*Math.PI), nvar=-(mean+sd*z), nes=-(mean-sd*phi/a);
+    var nums=[mean,sd,q,nvar,es,nes];
+    if(nums.some(function(x){return !isFinite(x)})){clearOut();msg.textContent='Nothing was calculated. The values entered do not give a finite result.';return}
     var out=[String(n),pct(mean),pct(sd),pct(-q),pct(nvar),pct(es),pct(nes),String(tail.length),nes>0?(es/nes).toFixed(2):'n/a'];
     for(var i=0;i<cells.length;i++)cells[i].textContent=out[i];
-    msg.textContent=(d.bad?d.bad+' entries could not be read and were ignored. ':'')+(d.scaled?'Values were read as percentages. ':'')+(tail.length<5?'Only '+tail.length+' observations sit in the tail: treat the tail figures as indicative.':'');
+    var notes=[];
+    if(d.nPct&&d.nPct<n)notes.push(d.nPct+' entries carried a % sign and were read as per cent. The other '+(n-d.nPct)+' were read as decimals. Check that this mix is intended.');
+    else if(d.nPct)notes.push('All entries were read as per cent.');
+    else notes.push('All entries were read as decimals, so 0.02 means 2%.');
+    if(tail.length<5)notes.push('Only '+tail.length+' observations sit in the tail: treat the tail figures as indicative.');
+    msg.textContent=notes.join(' ');
   }
   function sample(){
     // synthetic heavy-tailed monthly returns from a small seeded generator
@@ -508,7 +523,7 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
     var out=[];for(var i=0;i<120;i++){var c=(g()*g()+g()*g()+g()*g())/3; var t=g()/Math.sqrt(Math.abs(c)+0.35); out.push((0.006+0.032*t).toFixed(4))}
     $('c-data').value=out.join('\n'); run();
   }
-  $('c-run').addEventListener('click',run); $('c-sample').addEventListener('click',sample);
+  $('c-run').addEventListener('click',run); $('c-data').addEventListener('input',function(){clearOut();$('c-msg').textContent=''}); $('c-conf').addEventListener('change',function(){clearOut();$('c-msg').textContent=''}); $('c-sample').addEventListener('click',sample);
 })();
 </script>
 </body>
