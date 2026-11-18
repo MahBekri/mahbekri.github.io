@@ -148,6 +148,18 @@ iframe.tool{width:100%;height:820px;border:1px solid var(--line);border-radius:4
 .notes{margin:0;padding:0;list-style:none;counter-reset:n;border-top:1px solid var(--line)}
 .notes li{counter-increment:n;display:flex;gap:16px;padding:13px 0;border-bottom:1px solid var(--line);font-size:17px}
 .notes li::before{content:counter(n,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:5px}
+.cform{max-width:720px;display:flex;flex-direction:column;gap:18px;background:var(--surface);border:2px solid var(--accent);border-radius:4px;padding:26px 24px}
+.cfield{display:flex;flex-direction:column;gap:7px}
+.cfield label{font-family:var(--display);font-stretch:108%;font-weight:600;font-size:17px}
+.cfield .opt{font-family:var(--body);font-weight:400;font-size:14px;color:var(--muted)}
+.cfield input,.cfield select,.cfield textarea{font:inherit;font-size:16px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:3px;padding:12px 13px;width:100%}
+.cfield textarea{min-height:170px;resize:vertical}
+.cfield input:focus,.cfield select:focus,.cfield textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+.csend{display:flex;justify-content:flex-end;align-items:center;gap:16px;flex-wrap:wrap}
+.csend .btn{padding:13px 34px;border-radius:999px;text-transform:uppercase;letter-spacing:.06em}
+.csend .btn[disabled]{opacity:.45;cursor:not-allowed}
+#cf-msg{font-size:15px;color:var(--muted);flex:1;min-width:200px}
+.cnote{font-size:15px;color:var(--tail);border-left:3px solid var(--tail);padding-left:12px}
 footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);font-size:14px}
 footer .wrap{display:flex;flex-direction:column;gap:8px}
 
@@ -465,11 +477,29 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
       <div class="head">
         <span class="label">Contact</span>
         <h2 id="contact-h">Tell us what you need to measure.</h2>
-        <p>Send a short description of your institution or your work and the risk question in front of you. Use the same route to join the waiting list. You will get a reply in English, Arabic or French.</p>
+        <p>Send a short description of your institution or your work and the risk question in front of you. Use the same form to join the waiting list. You will get a reply in English, Arabic or French.</p>
       </div>
-      <div class="cta">
-        <a class="btn" href="https://www.linkedin.com/in/mahmoud-bekri-21320652" rel="noopener">Contact us on LinkedIn</a>
-      </div>
+      <form class="cform" id="cform" novalidate>
+        <p class="cnote" id="cf-pending">This form is being connected and cannot send yet. Until it is, please <a class="link" href="https://www.linkedin.com/in/mahmoud-bekri-21320652" rel="noopener">contact us on LinkedIn</a>.</p>
+        <div class="cfield"><label for="cf-topic">Topic</label>
+          <select id="cf-topic" name="topic">
+            <option value="General enquiry">General enquiry</option>
+            <option>ALM Stress Tester</option>
+            <option>Hedge Sizer</option>
+            <option>Tail-Risk Screen</option>
+            <option>Equity Mandate Monitor</option>
+            <option>Online tools</option>
+            <option>Research and academic use</option>
+            <option>Join the waiting list</option>
+          </select></div>
+        <div class="cfield"><label for="cf-name">Name</label><input id="cf-name" name="name" autocomplete="name" required></div>
+        <div class="cfield"><label for="cf-subject">Subject</label><input id="cf-subject" name="subject" required></div>
+        <div class="cfield"><label for="cf-message">Message</label><textarea id="cf-message" name="message" required></textarea></div>
+        <div class="cfield"><label for="cf-email">Email address</label><input id="cf-email" name="email" type="email" autocomplete="email" required></div>
+        <div class="cfield"><label for="cf-phone">Telephone <span class="opt">(optional)</span></label><input id="cf-phone" name="phone" type="tel" autocomplete="tel"></div>
+        <input type="checkbox" name="botcheck" id="cf-bot" tabindex="-1" autocomplete="off" style="display:none">
+        <div class="csend"><span id="cf-msg" role="status" aria-live="polite"></span><button class="btn" id="cf-send" type="submit">Send</button></div>
+      </form>
     </div>
   </section>
 </main>
@@ -478,7 +508,7 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
   <div class="wrap">
     <span>Sadid Risk Analytics develops models and analytics. It does not give investment advice, recommend transactions or issue Sharia rulings.</span>
     <span>Sadid Risk Analytics is a pre-incorporation venture. No company has been registered yet.</span>
-    <span id="privacy"><strong>Privacy.</strong> This page sets no cookies. What you enter in the online tools stays in your browser. The page is hosted on GitHub Pages and loads fonts from Google Fonts, and both receive your IP address in order to deliver the page. The return analysis and stable distribution tools also load a mathematics library from jsDelivr and count page views with GoatCounter.</span>
+    <span id="privacy"><strong>Privacy.</strong> This page sets no cookies. What you enter in the online tools stays in your browser. The page is hosted on GitHub Pages and loads fonts from Google Fonts, and both receive your IP address in order to deliver the page. The return analysis and stable distribution tools also load a mathematics library from jsDelivr and count page views with GoatCounter. A message sent through the contact form is delivered by Web3Forms, a form delivery service, and is used only to reply to you.</span>
     <span>&copy; 2026 Sadid Risk Analytics</span>
   </div>
 </footer>
@@ -569,6 +599,28 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
       if(on){var fr=pn.querySelector('iframe[data-src]'); if(fr){fr.src=fr.getAttribute('data-src'); fr.removeAttribute('data-src')}}}
   }
   for(var ti=0;ti<tabs.length;ti++)tabs[ti].addEventListener('click',function(){pick(this)});
+  // ---- Contact form: sends through Web3Forms once an access key is set ----
+  var CF_KEY='';   // paste the Web3Forms access key between the quotes
+  var cform=$('cform'), cmsg=$('cf-msg'), csend=$('cf-send');
+  if(CF_KEY){$('cf-pending').hidden=true}else{csend.disabled=true}
+  cform.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!CF_KEY){cmsg.textContent='The form is not connected yet, so nothing was sent.';return}
+    if($('cf-bot').checked)return;
+    var need=[['cf-name','your name'],['cf-subject','a subject'],['cf-message','a message'],['cf-email','your email address']];
+    for(var i=0;i<need.length;i++){if(!$(need[i][0]).value.trim()){cmsg.textContent='Please enter '+need[i][1]+'.';$(need[i][0]).focus();return}}
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test($('cf-email').value.trim())){cmsg.textContent='Please check the email address.';$('cf-email').focus();return}
+    var body={access_key:CF_KEY,from_name:'Sadid website',subject:'['+$('cf-topic').value+'] '+$('cf-subject').value.trim(),topic:$('cf-topic').value,
+      name:$('cf-name').value.trim(),email:$('cf-email').value.trim(),phone:$('cf-phone').value.trim(),message:$('cf-message').value.trim()};
+    csend.disabled=true; cmsg.textContent='Sending...';
+    fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body)})
+      .then(function(r){return r.json().then(function(j){return {ok:r.ok&&j.success,j:j}})})
+      .then(function(x){
+        if(x.ok){cform.reset();cmsg.textContent='Thank you. Your message has been sent.'}
+        else{cmsg.textContent='Your message could not be sent. Please try again in a moment.'}
+        csend.disabled=false})
+      .catch(function(){cmsg.textContent='Your message could not be sent. Check your connection and try again.';csend.disabled=false});
+  });
   $('c-run').addEventListener('click',run); $('c-data').addEventListener('input',function(){clearOut();$('c-msg').textContent=''}); $('c-conf').addEventListener('change',function(){clearOut();$('c-msg').textContent=''}); $('c-sample').addEventListener('click',sample);
 })();
 </script>
