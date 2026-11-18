@@ -154,10 +154,10 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
       </div>
     </div>
     <figure>
-      <svg id="tail" viewBox="0 0 560 300" role="img" aria-label="Chart of the left tail of two return distributions. The heavy-tailed curve sits well above the normal curve for large losses."></svg>
+      <svg id="tail" viewBox="0 0 560 300" role="img" aria-label="Chart of the left tail of two return distributions with equal variance. Beyond about 2.7 standard deviations the heavy-tailed curve sits above the normal curve."></svg>
       <figcaption>
-        <strong>The part of the loss a standard report leaves out.</strong>
-        <span>Left tail, magnified. Illustrative curves: a normal distribution against a Student-t with 3 degrees of freedom.</span>
+        <strong>The part of the loss a normal model leaves out.</strong>
+        <span>Left tail, magnified. Illustrative curves with equal variance: a standard normal against a Student-t with 3 degrees of freedom, rescaled to unit variance.</span>
       </figcaption>
     </figure>
   </div>
@@ -221,7 +221,7 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
             <h3>Tail-Risk Screen</h3>
             <div class="label who">Sharia-compliant funds and takaful investment teams</div>
           </div>
-          <p>What could your Sharia-screened portfolio lose in the bad tail? Standard VaR assumes calm markets. This report measures expected shortfall with models designed for extreme moves.</p>
+          <p>What could your Sharia-screened portfolio lose in the bad tail? VaR computed under a normal distribution understates extreme losses. This report measures expected shortfall with models designed for heavy tails.</p>
           <ul>
             <li>Portfolio tail-risk report</li>
             <li>Standard VaR beside heavy-tailed expected shortfall</li>
@@ -301,32 +301,33 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
 (function(){
   // Left tail of two densities, x in standard deviations.
   var svg=document.getElementById('tail'), NS='http://www.w3.org/2000/svg';
-  var x0=-6, x1=-1.6, yMax=0.125, L=44, R=546, T=24, B=250;
+  var x0=-6, x1=-2.2, yMax=0.036, L=44, R=546, T=24, B=250;
   function X(x){return L+(x-x0)/(x1-x0)*(R-L)}
   function Y(y){return B-Math.min(y,yMax)/yMax*(B-T)}
   function normal(x){return Math.exp(-x*x/2)/Math.sqrt(2*Math.PI)}
-  function t3(x){return 2/(Math.PI*Math.sqrt(3))/Math.pow(1+x*x/3,2)}
+  function t3(x){return 2/Math.PI/Math.pow(1+x*x,2)} // Student-t, 3 d.f., rescaled to unit variance
   function el(n,a,txt){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e}
   var pn=[],pt=[],i,x;
-  for(i=0;i<=110;i++){x=x0+(x1-x0)*i/110;pn.push([X(x),Y(normal(x))]);pt.push([X(x),Y(t3(x))])}
+  var gn=[],gt=[];
+  for(i=0;i<=110;i++){x=x0+(x1-x0)*i/110;pn.push([X(x),Y(normal(x))]);pt.push([X(x),Y(t3(x))]);if(t3(x)>normal(x)){gn.push(pn[i]);gt.push(pt[i])}}
   function line(p){return p.map(function(q,j){return (j?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)}).join(' ')}
   // Shaded gap between the curves
-  var gap=line(pt)+' '+pn.slice().reverse().map(function(q){return 'L'+q[0].toFixed(1)+' '+q[1].toFixed(1)}).join(' ')+' Z';
+  var gap=line(gt)+' '+gn.slice().reverse().map(function(q){return 'L'+q[0].toFixed(1)+' '+q[1].toFixed(1)}).join(' ')+' Z';
   el('path',{d:gap,'class':'c-gap'});
   el('line',{x1:L,y1:B,x2:R,y2:B,'class':'c-axis'});
-  for(i=-6;i<=-2;i++){
+  for(i=-6;i<=-3;i++){
     el('line',{x1:X(i),y1:B,x2:X(i),y2:B+5,'class':'c-axis'});
     el('text',{x:X(i),y:B+19,'text-anchor':'middle','class':'c-text'},i+'σ');
   }
-  el('text',{x:L,y:B+40,'class':'c-text'},'Daily loss, in standard deviations');
+  el('text',{x:L,y:B+40,'class':'c-text'},'Daily return, in standard deviations');
   // 99% VaR under the normal model
   var v=-2.326;
   el('line',{x1:X(v),y1:T+14,x2:X(v),y2:B,'class':'c-var'});
-  el('text',{x:X(v)-6,y:T+10,'text-anchor':'end','class':'c-text acc'},'99% VaR, normal model');
+  el('text',{x:X(v)-6,y:T+10,'text-anchor':'end','class':'c-text acc'},'1% quantile, normal model');
   el('path',{d:line(pn),'class':'c-normal'});
   el('path',{d:line(pt),'class':'c-heavy'});
   el('text',{x:X(-4.2),y:Y(t3(-4.2))-12,'text-anchor':'middle','class':'c-text tl'},'Heavy-tailed model');
-  el('text',{x:X(-3.05),y:B-8,'text-anchor':'end','class':'c-text'},'Normal model');
+  el('text',{x:X(-2.62),y:Y(0.027),'text-anchor':'end','class':'c-text'},'Normal model');
 
 })();
 </script>
