@@ -123,6 +123,8 @@ section{padding:56px 0;border-top:1px solid var(--line)}
 .calc td{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;padding:9px 0;border-bottom:1px solid var(--line)}
 .fine{font-size:13.5px;color:var(--muted);max-width:80ch}
 .tier-h{margin:26px 0 14px}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px}
+.two>div{display:flex;flex-direction:column;gap:14px}
 .tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-bottom:8px}
 .tier{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:20px;display:flex;flex-direction:column;gap:10px}
 .tier .price{font-family:var(--display);font-stretch:112%;font-weight:700;font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums}
@@ -144,7 +146,7 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
   .terms{grid-template-columns:repeat(2,minmax(0,1fr))}
   .about{grid-template-columns:minmax(0,1fr);gap:28px}
   .serve{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .calc,.tiers{grid-template-columns:minmax(0,1fr)}
+  .calc,.tiers,.two{grid-template-columns:minmax(0,1fr)}
   section{padding:40px 0}
 }
 @media (max-width:480px){
@@ -388,22 +390,35 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
   </section>
 
   <section id="expertise" aria-labelledby="exp-h">
-    <div class="wrap about">
-      <div class="about-copy">
+    <div class="wrap">
+      <div class="head">
         <span class="label">Expertise</span>
-        <h2 id="exp-h">Quantitative risk research, applied inside Islamic finance.</h2>
-        <p>Sadid is a venture in development. Its models draw on doctoral and peer-reviewed research in heavy-tailed risk measurement and on more than ten years of research and risk management practice at a multilateral Islamic development bank.</p>
-        <p>Smaller Islamic institutions face the same regulatory and market pressure as large ones, with a fraction of the quantitative staff. We are building tools they can understand, audit and run themselves.</p>
+        <h2 id="exp-h">Quantitative risk and Islamic finance, combined.</h2>
+        <p>Most risk models come from one discipline and are adapted to the other. Sadid builds where the two meet: every model is specified with the mathematics and the contract in view together. The venture is in development.</p>
       </div>
-      <ul class="facts">
-        <li><span class="label">Tail risk</span>Heavy-tailed and stable distributions, expected shortfall, coherent risk measures</li>
-        <li><span class="label">Balance-sheet risk</span>ALM, liquidity stress testing, payment-delay behaviour</li>
-        <li><span class="label">Hedging</span>Profit-rate swap sizing within Sharia exposure limits</li>
-        <li><span class="label">Equity oversight</span>External mandate monitoring and Sharia screening analytics</li>
-        <li><span class="label">Islamic finance</span>Contract structures, gharar and their consequences for risk models</li>
-        <li><span class="label">Training</span>Doctorate in economics and finance, degree in physics</li>
-        <li><span class="label">Working languages</span>Arabic, French, English, German</li>
-      </ul>
+      <div class="two">
+        <div>
+          <h3>Quantitative risk</h3>
+          <ul class="facts">
+            <li><span class="label">Tail risk</span>Heavy-tailed and stable distributions, expected shortfall, coherent risk measures</li>
+            <li><span class="label">Balance-sheet risk</span>ALM, liquidity stress testing, behavioural cash-flow modelling</li>
+            <li><span class="label">Hedging analytics</span>Bucketed rate sensitivity and hedge sizing</li>
+            <li><span class="label">Portfolio oversight</span>Tracking error, concentration and mandate monitoring</li>
+            <li><span class="label">Foundations</span>Doctoral training in economics and finance, and in physics. Peer-reviewed research</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Islamic finance</h3>
+          <ul class="facts">
+            <li><span class="label">Contracts</span>Murabaha, Ijara, Sukuk and profit-sharing accounts, and how each behaves under stress</li>
+            <li><span class="label">Sharia limits on hedging</span>Hedges tied to a real exposure and sized within it</li>
+            <li><span class="label">Screening</span>Sharia screening methodologies and their effect on portfolio risk</li>
+            <li><span class="label">Gharar</span>Research on contractual uncertainty and its measurement</li>
+            <li><span class="label">Practice</span>More than ten years of research and risk management within Islamic development finance</li>
+          </ul>
+        </div>
+      </div>
+      <p class="fine" style="margin-top:18px">Working languages: Arabic, French, English and German.</p>
     </div>
   </section>
 
