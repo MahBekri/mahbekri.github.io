@@ -125,7 +125,7 @@ section{padding:56px 0;border-top:1px solid var(--line)}
 .fine{font-size:13.5px;color:var(--muted);max-width:80ch}
 .shots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:start}
 .shot{display:flex;flex-direction:column;gap:10px;text-decoration:none;background:#FFFFFF;border:1px solid var(--line);border-radius:4px;padding:12px}
-.shot img{display:block;width:100%;height:auto;max-height:520px;object-fit:cover;object-position:top}
+.shot img{display:block;width:100%;height:auto}
 .shot span{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#586378}
 .shot:hover{border-color:var(--accent)}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
@@ -313,14 +313,14 @@ footer .wrap{display:flex;flex-direction:column;gap:8px}
     <div class="wrap">
       <div class="head">
         <span class="label">Sample outputs</span>
-        <h2 id="samp-h">What each tool produces.</h2>
-        <p>One summary page from each prototype, run on synthetic data. No real institution, portfolio or market is represented. Select a page to open it as a PDF.</p>
+        <h2 id="samp-h">One dashboard per tool, ready for senior management.</h2>
+        <p>The dashboard page of each prototype, run on synthetic data. No real institution, portfolio or market is represented. Select a dashboard to open it as a PDF.</p>
       </div>
       <div class="shots">
-        <a class="shot" href="samples/alm-stress-tester.pdf"><img src="img/alm-stress-tester.png" width="858" height="652" loading="lazy" alt="ALM Stress Tester summary: data checks, six scenarios compared, status against the policy horizon, and the cumulative liquidity position by bucket."><span>ALM Stress Tester: liquidity stress summary</span></a>
-        <a class="shot" href="samples/hedge-sizer.pdf"><img src="img/hedge-sizer.png" width="848" height="883" loading="lazy" alt="Hedge Sizer results: swap notionals by tenor, sensitivity by bucket before and after the hedge, hedge quality and an exposure check."><span>Hedge Sizer: sizing results</span></a>
-        <a class="shot" href="samples/tail-risk-screen.pdf"><img src="img/tail-risk-screen.png" width="791" height="1170" loading="lazy" alt="Tail-Risk Screen report: distribution shape, value at risk and expected shortfall under normal, Cornish-Fisher, Student-t and historical views."><span>Tail-Risk Screen: tail-risk report</span></a>
-        <a class="shot" href="samples/equity-mandate-monitor.pdf"><img src="img/equity-mandate-monitor.png" width="823" height="768" loading="lazy" alt="Equity Mandate Monitor: data checks, performance, tail risk, concentration, screening and status for three managers."><span>Equity Mandate Monitor: manager oversight</span></a>
+        <a class="shot" href="samples/alm-stress-tester.pdf"><img src="img/alm-stress-tester.png" width="1091" height="755" loading="lazy" alt="ALM Stress Tester dashboard: status tiles, a scorecard of six stress scenarios, and charts of the liquidity position."><span>ALM Stress Tester: liquidity stress dashboard</span></a>
+        <a class="shot" href="samples/hedge-sizer.pdf"><img src="img/hedge-sizer.png" width="967" height="755" loading="lazy" alt="Hedge Sizer dashboard: status tiles, the hypothetical hedge structure by tenor, and charts of sensitivity before and after the hedge."><span>Hedge Sizer: hedge sizing dashboard</span></a>
+        <a class="shot" href="samples/tail-risk-screen.pdf"><img src="img/tail-risk-screen.png" width="868" height="753" loading="lazy" alt="Tail-Risk Screen dashboard: expected shortfall under three models, a comparison table, and charts of loss by model."><span>Tail-Risk Screen: tail-risk dashboard</span></a>
+        <a class="shot" href="samples/equity-mandate-monitor.pdf"><img src="img/equity-mandate-monitor.png" width="967" height="755" loading="lazy" alt="Equity Mandate Monitor dashboard: counts of managers by status, a scorecard by manager, and charts of tracking error and expected shortfall."><span>Equity Mandate Monitor: oversight dashboard</span></a>
       </div>
     </div>
   </section>
