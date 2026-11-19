@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tail-Risk Screen | Sadid Risk Analytics</title>
+<meta name="description" content="Tail-Risk Screen: scope, inputs, method, a reference example, validation record and limitations. Prototype.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/site.css?v=3">
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="mark" href="../../" aria-label="Sadid Risk Analytics, home">
+      <b>SADID</b><span lang="ar" dir="rtl">سديد</span><small>Risk Analytics</small>
+    </a>
+    <nav aria-label="Main">
+      <a href="../../solutions/" aria-current="page">Solutions</a>
+      <a href="../../research/">Research</a>
+      <a href="../../analytics/">Analytics</a>
+      <a href="../../validation/">Validation</a>
+      <a href="../../#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<div class="wrap crumbs"><a href="../../">Home</a> / <a href="../../solutions/">Solutions</a> / Tail-Risk Screen</div>
+  <div class="wrap page-head">
+    <div class="meta"><span class="status s-proto">Prototype</span><span class="label">v0.2 · Sharia-compliant funds and takaful investment teams · record updated 19 November 2026</span></div>
+    <h1>Tail-Risk Screen</h1>
+    <p>How far does a normal model understate, or overstate, the loss in the tail of this return series?</p>
+    <p class="callout">Prototype: the functions below exist and run on synthetic data. The workbook has not been independently validated and is not on sale. <a class="link" href="../../validation/">What the status labels mean</a>.</p>
+  </div>
+
+  <section aria-labelledby="h-does">
+    <div class="wrap">
+      <div class="head"><span class="label">Scope</span><h2 id="h-does">What it does, and what it does not.</h2></div>
+      <div class="prose"><ul><li>Computes value at risk and expected shortfall under a normal model, a Student-t model and the historical data, and value at risk under a Cornish-Fisher adjustment.</li><li>Compares like with like: expected shortfall against expected shortfall, value at risk against value at risk.</li><li>Reports skewness, excess kurtosis, a Jarque-Bera test, a Hill tail index and the count of losses beyond three volatilities.</li><li>Shows how many observations sit behind each historical tail figure.</li><li>Accepts an optional second series, for example a screened portfolio beside its conventional parent.</li></ul><p>It describes one sample. It does not forecast, it does not test models out of sample, and it does not show that screened portfolios have heavier tails than conventional ones. The normal model is not always the lower figure, and the workbook reports the cases where it is higher.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-in">
+    <div class="wrap">
+      <div class="head"><span class="label">Inputs</span><h2 id="h-in">What you enter.</h2></div>
+      <div class="spec"><div><h3>Returns</h3></div><div><p>Dates and periodic returns, up to 750 rows with no gaps. A comparison series is optional.</p></div><div><h3>Parameters</h3></div><div><p>Confidence level, minimum number of observations, the number of largest losses used by the Hill estimator, and an optional override of the Student-t degrees of freedom.</p></div></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-me">
+    <div class="wrap">
+      <div class="head"><span class="label">Method</span><h2 id="h-me">How each figure is calculated.</h2></div>
+      <div class="prose"><p>Losses are per period and shown as positive numbers. With mean <em>m</em>, volatility <em>s</em>, tail probability <em>a</em> = 1 - confidence, and <em>z</em> the normal quantile at <em>a</em>:</p>
+<div class="formula">Normal VaR = - (m + s x z)
+Normal ES  = - m + s x pdf(z) / a</div>
+<p>The Student-t model keeps the same mean and volatility. With <em>v</em> degrees of freedom and <em>t</em> the Student-t quantile at <em>a</em>:</p>
+<div class="formula">scale = s x sqrt((v - 2) / v)
+t VaR = - (m + scale x t)
+t ES  = - m + scale x pdf(t) / a x (v + t^2) / (v - 1)
+v     = 4 + 6 / K, rounded, kept between 5 and 30   (K = excess kurtosis)</div>
+<p>Historical VaR is the interpolated sample quantile and historical ES is the average of returns at or below it. Cornish-Fisher VaR adjusts <em>z</em> for sample skewness <em>S</em> and excess kurtosis <em>K</em>:</p>
+<div class="formula">z_cf = z + (z^2 - 1) S / 6 + (z^3 - 3z) K / 24 - (2z^3 - 5z) S^2 / 36</div>
+<p>The Hill tail index is one divided by the average log excess of the <em>k</em> largest losses over the next one. Jarque-Bera is n/6 x (S^2 + K^2/4), compared with a chi-squared distribution with two degrees of freedom.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-ex">
+    <div class="wrap">
+      <div class="head"><span class="label">Reference example · synthetic data</span><h2 id="h-ex">One worked case you can check.</h2><p>The synthetic sample has 500 daily returns, analysed at 99% confidence. No real institution, portfolio or market is represented.</p></div>
+      <div class="scroll"><table class="data"><thead><tr><th scope="col">Measure (per period)</th><th scope="col" class="num">Normal</th><th scope="col" class="num">Cornish-Fisher</th><th scope="col" class="num">Student-t (v = 10)</th><th scope="col" class="num">Historical</th></tr></thead><tbody>
+<tr><th scope="row">Value at risk</th><td class="num">2.63%</td><td class="num">3.00%</td><td class="num">2.79%</td><td class="num">3.05%</td></tr>
+<tr><th scope="row">Expected shortfall</th><td class="num">3.00%</td><td class="num">not defined here</td><td class="num">3.38%</td><td class="num">3.74%</td></tr>
+<tr><th scope="row">Ratio to normal expected shortfall</th><td class="num">1.00</td><td class="num"></td><td class="num">1.12</td><td class="num">1.25</td></tr>
+</tbody></table></div><p style="margin-top:14px">The historical expected shortfall rests on five observations. Excess kurtosis is 0.95, Jarque-Bera rejects normality, and four losses exceed three volatilities where a normal model expects fewer than one. The Hill index of 3.7 is below 4, which the workbook flags: the kurtosis-based Student-t fit may itself be too light for this sample.</p>
+      <p class="fine" style="margin-top:12px">Normal, Student-t and historical figures were reproduced by a separate Python calculation (numpy and scipy) written from the method above.</p>
+      <div class="shots" style="margin-top:26px"><a class="shot" href="../../samples/tail-risk-screen-dashboard.pdf"><img src="../../img/tail-risk-screen.png?v=2" width="868" height="753" loading="lazy" alt="Tail-Risk Screen dashboard: expected shortfall under three models, a comparison table, and charts of loss by model."><span>Sample dashboard: open the two-page PDF</span></a></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-va">
+    <div class="wrap">
+      <div class="head"><span class="label">Validation record</span><h2 id="h-va">What has been checked, and what has not.</h2></div>
+      <div class="scroll"><table class="data narrow"><thead><tr><th scope="col">Check</th><th scope="col">Result</th></tr></thead><tbody>
+<tr><th scope="row">Formula errors after full recalculation</th><td>None found (LibreOffice).</td></tr>
+<tr><th scope="row">Reference example reproduced independently</th><td>Yes. Normal, Student-t and historical VaR and ES, skewness and kurtosis, in Python.</td></tr>
+<tr><th scope="row">Built-in data checks</th><td>Three: enough observations, no gaps and no return at or below -100%, inputs valid.</td></tr>
+<tr><th scope="row">Out-of-sample exceedance test</th><td>Not implemented. The workbook describes a sample and does not backtest.</td></tr>
+<tr><th scope="row">Review by a second AI model</th><td>Not yet done for this workbook.</td></tr>
+</tbody></table></div>
+      <div class="prose" style="margin-top:20px"><h3>Open items</h3><ul><li>Not yet opened and recalculated in Microsoft Excel. It was built and recalculated in LibreOffice.</li><li>No independent human review has taken place.</li><li>No Sharia review has taken place. The workbook is not a Sharia approval of any contract, instrument or portfolio.</li></ul></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-li">
+    <div class="wrap">
+      <div class="head"><span class="label">Limitations</span><h2 id="h-li">When not to rely on it.</h2></div>
+      <div class="prose"><ul><li>The Student-t fit is by moments, not maximum likelihood. Sample kurtosis is unstable in heavy-tailed data, so the fitted degrees of freedom are an indication.</li><li>The Student-t is symmetric. It does not capture a left tail heavier than the right. Stable and tempered stable models are not implemented in the workbook.</li><li>The Cornish-Fisher adjustment is unreliable for strongly skewed or very heavy-tailed samples.</li><li>Returns are treated as independent and identically distributed. Volatility clustering is ignored, so figures describe the whole sample, not current conditions.</li><li>The Hill estimate depends strongly on the number of losses used.</li><li>Historical figures at high confidence rest on few observations.</li></ul></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-de">
+    <div class="wrap">
+      <div class="head"><span class="label">Delivery and versions</span><h2 id="h-de">Format and release history.</h2></div>
+      <div class="prose"><p>An Excel workbook (.xlsx) made only of formulas, with no macros. Inputs are in blue, formulas in black, links between sheets in green and key assumptions on a yellow fill. Formula sheets are protected without a password. Sales have not opened. When they do, the model will be licensed to one institution by scope and run on its own machines.</p></div>
+      <div style="margin-top:18px"><div class="scroll"><table class="data narrow"><thead><tr><th scope="col">Version</th><th scope="col">Change</th></tr></thead><tbody>
+<tr><th scope="row">v0.2</th><td>Dashboard sheet and navy theme added. Calculations unchanged.</td></tr>
+<tr><th scope="row">v0.1</th><td>First version.</td></tr>
+</tbody></table></div></div>
+      <div class="cta" style="margin-top:24px"><a class="btn" href="../../#contact">Ask about this model</a><a class="link" href="../../solutions/">All solutions</a></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Sadid Risk Analytics develops models and analytics. It does not give investment advice, recommend transactions or issue Sharia rulings.</span>
+    <span>Sadid Risk Analytics is a pre-incorporation venture. No company has been registered yet. All four models are prototypes: none has been independently validated and none is on sale.</span>
+    <span id="privacy"><strong>Privacy.</strong> This site sets no cookies. What you enter in the online tools stays in your browser. The site is hosted on GitHub Pages and loads fonts from Google Fonts, and both receive your IP address in order to deliver the page. The return analysis and stable distribution tools also load a mathematics library from jsDelivr and count page views with GoatCounter. A message sent through the contact form is delivered by Web3Forms, a form delivery service, and is used only to reply to you.</span>
+    <span>&copy; 2026 Sadid Risk Analytics</span>
+  </div>
+</footer>
+</body>
+</html>

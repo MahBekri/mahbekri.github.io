@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Analytics | Sadid Risk Analytics</title>
+<meta name="description" content="Free online risk tools: a liquidity delay explorer, a tail-risk calculator, return analysis and a stable distribution explorer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css?v=3">
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="mark" href="../" aria-label="Sadid Risk Analytics, home">
+      <b>SADID</b><span lang="ar" dir="rtl">سديد</span><small>Risk Analytics</small>
+    </a>
+    <nav aria-label="Main">
+      <a href="../solutions/">Solutions</a>
+      <a href="../research/">Research</a>
+      <a href="../analytics/" aria-current="page">Analytics</a>
+      <a href="../validation/">Validation</a>
+      <a href="../#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<div class="wrap crumbs"><a href="../">Home</a> / Analytics</div>
+  <div class="wrap page-head">
+    <span class="label">Analytics · free online tools</span>
+    <h1>Four tools you can use now.</h1>
+    <p>Everything is calculated in your browser. Nothing you enter is sent anywhere. These are demonstrations for learning and exploration, not validated institutional models. Do not enter confidential data.</p>
+  </div>
+  <section aria-labelledby="an-h" style="border-top:0;padding-top:0">
+    <div class="wrap">
+      <h2 id="an-h" class="label" style="margin-bottom:14px">Choose a tool</h2>
+      <div class="tabs" role="tablist" aria-label="Online tools">
+        <button class="tab on" role="tab" aria-selected="true" aria-controls="t-lx" id="tab-lx" type="button">Liquidity delay</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="t-calc" id="tab-calc" type="button" tabindex="-1">Tail-risk calculator</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="t-portal" id="tab-portal" type="button" tabindex="-1">Return analysis</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="t-explorer" id="tab-explorer" type="button" tabindex="-1">Stable distributions</button>
+      </div>
+
+      <div class="panel" id="t-lx" role="tabpanel" aria-labelledby="tab-lx">
+        <div class="prose"><h3>Liquidity Delay Explorer</h3>
+        <p><strong>Purpose.</strong> A receivable can remain due in full without being available as cash when expected. This tool shows how a payment delay and an early withdrawal of funding move a bank's cumulative liquidity position over twelve months, and when it first falls below the minimum buffer.</p></div>
+        <div class="lx">
+          <div class="lx-in">
+            <label>Opening liquid buffer<input id="lx-buf" inputmode="decimal" value="150"></label>
+            <label>Minimum buffer set by policy<input id="lx-min" inputmode="decimal" value="50"></label>
+            <label>Share of each month's inflows paid late (%)<input id="lx-d" inputmode="decimal" value="30"></label>
+            <label>Length of the delay<select id="lx-k"><option value="1">1 month</option><option value="2">2 months</option><option value="3">3 months</option><option value="4" selected>4 months</option><option value="5">5 months</option><option value="6">6 months</option></select></label>
+            <label>Share of later outflows withdrawn in month 1 (%)<input id="lx-w" inputmode="decimal" value="0"></label>
+            <details><summary>Edit the monthly cash flows</summary><div>
+              <label>Contractual inflows, months 1 to 12<textarea id="lx-in" spellcheck="false">120, 130, 140, 150, 150, 160, 160, 170, 170, 180, 180, 190</textarea></label>
+              <label>Contractual outflows, months 1 to 12<textarea id="lx-out" spellcheck="false">150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150</textarea></label>
+            </div></details>
+            <div class="calc-row"><button class="btn ghost" id="lx-reset" type="button">Reset to the synthetic sample</button></div>
+            <div id="lx-msg" role="status" aria-live="polite"></div>
+          </div>
+          <div class="lx-out">
+            <div class="tiles">
+              <div><span>First month below the minimum, contractual</span><b id="lx-o1">-</b></div>
+              <div><span>First month below the minimum, stressed</span><b id="lx-o2">-</b></div>
+              <div><span>Lowest position, stressed</span><b id="lx-o3">-</b></div>
+              <div><span>Extra buffer needed to stay above the minimum</span><b id="lx-o4">-</b></div>
+              <div><span>Inflows arriving late within the year</span><b id="lx-o5">-</b></div>
+              <div><span>Inflows pushed beyond month 12</span><b id="lx-o6">-</b></div>
+            </div>
+            <figure class="fig" style="padding:12px">
+              <svg id="lx-chart" viewBox="0 0 620 300" role="img" aria-label="Line chart of the cumulative liquidity position by month, contractual and stressed, with the minimum buffer as a dashed line."></svg>
+              <figcaption><div class="legend"><span><svg viewBox="0 0 30 10" aria-hidden="true"><path d="M0 5 L30 5" class="l-base"/></svg>Contractual</span><span><svg viewBox="0 0 30 10" aria-hidden="true"><path d="M0 5 L30 5" class="l-stress"/></svg>Stressed</span><span><svg viewBox="0 0 30 10" aria-hidden="true"><path d="M0 5 L30 5" class="l-min"/></svg>Minimum buffer</span></div></figcaption>
+            </figure>
+            <div class="scroll"><table class="data" style="min-width:520px"><thead><tr><th scope="col">Month</th><th scope="col" class="num">Inflow, stressed</th><th scope="col" class="num">Outflow, stressed</th><th scope="col" class="num">Position, contractual</th><th scope="col" class="num">Position, stressed</th></tr></thead><tbody id="lx-rows"></tbody></table></div>
+          </div>
+        </div>
+        <div class="prose" style="margin-top:6px">
+          <p class="fine"><strong>Method.</strong> With delay share d and delay length k months, stressed inflow in month t is inflow(t) x (1 - d) + inflow(t - k) x d. With withdrawal share w, outflow in month 1 rises by w times the sum of outflows in months 2 to 12, and each later outflow falls by the same share. Position(t) is the opening buffer plus cumulative inflows less cumulative outflows. Extra buffer needed is the minimum buffer less the lowest stressed position, when that is positive.</p>
+          <p class="fine"><strong>Assumptions and limits.</strong> One currency and unit, monthly steps, and one delay applied to all inflows. Delayed cash is paid in full, so there is no default. Amounts delayed past month 12 are outside the window. No management action, new funding or asset sale is modelled, and the buffer carries no haircut. The default figures are synthetic. This is a teaching demonstration: for scenario libraries, customer classes and haircuts see the <a class="link" href="../solutions/alm-stress-tester/">ALM Stress Tester</a>, and for context read the <a class="link" href="../research/liquidity-stress-test/">technical note</a>.</p>
+          <p class="fine"><strong>Validation.</strong> The default case and four further cases were reproduced by a separate Python calculation. Entries that cannot be read stop the calculation. See the <a class="link" href="../validation/">validation record</a>.</p>
+        </div>
+      </div>
+
+      <div class="panel" id="t-calc" role="tabpanel" aria-labelledby="tab-calc" hidden>
+        <p class="fine">Paste periodic returns and compare what a normal model says with what the data says. Historical value at risk is the linearly interpolated sample quantile. Historical expected shortfall is the average of returns at or below it.</p>
+      <div class="calc">
+        <div class="calc-in">
+          <label for="c-data">Returns, one per line or separated by commas. Enter decimals such as -0.021, or add a % sign for per cent such as -2.1%. Each entry is read on its own.</label>
+          <textarea id="c-data" spellcheck="false" placeholder="0.012&#10;-0.034&#10;0.008&#10;..."></textarea>
+          <div class="calc-row">
+            <label for="c-conf">Confidence level</label>
+            <select id="c-conf"><option value="0.95">95%</option><option value="0.975" selected>97.5%</option><option value="0.99">99%</option></select>
+            <button class="btn" id="c-run" type="button">Calculate</button>
+            <button class="btn ghost" id="c-sample" type="button">Load synthetic sample</button>
+          </div>
+          <div id="c-msg" role="status" aria-live="polite"></div>
+        </div>
+        <div class="calc-out">
+          <table aria-label="Tail-risk results">
+            <tbody id="c-out">
+              <tr><th scope="row">Observations</th><td>-</td></tr>
+              <tr><th scope="row">Mean return per period</th><td>-</td></tr>
+              <tr><th scope="row">Volatility per period</th><td>-</td></tr>
+              <tr><th scope="row">Value at risk, historical</th><td>-</td></tr>
+              <tr><th scope="row">Value at risk, normal model</th><td>-</td></tr>
+              <tr><th scope="row">Expected shortfall, historical</th><td>-</td></tr>
+              <tr><th scope="row">Expected shortfall, normal model</th><td>-</td></tr>
+              <tr><th scope="row">Observations in the tail</th><td>-</td></tr>
+              <tr><th scope="row">Tail ratio, historical over normal</th><td>-</td></tr>
+            </tbody>
+          </table>
+          <p class="fine">Losses are shown as positive numbers. The historical quantile uses linear interpolation. Expected shortfall is the average of returns at or below it. With few observations in the tail, read the result as an indication. A negative figure means the model shows a gain at that point of the distribution. This is a calculation aid, not investment advice.</p>
+        </div>
+      </div>
+      </div>
+
+      <div class="panel" id="t-portal" role="tabpanel" aria-labelledby="tab-portal" hidden>
+        <p class="fine">Load a price or return series and get its statistics, a normality test, a stable-law fit, and value at risk and expected shortfall under historical, normal and stable models. Fitted results describe the sample and are not out-of-sample tests. <a class="link" href="../../portal/?embed=1">Open in a full page</a></p>
+        <iframe class="tool" title="Return analysis tool" data-src="../../portal/?embed=1" loading="lazy"></iframe>
+      </div>
+      <div class="panel" id="t-explorer" role="tabpanel" aria-labelledby="tab-explorer" hidden>
+        <p class="fine">Set the four parameters of a stable distribution and see its density, its distribution function and its tails against the normal. <a class="link" href="../../explorer/?embed=1">Open in a full page</a></p>
+        <iframe class="tool" title="Stable distribution explorer" data-src="../../explorer/?embed=1" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Sadid Risk Analytics develops models and analytics. It does not give investment advice, recommend transactions or issue Sharia rulings.</span>
+    <span>Sadid Risk Analytics is a pre-incorporation venture. No company has been registered yet. All four models are prototypes: none has been independently validated and none is on sale.</span>
+    <span id="privacy"><strong>Privacy.</strong> This site sets no cookies. What you enter in the online tools stays in your browser. The site is hosted on GitHub Pages and loads fonts from Google Fonts, and both receive your IP address in order to deliver the page. The return analysis and stable distribution tools also load a mathematics library from jsDelivr and count page views with GoatCounter. A message sent through the contact form is delivered by Web3Forms, a form delivery service, and is used only to reply to you.</span>
+    <span>&copy; 2026 Sadid Risk Analytics</span>
+  </div>
+</footer>
+<script src="../assets/analytics.js"></script>
+</body>
+</html>

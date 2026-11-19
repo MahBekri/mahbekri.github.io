@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Equity Mandate Monitor | Sadid Risk Analytics</title>
+<meta name="description" content="Equity Mandate Monitor: scope, inputs, method, a reference example, validation record and limitations. Prototype.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/site.css?v=3">
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="mark" href="../../" aria-label="Sadid Risk Analytics, home">
+      <b>SADID</b><span lang="ar" dir="rtl">سديد</span><small>Risk Analytics</small>
+    </a>
+    <nav aria-label="Main">
+      <a href="../../solutions/" aria-current="page">Solutions</a>
+      <a href="../../research/">Research</a>
+      <a href="../../analytics/">Analytics</a>
+      <a href="../../validation/">Validation</a>
+      <a href="../../#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<div class="wrap crumbs"><a href="../../">Home</a> / <a href="../../solutions/">Solutions</a> / Equity Mandate Monitor</div>
+  <div class="wrap page-head">
+    <div class="meta"><span class="status s-proto">Prototype</span><span class="label">v0.4 · Institutions with external equity managers · record updated 19 November 2026</span></div>
+    <h1>Equity Mandate Monitor</h1>
+    <p>Is each external manager running the mandate within the limits agreed, and which findings need escalation?</p>
+    <p class="callout">Prototype: the functions below exist and run on synthetic data. The workbook has not been independently validated and is not on sale. <a class="link" href="../../validation/">What the status labels mean</a>.</p>
+  </div>
+
+  <section aria-labelledby="h-does">
+    <div class="wrap">
+      <div class="head"><span class="label">Scope</span><h2 id="h-does">What it does, and what it does not.</h2></div>
+      <div class="prose"><ul><li>Compares up to three managers with one benchmark on return, volatility, realised tracking error, information ratio, beta and drawdown.</li><li>Reports historical and normal-model expected shortfall, with the number of observations behind the historical figure.</li><li>Reports the largest single weight, the weight of the five largest holdings, the effective number of names and an approximate active share.</li><li>Tests each holding against three financial screening ratios under thresholds the user sets, and classifies it as pass, breach, missing or invalid.</li><li>Gives a status for three controls: tracking error, single-name concentration and screening. Missing data shows as INCOMPLETE, never as a pass.</li></ul><p>It is an oversight tool, not a portfolio-selection tool and not a screening-data service. The screening test uses three financial ratios supplied by the user. It has no business-activity screen and no purification calculation, and it is not a Sharia compliance determination. The overall status is not a full mandate compliance opinion.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-in">
+    <div class="wrap">
+      <div class="head"><span class="label">Inputs</span><h2 id="h-in">What you enter.</h2></div>
+      <div class="spec"><div><h3>Limits and thresholds</h3></div><div><p>Tracking-error limit and watch level, single-name limit, three screening thresholds, the confidence level, and the name and version of the screening methodology adopted.</p></div><div><h3>Returns</h3></div><div><p>120 monthly returns for the benchmark and each manager.</p></div><div><h3>Holdings</h3></div><div><p>For each manager: weights, benchmark weights and three screening ratios per holding, already computed on the methodology's own denominator.</p></div></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-me">
+    <div class="wrap">
+      <div class="head"><span class="label">Method</span><h2 id="h-me">How each figure is calculated.</h2></div>
+      <div class="prose"><div class="formula">Tracking error      = standard deviation of monthly active returns x sqrt(12)
+Information ratio   = annualised arithmetic mean active return / tracking error
+Maximum drawdown    = lowest value of index / running peak - 1, with the index starting at 1
+Historical VaR      = interpolated sample quantile of monthly returns
+Historical ES       = average of monthly returns at or below that quantile
+Tail ratio          = historical ES / normal-model ES
+Effective names     = 1 / sum of squared weights
+Active share        = half the sum of absolute active weights (approximate)</div>
+<p>Screening status is INCOMPLETE until the user confirms an adopted methodology and its version. Changing thresholds alone does not reproduce a published methodology: ratios must be entered on that methodology's denominator, for example total assets or average market capitalisation.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-ex">
+    <div class="wrap">
+      <div class="head"><span class="label">Reference example · synthetic data</span><h2 id="h-ex">One worked case you can check.</h2><p>The synthetic sample has three managers against one benchmark over 120 months. The screening methodology is deliberately left unconfirmed, to show how missing governance information is reported. No real institution, portfolio or market is represented.</p></div>
+      <div class="scroll"><table class="data"><thead><tr><th scope="col">Measure</th><th scope="col" class="num">Manager A</th><th scope="col" class="num">Manager B</th><th scope="col" class="num">Manager C</th></tr></thead><tbody>
+<tr><th scope="row">Tracking error (annualised, realised)</th><td class="num">2.71%</td><td class="num">4.94%</td><td class="num">3.72%</td></tr>
+<tr><th scope="row">Information ratio</th><td class="num">0.37</td><td class="num">0.45</td><td class="num">-0.13</td></tr>
+<tr><th scope="row">Maximum drawdown</th><td class="num">-21.2%</td><td class="num">-26.7%</td><td class="num">-25.9%</td></tr>
+<tr><th scope="row">Expected shortfall, historical (monthly)</th><td class="num">8.94%</td><td class="num">9.24%</td><td class="num">11.00%</td></tr>
+<tr><th scope="row">Tail ratio, historical over normal</th><td class="num">1.18</td><td class="num">0.98</td><td class="num">1.26</td></tr>
+<tr><th scope="row">Largest single weight</th><td class="num">9.68%</td><td class="num">12.00%</td><td class="num">9.34%</td></tr>
+<tr><th scope="row">Holdings in screening breach</th><td class="num">0</td><td class="num">0</td><td class="num">2</td></tr>
+<tr><th scope="row">Status: tracking error</th><td class="num">OK</td><td class="num">BREACH</td><td class="num">WATCH</td></tr>
+<tr><th scope="row">Status: concentration</th><td class="num">OK</td><td class="num">BREACH</td><td class="num">OK</td></tr>
+<tr><th scope="row">Status: screening</th><td class="num">INCOMPLETE</td><td class="num">INCOMPLETE</td><td class="num">BREACH</td></tr>
+<tr><th scope="row">Overall, three controls</th><td class="num">INCOMPLETE</td><td class="num">BREACH</td><td class="num">BREACH</td></tr>
+</tbody></table></div><p style="margin-top:14px">Manager C tracks the benchmark within its limit yet has the heaviest historical tail, which is why tracking error and tail risk are reported separately. Each historical expected shortfall rests on three observations and is an indication only. For Manager B the historical figure is below the normal one.</p>
+      <p class="fine" style="margin-top:12px">The performance and tail figures were reproduced by a separate Python calculation when this version was built.</p>
+      <div class="shots" style="margin-top:26px"><a class="shot" href="../../samples/equity-mandate-monitor-dashboard.pdf"><img src="../../img/equity-mandate-monitor.png?v=2" width="967" height="755" loading="lazy" alt="Equity Mandate Monitor dashboard: counts of managers by status, a scorecard by manager, and charts of tracking error and expected shortfall."><span>Sample dashboard: open the two-page PDF</span></a></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-va">
+    <div class="wrap">
+      <div class="head"><span class="label">Validation record</span><h2 id="h-va">What has been checked, and what has not.</h2></div>
+      <div class="scroll"><table class="data narrow"><thead><tr><th scope="col">Check</th><th scope="col">Result</th></tr></thead><tbody>
+<tr><th scope="row">Formula errors after full recalculation</th><td>None found (LibreOffice).</td></tr>
+<tr><th scope="row">Reference example reproduced independently</th><td>Yes, in Python, when v0.4 was built.</td></tr>
+<tr><th scope="row">Built-in data checks</th><td>Four per manager: returns complete and plausible, holdings complete with weights summing to 100%, screening data valid and methodology confirmed, inputs valid.</td></tr>
+<tr><th scope="row">Invalid-input cases</th><td>Cases raised in review were corrected and rechecked: missing data, negative or impossible ratios and a zero threshold. Each now gives INCOMPLETE or INVALID.</td></tr>
+<tr><th scope="row">Review by a second AI model</th><td>Two rounds on earlier versions (v0.1 and v0.2). The defects found were corrected: drawdown start value, information ratio definition, missing data shown as a pass, a false breach from a zero threshold. v0.4 has not been re-reviewed.</td></tr>
+</tbody></table></div>
+      <div class="prose" style="margin-top:20px"><h3>Open items</h3><ul><li>Not yet opened and recalculated in Microsoft Excel. It was built and recalculated in LibreOffice.</li><li>No independent human review has taken place.</li><li>No Sharia review has taken place. The workbook is not a Sharia approval of any contract, instrument or portfolio.</li></ul></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-li">
+    <div class="wrap">
+      <div class="head"><span class="label">Limitations</span><h2 id="h-li">When not to rely on it.</h2></div>
+      <div class="prose"><ul><li>Tracking error is realised, not predicted. A risk model is needed for a forward-looking figure.</li><li>With 120 monthly observations, a 97.5% historical tail rests on three or four data points.</li><li>Active share is approximate because benchmark names not held are grouped into one line.</li><li>The sample holds 12 lines per manager and 120 months. Other sizes need the formulas extended.</li><li>Screening uses three financial ratios only, with no business-activity screen and no purification.</li></ul></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-de">
+    <div class="wrap">
+      <div class="head"><span class="label">Delivery and versions</span><h2 id="h-de">Format and release history.</h2></div>
+      <div class="prose"><p>An Excel workbook (.xlsx) made only of formulas, with no macros. Inputs are in blue, formulas in black, links between sheets in green and key assumptions on a yellow fill. Formula sheets are protected without a password. Sales have not opened. When they do, the model will be licensed to one institution by scope and run on its own machines.</p></div>
+      <div style="margin-top:18px"><div class="scroll"><table class="data narrow"><thead><tr><th scope="col">Version</th><th scope="col">Change</th></tr></thead><tbody>
+<tr><th scope="row">v0.4</th><td>Dashboard sheet and navy theme added. Calculations unchanged.</td></tr>
+<tr><th scope="row">v0.3</th><td>Screening shows INCOMPLETE until an adopted methodology and version are recorded. Negative or impossible ratios are INVALID. All thresholds validated.</td></tr>
+<tr><th scope="row">v0.2</th><td>Data checks and INCOMPLETE status added. Information ratio redefined. Drawdown start corrected. Tail observation count added.</td></tr>
+<tr><th scope="row">v0.1</th><td>First version.</td></tr>
+</tbody></table></div></div>
+      <div class="cta" style="margin-top:24px"><a class="btn" href="../../#contact">Ask about this model</a><a class="link" href="../../solutions/">All solutions</a></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Sadid Risk Analytics develops models and analytics. It does not give investment advice, recommend transactions or issue Sharia rulings.</span>
+    <span>Sadid Risk Analytics is a pre-incorporation venture. No company has been registered yet. All four models are prototypes: none has been independently validated and none is on sale.</span>
+    <span id="privacy"><strong>Privacy.</strong> This site sets no cookies. What you enter in the online tools stays in your browser. The site is hosted on GitHub Pages and loads fonts from Google Fonts, and both receive your IP address in order to deliver the page. The return analysis and stable distribution tools also load a mathematics library from jsDelivr and count page views with GoatCounter. A message sent through the contact form is delivered by Web3Forms, a form delivery service, and is used only to reply to you.</span>
+    <span>&copy; 2026 Sadid Risk Analytics</span>
+  </div>
+</footer>
+</body>
+</html>
