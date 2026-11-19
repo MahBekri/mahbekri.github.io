@@ -8,7 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../assets/site.css?v=3">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%231F3A6E'/%3E%3Cpath d='M6 23 Q16 23 20 14 T26 7' fill='none' stroke='%23F6F8FB' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
 </head>
 <body>
 <header>
@@ -38,7 +39,7 @@
   <section aria-labelledby="h-does">
     <div class="wrap">
       <div class="head"><span class="label">Scope</span><h2 id="h-does">What it does, and what it does not.</h2></div>
-      <div class="prose"><ul><li>Compares up to three managers with one benchmark on return, volatility, realised tracking error, information ratio, beta and drawdown.</li><li>Reports historical and normal-model expected shortfall, with the number of observations behind the historical figure.</li><li>Reports the largest single weight, the weight of the five largest holdings, the effective number of names and an approximate active share.</li><li>Tests each holding against three financial screening ratios under thresholds the user sets, and classifies it as pass, breach, missing or invalid.</li><li>Gives a status for three controls: tracking error, single-name concentration and screening. Missing data shows as INCOMPLETE, never as a pass.</li></ul><p>It is an oversight tool, not a portfolio-selection tool and not a screening-data service. The screening test uses three financial ratios supplied by the user. It has no business-activity screen and no purification calculation, and it is not a Sharia compliance determination. The overall status is not a full mandate compliance opinion.</p></div>
+      <div class="prose"><ul><li>Compares up to three managers with one benchmark on return, volatility, realised tracking error, information ratio, beta and drawdown.</li><li>Reports a historical tail average and normal-model expected shortfall, with the number of observations behind the historical figure.</li><li>Reports the largest single weight, the weight of the five largest holdings, the effective number of names and an approximate active share.</li><li>Compares each holding with three financial-ratio thresholds the user enters, and classifies it as pass, above threshold, missing or invalid.</li><li>Gives a status for three controls: tracking error, single-name concentration and screening. Missing data shows as INCOMPLETE, never as a pass.</li></ul><p>It is an oversight tool, not a portfolio-selection tool and not a screening-data service. The screening test uses three financial ratios supplied by the user. It has no business-activity screen and no purification calculation, and it is not a Sharia compliance determination. The overall status is not a full mandate compliance opinion.</p></div>
     </div>
   </section>
 
@@ -55,12 +56,14 @@
       <div class="prose"><div class="formula">Tracking error      = standard deviation of monthly active returns x sqrt(12)
 Information ratio   = annualised arithmetic mean active return / tracking error
 Maximum drawdown    = lowest value of index / running peak - 1, with the index starting at 1
-Historical VaR      = interpolated sample quantile of monthly returns
-Historical ES       = average of monthly returns at or below that quantile
-Tail ratio          = historical ES / normal-model ES
+Historical VaR      = - (interpolated lower-tail quantile of monthly returns)
+Historical tail avg = - (mean of monthly returns at or below that quantile)
+Tail ratio          = historical tail average / normal-model ES, when both are positive
 Effective names     = 1 / sum of squared weights
 Active share        = half the sum of absolute active weights (approximate)</div>
-<p>Screening status is INCOMPLETE until the user confirms an adopted methodology and its version. Changing thresholds alone does not reproduce a published methodology: ratios must be entered on that methodology's denominator, for example total assets or average market capitalisation.</p></div>
+<p>Losses are shown as positive numbers. The historical tail average is a threshold-average approximation of expected shortfall. Active share is approximate, because benchmark names not held are grouped into one line, and should not be used as an exact mandate control.</p>
+<p><strong>Precedence rule for screening.</strong> A holding whose ratio is above an entered threshold is shown as BREACH even when the methodology has not been confirmed, so that missing governance information can never hide an exceedance. Where no holding is above a threshold but the methodology is unconfirmed, the status is INCOMPLETE. In both cases the result is a comparison with the thresholds entered. It is not a Sharia screening determination, which needs an adopted methodology, its own denominators, a business-activity screen and an authorised reviewer.</p>
+<p>Screening status is otherwise INCOMPLETE until the user confirms an adopted methodology and its version. Changing thresholds alone does not reproduce a published methodology: ratios must be entered on that methodology's denominator, for example total assets or average market capitalisation.</p></div>
     </div>
   </section>
 
@@ -71,16 +74,16 @@ Active share        = half the sum of absolute active weights (approximate)</div
 <tr><th scope="row">Tracking error (annualised, realised)</th><td class="num">2.71%</td><td class="num">4.94%</td><td class="num">3.72%</td></tr>
 <tr><th scope="row">Information ratio</th><td class="num">0.37</td><td class="num">0.45</td><td class="num">-0.13</td></tr>
 <tr><th scope="row">Maximum drawdown</th><td class="num">-21.2%</td><td class="num">-26.7%</td><td class="num">-25.9%</td></tr>
-<tr><th scope="row">Expected shortfall, historical (monthly)</th><td class="num">8.94%</td><td class="num">9.24%</td><td class="num">11.00%</td></tr>
+<tr><th scope="row">Historical tail average (monthly)</th><td class="num">8.94%</td><td class="num">9.24%</td><td class="num">11.00%</td></tr>
 <tr><th scope="row">Tail ratio, historical over normal</th><td class="num">1.18</td><td class="num">0.98</td><td class="num">1.26</td></tr>
 <tr><th scope="row">Largest single weight</th><td class="num">9.68%</td><td class="num">12.00%</td><td class="num">9.34%</td></tr>
-<tr><th scope="row">Holdings in screening breach</th><td class="num">0</td><td class="num">0</td><td class="num">2</td></tr>
+<tr><th scope="row">Holdings above the illustrative ratio thresholds</th><td class="num">0</td><td class="num">0</td><td class="num">2</td></tr>
 <tr><th scope="row">Status: tracking error</th><td class="num">OK</td><td class="num">BREACH</td><td class="num">WATCH</td></tr>
 <tr><th scope="row">Status: concentration</th><td class="num">OK</td><td class="num">BREACH</td><td class="num">OK</td></tr>
-<tr><th scope="row">Status: screening</th><td class="num">INCOMPLETE</td><td class="num">INCOMPLETE</td><td class="num">BREACH</td></tr>
-<tr><th scope="row">Overall, three controls</th><td class="num">INCOMPLETE</td><td class="num">BREACH</td><td class="num">BREACH</td></tr>
-</tbody></table></div><p style="margin-top:14px">Manager C tracks the benchmark within its limit yet has the heaviest historical tail, which is why tracking error and tail risk are reported separately. Each historical expected shortfall rests on three observations and is an indication only. For Manager B the historical figure is below the normal one.</p>
-      <p class="fine" style="margin-top:12px">The performance and tail figures were reproduced by a separate Python calculation when this version was built.</p>
+<tr><th scope="row">Status: screening thresholds</th><td class="num">INCOMPLETE</td><td class="num">INCOMPLETE</td><td class="num">BREACH (provisional)</td></tr>
+<tr><th scope="row">Combined status, the three modelled controls only</th><td class="num">INCOMPLETE</td><td class="num">BREACH</td><td class="num">BREACH</td></tr>
+</tbody></table></div><p style="margin-top:14px">Manager C has two holdings above the illustrative thresholds. Because the methodology is unconfirmed, that is a provisional threshold exceedance and no screening conclusion is drawn. Manager C also tracks the benchmark within its limit yet has the heaviest historical tail, which is why tracking error and tail risk are reported separately. Each historical tail average rests on three observations and is an indication only. For Manager B the historical figure is below the normal one.</p>
+      <p class="fine" style="margin-top:12px">The complete synthetic inputs, the workbook outputs and the Python script that cross-checks them are in the <a class="link" href="../../evidence/">evidence files</a>, so the example can be recomputed.</p>
       <div class="shots" style="margin-top:26px"><a class="shot" href="../../samples/equity-mandate-monitor-dashboard.pdf"><img src="../../img/equity-mandate-monitor.png?v=2" width="967" height="755" loading="lazy" alt="Equity Mandate Monitor dashboard: counts of managers by status, a scorecard by manager, and charts of tracking error and expected shortfall."><span>Sample dashboard: open the two-page PDF</span></a></div>
     </div>
   </section>
@@ -89,10 +92,10 @@ Active share        = half the sum of absolute active weights (approximate)</div
     <div class="wrap">
       <div class="head"><span class="label">Validation record</span><h2 id="h-va">What has been checked, and what has not.</h2></div>
       <div class="scroll"><table class="data narrow"><thead><tr><th scope="col">Check</th><th scope="col">Result</th></tr></thead><tbody>
-<tr><th scope="row">Formula errors after full recalculation</th><td>None found (LibreOffice).</td></tr>
-<tr><th scope="row">Reference example reproduced independently</th><td>Yes, in Python, when v0.4 was built.</td></tr>
-<tr><th scope="row">Built-in data checks</th><td>Four per manager: returns complete and plausible, holdings complete with weights summing to 100%, screening data valid and methodology confirmed, inputs valid.</td></tr>
-<tr><th scope="row">Invalid-input cases</th><td>Cases raised in review were corrected and rechecked: missing data, negative or impossible ratios and a zero threshold. Each now gives INCOMPLETE or INVALID.</td></tr>
+<tr><th scope="row">Spreadsheet error values after full recalculation</th><td>None in LibreOffice. This shows the workbook calculates, not that its logic is right.</td></tr>
+<tr><th scope="row">Numerical cross-check against a separately written Python calculation</th><td>Passed for the documented synthetic reference case: nine outputs for each of three managers.</td></tr>
+<tr><th scope="row">Input controls implemented</th><td>Four per manager: returns complete and plausible, holdings complete with weights summing to 100%, screening data valid and methodology confirmed, inputs valid.</td></tr>
+<tr><th scope="row">Input controls tested</th><td>Partly. Cases raised in review were corrected and rechecked: missing data, negative or impossible ratios and a zero threshold. Each now gives INCOMPLETE or INVALID.</td></tr>
 <tr><th scope="row">Review by a second AI model</th><td>Two rounds on earlier versions (v0.1 and v0.2). The defects found were corrected: drawdown start value, information ratio definition, missing data shown as a pass, a false breach from a zero threshold. v0.4 has not been re-reviewed.</td></tr>
 </tbody></table></div>
       <div class="prose" style="margin-top:20px"><h3>Open items</h3><ul><li>Not yet opened and recalculated in Microsoft Excel. It was built and recalculated in LibreOffice.</li><li>No independent human review has taken place.</li><li>No Sharia review has taken place. The workbook is not a Sharia approval of any contract, instrument or portfolio.</li></ul></div>

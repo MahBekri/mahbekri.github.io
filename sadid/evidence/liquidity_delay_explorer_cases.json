@@ -1,0 +1,305 @@
+{
+ "note": "Liquidity Delay Explorer test cases. Synthetic. A value of 0 for a first month means the position never falls below the minimum. Expected values were produced by the tool's own function and matched by a separate Python implementation.",
+ "cases": [
+  {
+   "name": "Default sample",
+   "inputs": {
+    "opening_buffer": 150,
+    "minimum_buffer": 50,
+    "delay_share": 0.3,
+    "delay_months": 4,
+    "withdrawal_share": 0,
+    "inflows": [
+     120,
+     130,
+     140,
+     150,
+     150,
+     160,
+     160,
+     170,
+     170,
+     180,
+     180,
+     190
+    ],
+    "outflows": [
+     150,
+     150,
+     150,
+     150,
+     150,
+     150,
+     150,
+     150,
+     150,
+     150,
+     150,
+     150
+    ]
+   },
+   "expected": {
+    "first_month_below_minimum_contractual": 0,
+    "first_month_below_minimum_stressed": 2,
+    "lowest_position_stressed": -81,
+    "extra_buffer_needed": 131,
+    "deferred_within_window": 354,
+    "deferred_beyond_window": 216,
+    "position_stressed": [
+     84,
+     25,
+     -27,
+     -72,
+     -81,
+     -80,
+     -76,
+     -62,
+     -48,
+     -24,
+     0,
+     34
+    ]
+   }
+  },
+  {
+   "name": "Withdrawal only, 5%",
+   "inputs": {
+    "opening_buffer": 150,
+    "minimum_buffer": 50,
+    "delay_share": 0,
+    "delay_months": 1,
+    "withdrawal_share": 0.05,
+    "inflows": [
+     120,
+     130,
+     140,
+     150,
+     150,
+     160,
+     160,
+     170,
+     170,
+     180,
+     180,
+     190
+    ],
+    "outflows": [
+     150,
+     150,
+     150,
+     150,
+     150,
+     150,
+     150,
+     150,
+     150,
+     150,
+     150,
+     150
+    ]
+   },
+   "expected": {
+    "first_month_below_minimum_contractual": 0,
+    "first_month_below_minimum_stressed": 1,
+    "lowest_position_stressed": 22.5,
+    "extra_buffer_needed": 27.5,
+    "deferred_within_window": 0,
+    "deferred_beyond_window": 0,
+    "position_stressed": [
+     37.5,
+     25,
+     22.5,
+     30,
+     37.5,
+     55,
+     72.5,
+     100,
+     127.5,
+     165,
+     202.5,
+     250
+    ]
+   }
+  },
+  {
+   "name": "Full delay of 6 months and full withdrawal, buffer below minimum",
+   "inputs": {
+    "opening_buffer": 80,
+    "minimum_buffer": 100,
+    "delay_share": 1,
+    "delay_months": 6,
+    "withdrawal_share": 1,
+    "inflows": [
+     120,
+     130,
+     140,
+     150,
+     150,
+     160,
+     160,
+     170,
+     170,
+     180,
+     180,
+     190
+    ],
+    "outflows": [
+     150,
+     150,
+     150,
+     150,
+     150,
+     150,
+     150,
+     150,
+     150,
+     150,
+     150,
+     150
+    ]
+   },
+   "expected": {
+    "first_month_below_minimum_contractual": 1,
+    "first_month_below_minimum_stressed": 1,
+    "lowest_position_stressed": -1720,
+    "extra_buffer_needed": 1820,
+    "deferred_within_window": 850,
+    "deferred_beyond_window": 1050,
+    "position_stressed": [
+     -1720,
+     -1720,
+     -1720,
+     -1720,
+     -1720,
+     -1720,
+     -1600,
+     -1470,
+     -1330,
+     -1180,
+     -1030,
+     -870
+    ]
+   }
+  },
+  {
+   "name": "Random cash flows, 45% delay of 2 months, 20% withdrawal",
+   "inputs": {
+    "opening_buffer": 500,
+    "minimum_buffer": 0,
+    "delay_share": 0.45,
+    "delay_months": 2,
+    "withdrawal_share": 0.2,
+    "inflows": [
+     97.14982944994871,
+     45.254752177350575,
+     195.28034191195613,
+     21.730886000262828,
+     160.76460129200677,
+     109.70667507377566,
+     17.39967743241204,
+     152.23071995682608,
+     11.248697532595465,
+     130.09370509871576,
+     20.95662707238568,
+     27.213904003159517
+    ],
+    "outflows": [
+     127.3557567427542,
+     248.05563740161142,
+     37.14058834489368,
+     66.97168938210436,
+     188.2299667216768,
+     284.3126827371017,
+     173.1308845852496,
+     119.00414239523404,
+     292.876531677876,
+     13.974804185326883,
+     257.54053771460383,
+     86.88278589950288
+    ]
+   },
+   "expected": {
+    "first_month_below_minimum_contractual": 9,
+    "first_month_below_minimum_stressed": 2,
+    "lowest_position_stressed": -432.1259155470931,
+    "extra_buffer_needed": 432.1259155470931,
+    "deferred_within_window": 423.3869486666325,
+    "deferred_beyond_window": 21.67673898399534,
+    "position_stressed": [
+     72.45259924568131,
+     -101.10179697806501,
+     20.307343650072852,
+     -0.9533820756583182,
+     24.75932911798423,
+     -132.57324708100225,
+     -189.16406157997227,
+     -151.2724757367061,
+     -371.557062591494,
+     -242.6815441548901,
+     -432.1259155470931,
+     -428.12232977053554
+    ]
+   }
+  },
+  {
+   "name": "Lumpy cash flows, 10% delay of 3 months, 33% withdrawal",
+   "inputs": {
+    "opening_buffer": 0,
+    "minimum_buffer": 0,
+    "delay_share": 0.1,
+    "delay_months": 3,
+    "withdrawal_share": 0.33,
+    "inflows": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     900,
+     900,
+     900,
+     900,
+     900,
+     900
+    ],
+    "outflows": [
+     100,
+     0,
+     0,
+     250,
+     0,
+     0,
+     0,
+     0,
+     400,
+     0,
+     0,
+     50
+    ]
+   },
+   "expected": {
+    "first_month_below_minimum_contractual": 1,
+    "first_month_below_minimum_stressed": 1,
+    "lowest_position_stressed": -498.5,
+    "extra_buffer_needed": 498.5,
+    "deferred_within_window": 270,
+    "deferred_beyond_window": 270,
+    "position_stressed": [
+     -331,
+     -331,
+     -331,
+     -498.5,
+     -498.5,
+     -498.5,
+     311.5,
+     1121.5,
+     1663.5,
+     2563.5,
+     3463.5,
+     4330
+    ]
+   }
+  }
+ ]
+}

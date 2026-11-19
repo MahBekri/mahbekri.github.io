@@ -8,7 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=3">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%231F3A6E'/%3E%3Cpath d='M6 23 Q16 23 20 14 T26 7' fill='none' stroke='%23F6F8FB' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/site.css?v=4">
 </head>
 <body>
 <header>
@@ -42,7 +43,7 @@
     <figure>
       <svg id="tail" viewBox="0 0 560 300" role="img" aria-label="Chart of the left tail of two return distributions with equal variance. Beyond about 2.7 standard deviations the heavy-tailed curve sits above the normal curve."></svg>
       <figcaption>
-        <strong>The part of the loss a normal model leaves out.</strong>
+        <strong>Where a heavy-tailed model puts more probability than a normal one.</strong>
         <span>Left tail, magnified. Illustrative curves with equal variance: a standard normal against a Student-t with 3 degrees of freedom, rescaled to unit variance.</span>
       </figcaption>
     </figure>
@@ -56,7 +57,7 @@
         <h2 id="prod-h">Four working prototypes, each answering one hard question.</h2>
         <p>Excel workbooks for Islamic-bank treasury and risk teams and for institutions that oversee Sharia-screened equity mandates. <a class="link" href="solutions/">Who they are for and how they are delivered</a>.</p>
       </div>
-      <div class="cards"><a class="card" href="solutions/alm-stress-tester/"><div class="meta"><span class="status s-proto" style="margin-top:0">Prototype</span><span class="label">Treasury and ALM teams</span></div><h3>ALM Stress Tester</h3><p>Where do funding gaps open when customers pay late or funding leaves? Six stress scenarios side by side: the cumulative liquidity position, the survival horizon and the cost of delay.</p><span class="more">Method and validation record</span></a><a class="card" href="solutions/hedge-sizer/"><div class="meta"><span class="status s-proto" style="margin-top:0">Prototype</span><span class="label">Treasury and market-risk teams</span></div><h3>Hedge Sizer</h3><p>How large is your rate exposure at each tenor, and what would offset it? Bucket sensitivities, the notionals that minimise the residual, and what remains after rounding.</p><span class="more">Method and validation record</span></a><a class="card" href="solutions/tail-risk-screen/"><div class="meta"><span class="status s-proto" style="margin-top:0">Prototype</span><span class="label">Sharia-compliant funds and takaful investment teams</span></div><h3>Tail-Risk Screen</h3><p>What could a Sharia-screened portfolio lose in the bad tail? A normal model set beside a Student-t fit, a Cornish-Fisher adjustment and the data itself.</p><span class="more">Method and validation record</span></a><a class="card" href="solutions/equity-mandate-monitor/"><div class="meta"><span class="status s-proto" style="margin-top:0">Prototype</span><span class="label">Institutions with external equity managers</span></div><h3>Equity Mandate Monitor</h3><p>Are your external managers taking the risks you agreed to? Tracking error, concentration, screening under your chosen methodology and tail risk, by mandate.</p><span class="more">Method and validation record</span></a></div>
+      <div class="cards"><a class="card" href="solutions/alm-stress-tester/"><div class="meta"><span class="status s-proto" style="margin-top:0">Prototype</span><span class="label">Treasury and ALM teams</span></div><h3>ALM Stress Tester</h3><p>Where do funding gaps open when customers pay late or funding leaves? Six stress scenarios side by side: the cumulative liquidity position, the survival horizon and the cost of delay.</p><span class="more">Method and validation record</span></a><a class="card" href="solutions/hedge-sizer/"><div class="meta"><span class="status s-proto" style="margin-top:0">Prototype</span><span class="label">Treasury and market-risk teams</span></div><h3>Hedge Sizer</h3><p>How large is your rate exposure at each tenor, and what would offset it? Bucket sensitivities, the notionals that minimise a stated bucket-DV01 objective, and what remains after rounding.</p><span class="more">Method and validation record</span></a><a class="card" href="solutions/tail-risk-screen/"><div class="meta"><span class="status s-proto" style="margin-top:0">Prototype</span><span class="label">Sharia-compliant funds and takaful investment teams</span></div><h3>Tail-Risk Screen</h3><p>What could a Sharia-screened portfolio lose in the bad tail? A normal model set beside a Student-t fit, a Cornish-Fisher adjustment and the data itself.</p><span class="more">Method and validation record</span></a><a class="card" href="solutions/equity-mandate-monitor/"><div class="meta"><span class="status s-proto" style="margin-top:0">Prototype</span><span class="label">Institutions with external equity managers</span></div><h3>Equity Mandate Monitor</h3><p>Are your external managers taking the risks you agreed to? Tracking error, concentration, screening under your chosen methodology and tail risk, by mandate.</p><span class="more">Method and validation record</span></a></div>
     </div>
   </section>
 
@@ -65,7 +66,7 @@
       <div class="head">
         <span class="label">Evidence</span>
         <h2 id="samp-h">What the models produce, and what has been tested.</h2>
-        <p>The dashboard of each prototype, run on synthetic data. Each reference example has been reproduced by a separate calculation. None of the models has been independently validated yet. <a class="link" href="validation/">Read the validation record</a>.</p>
+        <p>The dashboard of each prototype, run on synthetic data. Each reference example has been cross-checked with a separately written calculation, and its inputs and the check script are <a class="link" href="evidence/">published</a>. None of the models has been independently validated. <a class="link" href="validation/">Read the validation record</a>.</p>
       </div>
       <div class="shots">
         <a class="shot" href="solutions/alm-stress-tester/"><img src="img/alm-stress-tester.png?v=2" width="1091" height="755" loading="lazy" alt="ALM Stress Tester dashboard: status tiles, a scorecard of six stress scenarios, and charts of the liquidity position."><span>ALM Stress Tester: liquidity stress dashboard</span></a>
@@ -84,7 +85,7 @@
       </div>
       <div class="cards">
         <a class="card" href="analytics/"><span class="label">New</span><h3>Liquidity Delay Explorer</h3><p>See how a payment delay and an early withdrawal of funding move a bank's liquidity position over twelve months, and when it first falls below its minimum buffer.</p><span class="more">Open the explorer</span></a>
-        <a class="card" href="analytics/"><span class="label">Three more tools</span><h3>Tail risk, return analysis and stable distributions</h3><p>Compare a normal model with the data, analyse a return series, or explore heavy-tailed distributions. Everything runs in your browser.</p><span class="more">Open Analytics</span></a>
+        <a class="card" href="analytics/"><span class="label">Three more tools</span><h3>Tail risk, return analysis and stable distributions</h3><p>Compare a normal model with the data, analyse a return series, or explore heavy-tailed distributions. Calculations run in your browser.</p><span class="more">Open Analytics</span></a>
       </div>
     </div>
   </section>
@@ -124,7 +125,7 @@
           <h3>Islamic finance</h3>
           <ul class="facts">
             <li><span class="label">Contracts</span>Murabaha, Ijara, Sukuk and profit-sharing accounts, and how each behaves under stress</li>
-            <li><span class="label">Sharia limits on hedging</span>Hedges tied to a real exposure and sized within it</li>
+            <li><span class="label">Hedging and Sharia review</span>Measuring exposure and hedge size as input to a Sharia review, not as a substitute for one</li>
             <li><span class="label">Screening</span>Sharia screening methodologies and their effect on portfolio risk</li>
             <li><span class="label">Gharar</span>Research on contractual uncertainty and its measurement</li>
             <li><span class="label">Practice</span>More than ten years of research and risk management practice in Islamic finance</li>

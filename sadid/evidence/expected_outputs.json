@@ -1,0 +1,155 @@
+{
+ "alm_stress_tester": {
+  "Base": {
+   "buffer after haircut": 394.8,
+   "lowest position": 233.48,
+   "position at policy horizon": 290.02,
+   "buckets survived": 8,
+   "extra buffer needed": 0,
+   "inflows delayed": 178.76,
+   "cost of delay": 3.58725
+  },
+  "Payment delay": {
+   "buffer after haircut": 394.8,
+   "lowest position": 160.021,
+   "position at policy horizon": 196.074,
+   "buckets survived": 8,
+   "extra buffer needed": 0,
+   "inflows delayed": 843.777,
+   "cost of delay": 16.928071875
+  },
+  "Funding run-off": {
+   "buffer after haircut": 387,
+   "lowest position": -121.96,
+   "position at policy horizon": -61.4399999999999,
+   "buckets survived": 0,
+   "extra buffer needed": 121.96,
+   "inflows delayed": 224.23,
+   "cost of delay": 4.50590625
+  },
+  "Market shock": {
+   "buffer after haircut": 361,
+   "lowest position": 43.0214,
+   "position at policy horizon": 81.5706,
+   "buckets survived": 8,
+   "extra buffer needed": 0,
+   "inflows delayed": 312.8598,
+   "cost of delay": 6.273939375
+  },
+  "Combined": {
+   "buffer after haircut": 353.2,
+   "lowest position": -319.6416,
+   "position at policy horizon": -282.7264,
+   "buckets survived": 0,
+   "extra buffer needed": 319.6416,
+   "inflows delayed": 969.7688,
+   "cost of delay": 19.4521425
+  },
+  "User defined": {
+   "buffer after haircut": 379.2,
+   "lowest position": 44.26,
+   "position at policy horizon": 102.09,
+   "buckets survived": 8,
+   "extra buffer needed": 0,
+   "inflows delayed": 369.77,
+   "cost of delay": 7.42584375
+  }
+ },
+ "hedge_sizer": {
+  "par_rate": [
+   0.0401518027317223,
+   0.0389111620068491,
+   0.0384533403496572,
+   0.0384827961357809,
+   0.0390139982880502,
+   0.0397947249478132
+  ],
+  "exact_notional": [
+   135.591960484792,
+   -102.495418614192,
+   -189.690392375952,
+   -297.459211396922,
+   -190.880183890655,
+   -122.01858720568
+  ],
+  "gap_dv01": [
+   7710.38285564646,
+   11449.7792629956,
+   10191.2066686143,
+   -25484.9190142098,
+   -59138.802750692,
+   -141156.10813371,
+   -114641.893416305,
+   -91681.1104011509,
+   -45603.6662513041,
+   -17229.0697937719
+  ],
+  "reduction_exact": 0.948713172126556,
+  "reduction_rounded": 0.947748157705543
+ },
+ "tail_risk_screen": {
+  "portfolio": {
+   "skewness": -0.167343527948486,
+   "excess kurtosis": 0.945823901892245,
+   "normal VaR": 0.0263488709567207,
+   "normal ES": 0.0300390267960618,
+   "Cornish-Fisher VaR": 0.0299820420048105,
+   "degrees of freedom": 10,
+   "Student-t VaR": 0.0279348773219025,
+   "Student-t ES": 0.0337738631408768,
+   "historical VaR": 0.0305362,
+   "historical tail average": 0.037448,
+   "tail observations": 5,
+   "Hill tail index": 3.65548433391485
+  },
+  "comparison": {
+   "skewness": -0.198915364891938,
+   "excess kurtosis": 1.12935590058312,
+   "normal VaR": 0.0238119564182677,
+   "normal ES": 0.0272268595496873,
+   "Cornish-Fisher VaR": 0.0277966187628837,
+   "degrees of freedom": 9,
+   "Student-t VaR": 0.0254437598726131,
+   "Student-t ES": 0.0311303877341662,
+   "historical VaR": 0.02865,
+   "historical tail average": 0.033538,
+   "tail observations": 5,
+   "Hill tail index": 3.72638859344405
+  }
+ },
+ "equity_mandate_monitor": {
+  "A": {
+   "annualised return": 0.0959116943732064,
+   "tracking error": 0.0270617588104684,
+   "information ratio": 0.368786081861737,
+   "maximum drawdown": -0.211526624169674,
+   "historical VaR": 0.054815,
+   "historical tail average": 0.0894333333333333,
+   "normal ES": 0.0760659835550162,
+   "largest single weight": 0.0968,
+   "effective number of names": 11.8676049986352
+  },
+  "B": {
+   "annualised return": 0.105260692514278,
+   "tracking error": 0.0493772334671957,
+   "information ratio": 0.454257932755622,
+   "maximum drawdown": -0.267268909153662,
+   "historical VaR": 0.083345,
+   "historical tail average": 0.0924333333333333,
+   "normal ES": 0.0944464444953673,
+   "largest single weight": 0.12,
+   "effective number of names": 11.5667886037521
+  },
+  "C": {
+   "annualised return": 0.0780214651355258,
+   "tracking error": 0.0371451695627943,
+   "information ratio": -0.125722942039753,
+   "maximum drawdown": -0.258553361533009,
+   "historical VaR": 0.0606649999999999,
+   "historical tail average": 0.11,
+   "normal ES": 0.0869950818163528,
+   "largest single weight": 0.0934,
+   "effective number of names": 11.9491729977368
+  }
+ }
+}

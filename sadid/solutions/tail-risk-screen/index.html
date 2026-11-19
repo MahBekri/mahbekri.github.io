@@ -8,7 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../assets/site.css?v=3">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%231F3A6E'/%3E%3Cpath d='M6 23 Q16 23 20 14 T26 7' fill='none' stroke='%23F6F8FB' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
 </head>
 <body>
 <header>
@@ -60,9 +61,10 @@ Normal ES  = - m + s x pdf(z) / a</div>
 t VaR = - (m + scale x t)
 t ES  = - m + scale x pdf(t) / a x (v + t^2) / (v - 1)
 v     = 4 + 6 / K, rounded, kept between 5 and 30   (K = excess kurtosis)</div>
-<p>Historical VaR is the interpolated sample quantile and historical ES is the average of returns at or below it. Cornish-Fisher VaR adjusts <em>z</em> for sample skewness <em>S</em> and excess kurtosis <em>K</em>:</p>
+<p>Historical VaR is the negative of the interpolated sample quantile. The historical tail average is the negative of the mean of returns at or below that quantile. It is a threshold-average approximation of expected shortfall: with few tail observations it is unstable and can differ from the formal empirical definition. The degrees of freedom above are a moment-matching heuristic, not a likelihood fit, and when excess kurtosis is zero or negative the workbook uses the upper bound of 30. Cornish-Fisher VaR adjusts <em>z</em> for sample skewness <em>S</em> and excess kurtosis <em>K</em>:</p>
 <div class="formula">z_cf = z + (z^2 - 1) S / 6 + (z^3 - 3z) K / 24 - (2z^3 - 5z) S^2 / 36</div>
-<p>The Hill tail index is one divided by the average log excess of the <em>k</em> largest losses over the next one. Jarque-Bera is n/6 x (S^2 + K^2/4), compared with a chi-squared distribution with two degrees of freedom.</p></div>
+<div class="formula">H(k) = (1/k) x sum for i = 1 to k of ln( L(i) / L(k+1) ),     Hill index = 1 / H(k)</div>
+<p>Here L(1) to L(k+1) are the largest losses in descending order, and all must be positive. The estimate is meaningful only when the tail is close to a power law. Jarque-Bera is n/6 x (S^2 + K^2/4), compared with a chi-squared distribution with two degrees of freedom. It is an asymptotic test of normality in general, not a test of any tail model.</p></div>
     </div>
   </section>
 
@@ -71,10 +73,10 @@ v     = 4 + 6 / K, rounded, kept between 5 and 30   (K = excess kurtosis)</div>
       <div class="head"><span class="label">Reference example · synthetic data</span><h2 id="h-ex">One worked case you can check.</h2><p>The synthetic sample has 500 daily returns, analysed at 99% confidence. No real institution, portfolio or market is represented.</p></div>
       <div class="scroll"><table class="data"><thead><tr><th scope="col">Measure (per period)</th><th scope="col" class="num">Normal</th><th scope="col" class="num">Cornish-Fisher</th><th scope="col" class="num">Student-t (v = 10)</th><th scope="col" class="num">Historical</th></tr></thead><tbody>
 <tr><th scope="row">Value at risk</th><td class="num">2.63%</td><td class="num">3.00%</td><td class="num">2.79%</td><td class="num">3.05%</td></tr>
-<tr><th scope="row">Expected shortfall</th><td class="num">3.00%</td><td class="num">not defined here</td><td class="num">3.38%</td><td class="num">3.74%</td></tr>
+<tr><th scope="row">Expected shortfall (historical: tail average)</th><td class="num">3.00%</td><td class="num">not defined here</td><td class="num">3.38%</td><td class="num">3.74%</td></tr>
 <tr><th scope="row">Ratio to normal expected shortfall</th><td class="num">1.00</td><td class="num"></td><td class="num">1.12</td><td class="num">1.25</td></tr>
-</tbody></table></div><p style="margin-top:14px">The historical expected shortfall rests on five observations. Excess kurtosis is 0.95, Jarque-Bera rejects normality, and four losses exceed three volatilities where a normal model expects fewer than one. The Hill index of 3.7 is below 4, which the workbook flags: the kurtosis-based Student-t fit may itself be too light for this sample.</p>
-      <p class="fine" style="margin-top:12px">Normal, Student-t and historical figures were reproduced by a separate Python calculation (numpy and scipy) written from the method above.</p>
+</tbody></table></div><p style="margin-top:14px">The historical tail average rests on five observations. Excess kurtosis is 0.95 and Jarque-Bera rejects normality. Four losses exceed three volatilities, where a normal model expects 500 x 0.00135 = 0.67 on one side. The Hill estimate of 3.7 is below 4, which the workbook raises as a diagnostic warning that the moment-based Student-t may be too light. Both estimates carry large sampling error on 500 observations, so this is a warning and not a finding.</p>
+      <p class="fine" style="margin-top:12px">The complete synthetic inputs, the workbook outputs and the Python script that cross-checks them are in the <a class="link" href="../../evidence/">evidence files</a>, so the example can be recomputed.</p>
       <div class="shots" style="margin-top:26px"><a class="shot" href="../../samples/tail-risk-screen-dashboard.pdf"><img src="../../img/tail-risk-screen.png?v=2" width="868" height="753" loading="lazy" alt="Tail-Risk Screen dashboard: expected shortfall under three models, a comparison table, and charts of loss by model."><span>Sample dashboard: open the two-page PDF</span></a></div>
     </div>
   </section>
@@ -83,9 +85,10 @@ v     = 4 + 6 / K, rounded, kept between 5 and 30   (K = excess kurtosis)</div>
     <div class="wrap">
       <div class="head"><span class="label">Validation record</span><h2 id="h-va">What has been checked, and what has not.</h2></div>
       <div class="scroll"><table class="data narrow"><thead><tr><th scope="col">Check</th><th scope="col">Result</th></tr></thead><tbody>
-<tr><th scope="row">Formula errors after full recalculation</th><td>None found (LibreOffice).</td></tr>
-<tr><th scope="row">Reference example reproduced independently</th><td>Yes. Normal, Student-t and historical VaR and ES, skewness and kurtosis, in Python.</td></tr>
-<tr><th scope="row">Built-in data checks</th><td>Three: enough observations, no gaps and no return at or below -100%, inputs valid.</td></tr>
+<tr><th scope="row">Spreadsheet error values after full recalculation</th><td>None in LibreOffice. This shows the workbook calculates, not that its logic is right.</td></tr>
+<tr><th scope="row">Numerical cross-check against a separately written Python calculation</th><td>Passed for the documented synthetic reference case, both series: twelve outputs each.</td></tr>
+<tr><th scope="row">Input controls implemented</th><td>Three: enough observations, no gaps and no return at or below -100%, inputs valid.</td></tr>
+<tr><th scope="row">Input controls tested</th><td>Not yet tested systematically.</td></tr>
 <tr><th scope="row">Out-of-sample exceedance test</th><td>Not implemented. The workbook describes a sample and does not backtest.</td></tr>
 <tr><th scope="row">Review by a second AI model</th><td>Not yet done for this workbook.</td></tr>
 </tbody></table></div>
@@ -96,7 +99,7 @@ v     = 4 + 6 / K, rounded, kept between 5 and 30   (K = excess kurtosis)</div>
   <section aria-labelledby="h-li">
     <div class="wrap">
       <div class="head"><span class="label">Limitations</span><h2 id="h-li">When not to rely on it.</h2></div>
-      <div class="prose"><ul><li>The Student-t fit is by moments, not maximum likelihood. Sample kurtosis is unstable in heavy-tailed data, so the fitted degrees of freedom are an indication.</li><li>The Student-t is symmetric. It does not capture a left tail heavier than the right. Stable and tempered stable models are not implemented in the workbook.</li><li>The Cornish-Fisher adjustment is unreliable for strongly skewed or very heavy-tailed samples.</li><li>Returns are treated as independent and identically distributed. Volatility clustering is ignored, so figures describe the whole sample, not current conditions.</li><li>The Hill estimate depends strongly on the number of losses used.</li><li>Historical figures at high confidence rest on few observations.</li></ul></div>
+      <div class="prose"><ul><li>The Student-t degrees of freedom come from a moment-matching heuristic, not maximum likelihood. Sample kurtosis is unstable in heavy-tailed data, so the fitted degrees of freedom are an indication.</li><li>The Student-t is symmetric. It does not capture a left tail heavier than the right. Stable and tempered stable models are not implemented in the workbook.</li><li>The Cornish-Fisher adjustment is unreliable for strongly skewed or very heavy-tailed samples.</li><li>Returns are treated as independent and identically distributed. Volatility clustering is ignored, so figures describe the whole sample, not current conditions.</li><li>The Hill estimate depends strongly on the number of losses used.</li><li>Historical figures at high confidence rest on few observations.</li></ul></div>
     </div>
   </section>
 

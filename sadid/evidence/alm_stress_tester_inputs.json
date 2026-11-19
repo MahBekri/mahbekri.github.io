@@ -1,0 +1,280 @@
+{
+ "note": "Synthetic data. ALM Stress Tester v0.2 reference example, USD million.",
+ "buckets": [
+  "0-1M",
+  "1-3M",
+  "3-6M",
+  "6-12M",
+  "1-2Y",
+  "2-3Y",
+  "3-5Y",
+  "Over 5Y"
+ ],
+ "bucket_midpoints_years": [
+  0.041666666666666664,
+  0.16666666666666666,
+  0.375,
+  0.75,
+  1.5,
+  2.5,
+  4,
+  7
+ ],
+ "inflow_classes": [
+  "Murabaha receivables, retail",
+  "Murabaha receivables, corporate",
+  "Murabaha receivables, public sector",
+  "Ijara rentals",
+  "Sukuk held: profit and redemptions",
+  "Other inflows"
+ ],
+ "inflows": [
+  [
+   45,
+   80,
+   110,
+   190,
+   300,
+   240,
+   260,
+   150
+  ],
+  [
+   60,
+   120,
+   150,
+   210,
+   250,
+   160,
+   120,
+   60
+  ],
+  [
+   30,
+   70,
+   90,
+   140,
+   180,
+   150,
+   170,
+   110
+  ],
+  [
+   12,
+   24,
+   36,
+   70,
+   130,
+   120,
+   200,
+   260
+  ],
+  [
+   8,
+   15,
+   40,
+   60,
+   90,
+   70,
+   110,
+   180
+  ],
+  [
+   10,
+   10,
+   12,
+   15,
+   10,
+   5,
+   5,
+   5
+  ]
+ ],
+ "outflow_classes": [
+  "Current accounts",
+  "Profit-sharing investment accounts",
+  "Term and Wakala deposits",
+  "Wholesale and commodity Murabaha funding",
+  "Sukuk issued",
+  "Operating and other outflows"
+ ],
+ "outflows": [
+  [
+   60,
+   50,
+   45,
+   55,
+   60,
+   40,
+   40,
+   150
+  ],
+  [
+   70,
+   90,
+   110,
+   160,
+   170,
+   90,
+   60,
+   50
+  ],
+  [
+   110,
+   160,
+   170,
+   180,
+   90,
+   40,
+   20,
+   0
+  ],
+  [
+   90,
+   120,
+   70,
+   40,
+   20,
+   0,
+   0,
+   0
+  ],
+  [
+   0,
+   0,
+   0,
+   50,
+   0,
+   100,
+   0,
+   0
+  ],
+  [
+   14,
+   26,
+   38,
+   70,
+   0,
+   0,
+   0,
+   0
+  ]
+ ],
+ "cash": 140,
+ "liquid_sukuk": 260,
+ "undrawn_commitments": 400,
+ "funding_cost": 0.045,
+ "policy_horizon_bucket": 3,
+ "delay_cap_years": 0.5,
+ "scenarios": [
+  "Base",
+  "Payment delay",
+  "Funding run-off",
+  "Market shock",
+  "Combined",
+  "User defined"
+ ],
+ "scenario_rate_names": {
+  "d_ret": "Delay rate, retail Murabaha",
+  "d_corp": "Delay rate, corporate Murabaha",
+  "d_pub": "Delay rate, public-sector Murabaha",
+  "d_ij": "Delay rate, Ijara rentals",
+  "loss": "Non-payment rate, all financing",
+  "r_cur": "Accelerated withdrawal, current accounts",
+  "r_psia": "Accelerated withdrawal, profit-sharing investment accounts",
+  "r_term": "Accelerated withdrawal, term and Wakala deposits",
+  "roll": "Rollover rate, wholesale funding",
+  "draw": "Drawdown of undrawn commitments",
+  "hc": "Haircut on liquid Sukuk"
+ },
+ "scenario_rates": {
+  "d_ret": [
+   0.02,
+   0.1,
+   0.03,
+   0.04,
+   0.12,
+   0.05
+  ],
+  "d_corp": [
+   0.05,
+   0.25,
+   0.06,
+   0.1,
+   0.3,
+   0.1
+  ],
+  "d_pub": [
+   0.1,
+   0.45,
+   0.12,
+   0.15,
+   0.5,
+   0.2
+  ],
+  "d_ij": [
+   0.03,
+   0.15,
+   0.04,
+   0.06,
+   0.18,
+   0.06
+  ],
+  "loss": [
+   0.0,
+   0.01,
+   0.0,
+   0.01,
+   0.02,
+   0.0
+  ],
+  "r_cur": [
+   0.0,
+   0.0,
+   0.1,
+   0.03,
+   0.12,
+   0.05
+  ],
+  "r_psia": [
+   0.0,
+   0.0,
+   0.2,
+   0.05,
+   0.25,
+   0.1
+  ],
+  "r_term": [
+   0.0,
+   0.0,
+   0.08,
+   0.02,
+   0.1,
+   0.04
+  ],
+  "roll": [
+   0.8,
+   0.8,
+   0.3,
+   0.5,
+   0.2,
+   0.6
+  ],
+  "draw": [
+   0.02,
+   0.05,
+   0.1,
+   0.08,
+   0.15,
+   0.05
+  ],
+  "hc": [
+   0.02,
+   0.02,
+   0.05,
+   0.15,
+   0.18,
+   0.08
+  ]
+ }
+}
