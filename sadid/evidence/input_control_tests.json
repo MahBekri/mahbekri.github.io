@@ -1,0 +1,1548 @@
+{
+ "note": "Input-control and property tests for the four prototype workbooks (ALM Stress Tester v0.3, Hedge Sizer v0.3, Tail-Risk Screen v0.3, Equity Mandate Monitor v0.5). Each case changes the stated cells in a copy of the workbook, recalculates it in LibreOffice and compares result cells with the expected status or value. Run by the author on 19 November 2026. Not run in Microsoft Excel. spreadsheet_errors counts error values anywhere in the recalculated workbook: where it is above zero, the result sheets still show INCOMPLETE but the Calc sheet holds error values.",
+ "cases": [
+  {
+   "id": "A01",
+   "workbook": "ALM",
+   "case": "Baseline, no change",
+   "change": [
+    "none"
+   ],
+   "checks": [
+    {
+     "cell": "Summary!B9",
+     "expected": "COMPLETE",
+     "observed": "COMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Summary!F19",
+     "expected": "BREACH",
+     "observed": "BREACH",
+     "result": "PASS"
+    },
+    {
+     "cell": "Summary!B19",
+     "expected": "OK",
+     "observed": "OK",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "A02",
+   "workbook": "ALM",
+   "case": "Blank cash-flow cell",
+   "change": [
+    "Book!B5 = blank"
+   ],
+   "checks": [
+    {
+     "cell": "Summary!B5",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Summary!B9",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Summary!B19",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Summary!B13",
+     "expected": "blank",
+     "observed": "blank",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "A03",
+   "workbook": "ALM",
+   "case": "Text in a cash-flow cell",
+   "change": [
+    "Book!B5 = 'abc'"
+   ],
+   "checks": [
+    {
+     "cell": "Summary!B9",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Summary!B19",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 180
+  },
+  {
+   "id": "A04",
+   "workbook": "ALM",
+   "case": "Negative cash-flow amount",
+   "change": [
+    "Book!B5 = -1"
+   ],
+   "checks": [
+    {
+     "cell": "Summary!B6",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Summary!B9",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "A05",
+   "workbook": "ALM",
+   "case": "Scenario rate above 100%",
+   "change": [
+    "Scenarios!B5 = 1.01"
+   ],
+   "checks": [
+    {
+     "cell": "Summary!B7",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Summary!B9",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "A06",
+   "workbook": "ALM",
+   "case": "Policy horizon of zero",
+   "change": [
+    "Book!B25 = 0"
+   ],
+   "checks": [
+    {
+     "cell": "Summary!B8",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Summary!B9",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "A07",
+   "workbook": "ALM",
+   "case": "Bucket midpoints not increasing",
+   "change": [
+    "Book!C28 = 0.01"
+   ],
+   "checks": [
+    {
+     "cell": "Summary!B8",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Summary!B9",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Summary!B18",
+     "expected": "blank",
+     "observed": "blank",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "A08",
+   "workbook": "ALM",
+   "case": "Text in the funding cost",
+   "change": [
+    "Book!B24 = 'high'"
+   ],
+   "checks": [
+    {
+     "cell": "Summary!B9",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 48
+  },
+  {
+   "id": "A09",
+   "workbook": "ALM",
+   "case": "All delay and non-payment rates zero in the user scenario: inflows unchanged",
+   "change": [
+    "Scenarios!G5 = 0",
+    "Scenarios!G6 = 0",
+    "Scenarios!G7 = 0",
+    "Scenarios!G8 = 0",
+    "Scenarios!G9 = 0"
+   ],
+   "checks": [
+    {
+     "cell": "Summary!G17",
+     "expected": 0,
+     "observed": 0,
+     "result": "PASS"
+    },
+    {
+     "cell": "Summary!G18",
+     "expected": 0,
+     "observed": 0,
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "H10",
+   "workbook": "Hedge",
+   "case": "Baseline, no change",
+   "change": [
+    "none"
+   ],
+   "checks": [
+    {
+     "cell": "Results!B9",
+     "expected": "COMPLETE",
+     "observed": "COMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Results!C15",
+     "expected": -297.459211,
+     "observed": -297.459211,
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "H11",
+   "workbook": "Hedge",
+   "case": "Blank gap",
+   "change": [
+    "Inputs!D5 = blank"
+   ],
+   "checks": [
+    {
+     "cell": "Results!B5",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Results!B9",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Results!C12",
+     "expected": "blank",
+     "observed": "blank",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "H12",
+   "workbook": "Hedge",
+   "case": "Text in a zero rate",
+   "change": [
+    "Inputs!E5 = 'abc'"
+   ],
+   "checks": [
+    {
+     "cell": "Results!B9",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Results!B39",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 15
+  },
+  {
+   "id": "H13",
+   "workbook": "Hedge",
+   "case": "All tenors switched off",
+   "change": [
+    "Inputs!B18 = 0",
+    "Inputs!B19 = 0",
+    "Inputs!B20 = 0",
+    "Inputs!B21 = 0",
+    "Inputs!B22 = 0",
+    "Inputs!B23 = 0"
+   ],
+   "checks": [
+    {
+     "cell": "Results!B7",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Results!B9",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "H14",
+   "workbook": "Hedge",
+   "case": "All gaps zero: every notional zero",
+   "change": [
+    "Inputs!D5 = 0",
+    "Inputs!D6 = 0",
+    "Inputs!D7 = 0",
+    "Inputs!D8 = 0",
+    "Inputs!D9 = 0",
+    "Inputs!D10 = 0",
+    "Inputs!D11 = 0",
+    "Inputs!D12 = 0",
+    "Inputs!D13 = 0",
+    "Inputs!D14 = 0"
+   ],
+   "checks": [
+    {
+     "cell": "Results!B9",
+     "expected": "COMPLETE",
+     "observed": "COMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Results!C12",
+     "expected": 0,
+     "observed": 0,
+     "result": "PASS"
+    },
+    {
+     "cell": "Results!C13",
+     "expected": 0,
+     "observed": 0,
+     "result": "PASS"
+    },
+    {
+     "cell": "Results!C14",
+     "expected": 0,
+     "observed": 0,
+     "result": "PASS"
+    },
+    {
+     "cell": "Results!C15",
+     "expected": 0,
+     "observed": 0,
+     "result": "PASS"
+    },
+    {
+     "cell": "Results!C16",
+     "expected": 0,
+     "observed": 0,
+     "result": "PASS"
+    },
+    {
+     "cell": "Results!C17",
+     "expected": 0,
+     "observed": 0,
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "H15",
+   "workbook": "Hedge",
+   "case": "One tenor switched off (3Y): its notional is zero",
+   "change": [
+    "Inputs!B20 = 0"
+   ],
+   "checks": [
+    {
+     "cell": "Results!B9",
+     "expected": "COMPLETE",
+     "observed": "COMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Results!C14",
+     "expected": 0,
+     "observed": 0,
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "H16",
+   "workbook": "Hedge",
+   "case": "Extreme negative zero rate (-500%)",
+   "change": [
+    "Inputs!E8 = -5"
+   ],
+   "checks": [
+    {
+     "cell": "Results!B5",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Results!B9",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Results!C12",
+     "expected": "blank",
+     "observed": "blank",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "H17",
+   "workbook": "Hedge",
+   "case": "Size penalty of zero",
+   "change": [
+    "Inputs!B28 = 0"
+   ],
+   "checks": [
+    {
+     "cell": "Results!B8",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Results!B9",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "T18",
+   "workbook": "Tail",
+   "case": "Baseline, no change",
+   "change": [
+    "none"
+   ],
+   "checks": [
+    {
+     "cell": "Report!B10",
+     "expected": "COMPLETE",
+     "observed": "COMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Report!B31",
+     "expected": 0.03377386,
+     "observed": 0.033774,
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "T19",
+   "workbook": "Tail",
+   "case": "Text in the last return",
+   "change": [
+    "Returns!B505 = 'n/a'"
+   ],
+   "checks": [
+    {
+     "cell": "Report!B8",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Report!B10",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Report!B23",
+     "expected": "blank",
+     "observed": "blank",
+     "result": "PASS"
+    },
+    {
+     "cell": "Report!B31",
+     "expected": "blank",
+     "observed": "blank",
+     "result": "PASS"
+    },
+    {
+     "cell": "Report!B40",
+     "expected": "blank",
+     "observed": "blank",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "T20",
+   "workbook": "Tail",
+   "case": "Text in a late return (10 from the end)",
+   "change": [
+    "Returns!B495 = 'abc'"
+   ],
+   "checks": [
+    {
+     "cell": "Report!B8",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Report!B10",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Report!B34",
+     "expected": "blank",
+     "observed": "blank",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "T21",
+   "workbook": "Tail",
+   "case": "Blank first return",
+   "change": [
+    "Returns!B6 = blank"
+   ],
+   "checks": [
+    {
+     "cell": "Report!B8",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Report!B10",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Report!B22",
+     "expected": "blank",
+     "observed": "blank",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "T22",
+   "workbook": "Tail",
+   "case": "Blank return in the middle",
+   "change": [
+    "Returns!B250 = blank"
+   ],
+   "checks": [
+    {
+     "cell": "Report!B8",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Report!B10",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "T23",
+   "workbook": "Tail",
+   "case": "Return of -100%",
+   "change": [
+    "Returns!B100 = -1"
+   ],
+   "checks": [
+    {
+     "cell": "Report!B8",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Report!B10",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Report!B23",
+     "expected": "blank",
+     "observed": "blank",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "T24",
+   "workbook": "Tail",
+   "case": "Confidence level of 101%",
+   "change": [
+    "Inputs!B4 = 1.01"
+   ],
+   "checks": [
+    {
+     "cell": "Report!B9",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Report!B10",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Report!B23",
+     "expected": "blank",
+     "observed": "blank",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "T25",
+   "workbook": "Tail",
+   "case": "Text in the confidence level",
+   "change": [
+    "Inputs!B4 = 'high'"
+   ],
+   "checks": [
+    {
+     "cell": "Report!B9",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Report!B10",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "T26",
+   "workbook": "Tail",
+   "case": "Only 20 observations",
+   "change": [
+    "Returns!B26 = blank",
+    "Returns!B27 = blank",
+    "Returns!B28 = blank",
+    "Returns!B29 = blank",
+    "Returns!B30 = blank",
+    "Returns!B31 = blank",
+    "Returns!B32 = blank",
+    "Returns!B33 = blank",
+    "Returns!B34 = blank",
+    "Returns!B35 = blank",
+    "Returns!B36 = blank",
+    "Returns!B37 = blank",
+    "Returns!B38 = blank",
+    "Returns!B39 = blank",
+    "Returns!B40 = blank",
+    "Returns!B41 = blank",
+    "Returns!B42 = blank",
+    "Returns!B43 = blank",
+    "Returns!B44 = blank",
+    "Returns!B45 = blank",
+    "Returns!B46 = blank",
+    "Returns!B47 = blank",
+    "Returns!B48 = blank",
+    "Returns!B49 = blank",
+    "Returns!B50 = blank",
+    "Returns!B51 = blank",
+    "Returns!B52 = blank",
+    "Returns!B53 = blank",
+    "Returns!B54 = blank",
+    "Returns!B55 = blank",
+    "Returns!B56 = blank",
+    "Returns!B57 = blank",
+    "Returns!B58 = blank",
+    "Returns!B59 = blank",
+    "Returns!B60 = blank",
+    "Returns!B61 = blank",
+    "Returns!B62 = blank",
+    "Returns!B63 = blank",
+    "Returns!B64 = blank",
+    "Returns!B65 = blank",
+    "Returns!B66 = blank",
+    "Returns!B67 = blank",
+    "Returns!B68 = blank",
+    "Returns!B69 = blank",
+    "Returns!B70 = blank",
+    "Returns!B71 = blank",
+    "Returns!B72 = blank",
+    "Returns!B73 = blank",
+    "Returns!B74 = blank",
+    "Returns!B75 = blank",
+    "Returns!B76 = blank",
+    "Returns!B77 = blank",
+    "Returns!B78 = blank",
+    "Returns!B79 = blank",
+    "Returns!B80 = blank",
+    "Returns!B81 = blank",
+    "Returns!B82 = blank",
+    "Returns!B83 = blank",
+    "Returns!B84 = blank",
+    "Returns!B85 = blank",
+    "Returns!B86 = blank",
+    "Returns!B87 = blank",
+    "Returns!B88 = blank",
+    "Returns!B89 = blank",
+    "Returns!B90 = blank",
+    "Returns!B91 = blank",
+    "Returns!B92 = blank",
+    "Returns!B93 = blank",
+    "Returns!B94 = blank",
+    "Returns!B95 = blank",
+    "Returns!B96 = blank",
+    "Returns!B97 = blank",
+    "Returns!B98 = blank",
+    "Returns!B99 = blank",
+    "Returns!B100 = blank",
+    "Returns!B101 = blank",
+    "Returns!B102 = blank",
+    "Returns!B103 = blank",
+    "Returns!B104 = blank",
+    "Returns!B105 = blank",
+    "Returns!B106 = blank",
+    "Returns!B107 = blank",
+    "Returns!B108 = blank",
+    "Returns!B109 = blank",
+    "Returns!B110 = blank",
+    "Returns!B111 = blank",
+    "Returns!B112 = blank",
+    "Returns!B113 = blank",
+    "Returns!B114 = blank",
+    "Returns!B115 = blank",
+    "Returns!B116 = blank",
+    "Returns!B117 = blank",
+    "Returns!B118 = blank",
+    "Returns!B119 = blank",
+    "Returns!B120 = blank",
+    "Returns!B121 = blank",
+    "Returns!B122 = blank",
+    "Returns!B123 = blank",
+    "Returns!B124 = blank",
+    "Returns!B125 = blank",
+    "Returns!B126 = blank",
+    "Returns!B127 = blank",
+    "Returns!B128 = blank",
+    "Returns!B129 = blank",
+    "Returns!B130 = blank",
+    "Returns!B131 = blank",
+    "Returns!B132 = blank",
+    "Returns!B133 = blank",
+    "Returns!B134 = blank",
+    "Returns!B135 = blank",
+    "Returns!B136 = blank",
+    "Returns!B137 = blank",
+    "Returns!B138 = blank",
+    "Returns!B139 = blank",
+    "Returns!B140 = blank",
+    "Returns!B141 = blank",
+    "Returns!B142 = blank",
+    "Returns!B143 = blank",
+    "Returns!B144 = blank",
+    "Returns!B145 = blank",
+    "Returns!B146 = blank",
+    "Returns!B147 = blank",
+    "Returns!B148 = blank",
+    "Returns!B149 = blank",
+    "Returns!B150 = blank",
+    "Returns!B151 = blank",
+    "Returns!B152 = blank",
+    "Returns!B153 = blank",
+    "Returns!B154 = blank",
+    "Returns!B155 = blank",
+    "Returns!B156 = blank",
+    "Returns!B157 = blank",
+    "Returns!B158 = blank",
+    "Returns!B159 = blank",
+    "Returns!B160 = blank",
+    "Returns!B161 = blank",
+    "Returns!B162 = blank",
+    "Returns!B163 = blank",
+    "Returns!B164 = blank",
+    "Returns!B165 = blank",
+    "Returns!B166 = blank",
+    "Returns!B167 = blank",
+    "Returns!B168 = blank",
+    "Returns!B169 = blank",
+    "Returns!B170 = blank",
+    "Returns!B171 = blank",
+    "Returns!B172 = blank",
+    "Returns!B173 = blank",
+    "Returns!B174 = blank",
+    "Returns!B175 = blank",
+    "Returns!B176 = blank",
+    "Returns!B177 = blank",
+    "Returns!B178 = blank",
+    "Returns!B179 = blank",
+    "Returns!B180 = blank",
+    "Returns!B181 = blank",
+    "Returns!B182 = blank",
+    "Returns!B183 = blank",
+    "Returns!B184 = blank",
+    "Returns!B185 = blank",
+    "Returns!B186 = blank",
+    "Returns!B187 = blank",
+    "Returns!B188 = blank",
+    "Returns!B189 = blank",
+    "Returns!B190 = blank",
+    "Returns!B191 = blank",
+    "Returns!B192 = blank",
+    "Returns!B193 = blank",
+    "Returns!B194 = blank",
+    "Returns!B195 = blank",
+    "Returns!B196 = blank",
+    "Returns!B197 = blank",
+    "Returns!B198 = blank",
+    "Returns!B199 = blank",
+    "Returns!B200 = blank",
+    "Returns!B201 = blank",
+    "Returns!B202 = blank",
+    "Returns!B203 = blank",
+    "Returns!B204 = blank",
+    "Returns!B205 = blank",
+    "Returns!B206 = blank",
+    "Returns!B207 = blank",
+    "Returns!B208 = blank",
+    "Returns!B209 = blank",
+    "Returns!B210 = blank",
+    "Returns!B211 = blank",
+    "Returns!B212 = blank",
+    "Returns!B213 = blank",
+    "Returns!B214 = blank",
+    "Returns!B215 = blank",
+    "Returns!B216 = blank",
+    "Returns!B217 = blank",
+    "Returns!B218 = blank",
+    "Returns!B219 = blank",
+    "Returns!B220 = blank",
+    "Returns!B221 = blank",
+    "Returns!B222 = blank",
+    "Returns!B223 = blank",
+    "Returns!B224 = blank",
+    "Returns!B225 = blank",
+    "Returns!B226 = blank",
+    "Returns!B227 = blank",
+    "Returns!B228 = blank",
+    "Returns!B229 = blank",
+    "Returns!B230 = blank",
+    "Returns!B231 = blank",
+    "Returns!B232 = blank",
+    "Returns!B233 = blank",
+    "Returns!B234 = blank",
+    "Returns!B235 = blank",
+    "Returns!B236 = blank",
+    "Returns!B237 = blank",
+    "Returns!B238 = blank",
+    "Returns!B239 = blank",
+    "Returns!B240 = blank",
+    "Returns!B241 = blank",
+    "Returns!B242 = blank",
+    "Returns!B243 = blank",
+    "Returns!B244 = blank",
+    "Returns!B245 = blank",
+    "Returns!B246 = blank",
+    "Returns!B247 = blank",
+    "Returns!B248 = blank",
+    "Returns!B249 = blank",
+    "Returns!B250 = blank",
+    "Returns!B251 = blank",
+    "Returns!B252 = blank",
+    "Returns!B253 = blank",
+    "Returns!B254 = blank",
+    "Returns!B255 = blank",
+    "Returns!B256 = blank",
+    "Returns!B257 = blank",
+    "Returns!B258 = blank",
+    "Returns!B259 = blank",
+    "Returns!B260 = blank",
+    "Returns!B261 = blank",
+    "Returns!B262 = blank",
+    "Returns!B263 = blank",
+    "Returns!B264 = blank",
+    "Returns!B265 = blank",
+    "Returns!B266 = blank",
+    "Returns!B267 = blank",
+    "Returns!B268 = blank",
+    "Returns!B269 = blank",
+    "Returns!B270 = blank",
+    "Returns!B271 = blank",
+    "Returns!B272 = blank",
+    "Returns!B273 = blank",
+    "Returns!B274 = blank",
+    "Returns!B275 = blank",
+    "Returns!B276 = blank",
+    "Returns!B277 = blank",
+    "Returns!B278 = blank",
+    "Returns!B279 = blank",
+    "Returns!B280 = blank",
+    "Returns!B281 = blank",
+    "Returns!B282 = blank",
+    "Returns!B283 = blank",
+    "Returns!B284 = blank",
+    "Returns!B285 = blank",
+    "Returns!B286 = blank",
+    "Returns!B287 = blank",
+    "Returns!B288 = blank",
+    "Returns!B289 = blank",
+    "Returns!B290 = blank",
+    "Returns!B291 = blank",
+    "Returns!B292 = blank",
+    "Returns!B293 = blank",
+    "Returns!B294 = blank",
+    "Returns!B295 = blank",
+    "Returns!B296 = blank",
+    "Returns!B297 = blank",
+    "Returns!B298 = blank",
+    "Returns!B299 = blank",
+    "Returns!B300 = blank",
+    "Returns!B301 = blank",
+    "Returns!B302 = blank",
+    "Returns!B303 = blank",
+    "Returns!B304 = blank",
+    "Returns!B305 = blank",
+    "Returns!B306 = blank",
+    "Returns!B307 = blank",
+    "Returns!B308 = blank",
+    "Returns!B309 = blank",
+    "Returns!B310 = blank",
+    "Returns!B311 = blank",
+    "Returns!B312 = blank",
+    "Returns!B313 = blank",
+    "Returns!B314 = blank",
+    "Returns!B315 = blank",
+    "Returns!B316 = blank",
+    "Returns!B317 = blank",
+    "Returns!B318 = blank",
+    "Returns!B319 = blank",
+    "Returns!B320 = blank",
+    "Returns!B321 = blank",
+    "Returns!B322 = blank",
+    "Returns!B323 = blank",
+    "Returns!B324 = blank",
+    "Returns!B325 = blank",
+    "Returns!B326 = blank",
+    "Returns!B327 = blank",
+    "Returns!B328 = blank",
+    "Returns!B329 = blank",
+    "Returns!B330 = blank",
+    "Returns!B331 = blank",
+    "Returns!B332 = blank",
+    "Returns!B333 = blank",
+    "Returns!B334 = blank",
+    "Returns!B335 = blank",
+    "Returns!B336 = blank",
+    "Returns!B337 = blank",
+    "Returns!B338 = blank",
+    "Returns!B339 = blank",
+    "Returns!B340 = blank",
+    "Returns!B341 = blank",
+    "Returns!B342 = blank",
+    "Returns!B343 = blank",
+    "Returns!B344 = blank",
+    "Returns!B345 = blank",
+    "Returns!B346 = blank",
+    "Returns!B347 = blank",
+    "Returns!B348 = blank",
+    "Returns!B349 = blank",
+    "Returns!B350 = blank",
+    "Returns!B351 = blank",
+    "Returns!B352 = blank",
+    "Returns!B353 = blank",
+    "Returns!B354 = blank",
+    "Returns!B355 = blank",
+    "Returns!B356 = blank",
+    "Returns!B357 = blank",
+    "Returns!B358 = blank",
+    "Returns!B359 = blank",
+    "Returns!B360 = blank",
+    "Returns!B361 = blank",
+    "Returns!B362 = blank",
+    "Returns!B363 = blank",
+    "Returns!B364 = blank",
+    "Returns!B365 = blank",
+    "Returns!B366 = blank",
+    "Returns!B367 = blank",
+    "Returns!B368 = blank",
+    "Returns!B369 = blank",
+    "Returns!B370 = blank",
+    "Returns!B371 = blank",
+    "Returns!B372 = blank",
+    "Returns!B373 = blank",
+    "Returns!B374 = blank",
+    "Returns!B375 = blank",
+    "Returns!B376 = blank",
+    "Returns!B377 = blank",
+    "Returns!B378 = blank",
+    "Returns!B379 = blank",
+    "Returns!B380 = blank",
+    "Returns!B381 = blank",
+    "Returns!B382 = blank",
+    "Returns!B383 = blank",
+    "Returns!B384 = blank",
+    "Returns!B385 = blank",
+    "Returns!B386 = blank",
+    "Returns!B387 = blank",
+    "Returns!B388 = blank",
+    "Returns!B389 = blank",
+    "Returns!B390 = blank",
+    "Returns!B391 = blank",
+    "Returns!B392 = blank",
+    "Returns!B393 = blank",
+    "Returns!B394 = blank",
+    "Returns!B395 = blank",
+    "Returns!B396 = blank",
+    "Returns!B397 = blank",
+    "Returns!B398 = blank",
+    "Returns!B399 = blank",
+    "Returns!B400 = blank",
+    "Returns!B401 = blank",
+    "Returns!B402 = blank",
+    "Returns!B403 = blank",
+    "Returns!B404 = blank",
+    "Returns!B405 = blank",
+    "Returns!B406 = blank",
+    "Returns!B407 = blank",
+    "Returns!B408 = blank",
+    "Returns!B409 = blank",
+    "Returns!B410 = blank",
+    "Returns!B411 = blank",
+    "Returns!B412 = blank",
+    "Returns!B413 = blank",
+    "Returns!B414 = blank",
+    "Returns!B415 = blank",
+    "Returns!B416 = blank",
+    "Returns!B417 = blank",
+    "Returns!B418 = blank",
+    "Returns!B419 = blank",
+    "Returns!B420 = blank",
+    "Returns!B421 = blank",
+    "Returns!B422 = blank",
+    "Returns!B423 = blank",
+    "Returns!B424 = blank",
+    "Returns!B425 = blank",
+    "Returns!B426 = blank",
+    "Returns!B427 = blank",
+    "Returns!B428 = blank",
+    "Returns!B429 = blank",
+    "Returns!B430 = blank",
+    "Returns!B431 = blank",
+    "Returns!B432 = blank",
+    "Returns!B433 = blank",
+    "Returns!B434 = blank",
+    "Returns!B435 = blank",
+    "Returns!B436 = blank",
+    "Returns!B437 = blank",
+    "Returns!B438 = blank",
+    "Returns!B439 = blank",
+    "Returns!B440 = blank",
+    "Returns!B441 = blank",
+    "Returns!B442 = blank",
+    "Returns!B443 = blank",
+    "Returns!B444 = blank",
+    "Returns!B445 = blank",
+    "Returns!B446 = blank",
+    "Returns!B447 = blank",
+    "Returns!B448 = blank",
+    "Returns!B449 = blank",
+    "Returns!B450 = blank",
+    "Returns!B451 = blank",
+    "Returns!B452 = blank",
+    "Returns!B453 = blank",
+    "Returns!B454 = blank",
+    "Returns!B455 = blank",
+    "Returns!B456 = blank",
+    "Returns!B457 = blank",
+    "Returns!B458 = blank",
+    "Returns!B459 = blank",
+    "Returns!B460 = blank",
+    "Returns!B461 = blank",
+    "Returns!B462 = blank",
+    "Returns!B463 = blank",
+    "Returns!B464 = blank",
+    "Returns!B465 = blank",
+    "Returns!B466 = blank",
+    "Returns!B467 = blank",
+    "Returns!B468 = blank",
+    "Returns!B469 = blank",
+    "Returns!B470 = blank",
+    "Returns!B471 = blank",
+    "Returns!B472 = blank",
+    "Returns!B473 = blank",
+    "Returns!B474 = blank",
+    "Returns!B475 = blank",
+    "Returns!B476 = blank",
+    "Returns!B477 = blank",
+    "Returns!B478 = blank",
+    "Returns!B479 = blank",
+    "Returns!B480 = blank",
+    "Returns!B481 = blank",
+    "Returns!B482 = blank",
+    "Returns!B483 = blank",
+    "Returns!B484 = blank",
+    "Returns!B485 = blank",
+    "Returns!B486 = blank",
+    "Returns!B487 = blank",
+    "Returns!B488 = blank",
+    "Returns!B489 = blank",
+    "Returns!B490 = blank",
+    "Returns!B491 = blank",
+    "Returns!B492 = blank",
+    "Returns!B493 = blank",
+    "Returns!B494 = blank",
+    "Returns!B495 = blank",
+    "Returns!B496 = blank",
+    "Returns!B497 = blank",
+    "Returns!B498 = blank",
+    "Returns!B499 = blank",
+    "Returns!B500 = blank",
+    "Returns!B501 = blank",
+    "Returns!B502 = blank",
+    "Returns!B503 = blank",
+    "Returns!B504 = blank",
+    "Returns!B505 = blank"
+   ],
+   "checks": [
+    {
+     "cell": "Report!B7",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Report!B10",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Report!B23",
+     "expected": "blank",
+     "observed": "blank",
+     "result": "PASS"
+    },
+    {
+     "cell": "Report!B33",
+     "expected": "blank",
+     "observed": "blank",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "T27",
+   "workbook": "Tail",
+   "case": "Degrees-of-freedom override of 200: Student-t ES close to normal ES",
+   "change": [
+    "Inputs!B7 = 200"
+   ],
+   "checks": [
+    {
+     "cell": "Report!B10",
+     "expected": "COMPLETE",
+     "observed": "COMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Report!B37",
+     "expected": "between 1.00 and 1.01",
+     "observed": 1.00537,
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "E28",
+   "workbook": "Equity",
+   "case": "Baseline, no change",
+   "change": [
+    "none"
+   ],
+   "checks": [
+    {
+     "cell": "Monitor!C41",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!D41",
+     "expected": "BREACH",
+     "observed": "BREACH",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!E40",
+     "expected": "PROVISIONAL",
+     "observed": "PROVISIONAL",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!E41",
+     "expected": "PROVISIONAL",
+     "observed": "PROVISIONAL",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "E29",
+   "workbook": "Equity",
+   "case": "One monthly return removed (Manager 1)",
+   "change": [
+    "Returns!C10 = blank"
+   ],
+   "checks": [
+    {
+     "cell": "Monitor!C7",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!C38",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "E30",
+   "workbook": "Equity",
+   "case": "Weights sum to 99% (Manager 1)",
+   "change": [
+    "Holdings!C6 = 0.0868"
+   ],
+   "checks": [
+    {
+     "cell": "Monitor!C8",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!C39",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!C40",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "E31",
+   "workbook": "Equity",
+   "case": "Negative weight offset so the total stays 100% (Manager 1)",
+   "change": [
+    "Holdings!C16 = -0.01",
+    "Holdings!C6 raised so the total is unchanged"
+   ],
+   "checks": [
+    {
+     "cell": "Monitor!C8",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!C39",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!C40",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!C41",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "E32",
+   "workbook": "Equity",
+   "case": "Negative weight on a manager with a concentration breach (Manager 2): no confirmed breach on invalid data",
+   "change": [
+    "Holdings!C33 = -0.01",
+    "Holdings!C23 raised so the total is unchanged"
+   ],
+   "checks": [
+    {
+     "cell": "Monitor!D8",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!D39",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!D38",
+     "expected": "BREACH",
+     "observed": "BREACH",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "E33",
+   "workbook": "Equity",
+   "case": "Text in a screening ratio (Manager 1)",
+   "change": [
+    "Holdings!F6 = 'n/a'"
+   ],
+   "checks": [
+    {
+     "cell": "Holdings!I6",
+     "expected": "MISSING",
+     "observed": "MISSING",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!C9",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!C40",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "E34",
+   "workbook": "Equity",
+   "case": "Negative screening ratio (Manager 1)",
+   "change": [
+    "Holdings!F6 = -0.1"
+   ],
+   "checks": [
+    {
+     "cell": "Holdings!I6",
+     "expected": "INVALID",
+     "observed": "INVALID",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!C40",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "E35",
+   "workbook": "Equity",
+   "case": "Methodology adopted and versioned: statuses become final",
+   "change": [
+    "Inputs!B25 = 'Yes'",
+    "Inputs!B24 = '2026 edition'"
+   ],
+   "checks": [
+    {
+     "cell": "Monitor!C9",
+     "expected": "YES",
+     "observed": "YES",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!C40",
+     "expected": "OK",
+     "observed": "OK",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!E40",
+     "expected": "BREACH",
+     "observed": "BREACH",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!C41",
+     "expected": "OK",
+     "observed": "OK",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!E41",
+     "expected": "BREACH",
+     "observed": "BREACH",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "E36",
+   "workbook": "Equity",
+   "case": "Text in the tracking-error limit",
+   "change": [
+    "Inputs!B6 = 'abc'"
+   ],
+   "checks": [
+    {
+     "cell": "Monitor!C10",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!C38",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!D38",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!D39",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!D41",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  },
+  {
+   "id": "E37",
+   "workbook": "Equity",
+   "case": "Threshold of zero",
+   "change": [
+    "Inputs!B10 = 0"
+   ],
+   "checks": [
+    {
+     "cell": "Monitor!C10",
+     "expected": "NO",
+     "observed": "NO",
+     "result": "PASS"
+    },
+    {
+     "cell": "Monitor!E40",
+     "expected": "INCOMPLETE",
+     "observed": "INCOMPLETE",
+     "result": "PASS"
+    }
+   ],
+   "spreadsheet_errors": 0
+  }
+ ]
+}

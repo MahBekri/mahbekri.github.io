@@ -38,12 +38,13 @@
     <div class="wrap">
       <div class="head"><span class="label">Files</span><h2 id="ev1">Inputs, expected outputs and the check script.</h2></div>
       <div class="scroll"><table class="data narrow"><thead><tr><th scope="col">File</th><th scope="col">Contents</th></tr></thead><tbody>
-<tr><th scope="row"><a class="link" href="alm_stress_tester_inputs.json" download>alm_stress_tester_inputs.json</a></th><td>ALM Stress Tester v0.2: the full cash-flow ladder, buffer, commitments, policy inputs and all eleven rates for six scenarios.</td></tr>
-<tr><th scope="row"><a class="link" href="hedge_sizer_inputs.json" download>hedge_sizer_inputs.json</a></th><td>Hedge Sizer v0.2: ten bucket gaps, zero rates, weights, swap tenors, rounding lot and size penalty.</td></tr>
-<tr><th scope="row"><a class="link" href="tail_risk_screen_inputs.json" download>tail_risk_screen_inputs.json</a></th><td>Tail-Risk Screen v0.2: both series of 500 returns, the confidence level and the Hill parameter.</td></tr>
-<tr><th scope="row"><a class="link" href="equity_mandate_monitor_inputs.json" download>equity_mandate_monitor_inputs.json</a></th><td>Equity Mandate Monitor v0.4: 120 monthly returns for the benchmark and three managers, and all holdings.</td></tr>
+<tr><th scope="row"><a class="link" href="alm_stress_tester_inputs.json" download>alm_stress_tester_inputs.json</a></th><td>ALM Stress Tester v0.3: the full cash-flow ladder, buffer, commitments, policy inputs and all eleven rates for six scenarios.</td></tr>
+<tr><th scope="row"><a class="link" href="hedge_sizer_inputs.json" download>hedge_sizer_inputs.json</a></th><td>Hedge Sizer v0.3: ten bucket gaps, zero rates, weights, swap tenors, rounding lot and size penalty.</td></tr>
+<tr><th scope="row"><a class="link" href="tail_risk_screen_inputs.json" download>tail_risk_screen_inputs.json</a></th><td>Tail-Risk Screen v0.3: both series of 500 returns, the confidence level and the Hill parameter.</td></tr>
+<tr><th scope="row"><a class="link" href="equity_mandate_monitor_inputs.json" download>equity_mandate_monitor_inputs.json</a></th><td>Equity Mandate Monitor v0.5: 120 monthly returns for the benchmark and three managers, and all holdings.</td></tr>
 <tr><th scope="row"><a class="link" href="expected_outputs.json" download>expected_outputs.json</a></th><td>The outputs read from each recalculated workbook, used as the values to match.</td></tr>
 <tr><th scope="row"><a class="link" href="reference_checks.py" download>reference_checks.py</a></th><td>The script. It recomputes 117 outputs and compares each with the workbook value.</td></tr>
+<tr><th scope="row"><a class="link" href="input_control_tests.json" download>input_control_tests.json</a></th><td>Input-control and property tests: 37 cases across the four workbooks, with the change made, the cells checked, the expected and the observed result.</td></tr>
 <tr><th scope="row"><a class="link" href="liquidity_delay_explorer_cases.json" download>liquidity_delay_explorer_cases.json</a></th><td>Liquidity Delay Explorer: five test cases with inputs and expected outputs.</td></tr>
 </tbody></table></div>
     </div>
@@ -61,12 +62,15 @@
 <tr><th scope="row">Within tolerance</th><td>117 of 117</td></tr>
 <tr><th scope="row">Software</th><td>Python 3.13, numpy 2.5, scipy 1.18</td></tr>
 <tr><th scope="row">Workbook values from</th><td>Full recalculation in LibreOffice</td></tr>
+<tr><th scope="row">Workbook versions</th><td>ALM v0.3, Hedge Sizer v0.3, Tail-Risk Screen v0.3, Equity Mandate Monitor v0.5</td></tr>
+<tr><th scope="row">Input-control and property tests</th><td>37 cases, 106 checks, all as expected</td></tr>
 </tbody></table></div>
       <h2 id="ev4" style="margin-top:22px">What this does and does not show</h2>
       <ul>
         <li>It shows that the workbook formulas and a separately written calculation give the same numbers on one synthetic case per model.</li>
         <li>Both were written by the same author from the same specification. It is a cross-check, not an independent validation.</li>
-        <li>It does not test other inputs, invalid data, Microsoft Excel, or whether the method suits any institution.</li>
+        <li>The input-control tests cover 37 chosen cases of blank, text, negative, out-of-range and inconsistent inputs. They are not exhaustive.</li>
+        <li>Nothing here tests Microsoft Excel, or whether the method suits any institution.</li>
         <li>The workbooks themselves are not published here. They are prototypes and not on release.</li>
       </ul>
       <p>All data is synthetic. No real institution, portfolio, security or market is represented.</p>
