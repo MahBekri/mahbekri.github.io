@@ -59,7 +59,7 @@
 <tr><th scope="row">Input controls tested with invalid and extreme inputs (LibreOffice)</th><td>9 cases pass</td><td>8 cases pass</td><td>10 cases pass</td><td>10 cases pass</td></tr>
 <tr><th scope="row">Property tests</th><td>Inflow conservation: pass</td><td>Zero gap and switched-off tenor: pass</td><td>Convergence to normal: pass</td><td>Not tested</td></tr>
 <tr><th scope="row">Recalculation in Microsoft Excel</th><td>Not tested</td><td>Not tested</td><td>Not tested</td><td>Not tested</td></tr>
-<tr><th scope="row">Review by a second AI model (previous version; fixes not re-reviewed)</th><td>v0.2</td><td>v0.2</td><td>v0.2</td><td>v0.4</td></tr>
+<tr><th scope="row">Review by a second AI model: formulas read and fixes confirmed, bad-input cases not repeated</th><td>v0.3</td><td>v0.3</td><td>v0.3</td><td>v0.5</td></tr>
 <tr><th scope="row">Independent human review</th><td>Pending</td><td>Pending</td><td>Pending</td><td>Pending</td></tr>
 <tr><th scope="row">Sharia review</th><td>None</td><td>None</td><td>None</td><td>None</td></tr>
 <tr><th scope="row">Status</th><td>Prototype</td><td>Prototype</td><td>Prototype</td><td>Prototype</td></tr>
@@ -108,7 +108,7 @@
         <li>No independent human reviewer has examined any model.</li>
         <li>The 37 input and property test cases were run by the author in LibreOffice. They are not exhaustive: matrix conditioning, sensitivity to the size penalty and mixed invalid states are not covered.</li>
         <li>When text is typed into a numeric cell of the ALM Stress Tester or Hedge Sizer, the result sheets correctly show INCOMPLETE but error values appear on the Calc sheet.</li>
-        <li>The current versions carry fixes made after the last AI review and have not been re-reviewed.</li>
+        <li>The fixes in the current versions were confirmed by an AI reviewer reading the formulas. The 37 bad-input cases were run by the author only and have not been repeated by anyone else.</li>
         <li>No model has been reviewed by a Sharia scholar or board. No model issues a Sharia determination.</li>
         <li>All examples use synthetic data. No model has been run on an institution's data.</li>
         <li>No tests yet of numerical stability, tolerance sensitivity, zero or negative rates, other spreadsheet versions, or whether a release can be rebuilt identically.</li>
