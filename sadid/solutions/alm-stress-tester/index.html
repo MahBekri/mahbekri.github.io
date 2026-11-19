@@ -30,7 +30,7 @@
 <main id="top">
 <div class="wrap crumbs"><a href="../../">Home</a> / <a href="../../solutions/">Solutions</a> / ALM Stress Tester</div>
   <div class="wrap page-head">
-    <div class="meta"><span class="status s-proto">Prototype</span><span class="label">v0.3 · Treasury and ALM teams · record updated 19 November 2026</span></div>
+    <div class="meta"><span class="status s-proto">Prototype</span><span class="label">v0.3.1 · Treasury and ALM teams · record updated 19 November 2026</span></div>
     <h1>ALM Stress Tester</h1>
     <p>Where do funding gaps open when customers pay late or funding leaves, and how long does the liquid buffer last?</p>
     <p class="callout">Prototype: the functions below exist and run on synthetic data. The workbook has not been independently validated and is not on sale. <a class="link" href="../../validation/">What the status labels mean</a>.</p>
@@ -84,7 +84,7 @@ Cost of delay = sum over b of Delayed(b) x funding cost per year x min(cap, m(b+
 <tr><th scope="row">User defined</th><td class="num">379.2</td><td class="num">44.3</td><td class="num">8</td><td class="num">0.0</td><td class="num">369.8</td><td class="num">7.43</td><td>OK</td></tr>
 </tbody></table></div>
       <p class="fine" style="margin-top:12px">The complete synthetic inputs, the workbook outputs and the Python script that cross-checks them are in the <a class="link" href="../../evidence/">evidence files</a>, so the example can be recomputed.</p>
-      <div class="shots" style="margin-top:26px"><a class="shot" href="../../samples/alm-stress-tester-dashboard.pdf?v=3"><img src="../../img/alm-stress-tester.png?v=3" width="995" height="698" loading="lazy" alt="ALM Stress Tester dashboard: status tiles, a scorecard of six stress scenarios, and charts of the liquidity position."><span>Sample dashboard: open the two-page PDF</span></a></div>
+      <div class="shots" style="margin-top:26px"><a class="shot" href="../../samples/alm-stress-tester-dashboard.pdf?v=4"><img src="../../img/alm-stress-tester.png?v=4" width="995" height="698" loading="lazy" alt="ALM Stress Tester dashboard: status tiles, a scorecard of six stress scenarios, and charts of the liquidity position."><span>Sample dashboard: open the two-page PDF</span></a></div>
     </div>
   </section>
 
@@ -96,9 +96,10 @@ Cost of delay = sum over b of Delayed(b) x funding cost per year x min(cap, m(b+
 <tr><th scope="row">Numerical cross-check against a separately written Python calculation</th><td>Passed for the documented synthetic reference case: six scenarios, seven outputs each.</td></tr>
 <tr><th scope="row">Input controls implemented</th><td>Four: book complete and numeric, no negative amounts, scenario rates between 0% and 100%, and policy horizon, funding cost, delay cap and bucket midpoints valid.</td></tr>
 <tr><th scope="row">Input controls tested</th><td>Nine cases recalculated in LibreOffice, 21 checks, all as expected: blank, text, negative, rate above 100%, invalid horizon, midpoints out of order, and conservation of inflows. Text in a numeric cell leaves error values on the Calc sheet while the Summary shows INCOMPLETE.</td></tr>
+<tr><th scope="row">Microsoft Excel</th><td>v0.3 opened in Excel for Microsoft 365 on Windows (build 16.0.20430) and tested through an AI assistant inside Excel: full recalculation with no error values, all six scenario results and statuses match, one bad-input case behaves as expected, drop-down works. Opening dialogs were not observed. v0.3.1 changes presentation only and has not been reopened in Excel.</td></tr>
 <tr><th scope="row">Review by a second AI model</th><td>v0.2 reviewed on 19 November 2026: formulas read and all six scenarios recomputed independently, with agreement. Its findings on controls and wording are addressed in v0.3. The same reviewer then read the v0.3 formulas and confirmed the changes are present, without repeating the bad-input cases. Not counted as independent validation.</td></tr>
 </tbody></table></div>
-      <div class="prose" style="margin-top:20px"><h3>Open items</h3><ul><li>Not yet opened and recalculated in Microsoft Excel. It was built and recalculated in LibreOffice.</li><li>No independent human review has taken place.</li><li>No Sharia review has taken place. The workbook is not a Sharia approval of any contract, instrument or portfolio.</li></ul></div>
+      <div class="prose" style="margin-top:20px"><h3>Open items</h3><ul><li>The Microsoft Excel test did not observe Excel's opening dialogs, and the latest presentation-only revision has not been reopened in Excel.</li><li>No independent human review has taken place.</li><li>No Sharia review has taken place. The workbook is not a Sharia approval of any contract, instrument or portfolio.</li></ul></div>
     </div>
   </section>
 
@@ -114,6 +115,7 @@ Cost of delay = sum over b of Delayed(b) x funding cost per year x min(cap, m(b+
       <div class="head"><span class="label">Delivery and versions</span><h2 id="h-de">Format and release history.</h2></div>
       <div class="prose"><p>An Excel workbook (.xlsx) made only of formulas, with no macros. Inputs are in blue, formulas in black, links between sheets in green and key assumptions on a yellow fill. Formula sheets are protected without a password. Sales have not opened. When they do, the model will be licensed to one institution by scope and run on its own machines.</p></div>
       <div style="margin-top:18px"><div class="scroll"><table class="data narrow"><thead><tr><th scope="col">Version</th><th scope="col">Change</th></tr></thead><tbody>
+<tr><th scope="row">v0.3.1</th><td>Presentation only, after the Microsoft Excel test: chart axis titles and series names, Arial chart text, wider label columns. No formula changed. Input validation added on funding cost and delay cap.</td></tr>
 <tr><th scope="row">v0.3</th><td>Bucket midpoints, funding cost and delay cap are validated. Late-payment wording corrected. Survival label clarified. Calculations unchanged.</td></tr>
 <tr><th scope="row">v0.2</th><td>Dashboard sheet and navy theme added. Calculations unchanged.</td></tr>
 <tr><th scope="row">v0.1</th><td>First version.</td></tr>

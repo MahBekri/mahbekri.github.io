@@ -22,7 +22,7 @@ def compare(model, label, got, want):
     results.append(ok)
     print('%-4s %-22s %-58s %16.6f %16.6f' % ('PASS' if ok else 'FAIL', model, label, got, want))
 
-# ------------------------------------------------------------------ ALM Stress Tester v0.3
+# ------------------------------------------------------------------ ALM Stress Tester v0.3.1
 def alm():
     d = load('alm_stress_tester_inputs.json')
     I, O, par, mid = np.array(d['inflows'], float), np.array(d['outflows'], float), d['scenario_rates'], d['bucket_midpoints_years']
@@ -56,7 +56,7 @@ def alm():
                            ('inflows delayed', delayed.sum()), ('cost of delay', cost)]:
             compare('ALM', name + ': ' + label, got, e[label])
 
-# ------------------------------------------------------------------ Hedge Sizer v0.3
+# ------------------------------------------------------------------ Hedge Sizer v0.3.1
 def hedge():
     d = load('hedge_sizer_inputs.json')
     G, Z, W, MID, UP = (np.array(d[k], float) for k in ['gap_usd_m', 'zero_rate', 'weight', 'midpoint_years', 'upper_bound_years'])
@@ -82,7 +82,7 @@ def hedge():
     compare('Hedge', 'reduction in weighted squared DV01, exact', 1 - obj(N) / obj(0 * N), e['reduction_exact'])
     compare('Hedge', 'reduction in weighted squared DV01, rounded', 1 - obj(Nr) / obj(0 * N), e['reduction_rounded'])
 
-# ------------------------------------------------------------------ Tail-Risk Screen v0.3
+# ------------------------------------------------------------------ Tail-Risk Screen v0.3.1
 def tail():
     d = load('tail_risk_screen_inputs.json')
     a = 1 - d['confidence']
@@ -103,7 +103,7 @@ def tail():
                            ('tail observations', int((x <= q).sum())), ('Hill tail index', hill)]:
             compare('Tail', key + ': ' + label, got, e[label])
 
-# ------------------------------------------------------------------ Equity Mandate Monitor v0.5
+# ------------------------------------------------------------------ Equity Mandate Monitor v0.5.1
 def equity():
     d = load('equity_mandate_monitor_inputs.json')
     b = np.array(d['benchmark_returns']); a = 1 - d['confidence']

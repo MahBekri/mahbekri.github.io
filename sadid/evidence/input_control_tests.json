@@ -1,5 +1,5 @@
 {
- "note": "Input-control and property tests for the four prototype workbooks (ALM Stress Tester v0.3, Hedge Sizer v0.3, Tail-Risk Screen v0.3, Equity Mandate Monitor v0.5). Each case changes the stated cells in a copy of the workbook, recalculates it in LibreOffice and compares result cells with the expected status or value. Run by the author on 19 November 2026. Not run in Microsoft Excel. spreadsheet_errors counts error values anywhere in the recalculated workbook: where it is above zero, the result sheets still show INCOMPLETE but the Calc sheet holds error values.",
+ "note": "Input-control and property tests for the four prototype workbooks (ALM Stress Tester v0.3.1, Hedge Sizer v0.3.1, Tail-Risk Screen v0.3.1, Equity Mandate Monitor v0.5.1). Each case changes the stated cells in a copy of the workbook, recalculates it in LibreOffice and compares result cells with the expected status or value. Run by the author on 19 November 2026. spreadsheet_errors counts error values anywhere in the recalculated workbook: where it is above zero, the result sheets still show INCOMPLETE but the Calc sheet holds error values.",
  "cases": [
   {
    "id": "A01",

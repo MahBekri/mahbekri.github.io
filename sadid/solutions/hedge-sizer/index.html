@@ -30,7 +30,7 @@
 <main id="top">
 <div class="wrap crumbs"><a href="../../">Home</a> / <a href="../../solutions/">Solutions</a> / Hedge Sizer</div>
   <div class="wrap page-head">
-    <div class="meta"><span class="status s-proto">Prototype</span><span class="label">v0.3 · Treasury and market-risk teams · record updated 19 November 2026</span></div>
+    <div class="meta"><span class="status s-proto">Prototype</span><span class="label">v0.3.1 · Treasury and market-risk teams · record updated 19 November 2026</span></div>
     <h1>Hedge Sizer</h1>
     <p>How large is the rate sensitivity of the repricing gap in each maturity bucket, and which set of swap notionals would leave the smallest residual?</p>
     <p class="callout">Prototype: the functions below exist and run on synthetic data. The workbook has not been independently validated and is not on sale. <a class="link" href="../../validation/">What the status labels mean</a>.</p>
@@ -74,7 +74,7 @@ N = - (A'WA + p I)^-1 A'W g</div>
 <tr><th scope="row">10Y</th><td class="num">3.98%</td><td class="num">-122.0</td><td class="num">-125</td><td>Pay fixed</td></tr>
 </tbody></table></div><p style="margin-top:14px">Largest bucket DV01 falls from USD 141,156 to USD 45,604 after the rounded hedge. The stated objective, weighted squared bucket DV01, falls by 94.9% with exact notionals and 94.8% after rounding. That is not a 94.9% fall in market risk. The remaining exposure sits in the 10-15Y and 15-20Y buckets, beyond the longest swap, and in the two shortest buckets, which annual-pay swaps cannot offset.</p>
       <p class="fine" style="margin-top:12px">The complete synthetic inputs, the workbook outputs and the Python script that cross-checks them are in the <a class="link" href="../../evidence/">evidence files</a>, so the example can be recomputed.</p>
-      <div class="shots" style="margin-top:26px"><a class="shot" href="../../samples/hedge-sizer-dashboard.pdf?v=3"><img src="../../img/hedge-sizer.png?v=3" width="886" height="696" loading="lazy" alt="Hedge Sizer dashboard: status tiles, the hypothetical hedge structure by tenor, and charts of sensitivity before and after the hedge."><span>Sample dashboard: open the two-page PDF</span></a></div>
+      <div class="shots" style="margin-top:26px"><a class="shot" href="../../samples/hedge-sizer-dashboard.pdf?v=4"><img src="../../img/hedge-sizer.png?v=4" width="886" height="696" loading="lazy" alt="Hedge Sizer dashboard: status tiles, the hypothetical hedge structure by tenor, and charts of sensitivity before and after the hedge."><span>Sample dashboard: open the two-page PDF</span></a></div>
     </div>
   </section>
 
@@ -87,9 +87,10 @@ N = - (A'WA + p I)^-1 A'W g</div>
 <tr><th scope="row">Input controls implemented</th><td>Four: bucket inputs present and numeric with zero rates between -5% and 50%, weights valid, tenor flags valid, parameters valid.</td></tr>
 <tr><th scope="row">Input controls tested</th><td>Eight cases recalculated in LibreOffice, 23 checks, all as expected: blank, text, all tenors off, extreme rate, zero penalty, zero gaps giving zero notionals, and a switched-off tenor giving a zero notional. Text in a rate leaves error values on the Calc sheet while Results shows INCOMPLETE.</td></tr>
 <tr><th scope="row">Parallel and non-parallel scenario test of the hedge</th><td>Not yet done. The workbook measures bucket DV01 only.</td></tr>
+<tr><th scope="row">Microsoft Excel</th><td>v0.3 opened in Excel for Microsoft 365 on Windows (build 16.0.20430) and tested through an AI assistant inside Excel: full recalculation with no error values, the MMULT, MINVERSE and TRANSPOSE array formulas return numbers in every cell, all six exact notionals match, and switching off a tenor sets its notional to zero. Opening dialogs were not observed. v0.3.1 changes presentation only and has not been reopened in Excel.</td></tr>
 <tr><th scope="row">Review by a second AI model</th><td>v0.2 reviewed on 19 November 2026: the matrix solve and six notionals recomputed independently, with agreement. Its findings are addressed in v0.3. The same reviewer then read the v0.3 formulas and confirmed the changes are present, without repeating the bad-input cases. Not counted as independent validation.</td></tr>
 </tbody></table></div>
-      <div class="prose" style="margin-top:20px"><h3>Open items</h3><ul><li>Not yet opened and recalculated in Microsoft Excel. It was built and recalculated in LibreOffice.</li><li>No independent human review has taken place.</li><li>No Sharia review has taken place. The workbook is not a Sharia approval of any contract, instrument or portfolio.</li></ul></div>
+      <div class="prose" style="margin-top:20px"><h3>Open items</h3><ul><li>The Microsoft Excel test did not observe Excel's opening dialogs, and the latest presentation-only revision has not been reopened in Excel.</li><li>No independent human review has taken place.</li><li>No Sharia review has taken place. The workbook is not a Sharia approval of any contract, instrument or portfolio.</li></ul></div>
     </div>
   </section>
 
@@ -105,6 +106,7 @@ N = - (A'WA + p I)^-1 A'W g</div>
       <div class="head"><span class="label">Delivery and versions</span><h2 id="h-de">Format and release history.</h2></div>
       <div class="prose"><p>An Excel workbook (.xlsx) made only of formulas, with no macros. Inputs are in blue, formulas in black, links between sheets in green and key assumptions on a yellow fill. Formula sheets are protected without a password. Sales have not opened. When they do, the model will be licensed to one institution by scope and run on its own machines.</p></div>
       <div style="margin-top:18px"><div class="scroll"><table class="data narrow"><thead><tr><th scope="col">Version</th><th scope="col">Change</th></tr></thead><tbody>
+<tr><th scope="row">v0.3.1</th><td>Presentation only, after the Microsoft Excel test: chart axis titles and series names, Arial chart text, wider label columns. No formula changed.</td></tr>
 <tr><th scope="row">v0.3</th><td>Zero rates outside -5% to 50% fail the data check. The exposure flag is renamed a DV01 over-hedge indicator. Sharia wording corrected. Calculations unchanged.</td></tr>
 <tr><th scope="row">v0.2</th><td>Dashboard sheet and navy theme added. Calculations unchanged.</td></tr>
 <tr><th scope="row">v0.1</th><td>First version.</td></tr>
