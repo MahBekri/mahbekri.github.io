@@ -119,10 +119,23 @@
       <div class="panel" id="t-portal" role="tabpanel" aria-labelledby="tab-portal" hidden>
         <p class="fine">Load a price or return series and get its statistics, a normality test, a stable-law fit, and value at risk and expected shortfall under historical, normal and stable models. Fitted results describe the sample and are not out-of-sample tests. <a class="link" href="../../portal/?embed=1">Open in a full page</a></p>
         <iframe class="tool" title="Return analysis tool" data-src="../../portal/?embed=1" loading="lazy"></iframe>
+        <div class="prose">
+          <p class="fine"><strong>Purpose.</strong> Describes one return series and compares four ways of measuring its tail risk.</p>
+          <p class="fine"><strong>Method.</strong> Four kinds of result appear, and they should not be confused. Descriptive statistics and a Jarque-Bera test describe the sample. Fitted distributions are a normal law from the sample mean and standard deviation and a stable law fitted by McCulloch's quantile method, with stable expected shortfall integrated numerically. A conditional model, ARMA(1,1)-GARCH(1,1) with normal or stable innovations, lets value at risk move with volatility. A backtest counts breaches and applies the Kupiec, Christoffersen independence and conditional coverage tests.</p>
+          <p class="fine"><strong>Assumptions.</strong> The unconditional models treat returns as independent draws from one distribution. In the conditional model the stable tail index is kept between 1.05 and 2 so that expected shortfall stays finite.</p>
+          <p class="fine"><strong>Limits.</strong> Fitted figures and in-sample backtests describe the data they were fitted to. Only the out-of-sample option, which fits on the first 500 returns and refits every 250, tests a forecast. Passing a backtest on one series does not make a model right for another. Short series give unstable stable-law fits. Results are for one period and are not investment advice.</p>
+          <p class="fine"><strong>Validation.</strong> This is an earlier research tool that predates Sadid. It has not yet been benchmark-tested as part of the Sadid <a class="link" href="../validation/">validation record</a>.</p>
+        </div>
       </div>
       <div class="panel" id="t-explorer" role="tabpanel" aria-labelledby="tab-explorer" hidden>
         <p class="fine">Set the four parameters of a stable distribution and see its density, its distribution function and its tails against the normal. <a class="link" href="../../explorer/?embed=1">Open in a full page</a></p>
         <iframe class="tool" title="Stable distribution explorer" data-src="../../explorer/?embed=1" loading="lazy"></iframe>
+        <div class="prose">
+          <p class="fine"><strong>Purpose.</strong> Shows how the shape and the tails of a stable law change with its four parameters, against the Gaussian case.</p>
+          <p class="fine"><strong>Method.</strong> The law is written in the S1 parameterisation, through its characteristic function: for a tail index a other than 1, exp(i m u - |s u|^a [1 - i b sign(u) tan(pi a / 2)]), with skewness b, scale s and location m. The density and distribution function are computed from Nolan's integral representation with Gauss-Legendre quadrature.</p>
+          <p class="fine"><strong>Assumptions and limits.</strong> At a = 2 the law is Gaussian with variance 2 s squared, so s is not a standard deviation. For a at or below 1 the mean does not exist and expected shortfall is infinite. For a below 2 the variance is infinite. Near a = 1 with non-zero skewness, the S1 form shifts the whole curve and it can leave the plotted range, and the calculation there is an approximation. Other texts use other parameterisations, so parameters are not interchangeable between sources without conversion.</p>
+          <p class="fine"><strong>Validation.</strong> The tool's own page reports agreement with SciPy to five significant digits for the density. That comparison has not been re-run as part of the Sadid <a class="link" href="../validation/">validation record</a>.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -133,7 +146,7 @@
   <div class="wrap">
     <span>Sadid Risk Analytics develops models and analytics. It does not give investment advice, recommend transactions or issue Sharia rulings.</span>
     <span>Sadid Risk Analytics is a pre-incorporation venture. No company has been registered yet. All four models are prototypes: none has been independently validated and none is on sale.</span>
-    <span id="privacy"><strong>Privacy.</strong> This site sets no cookies. What you enter in the online tools stays in your browser. The site is hosted on GitHub Pages and loads fonts from Google Fonts, and both receive your IP address in order to deliver the page. The return analysis and stable distribution tools also load a mathematics library from jsDelivr and count page views with GoatCounter. A message sent through the contact form is delivered by Web3Forms, a form delivery service, and is used only to reply to you.</span>
+    <span id="privacy"><strong>Privacy.</strong> This site sets no cookies, and what you enter in the online tools stays in your browser. <a href="../privacy/">Read the privacy notice</a>.</span>
     <span>&copy; 2026 Sadid Risk Analytics</span>
   </div>
 </footer>
