@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Validation | Sadid Risk Analytics</title>
+<meta name="description" content="Validation record for the Sadid prototypes: tests completed, tests open, status labels and known issues.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css?v=3">
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="mark" href="../" aria-label="Sadid Risk Analytics, home">
+      <b>SADID</b><span lang="ar" dir="rtl">سديد</span><small>Risk Analytics</small>
+    </a>
+    <nav aria-label="Main">
+      <a href="../solutions/">Solutions</a>
+      <a href="../research/">Research</a>
+      <a href="../analytics/">Analytics</a>
+      <a href="../validation/" aria-current="page">Validation</a>
+      <a href="../#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<div class="wrap crumbs"><a href="../">Home</a> / Validation</div>
+  <div class="wrap page-head">
+    <span class="label">Methodology and validation · record updated 19 November 2026</span>
+    <h1>What has been checked, and what has not.</h1>
+    <p>A visible formula is not a validated model. This page records, for every model and tool, the tests completed, the tests still open and the status that follows. No status here is better than the evidence behind it.</p>
+  </div>
+
+  <section aria-labelledby="h-st">
+    <div class="wrap">
+      <div class="head"><span class="label">Status labels</span><h2 id="h-st">Five labels, each tied to evidence.</h2><p>All four models are at the first label today.</p></div>
+      <div class="scroll"><table class="data narrow"><thead><tr><th scope="col">Label</th><th scope="col">Meaning</th></tr></thead><tbody>
+<tr><th scope="row">Prototype</th><td>The functions exist and run. Not fully validated.</td></tr>
+<tr><th scope="row">Internally tested</th><td>A defined set of benchmark, boundary and invalid-input tests has been completed and recorded.</td></tr>
+<tr><th scope="row">Independently reviewed</th><td>A qualified person who did not build the model has reviewed it within a stated scope.</td></tr>
+<tr><th scope="row">Pilot-ready</th><td>Approved for restricted evaluation under defined conditions.</td></tr>
+<tr><th scope="row">Released</th><td>Commercially available under approved terms.</td></tr>
+</tbody></table></div>
+      <p class="callout" style="margin-top:18px">Review by an AI model is recorded below for transparency. It is not counted as independent validation.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-mx">
+    <div class="wrap">
+      <div class="head"><span class="label">Validation matrix</span><h2 id="h-mx">The four models, test by test.</h2></div>
+      <div class="scroll"><table class="data"><thead><tr><th scope="col">Check</th><th scope="col">ALM Stress Tester v0.2</th><th scope="col">Hedge Sizer v0.2</th><th scope="col">Tail-Risk Screen v0.2</th><th scope="col">Equity Mandate Monitor v0.4</th></tr></thead><tbody>
+<tr><th scope="row">Recalculates with no formula errors (LibreOffice)</th><td>Pass</td><td>Pass</td><td>Pass</td><td>Pass</td></tr>
+<tr><th scope="row">Reference example reproduced by a separate Python calculation</th><td>Pass</td><td>Pass</td><td>Pass</td><td>Pass</td></tr>
+<tr><th scope="row">Data checks built in, with an INCOMPLETE status</th><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+<tr><th scope="row">Systematic test of invalid and extreme inputs</th><td>Not tested</td><td>Not tested</td><td>Not tested</td><td>Partly tested</td></tr>
+<tr><th scope="row">Recalculation in Microsoft Excel</th><td>Not tested</td><td>Not tested</td><td>Not tested</td><td>Not tested</td></tr>
+<tr><th scope="row">Review by a second AI model</th><td>Not done</td><td>Not done</td><td>Not done</td><td>Earlier versions only</td></tr>
+<tr><th scope="row">Independent human review</th><td>Pending</td><td>Pending</td><td>Pending</td><td>Pending</td></tr>
+<tr><th scope="row">Sharia review</th><td>None</td><td>None</td><td>None</td><td>None</td></tr>
+<tr><th scope="row">Status</th><td>Prototype</td><td>Prototype</td><td>Prototype</td><td>Prototype</td></tr>
+</tbody></table></div>
+      <div class="cards" style="margin-top:22px"><a class="card" href="../solutions/alm-stress-tester/"><h3>ALM Stress Tester</h3><p>Method, reference example, test results, limitations and version history.</p><span class="more">Open the record</span></a><a class="card" href="../solutions/hedge-sizer/"><h3>Hedge Sizer</h3><p>Method, reference example, test results, limitations and version history.</p><span class="more">Open the record</span></a><a class="card" href="../solutions/tail-risk-screen/"><h3>Tail-Risk Screen</h3><p>Method, reference example, test results, limitations and version history.</p><span class="more">Open the record</span></a><a class="card" href="../solutions/equity-mandate-monitor/"><h3>Equity Mandate Monitor</h3><p>Method, reference example, test results, limitations and version history.</p><span class="more">Open the record</span></a></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-how">
+    <div class="wrap">
+      <div class="head"><span class="label">How a reference example is checked</span><h2 id="h-how">Two calculations that must agree.</h2></div>
+      <div class="prose">
+        <p>Each workbook is built from formulas only and recalculated in full. A second calculation is then written in Python from the written method, not from the workbook formulas, and run on the same synthetic inputs. The model passes this check only when the two sets of outputs agree.</p>
+        <p>This catches wrong ranges, sign errors and formulas that disagree with the documented method. It does not show that the method is the right one for a given institution, that the inputs are good, or that the workbook behaves correctly on data unlike the sample.</p>
+      </div>
+      <div style="margin-top:18px"><div class="scroll"><table class="data"><thead><tr><th scope="col">Model</th><th scope="col">Output</th><th scope="col" class="num">Workbook</th><th scope="col" class="num">Independent calculation</th></tr></thead><tbody>
+<tr><th scope="row">ALM Stress Tester</th><td>Lowest cumulative position, combined scenario (USD m)</td><td class="num">-319.64</td><td class="num">-319.64</td></tr>
+<tr><th scope="row">ALM Stress Tester</th><td>Cost of delay, payment-delay scenario (USD m)</td><td class="num">16.93</td><td class="num">16.93</td></tr>
+<tr><th scope="row">Hedge Sizer</th><td>Exact notional, 5Y swap (USD m)</td><td class="num">-297.46</td><td class="num">-297.46</td></tr>
+<tr><th scope="row">Tail-Risk Screen</th><td>Student-t expected shortfall at 99%</td><td class="num">3.377%</td><td class="num">3.377%</td></tr>
+<tr><th scope="row">Tail-Risk Screen</th><td>Historical expected shortfall at 99%</td><td class="num">3.745%</td><td class="num">3.745%</td></tr>
+</tbody></table></div></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-ot">
+    <div class="wrap">
+      <div class="head"><span class="label">Online tools</span><h2 id="h-ot">The browser tools have their own record.</h2></div>
+      <div class="scroll"><table class="data"><thead><tr><th scope="col">Tool</th><th scope="col">What has been checked</th><th scope="col">Open</th></tr></thead><tbody>
+<tr><th scope="row">Liquidity Delay Explorer</th><td>Default case and four further cases reproduced by a separate Python calculation. Invalid entries are refused.</td><td>No independent human review.</td></tr>
+<tr><th scope="row">Quick tail-risk calculator</th><td>Reviewed by a second AI model. A defect in how per cent entries were read was found and corrected. Entries that cannot be read stop the calculation.</td><td>No independent human review.</td></tr>
+<tr><th scope="row">Return analysis</th><td>An earlier research tool that predates Sadid.</td><td>Not yet benchmark-tested as part of this record.</td></tr>
+<tr><th scope="row">Stable distribution explorer</th><td>An earlier research tool that predates Sadid.</td><td>Not yet benchmark-tested as part of this record.</td></tr>
+</tbody></table></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-op">
+    <div class="wrap">
+      <div class="head"><span class="label">Known open issues</span><h2 id="h-op">What stands between prototype and the next label.</h2></div>
+      <div class="prose"><ul>
+        <li>None of the workbooks has been opened and recalculated in Microsoft Excel. They were built and recalculated in LibreOffice, and the sample dashboards are LibreOffice renderings.</li>
+        <li>No independent human reviewer has examined any model.</li>
+        <li>Invalid and extreme inputs have been tested systematically only in part, and only for the Equity Mandate Monitor.</li>
+        <li>No model has been reviewed by a Sharia scholar or board. No model issues a Sharia determination.</li>
+        <li>All examples use synthetic data. No model has been run on an institution's data.</li>
+        <li>Scenario parameters and thresholds in the samples are illustrative and are not calibrated.</li>
+      </ul></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Sadid Risk Analytics develops models and analytics. It does not give investment advice, recommend transactions or issue Sharia rulings.</span>
+    <span>Sadid Risk Analytics is a pre-incorporation venture. No company has been registered yet. All four models are prototypes: none has been independently validated and none is on sale.</span>
+    <span id="privacy"><strong>Privacy.</strong> This site sets no cookies. What you enter in the online tools stays in your browser. The site is hosted on GitHub Pages and loads fonts from Google Fonts, and both receive your IP address in order to deliver the page. The return analysis and stable distribution tools also load a mathematics library from jsDelivr and count page views with GoatCounter. A message sent through the contact form is delivered by Web3Forms, a form delivery service, and is used only to reply to you.</span>
+    <span>&copy; 2026 Sadid Risk Analytics</span>
+  </div>
+</footer>
+</body>
+</html>
