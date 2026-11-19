@@ -205,6 +205,7 @@ a.card:hover{border-color:var(--accent)}
 #lx-rows th{white-space:nowrap}
 .fig svg text{font-family:var(--mono);font-size:15px;fill:var(--muted)}
 table.data.narrow{min-width:0}
+table.data.narrow tbody th{overflow-wrap:anywhere;width:38%}
 .lx{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:24px;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:22px}
 .lx-in{display:flex;flex-direction:column;gap:14px}
 .lx label{font-size:14px;font-weight:500;display:flex;flex-direction:column;gap:6px}
