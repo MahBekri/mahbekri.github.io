@@ -32,9 +32,9 @@
 
   function $(id){return document.getElementById(id)}
   // ---- Contact form: sends through Web3Forms once an access key is set ----
-  var CF_KEY='';   // paste the Web3Forms access key between the quotes
+  var CF_KEY='df2c2629-9366-47f1-bcfe-e00608d0e29c';   // paste the Web3Forms access key between the quotes
   var cform=$('cform'), cmsg=$('cf-msg'), csend=$('cf-send');
-  if(CF_KEY){$('cf-pending').hidden=true}else{csend.disabled=true}
+  if(!CF_KEY){csend.disabled=true}
   cform.addEventListener('submit',function(e){
     e.preventDefault();
     if(!CF_KEY){cmsg.textContent='The form is not connected yet, so nothing was sent.';return}
