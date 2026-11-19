@@ -30,7 +30,7 @@
 <main id="top">
 <div class="wrap crumbs"><a href="../../">Home</a> / <a href="../../solutions/">Solutions</a> / Tail-Risk Screen</div>
   <div class="wrap page-head">
-    <div class="meta"><span class="status s-proto">Prototype</span><span class="label">v0.2 · Sharia-compliant funds and takaful investment teams · record updated 19 November 2026</span></div>
+    <div class="meta"><span class="status s-proto">Prototype</span><span class="label">v0.3 · Sharia-compliant funds and takaful investment teams · record updated 19 November 2026</span></div>
     <h1>Tail-Risk Screen</h1>
     <p>How far does a normal model understate, or overstate, the loss in the tail of this return series?</p>
     <p class="callout">Prototype: the functions below exist and run on synthetic data. The workbook has not been independently validated and is not on sale. <a class="link" href="../../validation/">What the status labels mean</a>.</p>
@@ -39,7 +39,7 @@
   <section aria-labelledby="h-does">
     <div class="wrap">
       <div class="head"><span class="label">Scope</span><h2 id="h-does">What it does, and what it does not.</h2></div>
-      <div class="prose"><ul><li>Computes value at risk and expected shortfall under a normal model, a Student-t model and the historical data, and value at risk under a Cornish-Fisher adjustment.</li><li>Compares like with like: expected shortfall against expected shortfall, value at risk against value at risk.</li><li>Reports skewness, excess kurtosis, a Jarque-Bera test, a Hill tail index and the count of losses beyond three volatilities.</li><li>Shows how many observations sit behind each historical tail figure.</li><li>Accepts an optional second series, for example a screened portfolio beside its conventional parent.</li></ul><p>It describes one sample. It does not forecast, it does not test models out of sample, and it does not show that screened portfolios have heavier tails than conventional ones. The normal model is not always the lower figure, and the workbook reports the cases where it is higher.</p></div>
+      <div class="prose"><ul><li>Computes value at risk and expected shortfall under a normal model, a Student-t model and the historical data, and value at risk under a Cornish-Fisher adjustment.</li><li>Compares like with like: expected shortfall against expected shortfall, value at risk against value at risk.</li><li>Reports skewness, excess kurtosis, a Jarque-Bera test, a Hill tail index and the count of losses beyond three volatilities.</li><li>Shows how many observations sit behind each historical tail figure, and the Hill index for five values of k.</li><li>Leaves every figure blank unless the data status is COMPLETE.</li><li>Accepts an optional second series, for example a screened portfolio beside its conventional parent.</li></ul><p>It describes one sample. It does not forecast, it does not test models out of sample, and it does not show that screened portfolios have heavier tails than conventional ones. The normal model is not always the lower figure, and the workbook reports the cases where it is higher.</p></div>
     </div>
   </section>
 
@@ -77,7 +77,7 @@ v     = 4 + 6 / K, rounded, kept between 5 and 30   (K = excess kurtosis)</div>
 <tr><th scope="row">Ratio to normal expected shortfall</th><td class="num">1.00</td><td class="num"></td><td class="num">1.12</td><td class="num">1.25</td></tr>
 </tbody></table></div><p style="margin-top:14px">The historical tail average rests on five observations. Excess kurtosis is 0.95 and Jarque-Bera rejects normality. Four losses exceed three volatilities, where a normal model expects 500 x 0.00135 = 0.67 on one side. The Hill estimate of 3.7 is below 4, which the workbook raises as a diagnostic warning that the moment-based Student-t may be too light. Both estimates carry large sampling error on 500 observations, so this is a warning and not a finding.</p>
       <p class="fine" style="margin-top:12px">The complete synthetic inputs, the workbook outputs and the Python script that cross-checks them are in the <a class="link" href="../../evidence/">evidence files</a>, so the example can be recomputed.</p>
-      <div class="shots" style="margin-top:26px"><a class="shot" href="../../samples/tail-risk-screen-dashboard.pdf"><img src="../../img/tail-risk-screen.png?v=2" width="868" height="753" loading="lazy" alt="Tail-Risk Screen dashboard: expected shortfall under three models, a comparison table, and charts of loss by model."><span>Sample dashboard: open the two-page PDF</span></a></div>
+      <div class="shots" style="margin-top:26px"><a class="shot" href="../../samples/tail-risk-screen-dashboard.pdf?v=3"><img src="../../img/tail-risk-screen.png?v=3" width="776" height="691" loading="lazy" alt="Tail-Risk Screen dashboard: expected shortfall under three models, a comparison table, and charts of loss by model."><span>Sample dashboard: open the two-page PDF</span></a></div>
     </div>
   </section>
 
@@ -87,10 +87,10 @@ v     = 4 + 6 / K, rounded, kept between 5 and 30   (K = excess kurtosis)</div>
       <div class="scroll"><table class="data narrow"><thead><tr><th scope="col">Check</th><th scope="col">Result</th></tr></thead><tbody>
 <tr><th scope="row">Spreadsheet error values after full recalculation</th><td>None in LibreOffice. This shows the workbook calculates, not that its logic is right.</td></tr>
 <tr><th scope="row">Numerical cross-check against a separately written Python calculation</th><td>Passed for the documented synthetic reference case, both series: twelve outputs each.</td></tr>
-<tr><th scope="row">Input controls implemented</th><td>Three: enough observations, no gaps and no return at or below -100%, inputs valid.</td></tr>
-<tr><th scope="row">Input controls tested</th><td>Not yet tested systematically.</td></tr>
+<tr><th scope="row">Input controls implemented</th><td>Three: enough observations; every entry numeric with no gaps and no return at or below -100%; inputs valid. Every figure is blank unless the status is COMPLETE.</td></tr>
+<tr><th scope="row">Input controls tested</th><td>Ten cases recalculated in LibreOffice, 29 checks, all as expected: text late in the series, blanks, a return of -100%, invalid confidence, too few observations, and Student-t converging on the normal result at high degrees of freedom.</td></tr>
 <tr><th scope="row">Out-of-sample exceedance test</th><td>Not implemented. The workbook describes a sample and does not backtest.</td></tr>
-<tr><th scope="row">Review by a second AI model</th><td>Not yet done for this workbook.</td></tr>
+<tr><th scope="row">Review by a second AI model</th><td>v0.2 reviewed on 19 November 2026: statistics recomputed independently, with agreement. It found that text late in a series could pass the data check. That is corrected in v0.3, which has not been re-reviewed. Not counted as independent validation.</td></tr>
 </tbody></table></div>
       <div class="prose" style="margin-top:20px"><h3>Open items</h3><ul><li>Not yet opened and recalculated in Microsoft Excel. It was built and recalculated in LibreOffice.</li><li>No independent human review has taken place.</li><li>No Sharia review has taken place. The workbook is not a Sharia approval of any contract, instrument or portfolio.</li></ul></div>
     </div>
@@ -108,6 +108,7 @@ v     = 4 + 6 / K, rounded, kept between 5 and 30   (K = excess kurtosis)</div>
       <div class="head"><span class="label">Delivery and versions</span><h2 id="h-de">Format and release history.</h2></div>
       <div class="prose"><p>An Excel workbook (.xlsx) made only of formulas, with no macros. Inputs are in blue, formulas in black, links between sheets in green and key assumptions on a yellow fill. Formula sheets are protected without a password. Sales have not opened. When they do, the model will be licensed to one institution by scope and run on its own machines.</p></div>
       <div style="margin-top:18px"><div class="scroll"><table class="data narrow"><thead><tr><th scope="col">Version</th><th scope="col">Change</th></tr></thead><tbody>
+<tr><th scope="row">v0.3</th><td>Text or gaps anywhere in a series fail the data check. Every risk figure is blank unless the status is COMPLETE. The historical figure is named a tail average. Hill index shown for several k.</td></tr>
 <tr><th scope="row">v0.2</th><td>Dashboard sheet and navy theme added. Calculations unchanged.</td></tr>
 <tr><th scope="row">v0.1</th><td>First version.</td></tr>
 </tbody></table></div></div>

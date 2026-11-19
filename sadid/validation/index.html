@@ -52,14 +52,14 @@
   <section aria-labelledby="h-mx">
     <div class="wrap">
       <div class="head"><span class="label">Validation matrix</span><h2 id="h-mx">The four models, test by test.</h2></div>
-      <div class="scroll"><table class="data"><thead><tr><th scope="col">Check</th><th scope="col">ALM Stress Tester v0.2</th><th scope="col">Hedge Sizer v0.2</th><th scope="col">Tail-Risk Screen v0.2</th><th scope="col">Equity Mandate Monitor v0.4</th></tr></thead><tbody>
+      <div class="scroll"><table class="data"><thead><tr><th scope="col">Check</th><th scope="col">ALM Stress Tester v0.3</th><th scope="col">Hedge Sizer v0.3</th><th scope="col">Tail-Risk Screen v0.3</th><th scope="col">Equity Mandate Monitor v0.5</th></tr></thead><tbody>
 <tr><th scope="row">Full recalculation gives no spreadsheet error values (LibreOffice)</th><td>Pass</td><td>Pass</td><td>Pass</td><td>Pass</td></tr>
 <tr><th scope="row">Numerical cross-check against a separately written Python calculation, documented synthetic case</th><td>Pass</td><td>Pass</td><td>Pass</td><td>Pass</td></tr>
 <tr><th scope="row">Input controls implemented, with an INCOMPLETE status</th><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
-<tr><th scope="row">Input controls tested with invalid and extreme inputs</th><td>Not tested</td><td>Not tested</td><td>Not tested</td><td>Partly tested</td></tr>
-<tr><th scope="row">Property tests: conservation of shifted cash, boundaries, zero and negative rates</th><td>Not tested</td><td>Not tested</td><td>Not tested</td><td>Not tested</td></tr>
+<tr><th scope="row">Input controls tested with invalid and extreme inputs (LibreOffice)</th><td>9 cases pass</td><td>8 cases pass</td><td>10 cases pass</td><td>10 cases pass</td></tr>
+<tr><th scope="row">Property tests</th><td>Inflow conservation: pass</td><td>Zero gap and switched-off tenor: pass</td><td>Convergence to normal: pass</td><td>Not tested</td></tr>
 <tr><th scope="row">Recalculation in Microsoft Excel</th><td>Not tested</td><td>Not tested</td><td>Not tested</td><td>Not tested</td></tr>
-<tr><th scope="row">Review by a second AI model</th><td>Not done</td><td>Not done</td><td>Not done</td><td>Earlier versions only</td></tr>
+<tr><th scope="row">Review by a second AI model (previous version; fixes not re-reviewed)</th><td>v0.2</td><td>v0.2</td><td>v0.2</td><td>v0.4</td></tr>
 <tr><th scope="row">Independent human review</th><td>Pending</td><td>Pending</td><td>Pending</td><td>Pending</td></tr>
 <tr><th scope="row">Sharia review</th><td>None</td><td>None</td><td>None</td><td>None</td></tr>
 <tr><th scope="row">Status</th><td>Prototype</td><td>Prototype</td><td>Prototype</td><td>Prototype</td></tr>
@@ -75,7 +75,8 @@
       <div class="prose">
         <p>Each workbook is built from formulas only and recalculated in full. A second calculation is then written in Python from the written method, not from the workbook formulas, and run on the same synthetic inputs. The model passes this check only when the two sets of outputs agree.</p>
         <p>This can detect range, sign and implementation errors that the reference case happens to exercise. It does not establish that every formula is correct: one matching example leaves other paths untested, and both calculations were written by the same author from the same specification, so they can share a mistaken assumption. It also does not show that the method is right for a given institution, that the inputs are good, or that the workbook behaves correctly on data unlike the sample.</p>
-        <p>The latest run, on 19 November 2026, compared 117 outputs across the four models with an absolute tolerance of 0.000001, using Python 3.13, numpy 2.5 and scipy 1.18. All 117 agreed. The inputs, the workbook outputs and the script are <a class="link" href="../evidence/">published as evidence files</a>.</p>
+        <p>Input controls were tested the same day: 37 cases, each changing one or more inputs, recalculating the workbook in LibreOffice and comparing 106 result cells with the expected status or value. All matched. The cases and observed results are published with the evidence files.</p>
+        <p>The latest reference run, on 19 November 2026, compared 117 outputs across the four models with an absolute tolerance of 0.000001, using Python 3.13, numpy 2.5 and scipy 1.18. All 117 agreed. The inputs, the workbook outputs and the script are <a class="link" href="../evidence/">published as evidence files</a>.</p>
       </div>
       <div style="margin-top:18px"><div class="scroll"><table class="data"><thead><tr><th scope="col">Model</th><th scope="col">Output</th><th scope="col" class="num">Workbook</th><th scope="col" class="num">Independent calculation</th></tr></thead><tbody>
 <tr><th scope="row">ALM Stress Tester</th><td>Lowest cumulative position, combined scenario (USD m)</td><td class="num">-319.64</td><td class="num">-319.64</td></tr>
@@ -105,7 +106,9 @@
       <div class="prose"><ul>
         <li>None of the workbooks has been opened and recalculated in Microsoft Excel. They were built and recalculated in LibreOffice, and the sample dashboards are LibreOffice renderings.</li>
         <li>No independent human reviewer has examined any model.</li>
-        <li>Invalid and extreme inputs have been tested systematically only in part, and only for the Equity Mandate Monitor.</li>
+        <li>The 37 input and property test cases were run by the author in LibreOffice. They are not exhaustive: matrix conditioning, sensitivity to the size penalty and mixed invalid states are not covered.</li>
+        <li>When text is typed into a numeric cell of the ALM Stress Tester or Hedge Sizer, the result sheets correctly show INCOMPLETE but error values appear on the Calc sheet.</li>
+        <li>The current versions carry fixes made after the last AI review and have not been re-reviewed.</li>
         <li>No model has been reviewed by a Sharia scholar or board. No model issues a Sharia determination.</li>
         <li>All examples use synthetic data. No model has been run on an institution's data.</li>
         <li>No tests yet of numerical stability, tolerance sensitivity, zero or negative rates, other spreadsheet versions, or whether a release can be rebuilt identically.</li>

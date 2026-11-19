@@ -30,7 +30,7 @@
 <main id="top">
 <div class="wrap crumbs"><a href="../../">Home</a> / <a href="../../solutions/">Solutions</a> / ALM Stress Tester</div>
   <div class="wrap page-head">
-    <div class="meta"><span class="status s-proto">Prototype</span><span class="label">v0.2 · Treasury and ALM teams · record updated 19 November 2026</span></div>
+    <div class="meta"><span class="status s-proto">Prototype</span><span class="label">v0.3 · Treasury and ALM teams · record updated 19 November 2026</span></div>
     <h1>ALM Stress Tester</h1>
     <p>Where do funding gaps open when customers pay late or funding leaves, and how long does the liquid buffer last?</p>
     <p class="callout">Prototype: the functions below exist and run on synthetic data. The workbook has not been independently validated and is not on sale. <a class="link" href="../../validation/">What the status labels mean</a>.</p>
@@ -39,7 +39,7 @@
   <section aria-labelledby="h-does">
     <div class="wrap">
       <div class="head"><span class="label">Scope</span><h2 id="h-does">What it does, and what it does not.</h2></div>
-      <div class="prose"><ul><li>Applies six stress scenarios to one cash-flow ladder and compares them side by side.</li><li>Reports, for each scenario, the liquid buffer after haircut, the lowest cumulative position, the number of time buckets survived and the extra buffer needed to reach the policy horizon.</li><li>Reports the amount of financing inflows delayed and an illustrative funding cost of that delay, separately from the liquidity gap.</li><li>Shows INCOMPLETE, never a pass, when a data check fails.</li></ul><p>This version covers liquidity stress only. It does not measure the profit-rate sensitivity of earnings or economic value, displaced commercial risk, or any regulatory ratio.</p></div>
+      <div class="prose"><ul><li>Applies six stress scenarios to one cash-flow ladder and compares them side by side.</li><li>Reports, for each scenario, the liquid buffer after haircut, the lowest cumulative position, the number of full buckets completed before the first negative position, and the extra buffer needed to reach the policy horizon.</li><li>Reports the amount of financing inflows delayed and an illustrative funding cost of that delay, separately from the liquidity gap.</li><li>Shows INCOMPLETE, never a pass, when a data check fails.</li></ul><p>This version covers liquidity stress only. It does not measure the profit-rate sensitivity of earnings or economic value, displaced commercial risk, or any regulatory ratio.</p></div>
     </div>
   </section>
 
@@ -64,10 +64,10 @@ Outflow(b) = O(b) x (1 - w)   for b > 1</div>
 <p>Maturing wholesale funding is entered gross. The scenario assumes a stated share is renewed, and only the remainder is counted as a net outflow. Renewal is an assumption about future funding, not a contractual right, so the gross maturities remain the exposure. A stated share of undrawn commitments is drawn in the first bucket. The buffer is cash plus liquid Sukuk after the scenario haircut.</p>
 <div class="formula">Buffer = Cash + Sukuk x (1 - haircut)
 Position(b) = Buffer + sum of net cash flows from bucket 1 to b
-Buckets survived = number of completed buckets before the first negative bucket-end position
+Full buckets completed = number of buckets before the first negative bucket-end position
 Delayed(b)   = sum over financing classes of C(b) x (1 - l) x d,   for b = 1 to 7
 Cost of delay = sum over b of Delayed(b) x funding cost per year x min(cap, m(b+1) - m(b))</div>
-<p>Here m(b) is the midpoint of bucket b in years and the cap is also in years. Amounts assumed unpaid are excluded before the delay is applied. One term from the reference example: in the payment-delay scenario 34.452 is delayed out of the first bucket, the funding cost is 4.5% a year and the midpoints are 0.125 years apart, giving 34.452 x 0.045 x 0.125 = 0.194. A result of zero buckets survived means the first bucket ends negative. It does not say on which day liquidity ran out.</p>
+<p>Here m(b) is the midpoint of bucket b in years and the cap is also in years. Amounts assumed unpaid are excluded before the delay is applied. One term from the reference example: in the payment-delay scenario 34.452 is delayed out of the first bucket, the funding cost is 4.5% a year and the midpoints are 0.125 years apart, giving 34.452 x 0.045 x 0.125 = 0.194. A result of zero full buckets completed means the first bucket ends negative. It does not say on which day liquidity ran out.</p>
 <p>The cost of delay is an illustrative incremental funding cost under the entered rate and timing. It is not the bank's actual cost of funds or an accounting expense. The model assumes none of it is recovered from the customer. What an institution may recover for late payment depends on its contracts, its governing Sharia standard and the applicable law, and is not modelled.</p></div>
     </div>
   </section>
@@ -75,7 +75,7 @@ Cost of delay = sum over b of Delayed(b) x funding cost per year x min(cap, m(b+
   <section aria-labelledby="h-ex">
     <div class="wrap">
       <div class="head"><span class="label">Reference example · synthetic data</span><h2 id="h-ex">One worked case you can check.</h2><p>The synthetic sample is a small bank in USD million with a buffer of 140 in cash and 260 in liquid Sukuk, and a policy horizon of three buckets (through 3-6M). No real institution, portfolio or market is represented.</p></div>
-      <div class="scroll"><table class="data"><thead><tr><th scope="col">Scenario</th><th scope="col" class="num">Buffer after haircut</th><th scope="col" class="num">Lowest position</th><th scope="col" class="num">Buckets survived</th><th scope="col" class="num">Extra buffer needed</th><th scope="col" class="num">Inflows delayed</th><th scope="col" class="num">Cost of delay</th><th scope="col">Status</th></tr></thead><tbody>
+      <div class="scroll"><table class="data"><thead><tr><th scope="col">Scenario</th><th scope="col" class="num">Buffer after haircut</th><th scope="col" class="num">Lowest position</th><th scope="col" class="num">Full buckets completed</th><th scope="col" class="num">Extra buffer needed</th><th scope="col" class="num">Inflows delayed</th><th scope="col" class="num">Cost of delay</th><th scope="col">Status</th></tr></thead><tbody>
 <tr><th scope="row">Base</th><td class="num">394.8</td><td class="num">233.5</td><td class="num">8</td><td class="num">0.0</td><td class="num">178.8</td><td class="num">3.59</td><td>OK</td></tr>
 <tr><th scope="row">Payment delay</th><td class="num">394.8</td><td class="num">160.0</td><td class="num">8</td><td class="num">0.0</td><td class="num">843.8</td><td class="num">16.93</td><td>OK</td></tr>
 <tr><th scope="row">Funding run-off</th><td class="num">387.0</td><td class="num">-122.0</td><td class="num">0</td><td class="num">122.0</td><td class="num">224.2</td><td class="num">4.51</td><td>BREACH</td></tr>
@@ -84,7 +84,7 @@ Cost of delay = sum over b of Delayed(b) x funding cost per year x min(cap, m(b+
 <tr><th scope="row">User defined</th><td class="num">379.2</td><td class="num">44.3</td><td class="num">8</td><td class="num">0.0</td><td class="num">369.8</td><td class="num">7.43</td><td>OK</td></tr>
 </tbody></table></div>
       <p class="fine" style="margin-top:12px">The complete synthetic inputs, the workbook outputs and the Python script that cross-checks them are in the <a class="link" href="../../evidence/">evidence files</a>, so the example can be recomputed.</p>
-      <div class="shots" style="margin-top:26px"><a class="shot" href="../../samples/alm-stress-tester-dashboard.pdf"><img src="../../img/alm-stress-tester.png?v=2" width="1091" height="755" loading="lazy" alt="ALM Stress Tester dashboard: status tiles, a scorecard of six stress scenarios, and charts of the liquidity position."><span>Sample dashboard: open the two-page PDF</span></a></div>
+      <div class="shots" style="margin-top:26px"><a class="shot" href="../../samples/alm-stress-tester-dashboard.pdf?v=3"><img src="../../img/alm-stress-tester.png?v=3" width="995" height="698" loading="lazy" alt="ALM Stress Tester dashboard: status tiles, a scorecard of six stress scenarios, and charts of the liquidity position."><span>Sample dashboard: open the two-page PDF</span></a></div>
     </div>
   </section>
 
@@ -94,9 +94,9 @@ Cost of delay = sum over b of Delayed(b) x funding cost per year x min(cap, m(b+
       <div class="scroll"><table class="data narrow"><thead><tr><th scope="col">Check</th><th scope="col">Result</th></tr></thead><tbody>
 <tr><th scope="row">Spreadsheet error values after full recalculation</th><td>None in LibreOffice. This shows the workbook calculates, not that its logic is right.</td></tr>
 <tr><th scope="row">Numerical cross-check against a separately written Python calculation</th><td>Passed for the documented synthetic reference case: six scenarios, seven outputs each.</td></tr>
-<tr><th scope="row">Input controls implemented</th><td>Four: book complete and numeric, no negative amounts, scenario rates between 0% and 100%, policy horizon valid.</td></tr>
-<tr><th scope="row">Input controls tested</th><td>Not yet tested systematically: missing values, boundary rates and mixed invalid states remain open.</td></tr>
-<tr><th scope="row">Review by a second AI model</th><td>Not yet done for this workbook.</td></tr>
+<tr><th scope="row">Input controls implemented</th><td>Four: book complete and numeric, no negative amounts, scenario rates between 0% and 100%, and policy horizon, funding cost, delay cap and bucket midpoints valid.</td></tr>
+<tr><th scope="row">Input controls tested</th><td>Nine cases recalculated in LibreOffice, 21 checks, all as expected: blank, text, negative, rate above 100%, invalid horizon, midpoints out of order, and conservation of inflows. Text in a numeric cell leaves error values on the Calc sheet while the Summary shows INCOMPLETE.</td></tr>
+<tr><th scope="row">Review by a second AI model</th><td>v0.2 reviewed on 19 November 2026: formulas read and all six scenarios recomputed independently, with agreement. Its findings on controls and wording are addressed in v0.3, which has not been re-reviewed. Not counted as independent validation.</td></tr>
 </tbody></table></div>
       <div class="prose" style="margin-top:20px"><h3>Open items</h3><ul><li>Not yet opened and recalculated in Microsoft Excel. It was built and recalculated in LibreOffice.</li><li>No independent human review has taken place.</li><li>No Sharia review has taken place. The workbook is not a Sharia approval of any contract, instrument or portfolio.</li></ul></div>
     </div>
@@ -114,6 +114,7 @@ Cost of delay = sum over b of Delayed(b) x funding cost per year x min(cap, m(b+
       <div class="head"><span class="label">Delivery and versions</span><h2 id="h-de">Format and release history.</h2></div>
       <div class="prose"><p>An Excel workbook (.xlsx) made only of formulas, with no macros. Inputs are in blue, formulas in black, links between sheets in green and key assumptions on a yellow fill. Formula sheets are protected without a password. Sales have not opened. When they do, the model will be licensed to one institution by scope and run on its own machines.</p></div>
       <div style="margin-top:18px"><div class="scroll"><table class="data narrow"><thead><tr><th scope="col">Version</th><th scope="col">Change</th></tr></thead><tbody>
+<tr><th scope="row">v0.3</th><td>Bucket midpoints, funding cost and delay cap are validated. Late-payment wording corrected. Survival label clarified. Calculations unchanged.</td></tr>
 <tr><th scope="row">v0.2</th><td>Dashboard sheet and navy theme added. Calculations unchanged.</td></tr>
 <tr><th scope="row">v0.1</th><td>First version.</td></tr>
 </tbody></table></div></div>
