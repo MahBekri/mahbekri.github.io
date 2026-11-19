@@ -8,7 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/site.css?v=3">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%231F3A6E'/%3E%3Cpath d='M6 23 Q16 23 20 14 T26 7' fill='none' stroke='%23F6F8FB' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/site.css?v=4">
 </head>
 <body>
 <header>
@@ -52,16 +53,18 @@
     <div class="wrap">
       <div class="head"><span class="label">Validation matrix</span><h2 id="h-mx">The four models, test by test.</h2></div>
       <div class="scroll"><table class="data"><thead><tr><th scope="col">Check</th><th scope="col">ALM Stress Tester v0.2</th><th scope="col">Hedge Sizer v0.2</th><th scope="col">Tail-Risk Screen v0.2</th><th scope="col">Equity Mandate Monitor v0.4</th></tr></thead><tbody>
-<tr><th scope="row">Recalculates with no formula errors (LibreOffice)</th><td>Pass</td><td>Pass</td><td>Pass</td><td>Pass</td></tr>
-<tr><th scope="row">Reference example reproduced by a separate Python calculation</th><td>Pass</td><td>Pass</td><td>Pass</td><td>Pass</td></tr>
-<tr><th scope="row">Data checks built in, with an INCOMPLETE status</th><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
-<tr><th scope="row">Systematic test of invalid and extreme inputs</th><td>Not tested</td><td>Not tested</td><td>Not tested</td><td>Partly tested</td></tr>
+<tr><th scope="row">Full recalculation gives no spreadsheet error values (LibreOffice)</th><td>Pass</td><td>Pass</td><td>Pass</td><td>Pass</td></tr>
+<tr><th scope="row">Numerical cross-check against a separately written Python calculation, documented synthetic case</th><td>Pass</td><td>Pass</td><td>Pass</td><td>Pass</td></tr>
+<tr><th scope="row">Input controls implemented, with an INCOMPLETE status</th><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+<tr><th scope="row">Input controls tested with invalid and extreme inputs</th><td>Not tested</td><td>Not tested</td><td>Not tested</td><td>Partly tested</td></tr>
+<tr><th scope="row">Property tests: conservation of shifted cash, boundaries, zero and negative rates</th><td>Not tested</td><td>Not tested</td><td>Not tested</td><td>Not tested</td></tr>
 <tr><th scope="row">Recalculation in Microsoft Excel</th><td>Not tested</td><td>Not tested</td><td>Not tested</td><td>Not tested</td></tr>
 <tr><th scope="row">Review by a second AI model</th><td>Not done</td><td>Not done</td><td>Not done</td><td>Earlier versions only</td></tr>
 <tr><th scope="row">Independent human review</th><td>Pending</td><td>Pending</td><td>Pending</td><td>Pending</td></tr>
 <tr><th scope="row">Sharia review</th><td>None</td><td>None</td><td>None</td><td>None</td></tr>
 <tr><th scope="row">Status</th><td>Prototype</td><td>Prototype</td><td>Prototype</td><td>Prototype</td></tr>
 </tbody></table></div>
+      <p style="margin-top:16px"><a class="btn" href="../evidence/">Open the evidence files</a></p>
       <div class="cards" style="margin-top:22px"><a class="card" href="../solutions/alm-stress-tester/"><h3>ALM Stress Tester</h3><p>Method, reference example, test results, limitations and version history.</p><span class="more">Open the record</span></a><a class="card" href="../solutions/hedge-sizer/"><h3>Hedge Sizer</h3><p>Method, reference example, test results, limitations and version history.</p><span class="more">Open the record</span></a><a class="card" href="../solutions/tail-risk-screen/"><h3>Tail-Risk Screen</h3><p>Method, reference example, test results, limitations and version history.</p><span class="more">Open the record</span></a><a class="card" href="../solutions/equity-mandate-monitor/"><h3>Equity Mandate Monitor</h3><p>Method, reference example, test results, limitations and version history.</p><span class="more">Open the record</span></a></div>
     </div>
   </section>
@@ -71,7 +74,8 @@
       <div class="head"><span class="label">How a reference example is checked</span><h2 id="h-how">Two calculations that must agree.</h2></div>
       <div class="prose">
         <p>Each workbook is built from formulas only and recalculated in full. A second calculation is then written in Python from the written method, not from the workbook formulas, and run on the same synthetic inputs. The model passes this check only when the two sets of outputs agree.</p>
-        <p>This catches wrong ranges, sign errors and formulas that disagree with the documented method. It does not show that the method is the right one for a given institution, that the inputs are good, or that the workbook behaves correctly on data unlike the sample.</p>
+        <p>This can detect range, sign and implementation errors that the reference case happens to exercise. It does not establish that every formula is correct: one matching example leaves other paths untested, and both calculations were written by the same author from the same specification, so they can share a mistaken assumption. It also does not show that the method is right for a given institution, that the inputs are good, or that the workbook behaves correctly on data unlike the sample.</p>
+        <p>The latest run, on 19 November 2026, compared 117 outputs across the four models with an absolute tolerance of 0.000001, using Python 3.13, numpy 2.5 and scipy 1.18. All 117 agreed. The inputs, the workbook outputs and the script are <a class="link" href="../evidence/">published as evidence files</a>.</p>
       </div>
       <div style="margin-top:18px"><div class="scroll"><table class="data"><thead><tr><th scope="col">Model</th><th scope="col">Output</th><th scope="col" class="num">Workbook</th><th scope="col" class="num">Independent calculation</th></tr></thead><tbody>
 <tr><th scope="row">ALM Stress Tester</th><td>Lowest cumulative position, combined scenario (USD m)</td><td class="num">-319.64</td><td class="num">-319.64</td></tr>
@@ -87,7 +91,7 @@
     <div class="wrap">
       <div class="head"><span class="label">Online tools</span><h2 id="h-ot">The browser tools have their own record.</h2></div>
       <div class="scroll"><table class="data"><thead><tr><th scope="col">Tool</th><th scope="col">What has been checked</th><th scope="col">Open</th></tr></thead><tbody>
-<tr><th scope="row">Liquidity Delay Explorer</th><td>Default case and four further cases reproduced by a separate Python calculation. Invalid entries are refused.</td><td>No independent human review.</td></tr>
+<tr><th scope="row">Liquidity Delay Explorer</th><td>Five published test cases matched by a separately written Python calculation. Invalid entries are refused.</td><td>No independent human review. No property or browser-compatibility tests.</td></tr>
 <tr><th scope="row">Quick tail-risk calculator</th><td>Reviewed by a second AI model. A defect in how per cent entries were read was found and corrected. Entries that cannot be read stop the calculation.</td><td>No independent human review.</td></tr>
 <tr><th scope="row">Return analysis</th><td>An earlier research tool that predates Sadid.</td><td>Not yet benchmark-tested as part of this record.</td></tr>
 <tr><th scope="row">Stable distribution explorer</th><td>An earlier research tool that predates Sadid. Its own page reports agreement with SciPy to five significant digits for the density.</td><td>That comparison has not been re-run as part of this record.</td></tr>
@@ -104,6 +108,9 @@
         <li>Invalid and extreme inputs have been tested systematically only in part, and only for the Equity Mandate Monitor.</li>
         <li>No model has been reviewed by a Sharia scholar or board. No model issues a Sharia determination.</li>
         <li>All examples use synthetic data. No model has been run on an institution's data.</li>
+        <li>No tests yet of numerical stability, tolerance sensitivity, zero or negative rates, other spreadsheet versions, or whether a release can be rebuilt identically.</li>
+        <li>The status labels do not yet have written acceptance criteria or a named sign-off for moving from one label to the next.</li>
+        <li>No accessibility test against WCAG has been completed, and the site makes no accessibility conformance claim.</li>
         <li>Scenario parameters and thresholds in the samples are illustrative and are not calibrated.</li>
       </ul></div>
     </div>

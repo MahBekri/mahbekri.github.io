@@ -8,7 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../assets/site.css?v=3">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%231F3A6E'/%3E%3Cpath d='M6 23 Q16 23 20 14 T26 7' fill='none' stroke='%23F6F8FB' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
 </head>
 <body>
 <header>
@@ -38,7 +39,7 @@
   <section aria-labelledby="h-does">
     <div class="wrap">
       <div class="head"><span class="label">Scope</span><h2 id="h-does">What it does, and what it does not.</h2></div>
-      <div class="prose"><ul><li>Applies six stress scenarios to one cash-flow ladder and compares them side by side.</li><li>Reports, for each scenario, the liquid buffer after haircut, the lowest cumulative position, the number of time buckets survived and the extra buffer needed to reach the policy horizon.</li><li>Reports the amount of financing inflows delayed and the funding cost of that delay, separately from the liquidity gap.</li><li>Shows INCOMPLETE, never a pass, when a data check fails.</li></ul><p>This version covers liquidity stress only. It does not measure the profit-rate sensitivity of earnings or economic value, displaced commercial risk, or any regulatory ratio.</p></div>
+      <div class="prose"><ul><li>Applies six stress scenarios to one cash-flow ladder and compares them side by side.</li><li>Reports, for each scenario, the liquid buffer after haircut, the lowest cumulative position, the number of time buckets survived and the extra buffer needed to reach the policy horizon.</li><li>Reports the amount of financing inflows delayed and an illustrative funding cost of that delay, separately from the liquidity gap.</li><li>Shows INCOMPLETE, never a pass, when a data check fails.</li></ul><p>This version covers liquidity stress only. It does not measure the profit-rate sensitivity of earnings or economic value, displaced commercial risk, or any regulatory ratio.</p></div>
     </div>
   </section>
 
@@ -53,17 +54,21 @@
     <div class="wrap">
       <div class="head"><span class="label">Method</span><h2 id="h-me">How each figure is calculated.</h2></div>
       <div class="prose"><p>For a financing class with contractual inflow <em>C<sub>b</sub></em> in bucket <em>b</em>, non-payment rate <em>l</em> and delay rate <em>d</em>, the stressed inflow is:</p>
-<div class="formula">Inflow(b) = C(b) x (1 - l) x (1 - d) + C(b-1) x (1 - l) x d
-Nothing is delayed out of the last bucket.</div>
+<div class="formula">Inflow(1) = C(1) x (1 - l) x (1 - d)
+Inflow(b) = C(b) x (1 - l) x (1 - d) + C(b-1) x (1 - l) x d     for b = 2 to 7
+Inflow(8) = C(8) x (1 - l)             + C(7)   x (1 - l) x d</div>
+<p>The last line is an end-of-ladder convention: the model does not track cash beyond the final bucket, so nothing is delayed out of it. Figures in that bucket should not be read as a liquidity forecast.</p>
 <p>For a funding class with accelerated-withdrawal rate <em>w</em>, the stated share of all later outflows is pulled into the first bucket:</p>
 <div class="formula">Outflow(1) = O(1) + w x [O(2) + ... + O(8)]
 Outflow(b) = O(b) x (1 - w)   for b > 1</div>
-<p>Wholesale funding is an outflow only for the share not rolled over. A stated share of undrawn commitments is drawn in the first bucket. The buffer is cash plus liquid Sukuk after the scenario haircut.</p>
+<p>Maturing wholesale funding is entered gross. The scenario assumes a stated share is renewed, and only the remainder is counted as a net outflow. Renewal is an assumption about future funding, not a contractual right, so the gross maturities remain the exposure. A stated share of undrawn commitments is drawn in the first bucket. The buffer is cash plus liquid Sukuk after the scenario haircut.</p>
 <div class="formula">Buffer = Cash + Sukuk x (1 - haircut)
 Position(b) = Buffer + sum of net cash flows from bucket 1 to b
-Buckets survived = number of buckets before Position first turns negative
-Cost of delay = delayed amount x funding cost x min(cap, time between bucket midpoints)</div>
-<p>The cost of delay is a funding cost carried by the bank while the cash is late. The model assumes none of it is recovered from the customer. What an institution may recover for late payment depends on its contracts, its governing Sharia standard and the applicable law, and is not modelled.</p></div>
+Buckets survived = number of completed buckets before the first negative bucket-end position
+Delayed(b)   = sum over financing classes of C(b) x (1 - l) x d,   for b = 1 to 7
+Cost of delay = sum over b of Delayed(b) x funding cost per year x min(cap, m(b+1) - m(b))</div>
+<p>Here m(b) is the midpoint of bucket b in years and the cap is also in years. Amounts assumed unpaid are excluded before the delay is applied. One term from the reference example: in the payment-delay scenario 34.452 is delayed out of the first bucket, the funding cost is 4.5% a year and the midpoints are 0.125 years apart, giving 34.452 x 0.045 x 0.125 = 0.194. A result of zero buckets survived means the first bucket ends negative. It does not say on which day liquidity ran out.</p>
+<p>The cost of delay is an illustrative incremental funding cost under the entered rate and timing. It is not the bank's actual cost of funds or an accounting expense. The model assumes none of it is recovered from the customer. What an institution may recover for late payment depends on its contracts, its governing Sharia standard and the applicable law, and is not modelled.</p></div>
     </div>
   </section>
 
@@ -78,7 +83,7 @@ Cost of delay = delayed amount x funding cost x min(cap, time between bucket mid
 <tr><th scope="row">Combined</th><td class="num">353.2</td><td class="num">-319.6</td><td class="num">0</td><td class="num">319.6</td><td class="num">969.8</td><td class="num">19.45</td><td>BREACH</td></tr>
 <tr><th scope="row">User defined</th><td class="num">379.2</td><td class="num">44.3</td><td class="num">8</td><td class="num">0.0</td><td class="num">369.8</td><td class="num">7.43</td><td>OK</td></tr>
 </tbody></table></div>
-      <p class="fine" style="margin-top:12px">Every figure in this table was reproduced by a separate Python calculation written from the method above, not from the workbook formulas.</p>
+      <p class="fine" style="margin-top:12px">The complete synthetic inputs, the workbook outputs and the Python script that cross-checks them are in the <a class="link" href="../../evidence/">evidence files</a>, so the example can be recomputed.</p>
       <div class="shots" style="margin-top:26px"><a class="shot" href="../../samples/alm-stress-tester-dashboard.pdf"><img src="../../img/alm-stress-tester.png?v=2" width="1091" height="755" loading="lazy" alt="ALM Stress Tester dashboard: status tiles, a scorecard of six stress scenarios, and charts of the liquidity position."><span>Sample dashboard: open the two-page PDF</span></a></div>
     </div>
   </section>
@@ -87,10 +92,10 @@ Cost of delay = delayed amount x funding cost x min(cap, time between bucket mid
     <div class="wrap">
       <div class="head"><span class="label">Validation record</span><h2 id="h-va">What has been checked, and what has not.</h2></div>
       <div class="scroll"><table class="data narrow"><thead><tr><th scope="col">Check</th><th scope="col">Result</th></tr></thead><tbody>
-<tr><th scope="row">Formula errors after full recalculation</th><td>None found (LibreOffice).</td></tr>
-<tr><th scope="row">Reference example reproduced independently</th><td>Yes. All six scenarios, all eight outputs, in Python.</td></tr>
-<tr><th scope="row">Built-in data checks</th><td>Four: book complete and numeric, no negative amounts, scenario rates between 0% and 100%, policy horizon valid.</td></tr>
-<tr><th scope="row">Systematic test of invalid and extreme inputs</th><td>Not yet done.</td></tr>
+<tr><th scope="row">Spreadsheet error values after full recalculation</th><td>None in LibreOffice. This shows the workbook calculates, not that its logic is right.</td></tr>
+<tr><th scope="row">Numerical cross-check against a separately written Python calculation</th><td>Passed for the documented synthetic reference case: six scenarios, seven outputs each.</td></tr>
+<tr><th scope="row">Input controls implemented</th><td>Four: book complete and numeric, no negative amounts, scenario rates between 0% and 100%, policy horizon valid.</td></tr>
+<tr><th scope="row">Input controls tested</th><td>Not yet tested systematically: missing values, boundary rates and mixed invalid states remain open.</td></tr>
 <tr><th scope="row">Review by a second AI model</th><td>Not yet done for this workbook.</td></tr>
 </tbody></table></div>
       <div class="prose" style="margin-top:20px"><h3>Open items</h3><ul><li>Not yet opened and recalculated in Microsoft Excel. It was built and recalculated in LibreOffice.</li><li>No independent human review has taken place.</li><li>No Sharia review has taken place. The workbook is not a Sharia approval of any contract, instrument or portfolio.</li></ul></div>

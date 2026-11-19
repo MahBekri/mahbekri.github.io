@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evidence files | Sadid Risk Analytics</title>
+<meta name="description" content="Synthetic inputs, expected outputs and the Python check script for the Sadid prototype reference examples.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%231F3A6E'/%3E%3Cpath d='M6 23 Q16 23 20 14 T26 7' fill='none' stroke='%23F6F8FB' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/site.css?v=4">
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="mark" href="../" aria-label="Sadid Risk Analytics, home">
+      <b>SADID</b><span lang="ar" dir="rtl">سديد</span><small>Risk Analytics</small>
+    </a>
+    <nav aria-label="Main">
+      <a href="../solutions/">Solutions</a>
+      <a href="../research/">Research</a>
+      <a href="../analytics/">Analytics</a>
+      <a href="../validation/" aria-current="page">Validation</a>
+      <a href="../#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<div class="wrap crumbs"><a href="../">Home</a> / <a href="../validation/">Validation</a> / Evidence files</div>
+  <div class="wrap page-head">
+    <span class="label">Evidence files · run of 19 November 2026</span>
+    <h1>Recompute the reference examples yourself.</h1>
+    <p>For each model: the complete synthetic inputs, the outputs read from the workbook, and the Python script that recomputes them from the written method. Nothing here needs to be taken on trust.</p>
+  </div>
+  <section aria-labelledby="ev1">
+    <div class="wrap">
+      <div class="head"><span class="label">Files</span><h2 id="ev1">Inputs, expected outputs and the check script.</h2></div>
+      <div class="scroll"><table class="data narrow"><thead><tr><th scope="col">File</th><th scope="col">Contents</th></tr></thead><tbody>
+<tr><th scope="row"><a class="link" href="alm_stress_tester_inputs.json" download>alm_stress_tester_inputs.json</a></th><td>ALM Stress Tester v0.2: the full cash-flow ladder, buffer, commitments, policy inputs and all eleven rates for six scenarios.</td></tr>
+<tr><th scope="row"><a class="link" href="hedge_sizer_inputs.json" download>hedge_sizer_inputs.json</a></th><td>Hedge Sizer v0.2: ten bucket gaps, zero rates, weights, swap tenors, rounding lot and size penalty.</td></tr>
+<tr><th scope="row"><a class="link" href="tail_risk_screen_inputs.json" download>tail_risk_screen_inputs.json</a></th><td>Tail-Risk Screen v0.2: both series of 500 returns, the confidence level and the Hill parameter.</td></tr>
+<tr><th scope="row"><a class="link" href="equity_mandate_monitor_inputs.json" download>equity_mandate_monitor_inputs.json</a></th><td>Equity Mandate Monitor v0.4: 120 monthly returns for the benchmark and three managers, and all holdings.</td></tr>
+<tr><th scope="row"><a class="link" href="expected_outputs.json" download>expected_outputs.json</a></th><td>The outputs read from each recalculated workbook, used as the values to match.</td></tr>
+<tr><th scope="row"><a class="link" href="reference_checks.py" download>reference_checks.py</a></th><td>The script. It recomputes 117 outputs and compares each with the workbook value.</td></tr>
+<tr><th scope="row"><a class="link" href="liquidity_delay_explorer_cases.json" download>liquidity_delay_explorer_cases.json</a></th><td>Liquidity Delay Explorer: five test cases with inputs and expected outputs.</td></tr>
+</tbody></table></div>
+    </div>
+  </section>
+  <section aria-labelledby="ev2">
+    <div class="wrap prose">
+      <h2 id="ev2">How to run it</h2>
+      <p>Download the files into one folder and run the script with Python. It needs numpy and scipy.</p>
+      <div class="formula">python3 reference_checks.py</div>
+      <p>It prints one line per output, with the recomputed value, the workbook value and PASS or FAIL, and ends with a count. The tolerance is an absolute difference of 0.000001 on every value.</p>
+      <h2 id="ev3" style="margin-top:22px">Result of the latest run</h2>
+      <div class="scroll"><table class="data narrow"><thead><tr><th scope="col">Item</th><th scope="col">Value</th></tr></thead><tbody>
+<tr><th scope="row">Date</th><td>19 November 2026</td></tr>
+<tr><th scope="row">Outputs compared</th><td>117: ALM 42, Hedge Sizer 24, Tail-Risk Screen 24, Equity Mandate Monitor 27</td></tr>
+<tr><th scope="row">Within tolerance</th><td>117 of 117</td></tr>
+<tr><th scope="row">Software</th><td>Python 3.13, numpy 2.5, scipy 1.18</td></tr>
+<tr><th scope="row">Workbook values from</th><td>Full recalculation in LibreOffice</td></tr>
+</tbody></table></div>
+      <h2 id="ev4" style="margin-top:22px">What this does and does not show</h2>
+      <ul>
+        <li>It shows that the workbook formulas and a separately written calculation give the same numbers on one synthetic case per model.</li>
+        <li>Both were written by the same author from the same specification. It is a cross-check, not an independent validation.</li>
+        <li>It does not test other inputs, invalid data, Microsoft Excel, or whether the method suits any institution.</li>
+        <li>The workbooks themselves are not published here. They are prototypes and not on release.</li>
+      </ul>
+      <p>All data is synthetic. No real institution, portfolio, security or market is represented.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Sadid Risk Analytics develops models and analytics. It does not give investment advice, recommend transactions or issue Sharia rulings.</span>
+    <span>Sadid Risk Analytics is a pre-incorporation venture. No company has been registered yet. All four models are prototypes: none has been independently validated and none is on sale.</span>
+    <span id="privacy"><strong>Privacy.</strong> This site sets no cookies, and what you enter in the online tools stays in your browser. <a href="../privacy/">Read the privacy notice</a>.</span>
+    <span>&copy; 2026 Sadid Risk Analytics</span>
+  </div>
+</footer>
+</body>
+</html>
