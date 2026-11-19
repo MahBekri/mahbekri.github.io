@@ -52,13 +52,13 @@
   <section aria-labelledby="h-mx">
     <div class="wrap">
       <div class="head"><span class="label">Validation matrix</span><h2 id="h-mx">The four models, test by test.</h2></div>
-      <div class="scroll"><table class="data"><thead><tr><th scope="col">Check</th><th scope="col">ALM Stress Tester v0.3</th><th scope="col">Hedge Sizer v0.3</th><th scope="col">Tail-Risk Screen v0.3</th><th scope="col">Equity Mandate Monitor v0.5</th></tr></thead><tbody>
+      <div class="scroll"><table class="data"><thead><tr><th scope="col">Check</th><th scope="col">ALM Stress Tester v0.3.1</th><th scope="col">Hedge Sizer v0.3.1</th><th scope="col">Tail-Risk Screen v0.3.1</th><th scope="col">Equity Mandate Monitor v0.5.1</th></tr></thead><tbody>
 <tr><th scope="row">Full recalculation gives no spreadsheet error values (LibreOffice)</th><td>Pass</td><td>Pass</td><td>Pass</td><td>Pass</td></tr>
 <tr><th scope="row">Numerical cross-check against a separately written Python calculation, documented synthetic case</th><td>Pass</td><td>Pass</td><td>Pass</td><td>Pass</td></tr>
 <tr><th scope="row">Input controls implemented, with an INCOMPLETE status</th><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
 <tr><th scope="row">Input controls tested with invalid and extreme inputs (LibreOffice)</th><td>9 cases pass</td><td>8 cases pass</td><td>10 cases pass</td><td>10 cases pass</td></tr>
 <tr><th scope="row">Property tests</th><td>Inflow conservation: pass</td><td>Zero gap and switched-off tenor: pass</td><td>Convergence to normal: pass</td><td>Not tested</td></tr>
-<tr><th scope="row">Recalculation in Microsoft Excel</th><td>Not tested</td><td>Not tested</td><td>Not tested</td><td>Not tested</td></tr>
+<tr><th scope="row">Recalculation in Microsoft Excel (Microsoft 365, Windows): no error values, reference values match</th><td>Pass on v0.3</td><td>Pass on v0.3</td><td>Pass on v0.3</td><td>Pass on v0.5</td></tr>
 <tr><th scope="row">Review by a second AI model: formulas read and fixes confirmed, bad-input cases not repeated</th><td>v0.3</td><td>v0.3</td><td>v0.3</td><td>v0.5</td></tr>
 <tr><th scope="row">Independent human review</th><td>Pending</td><td>Pending</td><td>Pending</td><td>Pending</td></tr>
 <tr><th scope="row">Sharia review</th><td>None</td><td>None</td><td>None</td><td>None</td></tr>
@@ -75,6 +75,7 @@
       <div class="prose">
         <p>Each workbook is built from formulas only and recalculated in full. A second calculation is then written in Python from the written method, not from the workbook formulas, and run on the same synthetic inputs. The model passes this check only when the two sets of outputs agree.</p>
         <p>This can detect range, sign and implementation errors that the reference case happens to exercise. It does not establish that every formula is correct: one matching example leaves other paths untested, and both calculations were written by the same author from the same specification, so they can share a mistaken assumption. It also does not show that the method is right for a given institution, that the inputs are good, or that the workbook behaves correctly on data unlike the sample.</p>
+        <p>All four workbooks were then opened in Microsoft Excel (Microsoft 365 for Windows, build 16.0.20430) and tested through an AI assistant running inside Excel: a full recalculation, a scan of every cell for error values, the reference values, and one bad-input case each. All passed, including the Hedge Sizer's matrix formulas. The cosmetic defects it reported, such as missing chart axis titles and clipped labels, are corrected in the current versions.</p>
         <p>Input controls were tested the same day: 37 cases, each changing one or more inputs, recalculating the workbook in LibreOffice and comparing 106 result cells with the expected status or value. All matched. The cases and observed results are published with the evidence files.</p>
         <p>The latest reference run, on 19 November 2026, compared 117 outputs across the four models with an absolute tolerance of 0.000001, using Python 3.13, numpy 2.5 and scipy 1.18. All 117 agreed. The inputs, the workbook outputs and the script are <a class="link" href="../evidence/">published as evidence files</a>.</p>
       </div>
@@ -104,7 +105,9 @@
     <div class="wrap">
       <div class="head"><span class="label">Known open issues</span><h2 id="h-op">What stands between prototype and the next label.</h2></div>
       <div class="prose"><ul>
-        <li>None of the workbooks has been opened and recalculated in Microsoft Excel. They were built and recalculated in LibreOffice, and the sample dashboards are LibreOffice renderings.</li>
+        <li>The Microsoft Excel test was run on one machine and one Excel version, through an AI assistant inside Excel. It could not see Excel's opening dialogs, so a repair or protected-view prompt cannot be ruled out. Other Excel versions and Excel for Mac are untested.</li>
+        <li>The current versions (v0.3.1 and v0.5.1) differ from the Excel-tested ones in presentation only: no formula changed and all reference outputs are identical. They have not been reopened in Excel.</li>
+        <li>The sample dashboards on this site are LibreOffice renderings.</li>
         <li>No independent human reviewer has examined any model.</li>
         <li>The 37 input and property test cases were run by the author in LibreOffice. They are not exhaustive: matrix conditioning, sensitivity to the size penalty and mixed invalid states are not covered.</li>
         <li>When text is typed into a numeric cell of the ALM Stress Tester or Hedge Sizer, the result sheets correctly show INCOMPLETE but error values appear on the Calc sheet.</li>

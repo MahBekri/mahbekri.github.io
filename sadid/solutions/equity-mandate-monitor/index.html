@@ -30,7 +30,7 @@
 <main id="top">
 <div class="wrap crumbs"><a href="../../">Home</a> / <a href="../../solutions/">Solutions</a> / Equity Mandate Monitor</div>
   <div class="wrap page-head">
-    <div class="meta"><span class="status s-proto">Prototype</span><span class="label">v0.5 · Institutions with external equity managers · record updated 19 November 2026</span></div>
+    <div class="meta"><span class="status s-proto">Prototype</span><span class="label">v0.5.1 · Institutions with external equity managers · record updated 19 November 2026</span></div>
     <h1>Equity Mandate Monitor</h1>
     <p>Is each external manager running the mandate within the limits agreed, and which findings need escalation?</p>
     <p class="callout">Prototype: the functions below exist and run on synthetic data. The workbook has not been independently validated and is not on sale. <a class="link" href="../../validation/">What the status labels mean</a>.</p>
@@ -84,7 +84,7 @@ Active share        = half the sum of absolute active weights (approximate)</div
 <tr><th scope="row">Combined status, three tested controls</th><td class="num">INCOMPLETE</td><td class="num">BREACH</td><td class="num">PROVISIONAL</td></tr>
 </tbody></table></div><p style="margin-top:14px">Manager C has two holdings above the illustrative thresholds. Because the methodology is unconfirmed, the status is PROVISIONAL and no screening conclusion is drawn. Manager C also tracks the benchmark within its limit yet has the heaviest historical tail, which is why tracking error and tail risk are reported separately. Each historical tail average rests on three observations and is an indication only. For Manager B the historical figure is below the normal one.</p>
       <p class="fine" style="margin-top:12px">The complete synthetic inputs, the workbook outputs and the Python script that cross-checks them are in the <a class="link" href="../../evidence/">evidence files</a>, so the example can be recomputed.</p>
-      <div class="shots" style="margin-top:26px"><a class="shot" href="../../samples/equity-mandate-monitor-dashboard.pdf?v=3"><img src="../../img/equity-mandate-monitor.png?v=3" width="858" height="691" loading="lazy" alt="Equity Mandate Monitor dashboard: counts of managers by status, a scorecard by manager, and charts of tracking error and expected shortfall."><span>Sample dashboard: open the two-page PDF</span></a></div>
+      <div class="shots" style="margin-top:26px"><a class="shot" href="../../samples/equity-mandate-monitor-dashboard.pdf?v=4"><img src="../../img/equity-mandate-monitor.png?v=4" width="858" height="691" loading="lazy" alt="Equity Mandate Monitor dashboard: counts of managers by status, a scorecard by manager, and charts of tracking error and expected shortfall."><span>Sample dashboard: open the two-page PDF</span></a></div>
     </div>
   </section>
 
@@ -96,9 +96,10 @@ Active share        = half the sum of absolute active weights (approximate)</div
 <tr><th scope="row">Numerical cross-check against a separately written Python calculation</th><td>Passed for the documented synthetic reference case: nine outputs for each of three managers.</td></tr>
 <tr><th scope="row">Input controls implemented</th><td>Four per manager: returns complete and plausible, holdings complete with weights summing to 100%, screening data valid and methodology confirmed, inputs valid.</td></tr>
 <tr><th scope="row">Input controls tested</th><td>Ten cases recalculated in LibreOffice, 33 checks, all as expected: a missing month, weights not summing to 100%, a negative weight offset by others, text and negative ratios, text in a limit, a zero threshold, and an adopted methodology turning PROVISIONAL into BREACH.</td></tr>
+<tr><th scope="row">Microsoft Excel</th><td>v0.5 opened in Excel for Microsoft 365 on Windows (build 16.0.20430) and tested through an AI assistant inside Excel: full recalculation with no error values across 1,554 formulas, tracking errors and statuses match, and a negative weight gives INCOMPLETE. Opening dialogs were not observed. v0.5.1 changes presentation only and has not been reopened in Excel.</td></tr>
 <tr><th scope="row">Review by a second AI model</th><td>Three rounds, the last on v0.4 on 19 November 2026, with statistics recomputed independently and in agreement. It found that negative weights could pass and that a breach could be shown on invalid data. Both are corrected in v0.5. The same reviewer then read the v0.5 formulas and confirmed the corrections, without repeating the bad-input cases. Not counted as independent validation.</td></tr>
 </tbody></table></div>
-      <div class="prose" style="margin-top:20px"><h3>Open items</h3><ul><li>Not yet opened and recalculated in Microsoft Excel. It was built and recalculated in LibreOffice.</li><li>No independent human review has taken place.</li><li>No Sharia review has taken place. The workbook is not a Sharia approval of any contract, instrument or portfolio.</li></ul></div>
+      <div class="prose" style="margin-top:20px"><h3>Open items</h3><ul><li>The Microsoft Excel test did not observe Excel's opening dialogs, and the latest presentation-only revision has not been reopened in Excel.</li><li>No independent human review has taken place.</li><li>No Sharia review has taken place. The workbook is not a Sharia approval of any contract, instrument or portfolio.</li></ul></div>
     </div>
   </section>
 
@@ -114,6 +115,7 @@ Active share        = half the sum of absolute active weights (approximate)</div
       <div class="head"><span class="label">Delivery and versions</span><h2 id="h-de">Format and release history.</h2></div>
       <div class="prose"><p>An Excel workbook (.xlsx) made only of formulas, with no macros. Inputs are in blue, formulas in black, links between sheets in green and key assumptions on a yellow fill. Formula sheets are protected without a password. Sales have not opened. When they do, the model will be licensed to one institution by scope and run on its own machines.</p></div>
       <div style="margin-top:18px"><div class="scroll"><table class="data narrow"><thead><tr><th scope="col">Version</th><th scope="col">Change</th></tr></thead><tbody>
+<tr><th scope="row">v0.5.1</th><td>Presentation only, after the Microsoft Excel test: chart axis titles and series names, Arial chart text, wider label columns. No formula changed.</td></tr>
 <tr><th scope="row">v0.5</th><td>Negative weights fail the holdings check. A status is BREACH only when the data behind that control is valid. An exceedance under an unconfirmed methodology is PROVISIONAL. Non-numeric inputs fail the inputs check.</td></tr>
 <tr><th scope="row">v0.4</th><td>Dashboard sheet and navy theme added. Calculations unchanged.</td></tr>
 <tr><th scope="row">v0.3</th><td>Screening shows INCOMPLETE until an adopted methodology and version are recorded. Negative or impossible ratios are INVALID. All thresholds validated.</td></tr>
