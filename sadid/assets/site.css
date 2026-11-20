@@ -203,7 +203,7 @@ a.card:hover{border-color:var(--accent)}
 .callout{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--tail);border-radius:3px;padding:14px 16px;font-size:15.5px;max-width:80ch}
 .fig{padding:16px;max-width:760px}
 #lx-rows th{white-space:nowrap}
-.fig svg text{font-family:var(--mono);font-size:15px;fill:var(--muted)}
+.fig svg text{font-family:var(--mono);font-size:18px;fill:var(--muted)}
 table.data.narrow{min-width:0}
 table.data.narrow tbody th{overflow-wrap:anywhere;width:38%}
 .lx{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:24px;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:22px}
@@ -224,6 +224,7 @@ table.data.narrow tbody th{overflow-wrap:anywhere;width:38%}
 .l-base{fill:none;stroke:var(--muted);stroke-width:2}
 .l-stress{fill:none;stroke:var(--tail);stroke-width:2.5}
 .l-min{stroke:var(--accent);stroke-width:1.5;stroke-dasharray:5 4}
+.c-dot{fill:var(--tail);stroke:var(--surface);stroke-width:1.5}
 .l-s1{fill:none;stroke:var(--muted);stroke-width:2}
 .l-s2{fill:none;stroke:var(--tail);stroke-width:2;stroke-dasharray:6 3}
 .l-s3{fill:none;stroke:var(--accent);stroke-width:2.5}

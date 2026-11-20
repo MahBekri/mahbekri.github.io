@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>When does VaR under a normal distribution understate risk? | Sadid Risk Analytics</title>
+<meta name="description" content="A four-step check of whether a normal-model VaR understates tail risk, with a worked synthetic example and its limits.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%231F3A6E'/%3E%3Cpath d='M6 23 Q16 23 20 14 T26 7' fill='none' stroke='%23F6F8FB' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../../assets/site.css?v=7">
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="mark" href="../../" aria-label="Sadid Risk Analytics, home">
+      <b>SADID</b><span lang="ar" dir="rtl">سديد</span><small>Risk Analytics</small>
+    </a>
+    <nav aria-label="Main">
+      <a href="../../solutions/">Solutions</a>
+      <a href="../../research/" aria-current="page">Research</a>
+      <a href="../../analytics/">Analytics</a>
+      <a href="../../validation/">Validation</a>
+      <a href="../../#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<div class="wrap crumbs"><a href="../../">Home</a> / <a href="../../research/">Research</a> / Technical note</div>
+  <div class="wrap page-head">
+    <span class="label">Technical note · Tail risk and statistics</span>
+    <h1>When does VaR under a normal distribution understate risk? A check for Sharia-screened portfolios</h1>
+    <p class="byline">Sadid Risk Analytics · published 20 November 2026 · version 1.0 · not peer reviewed</p>
+    <p>A value at risk built on a normal distribution is quick to compute and easy to explain. It can also be too low exactly where it matters, far in the tail. This note sets out a four-step check that shows whether that is happening in a given return series, works it on a synthetic example, and is candid about what 500 observations can and cannot prove.</p>
+  </div>
+
+  <section aria-labelledby="b1">
+    <div class="wrap prose">
+      <h2 id="b1">The decision question</h2>
+      <p>An investment committee overseeing a Sharia-screened equity portfolio does not need a verdict on statistical theory. It needs to know whether the tail-risk figure it is shown can be relied on at the confidence level it uses, and if not, by roughly how much it is off and how sure anyone can be of that.</p>
+
+      <h2 id="b2" style="margin-top:22px">Three distinctions before any calculation</h2>
+      <ol>
+        <li><strong>A normal model is not always too low.</strong> Whether it understates a loss quantile depends on the confidence level, the shape of the tail, the sample and how volatility moves over time. Near the middle of the distribution a normal model often does well. The example below shows a level where it matches the data.</li>
+        <li><strong>Value at risk and expected shortfall are different measures.</strong> Value at risk is a threshold. Expected shortfall is the average loss beyond it. Each must be compared with its own counterpart: normal against alternative value at risk, normal against alternative expected shortfall.</li>
+        <li><strong>Screening is not a mathematical reason for heavy tails.</strong> Index providers exclude securities through business-activity screens and financial-ratio screens. Those exclusions change sector weights, the number of names and concentration, and any of these can move tail risk in either direction. Whether a particular screened portfolio has heavier tails than its conventional parent is an empirical question about that portfolio, over a stated period.</li>
+      </ol>
+
+      <h2 id="b3" style="margin-top:22px">The check, in four steps</h2>
+      <ol>
+        <li><strong>Compare like with like at several confidence levels.</strong> One level hides the pattern. Three show where the models part.</li>
+        <li><strong>Count the observations in the tail.</strong> A historical figure at 99% on 500 returns rests on five numbers.</li>
+        <li><strong>Put an interval around the historical figures.</strong> If the normal figure sits inside it, the data has not shown the normal model to be wrong.</li>
+        <li><strong>Test out of sample.</strong> Fit on one period, count exceedances in the next, and compare the count with what the confidence level implies.</li>
+      </ol>
+
+      <h2 id="b4" style="margin-top:22px">A worked example</h2>
+      <p>The series is synthetic: 500 daily returns drawn from a random number generator whose tails are heavier than normal by construction. It therefore cannot show that screened portfolios have heavy tails. It shows what the check reports when a series does. The sample has volatility of 1.09% a day, skewness of -0.17 and excess kurtosis of 0.95. Losses are per period and shown as positive numbers. The Student-t model has 10 degrees of freedom, set from the sample kurtosis by a moment heuristic.</p>
+    </div>
+    <div class="wrap" style="margin-top:22px">
+      <div class="scroll"><table class="data"><thead><tr><th scope="col">Confidence</th><th scope="col" class="num">VaR, normal</th><th scope="col" class="num">VaR, Student-t</th><th scope="col" class="num">VaR, historical</th><th scope="col" class="num">ES, normal</th><th scope="col" class="num">ES, Student-t</th><th scope="col" class="num">Tail average, historical</th><th scope="col" class="num">Tail observations</th></tr></thead><tbody>
+<tr><th scope="row">95%</th><td class="num">1.89%</td><td class="num">1.87%</td><td class="num">1.89%</td><td class="num">2.35%</td><td class="num">2.45%</td><td class="num">2.56%</td><td class="num">25</td></tr>
+<tr><th scope="row">97.5%</th><td class="num">2.24%</td><td class="num">2.27%</td><td class="num">2.23%</td><td class="num">2.65%</td><td class="num">2.85%</td><td class="num">3.03%</td><td class="num">13</td></tr>
+<tr><th scope="row">99%</th><td class="num">2.63%</td><td class="num">2.79%</td><td class="num">3.05%</td><td class="num">3.00%</td><td class="num">3.38%</td><td class="num">3.74%</td><td class="num">5</td></tr>
+</tbody></table></div>
+      <p class="fine" style="margin-top:10px">VaR is value at risk and ES is expected shortfall. The historical tail average is the mean of returns at or below the historical quantile, an approximation of expected shortfall.</p>
+      <div style="margin-top:22px"><figure class="fig"><svg viewBox="0 0 620 290" role="img" aria-label="Chart of the 25 largest losses in the sample against the losses a fitted normal model and a fitted Student-t model expect at the same ranks. The three agree from about the eleventh largest loss onwards. The ten largest losses lie above the normal model. The Student-t model is closer but still below the data from the second to the tenth largest loss."><line x1="66" y1="207.7" x2="600" y2="207.7" class="c-axis"/><text x="58" y="212.7" text-anchor="end">2%</text><line x1="66" y1="143.1" x2="600" y2="143.1" class="c-axis"/><text x="58" y="148.1" text-anchor="end">3%</text><line x1="66" y1="78.6" x2="600" y2="78.6" class="c-axis"/><text x="58" y="83.6" text-anchor="end">4%</text><line x1="66" y1="14.0" x2="600" y2="14.0" class="c-axis"/><text x="58" y="19.0" text-anchor="end">5%</text><text x="66.0" y="264" text-anchor="middle">1</text><text x="155.0" y="264" text-anchor="middle">5</text><text x="266.2" y="264" text-anchor="middle">10</text><text x="377.5" y="264" text-anchor="middle">15</text><text x="488.8" y="264" text-anchor="middle">20</text><text x="600.0" y="264" text-anchor="middle">25</text><text x="333.0" y="286" text-anchor="middle">Rank of loss, 1 = largest</text><path d="M66.0 113.0 L88.2 137.1 L110.5 149.2 L132.8 157.5 L155.0 164.0 L177.2 169.2 L199.5 173.8 L221.8 177.7 L244.0 181.2 L266.2 184.4 L288.5 187.3 L310.8 190.0 L333.0 192.5 L355.2 194.8 L377.5 197.0 L399.8 199.1 L422.0 201.0 L444.2 202.9 L466.5 204.7 L488.8 206.4 L511.0 208.0 L533.2 209.6 L555.5 211.1 L577.8 212.5 L600.0 214.0" class="l-s1"/><path d="M66.0 69.7 L88.2 111.9 L110.5 131.0 L132.8 143.4 L155.0 152.6 L177.2 160.0 L199.5 166.1 L221.8 171.3 L244.0 175.9 L266.2 180.0 L288.5 183.7 L310.8 187.1 L333.0 190.2 L355.2 193.0 L377.5 195.7 L399.8 198.2 L422.0 200.5 L444.2 202.7 L466.5 204.8 L488.8 206.8 L511.0 208.7 L533.2 210.5 L555.5 212.3 L577.8 213.9 L600.0 215.5" class="l-s3"/><circle cx="66.0" cy="71.6" r="5" class="c-dot"/><circle cx="88.2" cy="76.8" r="5" class="c-dot"/><circle cx="110.5" cy="94.0" r="5" class="c-dot"/><circle cx="132.8" cy="109.9" r="5" class="c-dot"/><circle cx="155.0" cy="122.9" r="5" class="c-dot"/><circle cx="177.2" cy="139.8" r="5" class="c-dot"/><circle cx="199.5" cy="157.3" r="5" class="c-dot"/><circle cx="221.8" cy="161.3" r="5" class="c-dot"/><circle cx="244.0" cy="163.9" r="5" class="c-dot"/><circle cx="266.2" cy="172.5" r="5" class="c-dot"/><circle cx="288.5" cy="182.9" r="5" class="c-dot"/><circle cx="310.8" cy="188.4" r="5" class="c-dot"/><circle cx="333.0" cy="190.3" r="5" class="c-dot"/><circle cx="355.2" cy="195.2" r="5" class="c-dot"/><circle cx="377.5" cy="196.2" r="5" class="c-dot"/><circle cx="399.8" cy="196.5" r="5" class="c-dot"/><circle cx="422.0" cy="198.5" r="5" class="c-dot"/><circle cx="444.2" cy="201.6" r="5" class="c-dot"/><circle cx="466.5" cy="202.5" r="5" class="c-dot"/><circle cx="488.8" cy="205.4" r="5" class="c-dot"/><circle cx="511.0" cy="208.0" r="5" class="c-dot"/><circle cx="533.2" cy="208.7" r="5" class="c-dot"/><circle cx="555.5" cy="212.2" r="5" class="c-dot"/><circle cx="577.8" cy="212.6" r="5" class="c-dot"/><circle cx="600.0" cy="214.5" r="5" class="c-dot"/></svg><figcaption><strong>The 25 largest losses against two fitted models, per period.</strong><div class="legend"><span><svg viewBox="0 0 30 10" aria-hidden="true"><circle cx="15" cy="5" r="4" class="c-dot"/></svg>Observed losses</span><span><svg viewBox="0 0 30 10" aria-hidden="true"><path d="M0 5 L30 5" class="l-s1"/></svg>Normal model</span><span><svg viewBox="0 0 30 10" aria-hidden="true"><path d="M0 5 L30 5" class="l-s3"/></svg>Student-t model</span></div><span>Synthetic series of 500 returns. Each model line shows the loss that model expects at the same rank. Source: Tail-Risk Screen sample, recomputed by the published script.</span></figcaption></figure></div>
+    </div>
+    <div class="wrap prose" style="margin-top:26px">
+      <h3>Step 1: where the models part</h3>
+      <p><strong>At 95% the normal value at risk is right.</strong> It is 1.89%, the same as the historical figure, and the Student-t figure is slightly lower. A committee working at 95% would gain nothing from a heavier-tailed model for value at risk.</p>
+      <p><strong>At 99% it is lower than the data.</strong> Normal value at risk is 2.63% against 3.05% historically, and normal expected shortfall is 3.00% against a tail average of 3.74%. Expected shortfall shows a gap at every level, because it averages the part of the tail where the models differ most. The chart shows the same thing rank by rank. The models and the data agree from about the eleventh largest loss onwards. The ten largest losses all lie above the normal line, by up to almost one percentage point. The Student-t line is closer and matches the single largest loss, but it is still below the data from the second to the tenth.</p>
+
+      <h3>Steps 2 and 3: how sure can we be</h3>
+      <p>The 99% historical figures rest on five observations. A bootstrap of 5,000 resamples gives a 95% interval of 2.30% to 3.76% for the historical value at risk and 2.93% to 4.07% for the tail average. Both normal figures lie inside their intervals, the expected shortfall only just. So although this series was built with heavy tails, 500 observations do not prove that the normal model is wrong at 99%. Other signs point the same way without settling it: 4 losses exceed three volatilities where a normal model expects 0.67, and a Jarque-Bera test rejects normality.</p>
+
+      <h3>Step 4: out of sample</h3>
+      <p>Each model was fitted on the first 250 returns and its value at risk held fixed for the next 250.</p>
+      <div class="scroll"><table class="data"><thead><tr><th scope="col">Confidence</th><th scope="col" class="num">Exceedances expected</th><th scope="col" class="num">Normal VaR: observed</th><th scope="col" class="num">Student-t VaR: observed</th></tr></thead><tbody>
+<tr><th scope="row">95%</th><td class="num">12.5</td><td class="num">12 (p = 0.88)</td><td class="num">14 (p = 0.67)</td></tr>
+<tr><th scope="row">97.5%</th><td class="num">6.3</td><td class="num">9 (p = 0.30)</td><td class="num">8 (p = 0.50)</td></tr>
+<tr><th scope="row">99%</th><td class="num">2.5</td><td class="num">6 (p = 0.06)</td><td class="num">5 (p = 0.16)</td></tr>
+</tbody></table></div>
+      <p class="fine">p is the p-value of the Kupiec proportion-of-failures test. A value below 0.05 would reject the model at that level.</p>
+      <p>At 95% both models are close to the expected count. At 99% the normal model is exceeded six times where 2.5 are expected, and the Student-t model five times. Neither is rejected at the 5% level, though the normal model comes close. The Student-t model is better here, and it is still exceeded twice as often as it should be: a heavier-tailed model is an improvement, not a guarantee.</p>
+
+      <h2 id="b5" style="margin-top:22px">What the check tells a committee</h2>
+      <p>For this series the reading is: the normal model is adequate for value at risk at 95%, it is probably too low at 99% and for expected shortfall, the size of the shortfall is of the order of a tenth to a quarter, and the evidence for that on two years of daily data is suggestive and not conclusive. That is a more useful statement than either "normal VaR is wrong" or a single larger number presented as the truth.</p>
+
+      <h2 id="b6" style="margin-top:22px">What would change the answer</h2>
+      <ul>
+        <li><strong>Volatility that moves over time.</strong> All the models here treat returns as independent draws from one distribution. Real returns cluster: calm and turbulent periods alternate. A model with constant volatility can fail a backtest for that reason alone, whatever the shape of its tails.</li>
+        <li><strong>Asymmetry.</strong> The Student-t model is symmetric. If losses are heavier than gains, it will understate the left tail. Stable and skewed models address this and need more data and care to fit.</li>
+        <li><strong>How the Student-t is fitted.</strong> The degrees of freedom here come from sample kurtosis, which is itself unstable in heavy-tailed data. A likelihood fit can give a different answer.</li>
+        <li><strong>Approximations.</strong> A Cornish-Fisher adjustment is convenient and becomes unreliable when skewness or kurtosis is large.</li>
+        <li><strong>The sample.</strong> A different two years can give a different picture, and a single crisis can dominate every tail figure.</li>
+      </ul>
+
+      <h2 id="b7" style="margin-top:22px">Limits of this note</h2>
+      <p>The example is one synthetic series. It demonstrates a procedure and says nothing about any real portfolio, index or market. In particular it is not evidence that Sharia-screened portfolios are heavier-tailed than conventional ones. Answering that needs a screened index and its parent over matched dates and currency, with sector and factor differences accounted for, which is the subject of a later note. The model behind the figures is a prototype: its <a class="link" href="../../solutions/tail-risk-screen/">method and validation record</a> are public, and the series and the script that produced every number here are in the <a class="link" href="../../evidence/">evidence files</a>.</p>
+
+      <h2 id="b8" style="margin-top:22px">What a risk team should verify next</h2>
+      <ol>
+        <li>That tail figures are reported at the confidence level the committee actually uses, with the number of observations behind them.</li>
+        <li>That value at risk is compared with value at risk, and expected shortfall with expected shortfall.</li>
+        <li>That every historical tail figure carries an interval.</li>
+        <li>That at least one out-of-sample exceedance count has been run, and that a pass is not read as proof.</li>
+        <li>That the comparison with a conventional benchmark uses the same dates, currency and return definition.</li>
+      </ol>
+
+      <h2 id="b9" style="margin-top:22px">References for further reading</h2>
+      <p>The Basel Committee's market risk standard requires banks using internal models to compute expected shortfall at a 97.5th percentile, one-tailed confidence level (<a class="link" href="https://www.bis.org/bcbs/publ/d457.htm" rel="noopener">Minimum capital requirements for market risk</a>, section MAR33). It applies to banks' trading books and is cited here only as context for the move from value at risk to expected shortfall. For how a screened universe is built, the <a class="link" href="https://www.msci.com/indexes/group/islamic-indexes" rel="noopener">MSCI Islamic Index Series methodology</a> describes its business-activity and financial-ratio screens. This note names these documents as references. It does not claim that the model implements them.</p>
+
+      <p class="callout" style="margin-top:8px">Try it on your own series: the <a class="link" href="../../analytics/">tail-risk calculator</a> compares a normal model with the data in your browser.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Sadid Risk Analytics develops models and analytics. It does not give investment advice, recommend transactions or issue Sharia rulings.</span>
+    <span>Sadid Risk Analytics is a pre-incorporation venture. No company has been registered yet. All four models are prototypes: none has been independently validated and none is on sale.</span>
+    <span id="privacy"><strong>Privacy.</strong> This site sets no cookies, and the online tools are designed not to transmit or store what you enter. <a href="../../privacy/">Read the privacy notice</a>.</span>
+    <span>&copy; 2026 Sadid Risk Analytics</span>
+  </div>
+</footer>
+</body>
+</html>
