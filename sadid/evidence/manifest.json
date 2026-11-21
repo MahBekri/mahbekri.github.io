@@ -1,0 +1,19 @@
+{
+ "note": "SHA-256 of each evidence file, so a reader can confirm the files used. Python 3.13.",
+ "files": {
+  "alm_stress_tester_inputs.json": "a2231ab9d5ee771ed44e56366b8ff626f9ae6689a36717954501cc1deedff894",
+  "equity_mandate_monitor_inputs.json": "984a9dbd576f060324e9dc3a768b6d40f90f8674d770f96a8e365e68d3e4e664",
+  "expected_outputs.json": "427c27feb0f893b03bba1dd5b0a97141bfa80a9f57ea0e924b19cebdc99db8f1",
+  "generate_tail_series.py": "f62e092bc9085ef7fe46b9f8d2a839924fb3c5fefe055da9365661ffecb994a2",
+  "hedge_sizer_inputs.json": "491e79f0a7c74d2bfe168fa13fb4c6beeb0d3fa9341d7c4fbb1c834314888d2a",
+  "input_control_tests.json": "0ea3c5f3c0dc8e1c708ca6757dccba550cecde93dfee6c97f7c1d29b71e3de11",
+  "liquidity_delay_explorer_cases.json": "5470850199ccaf335f9c9a4d296f4d98d1a1077b10c7b69556b25dbb9a292701",
+  "reference_checks.py": "21cc566d163da9fe5241e4e140834879c83d22d6296effc980a1f1d2b95c1357",
+  "requirements.txt": "6e69ffe6f7841e5d8aea3f05a4bf77c60055d3b0717fcccbb31fd19647e07b7b",
+  "research_note_1.py": "21ec8e5bbe36d0a75c78f9d107e879ebb365298aadc6c72d0b80f4398ccc6c25",
+  "research_note_1_results.json": "0acbaeb9ae1e0abb90cce13384ec463a37ed1274c4d6d88eed6292cbee3b6bcb",
+  "research_note_2.py": "db315e9bae211ed1c95f591e0cc6cab70b85b56ff4100879e9267630ff642ecc",
+  "research_note_2_results.json": "c3e841faf2f31bb87c4c0d0c6d79c3f324391c89f4656c396d6a2d7d54fca304",
+  "tail_risk_screen_inputs.json": "ef4e370b3e7a1aed753891329c75d93ce14a8eea91f6fa9161db9647109ba5f4"
+ }
+}
