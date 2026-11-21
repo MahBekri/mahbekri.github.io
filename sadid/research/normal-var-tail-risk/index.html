@@ -32,7 +32,7 @@
   <div class="wrap page-head">
     <span class="label">Technical note · Tail risk and statistics</span>
     <h1>When does normal-model VaR understate tail risk? A reproducible check on synthetic returns</h1>
-    <p class="byline">Sadid Risk Analytics · published 20 November 2026 · version 1.1, revised 21 November 2026 · not peer reviewed</p>
+    <p class="byline">Sadid Risk Analytics · published 20 November 2026 · version 1.2, revised 21 November 2026 · not peer reviewed</p>
     <p>A value at risk built on a normal distribution is quick to compute and easy to explain. It can also be too low exactly where it matters, far in the tail. This note sets out four diagnostics for a given return series, works them on a synthetic example, and is candid about what 500 observations can and cannot prove. The diagnostics inform a judgement. They are not a definitive test of a model. The motivating case is a Sharia-screened equity portfolio, but no real portfolio is analysed here.</p>
   </div>
 
@@ -95,10 +95,21 @@
 </tbody></table></div>
       <p class="fine">Two p-values are shown: the Kupiec proportion-of-failures test, which is asymptotic, and an exact two-sided binomial test. A value below 0.05 would reject the model at that level.</p>
       <p>At 95% both models are close to the expected count. At 99% the normal model is exceeded six times where 2.5 are expected, and the Student-t model five times. For the normal model the verdict depends on the test: Kupiec does not reject at the 5% level (p = 0.059) and the exact binomial test does (p = 0.041). That is a borderline result, not a robust one. The Student-t forecast gives one fewer exceedance on this split, which is too little to establish better predictive performance, and it is still exceeded twice as often as expected.</p>
-      <p>One split is one arbitrary division of the data. With 2.5 exceedances expected, a difference of a single event moves the conclusion. A fuller test would use rolling windows, check whether exceedances cluster, and backtest expected shortfall as well as value at risk.</p>
+      <p>One split is one arbitrary division of the data, and with 2.5 exceedances expected a single event moves the conclusion. So the test was repeated in a fuller form.</p>
+
+      <h3>A fuller test: rolling forecasts</h3>
+      <p>Each model was refitted every day on the previous 250 returns and used to forecast the next day, giving 250 one-day forecasts. Three tests were applied: the exceedance count as before, a Christoffersen test of whether exceedances cluster, and the second Acerbi-Szekely test of the expected-shortfall forecast. Its statistic Z2 is zero on average when the model is right and negative when realised tail losses are larger than forecast. Its p-value comes from 5,000 simulations of each day's fitted model.</p>
+      <div class="scroll"><table class="data"><thead><tr><th scope="col">Confidence</th><th scope="col" class="num">Expected</th><th scope="col" class="num">Exceedances, normal</th><th scope="col" class="num">Exceedances, Student-t</th><th scope="col" class="num">Kupiec p</th><th scope="col" class="num">Exact p</th><th scope="col" class="num">Independence p</th><th scope="col" class="num">ES test Z2, normal</th><th scope="col" class="num">ES test Z2, Student-t</th></tr></thead><tbody>
+<tr><th scope="row">95%</th><td class="num">12.5</td><td class="num">12</td><td class="num">12</td><td class="num">0.884</td><td class="num">1.000</td><td class="num">0.594</td><td class="num">-0.14 (p = 0.296)</td><td class="num">-0.10 (p = 0.348)</td></tr>
+<tr><th scope="row">97.5%</th><td class="num">6.3</td><td class="num">8</td><td class="num">8</td><td class="num">0.497</td><td class="num">0.417</td><td class="num">0.240</td><td class="num">-0.53 (p = 0.098)</td><td class="num">-0.44 (p = 0.141)</td></tr>
+<tr><th scope="row">99%</th><td class="num">2.5</td><td class="num">6</td><td class="num">6</td><td class="num">0.059</td><td class="num">0.041</td><td class="num">0.120</td><td class="num">-1.75 (p = 0.011)</td><td class="num">-1.51 (p = 0.020)</td></tr>
+</tbody></table></div>
+      <p class="fine">Both models give the same exceedance counts in this exercise, so the Kupiec, exact and independence p-values are shown once.</p>
+      <p>Three things follow. First, the advantage the Student-t model showed on the single split disappears: with daily refitting both models are exceeded six times at 99%. Second, the exceedances do not cluster, which is expected for a series built from independent draws and would not hold for most real returns. Third, the expected-shortfall test is the most informative result in this note. At 99% it rejects both models at the 5% level, the normal model more strongly: when losses pass the threshold, they are larger than either model forecasts. At 95% and 97.5% neither is rejected.</p>
+      <p>These are nine tests on one series, so one rejection at the 5% level could arise by chance. The 99% expected-shortfall result is stronger than that for the normal model (p = 0.011), but it remains evidence from 250 forecasts and six events.</p>
 
       <h2 id="b5" style="margin-top:22px">What the check tells a committee</h2>
-      <p>For this series the reading is: at 95% normal and historical value at risk agree closely. At 99% historical value at risk is 15.9% above the normal figure, and the historical tail average is 24.7% above normal expected shortfall. These are comparisons within one sample, not estimates of forecasting bias, and the evidence on two years of daily data is suggestive and not conclusive. That is a more useful statement than either "normal VaR is wrong" or a single larger number presented as the truth.</p>
+      <p>For this series the reading is: at 95% normal and historical value at risk agree closely. At 99% historical value at risk is 15.9% above the normal figure, and the historical tail average is 24.7% above normal expected shortfall. These are comparisons within one sample, not estimates of forecasting bias. In rolling forecasts the count of exceedances at 99% is borderline, and the expected-shortfall test rejects the normal model at 99% and, less strongly, the Student-t model. The evidence on two years of daily data points one way and is still not conclusive. That is a more useful statement than either "normal VaR is wrong" or a single larger number presented as the truth.</p>
 
       <h2 id="b6" style="margin-top:22px">What would change the answer</h2>
       <ul>
@@ -117,7 +128,7 @@
         <li>That tail figures are reported at the confidence level the committee actually uses, with the number of observations behind them.</li>
         <li>That value at risk is compared with value at risk, and expected shortfall with expected shortfall.</li>
         <li>That sampling uncertainty is disclosed, with intervals used only where the estimator and its assumptions make them defensible.</li>
-        <li>That at least one out-of-sample exceedance count has been run, and that a pass is not read as proof.</li>
+        <li>That out-of-sample tests cover expected shortfall as well as value at risk, use rolling forecasts, and that a pass is not read as proof.</li>
         <li>That the comparison with a conventional benchmark uses the same dates, currency and return definition.</li>
       </ol>
 
@@ -125,6 +136,7 @@
       <p>The Basel Committee's market risk standard requires banks using internal models to compute expected shortfall at a 97.5th percentile, one-tailed confidence level (<a class="link" href="https://www.bis.org/bcbs/publ/d457.htm" rel="noopener">Minimum capital requirements for market risk</a>, section MAR33). It applies to banks' trading books and is cited here only as context for the move from value at risk to expected shortfall. It does not endorse the simple tail average used in this note. For how a screened universe is built, the <a class="link" href="https://www.msci.com/documents/10199/38513c88-2c39-7a30-0fce-f509fa247c1f" rel="noopener">MSCI Islamic Index Series Methodology</a> (April 2025 edition consulted) describes its business-activity and financial-ratio screens. A comparison of a screened index with its parent would need to control for sector, country, currency, factor exposure and period. This note names these documents as references. It does not claim that the model implements them.</p>
 
       <h2 id="b10" style="margin-top:22px">Revision history</h2>
+      <p><strong>Version 1.2, 21 November 2026.</strong> Added a rolling backtest of 250 one-day forecasts, with a test for clustering of exceedances and a backtest of expected shortfall. The single-split result that favoured the Student-t model does not survive it, and the text now says so.</p>
       <p><strong>Version 1.1, 21 November 2026.</strong> Revised after an external review. The title no longer suggests that a screened portfolio is analysed. The 95% result, the interval comparison and the model comparison are stated as observations and not conclusions. An exact binomial test, the Jarque-Bera statistic, a fixed-five bootstrap sensitivity and a table of ranks were added. No figure in version 1.0 changed.</p>
       <p><strong>Version 1.0, 20 November 2026.</strong> First publication.</p>
 
