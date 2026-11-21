@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%231F3A6E'/%3E%3Cpath d='M6 23 Q16 23 20 14 T26 7' fill='none' stroke='%23F6F8FB' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="../assets/site.css?v=7">
+<link rel="stylesheet" href="../assets/site.css?v=9">
 </head>
 <body>
 <header>
@@ -30,9 +30,9 @@
 <main id="top">
 <div class="wrap crumbs"><a href="../">Home</a> / <a href="../validation/">Validation</a> / Evidence files</div>
   <div class="wrap page-head">
-    <span class="label">Evidence files · run of 19 November 2026</span>
+    <span class="label">Evidence files · workbook checks run 19 November 2026 · note scripts run 21 November 2026</span>
     <h1>Recompute the reference examples yourself.</h1>
-    <p>For each model: the complete synthetic inputs, the outputs read from the workbook, and the Python script that recomputes them from the written method. Nothing here needs to be taken on trust.</p>
+    <p>For each model and each research note: the synthetic inputs and the Python scripts that recompute the published figures. These files let a reader reproduce the reported calculations. They are not an independent validation of the models.</p>
   </div>
   <section aria-labelledby="ev1">
     <div class="wrap">
@@ -44,10 +44,15 @@
 <tr><th scope="row"><a class="link" href="equity_mandate_monitor_inputs.json" download>equity_mandate_monitor_inputs.json</a></th><td>Equity Mandate Monitor v0.5.1: 120 monthly returns for the benchmark and three managers, and all holdings.</td></tr>
 <tr><th scope="row"><a class="link" href="expected_outputs.json" download>expected_outputs.json</a></th><td>The outputs read from each recalculated workbook, used as the values to match.</td></tr>
 <tr><th scope="row"><a class="link" href="reference_checks.py" download>reference_checks.py</a></th><td>The script. It recomputes 117 outputs and compares each with the workbook value.</td></tr>
-<tr><th scope="row"><a class="link" href="research_note_2.py" download>research_note_2.py</a></th><td>The script behind the note on normal-model VaR. It reads the Tail-Risk Screen series and recomputes every figure in the note.</td></tr>
+<tr><th scope="row"><a class="link" href="research_note_1.py" download>research_note_1.py</a></th><td>The script behind the liquidity stress-test note. It recomputes the scenario table and the driver table.</td></tr>
+<tr><th scope="row"><a class="link" href="research_note_1_results.json" download>research_note_1_results.json</a></th><td>The output of that script.</td></tr>
+<tr><th scope="row"><a class="link" href="generate_tail_series.py" download>generate_tail_series.py</a></th><td>The code and seed that generated the two synthetic return series, with a check that it reproduces the published file.</td></tr>
+<tr><th scope="row"><a class="link" href="research_note_2.py" download>research_note_2.py</a></th><td>The script behind the note on normal-model VaR: model table, bootstrap intervals, out-of-sample counts with Kupiec and exact binomial tests, the Jarque-Bera statistic and the chart data.</td></tr>
 <tr><th scope="row"><a class="link" href="research_note_2_results.json" download>research_note_2_results.json</a></th><td>The output of that script: the model table, bootstrap intervals, out-of-sample counts and chart data.</td></tr>
 <tr><th scope="row"><a class="link" href="input_control_tests.json" download>input_control_tests.json</a></th><td>Input-control and property tests: 37 cases across the four workbooks, with the change made, the cells checked, the expected and the observed result.</td></tr>
 <tr><th scope="row"><a class="link" href="liquidity_delay_explorer_cases.json" download>liquidity_delay_explorer_cases.json</a></th><td>Liquidity Delay Explorer: five test cases with inputs and expected outputs.</td></tr>
+<tr><th scope="row"><a class="link" href="requirements.txt" download>requirements.txt</a></th><td>The exact numpy and scipy versions used.</td></tr>
+<tr><th scope="row"><a class="link" href="manifest.json" download>manifest.json</a></th><td>SHA-256 hash of every file listed here.</td></tr>
 </tbody></table></div>
     </div>
   </section>
@@ -66,6 +71,7 @@
 <tr><th scope="row">Workbook values from</th><td>Full recalculation in LibreOffice</td></tr>
 <tr><th scope="row">Workbook versions</th><td>ALM v0.3.1, Hedge Sizer v0.3.1, Tail-Risk Screen v0.3.1, Equity Mandate Monitor v0.5.1</td></tr>
 <tr><th scope="row">Input-control and property tests</th><td>37 cases, 106 checks, all as expected</td></tr>
+<tr><th scope="row">Research note scripts</th><td>Run on 21 November 2026. An AI reviewer reran both note scripts and the 117 checks the same day and reported no mismatch with the published pages.</td></tr>
 </tbody></table></div>
       <h2 id="ev4" style="margin-top:22px">What this does and does not show</h2>
       <ul>

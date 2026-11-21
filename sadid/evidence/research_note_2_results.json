@@ -68,6 +68,8 @@
   }
  },
  "bootstrap_99": {
+  "method": "i.i.d. percentile bootstrap",
+  "seed": 1,
   "resamples": 5000,
   "hist_var_interval": [
    0.0230147,
@@ -76,7 +78,12 @@
   "hist_tail_avg_interval": [
    0.02930195,
    0.040675
-  ]
+  ],
+  "five_worst_average_interval": [
+   0.029634000000000004,
+   0.040756
+  ],
+  "share_of_resamples_averaging_more_than_five": 0.3668
  },
  "out_of_sample": {
   "fit_observations": 250,
@@ -88,17 +95,20 @@
     "normal_var": {
      "var": 0.018137798716968172,
      "exceedances": 12,
-     "kupiec_p": 0.8838996943306077
+     "kupiec_p": 0.8838996943306077,
+     "exact_binomial_p": 1.0
     },
     "t_var": {
      "var": 0.017888387964635058,
      "exceedances": 14,
-     "kupiec_p": 0.6690657551458814
+     "kupiec_p": 0.6690657551458814,
+     "exact_binomial_p": 0.6616513498948635
     },
     "hist_var": {
      "var": 0.0189365,
      "exceedances": 12,
-     "kupiec_p": 0.8838996943306077
+     "kupiec_p": 0.8838996943306077,
+     "exact_binomial_p": 1.0
     }
    },
    "0.975": {
@@ -106,17 +116,20 @@
     "normal_var": {
      "var": 0.021448448999579036,
      "exceedances": 9,
-     "kupiec_p": 0.29542798548340876
+     "kupiec_p": 0.29542798548340876,
+     "exact_binomial_p": 0.30417278821047933
     },
     "t_var": {
      "var": 0.021794569103779443,
      "exceedances": 8,
-     "kupiec_p": 0.4965251678312268
+     "kupiec_p": 0.4965251678312268,
+     "exact_binomial_p": 0.41676330855120386
     },
     "hist_var": {
      "var": 0.021709,
      "exceedances": 9,
-     "kupiec_p": 0.29542798548340876
+     "kupiec_p": 0.29542798548340876,
+     "exact_binomial_p": 0.30417278821047933
     }
    },
    "0.99": {
@@ -124,17 +137,20 @@
     "normal_var": {
      "var": 0.025297795420947827,
      "exceedances": 6,
-     "kupiec_p": 0.05935361897228886
+     "kupiec_p": 0.05935361897228886,
+     "exact_binomial_p": 0.04118318406984851
     },
     "t_var": {
      "var": 0.026827964025739965,
      "exceedances": 5,
-     "kupiec_p": 0.1618549171960425
+     "kupiec_p": 0.1618549171960425,
+     "exact_binomial_p": 0.1078123730963751
     },
     "hist_var": {
      "var": 0.026342299999999996,
      "exceedances": 6,
-     "kupiec_p": 0.05935361897228886
+     "kupiec_p": 0.05935361897228886,
+     "exact_binomial_p": 0.04118318406984851
     }
    }
   }
@@ -221,6 +237,15 @@
    0.019037566467946666,
    0.018789591966474894
   ]
+ },
+ "jarque_bera": {
+  "statistic": 20.970797474492763,
+  "p_value": 2.7941465963299272e-05,
+  "note": "computed from bias-corrected sample skewness and excess kurtosis, as in the workbook"
+ },
+ "gaps_99": {
+  "hist_var_over_normal_var": 0.15891872749148073,
+  "hist_tail_avg_over_normal_es": 0.24664491477165518
  },
  "sample": {
   "n": 500,

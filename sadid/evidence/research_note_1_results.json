@@ -1,0 +1,124 @@
+{
+ "scenarios": {
+  "Base": {
+   "position_by_bucket": [
+    272.53999999999996,
+    233.48000000000002,
+    290.02000000000004,
+    441.40000000000003,
+    1067.4,
+    1551.4,
+    2293.6000000000004,
+    2892.8
+   ],
+   "full_buckets_completed": 8,
+   "extra_buffer_needed": 0.0,
+   "inflows_delayed": 178.76,
+   "inflows_delayed_first_three_buckets": 42.36,
+   "funding_cost_proxy": 3.58725
+  },
+  "Payment delay": {
+   "position_by_bucket": [
+    231.87799999999993,
+    160.02099999999996,
+    196.07399999999996,
+    301.88,
+    881.76,
+    1393.125,
+    2117.755,
+    2837.83
+   ],
+   "full_buckets_completed": 8,
+   "extra_buffer_needed": 0.0,
+   "inflows_delayed": 843.777,
+   "inflows_delayed_first_three_buckets": 200.277,
+   "funding_cost_proxy": 16.928071875
+  },
+  "Funding run-off": {
+   "position_by_bucket": [
+    -56.82999999999993,
+    -121.95999999999992,
+    -61.43999999999994,
+    119.10000000000014,
+    779.4000000000001,
+    1290.8000000000002,
+    2049.6000000000004,
+    2683.0
+   ],
+   "full_buckets_completed": 0,
+   "extra_buffer_needed": 121.95999999999992,
+   "inflows_delayed": 224.23,
+   "inflows_delayed_first_three_buckets": 52.53,
+   "funding_cost_proxy": 4.505906249999999
+  },
+  "Market shock": {
+   "position_by_bucket": [
+    117.74020000000002,
+    43.02140000000003,
+    81.57060000000001,
+    220.16800000000012,
+    835.8480000000001,
+    1326.9830000000002,
+    2064.529,
+    2690.0299999999997
+   ],
+   "full_buckets_completed": 8,
+   "extra_buffer_needed": 0.0,
+   "inflows_delayed": 312.85979999999995,
+   "inflows_delayed_first_three_buckets": 74.4678,
+   "funding_cost_proxy": 6.2739393749999985
+  },
+  "Combined": {
+   "position_by_bucket": [
+    -211.78879999999992,
+    -319.6415999999999,
+    -282.7263999999999,
+    -149.87199999999984,
+    460.74800000000005,
+    1003.6280000000002,
+    1740.9240000000002,
+    2509.26
+   ],
+   "full_buckets_completed": 0,
+   "extra_buffer_needed": 319.6415999999999,
+   "inflows_delayed": 969.7688,
+   "inflows_delayed_first_three_buckets": 230.4568,
+   "funding_cost_proxy": 19.4521425
+  }
+ },
+ "drivers_1_3M": {
+  "base": 233.48000000000002,
+  "effects": [
+   [
+    "Early withdrawal, profit-sharing investment accounts",
+    -128.0
+   ],
+   [
+    "Lower rollover of wholesale funding",
+    -105.0
+   ],
+   [
+    "Early withdrawal, term and Wakala deposits",
+    -40.00000000000006
+   ],
+   [
+    "Early withdrawal, current accounts",
+    -39.0
+   ],
+   [
+    "Drawdown of commitments",
+    -32.0
+   ],
+   [
+    "Haircut on liquid Sukuk",
+    -7.7999999999999545
+   ],
+   [
+    "Higher payment delays",
+    -3.640000000000015
+   ]
+  ],
+  "runoff": -121.95999999999992,
+  "sum_of_effects": -355.44000000000005
+ }
+}

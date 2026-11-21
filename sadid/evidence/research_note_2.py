@@ -1,5 +1,5 @@
 """Sadid Risk Analytics: calculations behind the technical note
-"When does VaR under a normal distribution understate risk?"
+"When does normal-model VaR understate tail risk? A reproducible check on synthetic returns"
 
 Reads the synthetic return series published as tail_risk_screen_inputs.json and
 recomputes every figure quoted in the note.  Run:  python3 research_note_2.py
@@ -37,12 +37,17 @@ out['table'] = {str(conf): {'portfolio': models(x, conf), 'comparison': models(c
 
 # sampling uncertainty of the historical figures at 99%: percentile bootstrap, 5,000 resamples
 rng = np.random.default_rng(1)
-bv, be = [], []
+# This is an i.i.d. percentile bootstrap.  Resampling creates ties, so the threshold rule "at or below the
+# quantile" can average more than five observations; a fixed five-worst average is reported as a sensitivity.
+bv, be, b5, cnt = [], [], [], []
 for _ in range(5000):
     y = rng.choice(x, n, replace=True); q = np.percentile(y, 1)
-    bv.append(-q); be.append(-y[y <= q].mean())
-out['bootstrap_99'] = dict(resamples=5000, hist_var_interval=[float(np.percentile(bv, 2.5)), float(np.percentile(bv, 97.5))],
-                           hist_tail_avg_interval=[float(np.percentile(be, 2.5)), float(np.percentile(be, 97.5))])
+    bv.append(-q); be.append(-y[y <= q].mean()); b5.append(-np.sort(y)[:5].mean()); cnt.append(int((y <= q).sum()))
+out['bootstrap_99'] = dict(method='i.i.d. percentile bootstrap', seed=1, resamples=5000,
+                           hist_var_interval=[float(np.percentile(bv, 2.5)), float(np.percentile(bv, 97.5))],
+                           hist_tail_avg_interval=[float(np.percentile(be, 2.5)), float(np.percentile(be, 97.5))],
+                           five_worst_average_interval=[float(np.percentile(b5, 2.5)), float(np.percentile(b5, 97.5))],
+                           share_of_resamples_averaging_more_than_five=float(np.mean(np.array(cnt) > 5)))
 
 # out of sample: fit on the first 250 returns, count exceedances in the last 250
 fit, test = x[:250], x[250:]
@@ -52,7 +57,8 @@ for conf in (0.95, 0.975, 0.99):
     row = {'expected': len(test) * p}
     for name in ('normal_var', 't_var', 'hist_var'):
         k = int((test < -mo[name]).sum()); lr, pv = kupiec(len(test), k, p)
-        row[name] = dict(var=float(mo[name]), exceedances=k, kupiec_p=pv)
+        exact = float(stats.binomtest(k, len(test), p).pvalue)          # exact two-sided binomial test
+        row[name] = dict(var=float(mo[name]), exceedances=k, kupiec_p=pv, exact_binomial_p=exact)
     oos[str(conf)] = row
 out['out_of_sample'] = dict(fit_observations=250, test_observations=250, df_on_fit_window=models(fit, 0.99)['df'], results=oos)
 
@@ -60,6 +66,10 @@ out['out_of_sample'] = dict(fit_observations=250, test_observations=250, df_on_f
 m, s = x.mean(), x.std(ddof=1); v = out['table']['0.99']['portfolio']['df']; sc = s * np.sqrt((v - 2) / v)
 worst = np.sort(-x)[::-1][:25]; p = (np.arange(1, 26) - 0.5) / n
 out['tail_plot'] = dict(empirical=worst.tolist(), normal=(-(m + s * stats.norm.ppf(p))).tolist(), student_t=(-(m + sc * stats.t.ppf(p, v))).tolist())
+S_, K_ = stats.skew(x, bias=False), stats.kurtosis(x, bias=False); jb = n / 6 * (S_**2 + K_**2 / 4)
+out['jarque_bera'] = dict(statistic=float(jb), p_value=float(1 - stats.chi2.cdf(jb, 2)), note='computed from bias-corrected sample skewness and excess kurtosis, as in the workbook')
+q99 = out['table']['0.99']['portfolio']
+out['gaps_99'] = dict(hist_var_over_normal_var=q99['hist_var'] / q99['normal_var'] - 1, hist_tail_avg_over_normal_es=q99['hist_tail_avg'] / q99['normal_es'] - 1)
 out['sample'] = dict(n=n, mean=float(m), volatility=float(s), skewness=float(stats.skew(x, bias=False)), excess_kurtosis=float(stats.kurtosis(x, bias=False)),
                      losses_beyond_3_vol=int((x < m - 3 * s).sum()), expected_beyond_3_vol_normal=float(n * stats.norm.cdf(-3)))
 json.dump(out, open(os.path.join(HERE, 'research_note_2_results.json'), 'w'), indent=1)
@@ -70,5 +80,7 @@ for conf, r in out['table'].items():
         q = r[k]; print(conf, k, 'VaR n/t/h', pct(q['normal_var']), pct(q['t_var']), pct(q['hist_var']), '| ES n/t/h', pct(q['normal_es']), pct(q['t_es']), pct(q['hist_tail_avg']), 'obs', q['tail_obs'], 'df', q['df'])
 print('bootstrap 99%:', [pct(u) for u in out['bootstrap_99']['hist_var_interval']], [pct(u) for u in out['bootstrap_99']['hist_tail_avg_interval']])
 for conf, r in oos.items():
-    print('oos', conf, 'expected %.2f' % r['expected'], {k: (pct(r[k]['var']), r[k]['exceedances'], round(r[k]['kupiec_p'], 3)) for k in ('normal_var', 't_var', 'hist_var')})
+    print('oos', conf, 'expected %.2f' % r['expected'], {k: (pct(r[k]['var']), r[k]['exceedances'], round(r[k]['kupiec_p'], 3), round(r[k]['exact_binomial_p'], 3)) for k in ('normal_var', 't_var', 'hist_var')})
+print('five-worst interval', [pct(u) for u in out['bootstrap_99']['five_worst_average_interval']], 'share >5', out['bootstrap_99']['share_of_resamples_averaging_more_than_five'])
+print('JB', out['jarque_bera'], 'gaps', out['gaps_99'])
 print(out['sample'], 'df fit', out['out_of_sample']['df_on_fit_window'])
