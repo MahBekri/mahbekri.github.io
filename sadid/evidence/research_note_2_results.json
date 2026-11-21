@@ -255,5 +255,88 @@
   "excess_kurtosis": 0.9458239018922443,
   "losses_beyond_3_vol": 4,
   "expected_beyond_3_vol_normal": 0.6749490158150466
+ },
+ "rolling": {
+  "window": 250,
+  "forecasts": 250,
+  "simulations": 5000,
+  "seed": 7,
+  "results": {
+   "0.95": {
+    "expected": 12.50000000000001,
+    "normal": {
+     "exceedances": 12,
+     "kupiec_p": 0.8838996943306077,
+     "exact_binomial_p": 1.0,
+     "consecutive_exceedances": 1,
+     "independence_p": 0.593947793056557,
+     "es_z2": -0.13608656438259858,
+     "es_z2_p": 0.2958,
+     "mean_var_forecast": 0.01863669984476903,
+     "mean_es_forecast": 0.023037121358898113
+    },
+    "student_t": {
+     "exceedances": 12,
+     "kupiec_p": 0.8838996943306077,
+     "exact_binomial_p": 1.0,
+     "consecutive_exceedances": 1,
+     "independence_p": 0.593947793056557,
+     "es_z2": -0.09873271594905986,
+     "es_z2_p": 0.3476,
+     "mean_var_forecast": 0.01843095723563262,
+     "mean_es_forecast": 0.023876515048148077
+    }
+   },
+   "0.975": {
+    "expected": 6.250000000000005,
+    "normal": {
+     "exceedances": 8,
+     "kupiec_p": 0.4965251678312268,
+     "exact_binomial_p": 0.41676330855120386,
+     "consecutive_exceedances": 1,
+     "independence_p": 0.23994188207731304,
+     "es_z2": -0.528093239081004,
+     "es_z2_p": 0.0982,
+     "mean_var_forecast": 0.02195508666353614,
+     "mean_es_forecast": 0.02593405875622488
+    },
+    "student_t": {
+     "exceedances": 8,
+     "kupiec_p": 0.4965251678312268,
+     "exact_binomial_p": 0.41676330855120386,
+     "consecutive_exceedances": 1,
+     "independence_p": 0.23994188207731304,
+     "es_z2": -0.44401281935907444,
+     "es_z2_p": 0.141,
+     "mean_var_forecast": 0.02226827013426048,
+     "mean_es_forecast": 0.027607653947460384
+    }
+   },
+   "0.99": {
+    "expected": 2.500000000000002,
+    "normal": {
+     "exceedances": 6,
+     "kupiec_p": 0.05935361897228886,
+     "exact_binomial_p": 0.04118318406984851,
+     "consecutive_exceedances": 1,
+     "independence_p": 0.11955116835488055,
+     "es_z2": -1.7460692831293865,
+     "es_z2_p": 0.0112,
+     "mean_var_forecast": 0.025813428480136878,
+     "mean_es_forecast": 0.029381986573585324
+    },
+    "student_t": {
+     "exceedances": 6,
+     "kupiec_p": 0.05935361897228886,
+     "exact_binomial_p": 0.04118318406984851,
+     "consecutive_exceedances": 1,
+     "independence_p": 0.11955116835488055,
+     "es_z2": -1.5108970045435854,
+     "es_z2_p": 0.0198,
+     "mean_var_forecast": 0.0271508536426285,
+     "mean_es_forecast": 0.03249019693198129
+    }
+   }
+  }
  }
 }
