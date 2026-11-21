@@ -32,7 +32,7 @@
   <div class="wrap page-head">
     <span class="label">Technical note · Islamic banking ALM</span>
     <h1>What a small Islamic bank needs from a liquidity stress test</h1>
-    <p class="byline">Sadid Risk Analytics · published 19 November 2026 · version 1.2, revised 21 November 2026 · not peer reviewed</p>
+    <p class="byline">Sadid Risk Analytics · published 19 November 2026 · version 1.3, revised 21 November 2026 · not peer reviewed</p>
     <p>A liquidity stress test answers one question: if cash arrives later and funding leaves sooner than the contracts say, how long does the bank stay liquid? This note sets out the minimum a small institution needs to answer it, works one synthetic example, and states where the answer stops being reliable.</p>
   </div>
 
@@ -51,7 +51,7 @@
       </ol>
 
       <h2 id="a3" style="margin-top:22px">Why delay matters in a fixed-price sale</h2>
-      <p>In a Murabaha the sale price is fixed when the contract is signed. In a pure delay, the model assumes the receivable remains due in full and is collected later, so the cash is not there on the contractual date and the bank must fund the gap. Restructuring, dispute, forgiveness and partial recovery are different cases and are not modelled. The model in this note treats that funding cost as carried by the bank. Whether any amount can be recovered for late payment depends on the contract, the institution's governing Sharia standard and the applicable law, so the assumption of no recovery is a deliberately cautious modelling choice, not a statement of what is permissible. The AAOIFI Sharia standards on Murabahah (No. 8) and on default in payment by a debtor (No. 3) are the usual starting points, read with the institution's own Sharia board and the applicable law.</p>
+      <p>In a Murabaha the sale price is fixed when the contract is signed. In a pure delay, the model assumes the receivable remains due in full and is collected later, so the cash is not there on the contractual date and the bank must fund the gap. Restructuring, dispute, forgiveness and partial recovery are different cases and are not modelled. The model in this note treats that funding cost as carried by the bank. Whether any amount can be recovered for late payment depends on the contract, the institution's governing Sharia standard and the applicable law, so the assumption of no recovery is a deliberately cautious modelling choice, not a statement of what is permissible. As a starting point, clause 5/6 of AAOIFI Sharia Standard No. 8 on Murabahah allows the contract to include an undertaking by the customer to pay an amount that is donated if instalments are paid late, which is different from an amount kept by the institution. Standard No. 3 covers default in payment by a debtor. Both must be read with the institution's own Sharia board and the applicable law.</p>
       <p>The model separates a temporary delay from an amount assumed never recovered: scheduled collection = collected on time + collected late + assumed unrecovered. This is a cash-flow distinction, not an accounting or regulatory definition of default, and a real default can still end in partial or full recovery. The example applies a non-payment rate first and a delay rate to what remains, and reports the two effects separately.</p>
 
       <h2 id="a4" style="margin-top:22px">A worked example</h2>
@@ -113,9 +113,10 @@
       </ol>
 
       <h2 id="a8" style="margin-top:22px">Standards for further reading</h2>
-      <p>Two documents of the Islamic Financial Services Board are the natural starting points: IFSB-12, Guiding Principles on Liquidity Risk Management for Institutions offering Islamic Financial Services (March 2012), and IFSB-13, Guiding Principles on Stress Testing for Institutions offering Islamic Financial Services (March 2012). A bank's own supervisor sets the requirements that apply to it. This note names these documents as references. It does not claim that the model implements them.</p>
+      <p>Two documents of the Islamic Financial Services Board are the natural starting points. <a class="link" href="https://www.ifsb.org/wp-content/uploads/2023/10/eng_IFSB-12-Guiding-Principles-on-Liquidity-Risk-Mgmt-Mar2012.pdf" rel="noopener">IFSB-12</a>, Guiding Principles on Liquidity Risk Management for Institutions offering Islamic Financial Services (March 2012): its Principle 4, on identifying liquidity risk, asks an institution to model both the contractual and the behavioural profiles of its fund providers. <a class="link" href="https://www.ifsb.org/wp-content/uploads/2023/10/eng_IFSB13-Guiding-Principles-on-Stress-Testing-_Mar2012.pdf" rel="noopener">IFSB-13</a>, Guiding Principles on Stress Testing for Institutions offering Islamic Financial Services (March 2012), covers a wider set of risks than this note, including rate of return risk and displaced commercial risk. A bank's own supervisor sets the requirements that apply to it. This note names these documents as references. It does not claim that the model implements them.</p>
 
       <h2 id="a9" style="margin-top:22px">Revision history</h2>
+      <p><strong>Version 1.3, 21 November 2026.</strong> References made specific: IFSB-12 Principle 4 and clause 5/6 of AAOIFI Sharia Standard No. 8.</p>
       <p><strong>Version 1.2, 21 November 2026.</strong> Revised after an external review: survival is stated in bucket terms, the funding cost of delay is called an illustrative proxy, the delayed amount is split by horizon, and the additivity of the driver table is qualified. A script that reproduces both tables was added to the evidence files. No figure changed.</p>
       <p><strong>Version 1.1, 19 November 2026.</strong> Wording on balances, account maturities and non-recovery tightened, a driver table and the 1-2Y column added.</p>
       <p><strong>Version 1.0, 19 November 2026.</strong> First publication.</p>
