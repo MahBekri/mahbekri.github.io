@@ -72,6 +72,48 @@ q99 = out['table']['0.99']['portfolio']
 out['gaps_99'] = dict(hist_var_over_normal_var=q99['hist_var'] / q99['normal_var'] - 1, hist_tail_avg_over_normal_es=q99['hist_tail_avg'] / q99['normal_es'] - 1)
 out['sample'] = dict(n=n, mean=float(m), volatility=float(s), skewness=float(stats.skew(x, bias=False)), excess_kurtosis=float(stats.kurtosis(x, bias=False)),
                      losses_beyond_3_vol=int((x < m - 3 * s).sum()), expected_beyond_3_vol_normal=float(n * stats.norm.cdf(-3)))
+# ---------------------------------------------------------------- rolling backtest
+# Refit each model every day on the previous 250 returns and forecast the next day, so 250 one-day forecasts.
+def christoffersen(hits):
+    """Independence test (Markov) and conditional coverage; returns LR_ind, p_ind."""
+    h = np.asarray(hits, int); n00 = n01 = n10 = n11 = 0
+    for a_, b_ in zip(h[:-1], h[1:]):
+        if a_ == 0 and b_ == 0: n00 += 1
+        elif a_ == 0: n01 += 1
+        elif b_ == 0: n10 += 1
+        else: n11 += 1
+    pi01 = n01 / max(1, n00 + n01); pi11 = n11 / max(1, n10 + n11); pi = (n01 + n11) / max(1, n00 + n01 + n10 + n11)
+    def ll(n_stay, n_move, pr): return (n_stay * np.log(1 - pr) if pr < 1 else 0.0) + (n_move * np.log(pr) if pr > 0 else 0.0)
+    lr = -2 * (ll(n00 + n10, n01 + n11, pi) - ll(n00, n01, pi01) - ll(n10, n11, pi11))
+    return float(lr), float(1 - stats.chi2.cdf(lr, 1)), n11
+
+W = 250; T = n - W; rng2 = np.random.default_rng(7); SIMS = 5000
+roll = {}
+for conf in (0.95, 0.975, 0.99):
+    a = 1 - conf; z = stats.norm.ppf(a); row = {'expected': T * a}
+    for model in ('normal', 'student_t'):
+        hits = []; var_f = []; es_f = []; sim = np.empty((SIMS, T))
+        for i in range(T):
+            w = x[i:i + W]; m, s = w.mean(), w.std(ddof=1)
+            if model == 'normal':
+                v_ = -(m + s * z); e_ = -m + s * stats.norm.pdf(z) / a; sim[:, i] = rng2.normal(m, s, SIMS)
+            else:
+                K = stats.kurtosis(w, bias=False); df = int(min(30, max(5, round(4 + 6 / K)))) if K > 0 else 30
+                sc = s * np.sqrt((df - 2) / df); t = stats.t.ppf(a, df)
+                v_ = -(m + sc * t); e_ = -m + sc * stats.t.pdf(t, df) / a * (df + t * t) / (df - 1); sim[:, i] = m + sc * rng2.standard_t(df, SIMS)
+            var_f.append(v_); es_f.append(e_); hits.append(int(x[i + W] < -v_))
+        var_f, es_f, hits = np.array(var_f), np.array(es_f), np.array(hits); r = x[W:]
+        k = int(hits.sum()); lr_uc, p_uc = kupiec(T, k, a); lr_ind, p_ind, n11 = christoffersen(hits)
+        # Acerbi-Szekely second test: Z2 = sum(r * hit) / (T a ES) + 1, zero in expectation if the model is right,
+        # negative if realised tail losses are larger than forecast.  p-value by simulating from each day's fitted model.
+        z2 = float((r * hits / es_f).sum() / (T * a) + 1)
+        z2_sim = ((sim * (sim < -var_f)) / es_f).sum(axis=1) / (T * a) + 1
+        row[model] = dict(exceedances=k, kupiec_p=p_uc, exact_binomial_p=float(stats.binomtest(k, T, a).pvalue),
+                          consecutive_exceedances=int(n11), independence_p=p_ind, es_z2=z2, es_z2_p=float((z2_sim <= z2).mean()),
+                          mean_var_forecast=float(var_f.mean()), mean_es_forecast=float(es_f.mean()))
+    roll[str(conf)] = row
+out['rolling'] = dict(window=W, forecasts=T, simulations=SIMS, seed=7, results=roll)
+
 json.dump(out, open(os.path.join(HERE, 'research_note_2_results.json'), 'w'), indent=1)
 
 pct = lambda u: '%.2f%%' % (100 * u)
@@ -84,3 +126,5 @@ for conf, r in oos.items():
 print('five-worst interval', [pct(u) for u in out['bootstrap_99']['five_worst_average_interval']], 'share >5', out['bootstrap_99']['share_of_resamples_averaging_more_than_five'])
 print('JB', out['jarque_bera'], 'gaps', out['gaps_99'])
 print(out['sample'], 'df fit', out['out_of_sample']['df_on_fit_window'])
+for conf, r in roll.items():
+    print('rolling', conf, 'expected %.2f' % r['expected'], {m: (r[m]['exceedances'], 'kupiec %.3f' % r[m]['kupiec_p'], 'exact %.3f' % r[m]['exact_binomial_p'], 'consec %d' % r[m]['consecutive_exceedances'], 'ind %.3f' % r[m]['independence_p'], 'Z2 %.3f p %.3f' % (r[m]['es_z2'], r[m]['es_z2_p'])) for m in ('normal', 'student_t')})
